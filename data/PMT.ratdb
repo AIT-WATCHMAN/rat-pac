@@ -231,7 +231,7 @@ dynode_radius: 27.5, // mm
 dynode_top:   -5.9, // mm
 wall_thickness: 4.0, // mm
 
-z_edge: [ 222.7d, 92.0d, 0.0d, -92.0d, -207.0d, -300.0d ],
+z_edge: [ 194.2d, 92.0d, 0.0d, -92.0d, -207.0d, -300.0d ],
 rho_edge: [ 0.0d, 200.0d, 254.0d, 200.0d, 127.5d, 127.5d ],
 z_origin: [ -60.0d, 0.0d, 0.0d, 60.0d, -300.0.0d ],
 
