@@ -49,4 +49,3 @@ private:
 }  // namespace RAT
 
 #endif  // __RAT_PhysicsList__
-

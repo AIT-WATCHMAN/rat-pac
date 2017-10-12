@@ -19,6 +19,10 @@
 #include <G4ThreeVector.hh>
 #include <CLHEP/Vector/LorentzVector.h>
 #include "TF1.h"
+#include "TH1D.h"
+#include "TGraph.h"
+#include "TMath.h"
+#include "TFile.h"
 #include "TGraph.h"
 #include "RAT/DB.hh"
 
@@ -43,7 +47,7 @@ namespace RAT {
         
         void Reset();
         void Show();
-        
+       
         void SetMixingAngle(double sin2thw = WEAKANGLE);
         void SetNeutrinoMoment(double vMu = 0.0);
         
@@ -78,15 +82,26 @@ namespace RAT {
         
         void LoadSpectra();
         
-
+       
         
-        double GetIBDRandomEnergy();
-        double GetESRandomEnergy();
-        double GetCCRandomEnergy();
-        double GetICCRandomEnergy();
-        double GetNCRandomEnergy();
+        double GetIBDRandomEnergy(Double_t &dt);
+        double GetESRandomEnergy(Double_t &dt);
+        double GetCCRandomEnergy(Double_t &dt);
+        double GetICCRandomEnergy(Double_t &dt);
+        double GetNCRandomEnergy(Double_t &dt);
         double GetNCRandomNuEnergy();
-        double GetINCRandomEnergy();
+        double GetINCRandomEnergy(Double_t &dt);
+        double GetRandomTime();
+
+        double GetTime();
+        double SetTime();
+        float banana();
+        int n;
+
+      //        Float_t q1_f; 
+      //        Float_t q2_f;
+      //        Float_t q3_f;
+
         
 
     protected:

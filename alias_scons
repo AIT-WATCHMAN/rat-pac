@@ -1,0 +1,2 @@
+#!/bin/sh
+alias cscons='CXXFLAGS=-std=c++11 scons'

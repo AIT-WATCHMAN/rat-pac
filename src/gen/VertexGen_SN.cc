@@ -75,28 +75,28 @@ namespace RAT {
         G4double neutrinoEnergy,gammaEnergy;
         
         if (        interactionCode ==1) {
-            neutrinoEnergy = sngen.GetIBDRandomEnergy();
+            neutrinoEnergy = sngen.GetIBDRandomEnergy(dt);
             GenerateIBDVertex(argEvent,dx,dt,neutrinoEnergy);
             
         }else if (  interactionCode ==2 ) {
-            neutrinoEnergy = sngen.GetESRandomEnergy();
+            neutrinoEnergy = sngen.GetESRandomEnergy(dt);
             GenerateESVertex(argEvent,dx,dt,neutrinoEnergy);
             
         }else if(   interactionCode ==3){
-            neutrinoEnergy = sngen.GetCCRandomEnergy();
+            neutrinoEnergy = sngen.GetCCRandomEnergy(dt);
             GenerateCCVertex(argEvent,dx,dt,neutrinoEnergy);
             
         }else if(   interactionCode ==4){
-            neutrinoEnergy = sngen.GetICCRandomEnergy();
+            neutrinoEnergy = sngen.GetICCRandomEnergy(dt);
             GenerateICCVertex(argEvent,dx,dt,neutrinoEnergy);
             
         }else if(interactionCode ==5){
      
             if (G4UniformRand() < 0.31941) { //1.76/(1.76+3.75) Langanke
-                gammaEnergy = sngen.GetNCRandomEnergy();
+                gammaEnergy = sngen.GetNCRandomEnergy(dt);
                 GenerateNCVertex(argEvent,dx,dt,gammaEnergy);
             }else{
-                gammaEnergy = sngen.GetINCRandomEnergy();
+                gammaEnergy = sngen.GetINCRandomEnergy(dt);
                 GenerateINCVertex(argEvent,dx,dt,gammaEnergy);
             }
         
