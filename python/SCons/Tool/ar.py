@@ -36,14 +36,14 @@ __revision__ = "src/engine/SCons/Tool/ar.py 4043 2009/02/23 09:06:45 scons"
 import SCons.Defaults
 import SCons.Tool
 import SCons.Util
-
+from buildhelp import ROOTARCH
 
 def generate(env):
     """Add Builders and construction variables for ar to an Environment."""
     SCons.Tool.createStaticLibBuilder(env)
 
-    specFlag           = "build/macosx64/fit/bonsai/lfariadne.o"
-
+    specFlag           = "build/%s/fit/bonsai/lfariadne.o"%(ROOTARCH)
+    print 'WUBBA',specFlag
     env['AR']          = 'ar'
     env['ARFLAGS']     = SCons.Util.CLVar('rc')
     env['ARCOM']       = '$AR $ARFLAGS $TARGET $SOURCES %s' %(specFlag)
