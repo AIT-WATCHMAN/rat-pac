@@ -18,7 +18,7 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "world",
 type: "pmtarray",
-end_idx: 1, //idx of the last pmt
+end_idx: 0, //idx of the last pmt
 start_idx: 0, //idx of the first pmt
 pmt_model: "r3600",
 mu_metal: 0,
