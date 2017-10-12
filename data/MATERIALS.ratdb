@@ -35,13 +35,13 @@ index: "water",
 valid_begin : [0, 0],
 valid_end : [0, 0],
 density: 1.0,
-nelements: 2, 
+nelements: 2,
 nmaterials: 0,
 elements: ["Hydrogen", "Oxygen",],
 elemprop: [0.1119, 0.8881],
 }
 
- 
+
 {
 name: "MATERIAL",
 index: "aluminum",
@@ -66,7 +66,7 @@ nmaterials: 0,
 elements: ["Copper"],
 elemprop: [1.0],
 }
- 
+
 
 {
 name: "MATERIAL",
@@ -107,7 +107,7 @@ elements: [
   "Molybdenum", "Phosphorus", "Sulphur", "Nitrogen", "Iron"
 ],
 elemprop:[
-  0.00030, 0.0200,  0.0075,  0.1800, 0.1400, 
+  0.00030, 0.0200,  0.0075,  0.1800, 0.1400,
   0.0300,  0.00045, 0.00030, 0.0010, 0.62045
 ],
 }
@@ -173,7 +173,7 @@ elemprop: [1.0],
 
 {
 name: "MATERIAL",
-index: "tungsten_alloy",  // Mi-Tech HD17BB tungsten alloy 
+index: "tungsten_alloy",  // Mi-Tech HD17BB tungsten alloy
 valid_begin : [0, 0],
 valid_end : [0, 0],
 density: 17.00,
@@ -192,7 +192,7 @@ density: 0.5,
 nelements: 3,
 nmaterials: 0,
 elements: ["Hydrogen", "Carbon", "Oxygen"],
-elemprop: [0.061728, 0.444444, 0.493828], 
+elemprop: [0.061728, 0.444444, 0.493828],
 }
 
 {
@@ -204,7 +204,7 @@ density: 1.44,
 nelements: 4,
 nmaterials: 0,
 elements: ["Hydrogen", "Carbon", "Oxygen", "Nitrogen"],
-elemprop: [0.043, 0.7058, 0.1343, 0.1176], 
+elemprop: [0.043, 0.7058, 0.1343, 0.1176],
 }
 
 {
@@ -228,7 +228,7 @@ density: 1.0,
 nelements: 2,
 nmaterials: 0,
 elements: ["Zinc", "Oxygen"],
-elemprop: [0.6714, 0.3286], 
+elemprop: [0.6714, 0.3286],
 }
 
 {
@@ -240,7 +240,7 @@ density: 1.0,
 nelements: 2,
 nmaterials: 0,
 elements: ["Titanium", "Oxygen"],
-elemprop: [0.59934, 0.40066], 
+elemprop: [0.59934, 0.40066],
 }
 
 {
@@ -250,7 +250,7 @@ index: "optical_grease", // assuming V-788 Optical Grease from Rhodia Silicones
 valid_begin : [0, 0],
 valid_end : [0, 0],
 density: 1.06, // taken from V-788 Data Sheet. Matches BC-630 as well
-nelements: 4, 
+nelements: 4,
 nmaterials: 0,
 // V-788 MSDS indicates chemical name is methyl phenyl polysiloxane
 // so assuming formula is [CH3 - SiO - C6H5]
@@ -388,6 +388,18 @@ elemprop: [1.0],
 {
 name: "MATERIAL",
 index: "photocathode_R7081_hqe",
+valid_begin : [0, 0],
+valid_end : [0, 0],
+density: 5.0,
+nelements: 1,
+nmaterials: 0,
+elements: ["Potassium"],
+elemprop: [1.0],
+}
+
+{
+name: "MATERIAL",
+index: "photocathode_R3600",
 valid_begin : [0, 0],
 valid_end : [0, 0],
 density: 5.0,
@@ -550,7 +562,7 @@ matprop: [0.00199646, 0.798584, 0.19765, 0.00176991],
 // --------------------- Plastics ----------------------------
 
 {
-name: "MATERIAL",  
+name: "MATERIAL",
 index: "ptfe",       // Teflon  from NIST database
 valid_begin : [0, 0],
 valid_end : [0, 0],
@@ -562,7 +574,7 @@ elemprop: [0.24018, 0.75982],
 }
 
 {
-name: "MATERIAL",  
+name: "MATERIAL",
 index: "ptfe_fabric",       // Gore DRP Diffuse Reflector (ePTFE)
 valid_begin : [0, 0],
 valid_end : [0, 0],
@@ -734,11 +746,11 @@ name: "MATERIAL",
 index: "polypropylene",
 valid_begin : [0, 0],
 valid_end : [0, 0],
-density: 0.855, 
+density: 0.855,
 nelements: 2,
 nmaterials: 0,
 elements: ["Hydrogen", "Carbon"],
-elemprop: [0.1437, 0.8563],  // chemical formula is C3H6, fractional weight same as polyethylene 
+elemprop: [0.1437, 0.8563],  // chemical formula is C3H6, fractional weight same as polyethylene
 }
 
 {
@@ -755,14 +767,14 @@ elemprop: [0.0774, 0.9226],
 
 {
 name: "MATERIAL",
-index: "delrin", 
+index: "delrin",
 valid_begin : [0, 0],
 valid_end : [0, 0],
-density: 1.425, // from NIST database 
+density: 1.425, // from NIST database
 nelements: 3,
 nmaterials: 0,
 elements: ["Hydrogen", "Carbon","Oxygen"],
-elemprop: [0.067135, 0.400017, 0.532848],   
+elemprop: [0.067135, 0.400017, 0.532848],
 }
 
 {
@@ -791,7 +803,7 @@ elemprop: [0.0416, 0.6942, 0.2642],
 
 {
 name: "MATERIAL",
-index: "vikuiti_esr", // Vikuiti ESR from 3M (layers of acrylic and PEN) 
+index: "vikuiti_esr", // Vikuiti ESR from 3M (layers of acrylic and PEN)
 valid_begin : [0, 0],
 valid_end : [0, 0],
 density: 1.25, // weighted average (acrylic + PEN)
@@ -857,7 +869,7 @@ index: "concrete_kaplan",
 valid_begin : [0, 0],
 valid_end : [0, 0],
 density: 2.3,
-nelements: 10, 
+nelements: 10,
 nmaterials: 0,
 elements: ["Silicon","Oxygen","Hydrogen","Calcium","Aluminum","Iron","Magnesium","Carbon","Sodium","Potassium"],
 elemprop: [0.337, 0.529, 0.01, 0.044, 0.034, 0.014, 0.002, 0.001, 0.016, 0.013],
@@ -971,7 +983,7 @@ name: "MATERIAL",
 index: "NaI",
 valid_begin : [0, 0],
 valid_end : [0, 0],
-density: 3.67, 
+density: 3.67,
 nelements: 2,
 nmaterials: 0,
 elements: ["Sodium", "Iodine",],
@@ -983,7 +995,7 @@ name: "MATERIAL",
 index: "salt_water",
 valid_begin : [0, 0],
 valid_end : [0, 0],
-density: 1.0, 
+density: 1.0,
 nelements: 4,
 nmaterials: 0,
 elements: ["Hydrogen", "Oxygen", "Sodium", "Chlorine",],
@@ -995,10 +1007,9 @@ name: "MATERIAL",
 index: "Prelude",
 valid_begin : [0, 0],
 valid_end : [0, 0],
-density: 7.1, 
+density: 7.1,
 nelements: 4,
 nmaterials: 0,
 elements: ["Lutetium", "Yttrium", "Silicon","Oxygen",],
 elemprop: [0.7143,0.0408,0.0635,0.1814],
 }
-
