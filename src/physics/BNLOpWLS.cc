@@ -372,7 +372,7 @@ G4double BNLOpWLS::GetEmEnergy(G4double ExEn) {
   for (size_t i=0; i<UpperInten.size(); i++) {
     if (interp) {
       // This check is because my input data is a bit stupid.
-      if (isnan(UpperInten.at(i))) {
+      if (std::isnan(UpperInten.at(i))) {
         theUpperInten = 0;
       }
       else {
