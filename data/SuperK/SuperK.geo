@@ -177,8 +177,8 @@ mother: "detector",
 type: "pmtarray",
 end_idx: 4329, //idx of the last pmt
 start_idx: 0, //idx of the first pmt
-pmt_model: "r7081pe",
-mu_metal: 1,
+pmt_model: "r3600",
+mu_metal: 0,
 pmt_detector_type: "idpmt",
 sensitive_detector: "/mydet/pmt/inner",
 efficiency_correction: 0.90000,
@@ -197,8 +197,8 @@ mother: "detector",
 type: "pmtarray",
 end_idx: 4811, //idx of the last pmt
 start_idx: 4330, //idx of the first pmt
-pmt_model: "r7081pe",
-mu_metal: 1,
+pmt_model: "r3600",
+mu_metal: 0,
 pmt_detector_type: "idpmt",
 sensitive_detector: "/mydet/pmt/veto",
 efficiency_correction: 0.90000,
