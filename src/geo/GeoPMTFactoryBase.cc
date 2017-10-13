@@ -95,6 +95,8 @@ namespace RAT {
         pmtParam.dynodeRadius = lpmt->GetD("dynode_radius");
         pmtParam.dynodeTop = lpmt->GetD("dynode_top");
         pmtParam.wallThickness = lpmt->GetD("wall_thickness");
+        pmtParam.photocathode_MINrho = lpmt->GetD("photocathode_MINrho");
+        pmtParam.photocathode_MAXrho = lpmt->GetD("photocathode_MAXrho");
         try {
             pmtParam.prepulseProb = lpmt->GetD("prepulse_prob");
         }

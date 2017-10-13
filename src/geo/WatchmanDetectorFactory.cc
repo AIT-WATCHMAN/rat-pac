@@ -34,13 +34,14 @@ namespace RAT {
         DBLinkPtr shield = db->GetLink("GEO","shield");
         const double steel_thickness = shield->GetD("steel_thickness");
         const double shield_thickness = shield->GetD("shield_thickness");
-        const double detector_size = shield->GetD("detector_size");
-        
-        const double cable_radius = detector_size/2.0 - shield_thickness + 4.0*steel_thickness;
-        const double pmt_radius = detector_size/2.0 - shield_thickness - 4.0*steel_thickness;
+        const double detector_size_r = shield->GetD("detector_size_r");
+	const double detector_size_z = shield->GetD("detector_size_z");
+       
+        const double cable_radius = detector_size_z/2.0 - shield_thickness + 4.0*steel_thickness;
+        const double pmt_radius = detector_size_r/2.0 - shield_thickness - 4.0*steel_thickness;
         const double veto_radius = pmt_radius + veto_offset;
         
-        const double topbot_offset = detector_size/2.0 - shield_thickness;
+        const double topbot_offset = detector_size_z/2.0 - shield_thickness;
         const double topbot_veto_offset = topbot_offset + veto_offset;
         
         const double surface_area = 2.0*M_PI*pmt_radius*pmt_radius + 2.0*topbot_offset*2.0*M_PI*pmt_radius;
