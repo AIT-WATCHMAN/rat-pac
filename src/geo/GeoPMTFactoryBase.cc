@@ -537,7 +537,7 @@ namespace RAT {
 
             //place the mumetal shields
             G4ThreeVector offsetmumetal = G4ThreeVector(0.0, 0.0, /*-10.0*/0.0*CLHEP::cm);
-            G4cout << "pmtpos is " << pmtpos << "\n";
+            //G4cout << "pmtpos is " << pmtpos << "\n";
             G4ThreeVector mumetalpos = pmtpos + offsetmumetal;
             if (mumetalshields) {
                 new G4PVPlacement
