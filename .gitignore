@@ -25,7 +25,10 @@ watchman_supernova.root
 *.root
 .DS_Store
 *.gif
+*.jpg
+*.jpeg
 *.mac
+*.eps
 tools/*.py
 open.sh
 SCRATCH

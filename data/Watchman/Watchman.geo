@@ -202,7 +202,8 @@ veto_back_surface: "black_water",
 veto_back_vis: "veto_vis",
 
 //properties to define the shield
-detector_size: 16000.0,
+detector_size_z: 16000.0,//Full Height
+detector_size_d: 16000.0,//Full Diameter
 shield_thickness: 1600.0,
 steel_thickness: 1.5875,
 cols: 96,

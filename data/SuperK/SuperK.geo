@@ -75,8 +75,8 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "detector",
 type: "tube",
-r_max: 17025.0,
-size_z: 18225.0,
+r_max: 17025.0,// These are guessed. Need a proper estimate
+size_z: 18225.0,// These are guessed. Need a proper estimate
 position: [0.0, 0.0, 0.0],
 material: "polypropylene",
 color: [0.2,0.2,0.2,0.1],
@@ -92,8 +92,8 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "black_sheet",
 type: "tube",
-r_max: 17000.0,
-size_z: 18200.0,
+r_max: 17000.0,// These are guessed. Need a proper estimate
+size_z: 18200.0,// These are guessed. Need a proper estimate
 position: [0.0, 0.0, 0.0],
 material: "doped_water",
 color: [0.2,0.2,0.2,0.1],
@@ -113,7 +113,7 @@ mother: "black_sheet", //not used but needs to be a valid name, parent of 'a' an
 type: "border",
 volume1: "inner_volume",
 volume2: "black_sheet",
-reverse: 0, //0 only considers photons from a->b, 1 does both directions
+reverse: 1, //0 only considers photons from a->b, 1 does both directions
 surface: "black_water",
 }
 

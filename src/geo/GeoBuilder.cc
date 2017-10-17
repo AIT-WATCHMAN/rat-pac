@@ -35,7 +35,7 @@ using namespace std;
 
 namespace RAT {
 
-GeoBuilder::GeoBuilder() 
+GeoBuilder::GeoBuilder()
 {
   // Register all the standard volumes
   new GeoBoxFactory();
@@ -69,7 +69,7 @@ GeoBuilder::GeoBuilder()
 }
 
 
-G4VPhysicalVolume *GeoBuilder::ConstructAll(std::string geo_tablename) 
+G4VPhysicalVolume *GeoBuilder::ConstructAll(std::string geo_tablename)
 {
   // Get all geometry tables that have been loaded
   DBLinkGroup geo = DB::Get()->GetLinkGroup(geo_tablename);
@@ -105,10 +105,10 @@ G4VPhysicalVolume *GeoBuilder::ConstructAll(std::string geo_tablename)
       } catch (DBNotFoundError &e) {
         Log::Die("GeoBuilder error: volume " + name + " has no type");
       }
-      
+
       // Skip disabled volumes
       int enabled = 1;
-      try { enabled = table->GetI("enable"); } 
+      try { enabled = table->GetI("enable"); }
       catch (DBNotFoundError &e) { };
 
       if (!enabled) {
@@ -141,7 +141,7 @@ G4VPhysicalVolume *GeoBuilder::ConstructAll(std::string geo_tablename)
           debug << "GeoBuilder: Removing " << name << " from geo list.\n";
           geo.erase(i_table);
           break;
-        } else 
+        } else
           if ((LogVol1==0 && geo.count(volume1)==0) || (LogVol2==0 && geo.count(volume2)==0)) {
               // No mother yet to be built
               Log::Die("GeoBuilder error: Cannot find "+volume1+" or "+volume2+" for " + name);
@@ -149,7 +149,7 @@ G4VPhysicalVolume *GeoBuilder::ConstructAll(std::string geo_tablename)
       }
       else{
         if (mother == "" || GeoFactory::FindMother(mother) != 0) { // Found volume to build
-  
+
           try {
             if (mother == "")
               world = GeoFactory::ConstructWithFactory(type, table); // save world volume
@@ -158,7 +158,7 @@ G4VPhysicalVolume *GeoBuilder::ConstructAll(std::string geo_tablename)
           } catch (GeoFactoryNotFoundError &e) {
             Log::Die("GeoBuilder error: Cannot find factory for volume type "  + type);
           }
-  
+
           debug << "GeoBuilder: Removing " << name << " from geo list.\n";
           geo.erase(i_table);
           break;
@@ -167,7 +167,7 @@ G4VPhysicalVolume *GeoBuilder::ConstructAll(std::string geo_tablename)
                       + " for " + name);
             }
       }
-      
+
     } // end for loop looking for next volume to build
 
     // Circular dependency check
