@@ -37,21 +37,23 @@ TGraph *graphNC;
 TGraph *graphINC;
 TGraph *graphNCRate;
 
-// Reads in Flux .root files, Added by Will
+// Reads in Flux .root files, Added by Will Yeadon
 // Set model = 0 for 1.36 Solar Mass and model = 1 for 1.77 Solar mass neutron star
 
 //Int_t model = 1;
 
 //       if (model == 1) {
-         TFile *IBD_fe = new TFile("/Users/bergevin1/software/rat-pac/data/nu_e_data_1_7.root");
+
+
+   TFile *IBD_fe = new TFile("$RATROOT/data/nu_e_data_1_7.root");
 	 TF1 *glum_e = (TF1*)IBD_fe->Get("f1");
 	 TF1 *gmene_e = (TF1*)IBD_fe->Get("f3");
 	 TF1 *galpha_e = (TF1*)IBD_fe->Get("f2");
-	 TFile *IBD_feb = new TFile("/Users/bergevin1/software/rat-pac/data/nu_eb_data_1_7.root");
+	 TFile *IBD_feb = new TFile("$RATROOT/data/nu_eb_data_1_7.root");
 	 TF1 *glum_eb = (TF1*)IBD_feb->Get("f1");
 	 TF1 *gmene_eb = (TF1*)IBD_feb->Get("f3");
 	 TF1 *galpha_eb = (TF1*)IBD_feb->Get("f2");
-	 TFile *IBD_fx = new TFile("/Users/bergevin1/software/rat-pac/data/nu_x_data_1_7_X.root");
+	 TFile *IBD_fx = new TFile("$RATROOT/data/nu_x_data_1_7_X.root");
 	 TF1 *glum_x = (TF1*)IBD_fx->Get("f1");
 	 TF1 *gmene_x = (TF1*)IBD_fx->Get("f3");
 	 TF1 *galpha_x = (TF1*)IBD_fx->Get("f2");
