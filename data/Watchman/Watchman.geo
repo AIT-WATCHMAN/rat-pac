@@ -20,7 +20,7 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "world", // world volume has no mother
 type: "box",
-size: [10500.0, 10500.0,10500.0], // mm, half-length
+size: [11000.0, 11000.0,11000.0], // mm, half-length
 position: [0.0, 0.0, 0.0],
 material: "rock", //rock?
 invisible: 1,
