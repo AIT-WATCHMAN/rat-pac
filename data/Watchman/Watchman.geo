@@ -12,7 +12,7 @@ invisible: 1,
 
 ///////////////////// Define the rock volumes. Thin slab of rock is assumed ////////////////////////
 
-//Create a 1-mm thick slab of rock to put on the top
+//Create a 1-m thick slab of rock to put on the top - Part 1
 {
 name: "GEO",
 index: "rock_1",
@@ -27,7 +27,7 @@ invisible: 1,
 }
 
 
-//Create a 1-mm thick slab of rock to put on the top
+//Create a 1-m thick slab of rock to put on the top - Part 2
 {
 name: "GEO",
 index: "cavern",

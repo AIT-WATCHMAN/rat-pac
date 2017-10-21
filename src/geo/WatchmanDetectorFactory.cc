@@ -31,11 +31,11 @@ namespace RAT {
         }
         const double photocathode_area = M_PI*photocathode_radius*photocathode_radius;
 
-        DBLinkPtr shield = db->GetLink("GEO","shield");
-        const double steel_thickness = shield->GetD("steel_thickness");
+        DBLinkPtr shield              = db->GetLink("GEO","shield");
+        const double steel_thickness  = shield->GetD("steel_thickness");
         const double shield_thickness = shield->GetD("shield_thickness");
-        const double detector_size_d = shield->GetD("detector_size_d");
-	      const double detector_size_z = shield->GetD("detector_size_z");
+        const double detector_size_d  = shield->GetD("detector_size_d");
+	      const double detector_size_z  = shield->GetD("detector_size_z");
 
         const double cable_radius = detector_size_d/2.0 - shield_thickness + 4.0*steel_thickness;
         const double pmt_radius = detector_size_d/2.0 - shield_thickness - 4.0*steel_thickness;
@@ -219,6 +219,29 @@ namespace RAT {
         db->SetDArray("cable_pos","dir_x",vector<double>(cols,0.0));
         db->SetDArray("cable_pos","dir_y",vector<double>(cols,0.0));
         db->SetDArray("cable_pos","dir_z",vector<double>(cols,1.0));
+
+        //DBLinkPtr inner_pmts = db->GetLink("GEO","inner_pmts");
+        //  const vector<double> &size = table->GetDArray("boxsize");
+        DBLinkPtr cavern = db->GetLink("GEO","cavern");
+        const vector<double>  &cavSize = cavern->GetDArray("size"); //Should be a cube
+        float _shift = cavSize[2]-detector_size_z/2.0;
+
+        if(_shift<0.0){
+          info << "size of detector greater than cavern. (" << detector_size_z << " mm," << cavSize[2]*2 <<"\n";
+        }
+        vector<double> shift,minshift;
+        shift.push_back(0.0);
+        shift.push_back(0.0);
+        shift.push_back(_shift);
+        minshift.push_back(0.0);
+        minshift.push_back(0.0);
+        minshift.push_back(-_shift);
+        info << "Update height of rock and cavern air... (" << _shift << " mm shift)\n";
+
+        db->SetDArray("GEO","rock_1",  "position",shift);
+        // db->SetDArray("GEO","cavern",  "position",noshift);
+        db->SetDArray("GEO","tank",    "position",minshift);
+        // db->SetDArray("GEO","detector","position",minshift);
     }
 
 }
