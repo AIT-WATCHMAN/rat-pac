@@ -263,11 +263,17 @@ Processor::Result FitBonsaiProc::Event(DS::Root *ds, DS::EV *ev)
         result->SetDirGoodness(-1);
         result->SetGoodness(-1);
 
-
         result->SetIDHit(nhit);
         result->SetODHit(nhitVeto);
         result->SetIDCharge(IDCharge);
         result->SetODCharge(ODCharge);
+
+        result->SetShapeGoodness(-1);
+        result->SetNfit(-1);
+        result->SetNsel(-1);
+        result->SetN9(-1);
+
+        result->SetBonsaiDir(bonsai_dirfit);
     }
     return OK;
 }
