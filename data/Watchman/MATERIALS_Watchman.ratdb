@@ -24,8 +24,6 @@ elemprop: [1.0],
 }
 
 
-
-
 {
 name: "ELEMENT",
 index: "Gadolinium",
@@ -43,7 +41,7 @@ index: "gadolinium",
 valid_begin : [0, 0],
 valid_end : [0, 0],
 density: 7.90,
-nelements: 1, 
+nelements: 1,
 nmaterials: 0,
 elements: ["Gadolinium",],
 elemprop: [1.0],
@@ -55,7 +53,7 @@ index: "doped_water",
 valid_begin : [0, 0],
 valid_end : [0, 0],
 density: 1.0,
-nelements: 0, 
+nelements: 0,
 nmaterials: 2,
 materials: ["water", "gadolinium",],
 matprop: [0.999, 0.001],
@@ -228,7 +226,3 @@ SCINTILLATION_WLS_value2: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
 
 PROPERTY_LIST: ["LIGHT_YIELD", "SCINTWAVEFORM", "SCINTWAVEFORMalpha", "SCINTMOD", "SCINTMODalpha", "SCINTMODneutron", "RINDEX", "SCINTILLATION", "SCINTILLATION_WLS", "ABSLENGTH", "RSLENGTH", "REEMISSION_PROB", ]
 }
-
-
-
-

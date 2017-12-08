@@ -223,11 +223,13 @@ namespace RAT {
         //DBLinkPtr inner_pmts = db->GetLink("GEO","inner_pmts");
         //  const vector<double> &size = table->GetDArray("boxsize");
         DBLinkPtr cavern = db->GetLink("GEO","cavern");
-        const vector<double>  &cavSize = cavern->GetDArray("size"); //Should be a cube
-        float _shift = cavSize[2]-detector_size_z/2.0;
+        // const vector<double>  &cavSize = cavern->GetDArray("size_z"); //Should be a cube
+        // float _shift = cavSize[0]-detector_size_z/2.0;
+        const double  cavSize = cavern->GetD("size_z"); //Should be a cube
+        float _shift = cavSize-detector_size_z/2.0;
 
         if(_shift<0.0){
-          info << "size of detector greater than cavern. (" << detector_size_z << " mm," << cavSize[2]*2 <<"\n";
+          info << "size of detector greater than cavern. (" << detector_size_z << " mm," << cavSize*2 <<"\n";
         }
         vector<double> shift,minshift;
         shift.push_back(0.0);

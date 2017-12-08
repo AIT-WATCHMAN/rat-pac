@@ -19,8 +19,9 @@ index: "rock_1",
 valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "world", // world volume has no mother
-type: "box",
-size: [11000.0, 11000.0,11000.0], // mm, half-length
+type: "tube",
+r_max: 13500.0,
+size_z: 13500.0,
 position: [0.0, 0.0, 0.0],
 material: "rock", //rock?
 invisible: 1,
@@ -34,8 +35,9 @@ index: "cavern",
 valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "rock_1", // world volume has no mother
-type: "box",
-size: [10000.0, 10000.0,10000.0], // mm, half-length
+type: "tube",
+r_max: 12500.0,
+size_z: 12500.0,
 position: [0.0, 0.0, 0.0],
 material: "air", //rock?
 invisible: 1,

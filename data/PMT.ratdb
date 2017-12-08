@@ -74,6 +74,8 @@ dynode_material: "stainless_steel",
 glass_material: "glass",
 pmt_vacuum_material: "pmt_vacuum",
 photocathode_surface: "photocathode_R11780",
+photocathode_MINrho: 132.6d, // 140.0d From Characterization of the Hamamatsu R11780 12-inch Photomultiplier tube, S. Grullon
+photocathode_MAXrho: 152.5d, //
 mirror_surface: "mirror",
 dynode_surface: "stainless_steel",
 

@@ -360,7 +360,7 @@ namespace RAT {
 
   void BetaFunction::SetEventTime()
   {
-    double tau = GetLifeTime()*1.0e9;
+    double tau = GetLifeTime();//*1.0e9; Slows down simulations for some reason
     double r = GetRandomNumber();
     nTime = -tau * log(r) / log(2.);
   }
