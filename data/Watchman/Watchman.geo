@@ -12,7 +12,7 @@ invisible: 1,
 
 ///////////////////// Define the rock volumes. Thin slab of rock is assumed ////////////////////////
 
-//Create a 1-m thick slab of rock to put on the top - Part 1
+//Create a 1-m thick slab around a cylindrical cavern
 {
 name: "GEO",
 index: "rock_1",
@@ -28,13 +28,45 @@ invisible: 1,
 }
 
 
-//Create a 1-m thick slab of rock to put on the top - Part 2
+//Create a 1-m thick slab around a cylindrical cavern- Part 2
+{
+name: "GEO",
+index: "gunite",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+mother: "rock_1", // world volume has no mother
+type: "tube",
+r_max: 12510.0,
+size_z: 12510.0,
+position: [0.0, 0.0, 0.0],
+material: "gunite", //rock?
+invisible: 1,
+}
+
+
+//Create a 1-m thick slab around a cylindrical cavern- Part 2
+{
+name: "GEO",
+index: "concrete",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+mother: "gunite", // world volume has no mother
+type: "tube",
+r_max: 12505.0,
+size_z: 5.0,
+position: [0.0, 0.0, -12505.0],
+material: "concrete", //rock?
+invisible: 1,
+}
+
+
+//Create a 1-m thick slab around a cylindrical cavern- Part 2
 {
 name: "GEO",
 index: "cavern",
 valid_begin: [0, 0],
 valid_end: [0, 0],
-mother: "rock_1", // world volume has no mother
+mother: "gunite", // world volume has no mother
 type: "tube",
 r_max: 12500.0,
 size_z: 12500.0,

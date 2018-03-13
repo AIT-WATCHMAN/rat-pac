@@ -54,7 +54,7 @@ namespace RAT {
                 }
             }
         }
-
+        sort(pmtARRAY.begin(),pmtARRAY.end());
         // Second part is to find cluster times. This is importan for IBD/ neutron capture
         vector <Double_t> clusterTime;
         // Give an unrealistic time to compare to

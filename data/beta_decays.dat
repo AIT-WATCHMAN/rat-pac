@@ -77,10 +77,12 @@ CHAIN: 210Pb
 210Po     0021  1.0000   2   1.195e+07
 208Pb     0001  1.0000  -2   0.
 
-CHAIN: 40K
-2
-40K       0001  1.0000   1   4.030e+16
-40Ar      0001  1.0000  -2   0.
+
+# Chain remove for now due to issue with timing in rat-pac
+#CHAIN: 40K
+#2
+#40K       0001  1.0000   1   4.030e+16
+#40Ar      0001  1.0000  -2   0.
 
 
 *******  BETA DECAY INFORMATION  ****
@@ -110,6 +112,13 @@ DECAY: 60Co
 28 60 1.66e+8
 0.00080 0 0.3179 1 1.33 0. 0. 0. 0. 0. 0. 0. 0.
 1.00001 0 0.3179 2 1.17 1.33 0. 0. 0. 0. 0. 0. 0.
+
+DECAY: 137Cs
+55 137 9.5209e+08
+0.054   1 1.174 0 0. 0. 0. 0. 0. 0. 0. 0. 0.
+1.00001 2 .5120 2 0.6617 0.0 0. 0. 0. 0. 0. 0. 0.
+
+## Will need to fix 137Cs to gamma emmision to be part of a chain.
 
 DECAY: 90Sr
 39 90 9.183e+8
