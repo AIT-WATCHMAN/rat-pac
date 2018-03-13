@@ -18,6 +18,7 @@ arch = {
                                      ' -Wpointer-arith -Wno-unused-parameter -Woverloaded-virtual -pipe'
                                      ' -fPIC '),
                   'LDFLAGS' : '-fPIC',
+		  'LIBS' : '-lstdc++',
                   },
 
     # Extra flags for optional components
