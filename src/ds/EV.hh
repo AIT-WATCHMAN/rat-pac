@@ -20,6 +20,7 @@
 #include <TTimeStamp.h>
 #include <RAT/DS/PMT.hh>
 #include <RAT/DS/Centroid.hh>
+#include <RAT/DS/BonsaiFit.hh>
 #include <RAT/DS/PathFit.hh>
 #include <vector>
 
@@ -52,9 +53,12 @@ public:
   virtual Int_t Nhits() const { return GetPMTCount(); }
 
   /** Time since last trigger in ns. */
-  Float_t GetDeltaT() const { return deltat; }
-  void SetDeltaT(Float_t _deltat) { deltat = _deltat; }
-
+  Double_t GetDeltaT() const { return deltat; }
+  void SetDeltaT(Double_t _deltat) { deltat = _deltat; }
+   
+  void SetCalibratedTriggerTime(Double_t _calibratedTriggerTime) {calibratedTriggerTime=_calibratedTriggerTime;}
+  Double_t GetCalibratedTriggerTime() const {return calibratedTriggerTime;}
+    
   /** Total charge in all PMT waveforms (pC). */
   Float_t GetTotalCharge() const { return qTotal; }
   void SetTotalCharge(Float_t _qTotal) { qTotal = _qTotal; }
@@ -79,16 +83,27 @@ public:
   virtual bool ExistPathFit() const { return !pathfit.empty(); }
   virtual void PrunePathFit() { pathfit.resize(0); }
 
+  /** Centroid position fitter. */
+  virtual BonsaiFit* GetBonsaiFit() {
+    if (bonsaifits.empty()) {
+      bonsaifits.resize(1);
+    }
+    return &bonsaifits.back();
+  }
+  virtual bool ExistBonsaiFit() const { return !bonsaifits.empty(); }
+  virtual void PruneBonsaiFit() { bonsaifits.resize(0); }
+
   ClassDef(EV, 1)
 
 protected:
   Int_t id;
   Float_t qTotal;
   Float_t calibratedTriggerTime;
-  Float_t deltat;
+  Double_t deltat;
   TTimeStamp utc;
   std::vector<PMT> pmt;
   std::vector<Centroid> centroid;
+  std::vector<BonsaiFit> bonsaifits;
   std::vector<PathFit> pathfit;
 };
 

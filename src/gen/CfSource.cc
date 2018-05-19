@@ -14,6 +14,7 @@
 #include <CLHEP/Random/RandFlat.h>
 #include <CLHEP/Random/RandGeneral.h>
 #include <CLHEP/Vector/LorentzVector.h>
+#include <CLHEP/Units/SystemOfUnits.h>
 
 #include <cmath>
 #include <iostream>
@@ -62,7 +63,7 @@ namespace RAT {
 
 	  // Initialize the G4 particle definitions.
 	  G4ParticleDefinition* neutron = G4Neutron::Neutron();
-	  massNeutron = neutron->GetPDGMass() * MeV;
+	  massNeutron = neutron->GetPDGMass() * CLHEP::MeV;
 
 	  // In the original code, the probability densities used the
 	  // funlxp and funlux routines in CERNLIB to generate random
@@ -242,15 +243,15 @@ namespace RAT {
   CfSource::~CfSource()
   {;}
 
-  CfSource::CfSource(const CfSource& CfSource)
+  CfSource::CfSource(const CfSource& _CfSource)
   {
-    Isotope   = CfSource.Isotope;
-    Nneutron  = CfSource.Nneutron;
-    Ngamma    = CfSource.Ngamma;
-    neutronE  = CfSource.neutronE;
-    Tneutron  = CfSource.Tneutron;
-    gammaE    = CfSource.gammaE;
-    Tgamma    = CfSource.Tgamma;
+    Isotope   = _CfSource.Isotope;
+    Nneutron  = _CfSource.Nneutron;
+    Ngamma    = _CfSource.Ngamma;
+    neutronE  = _CfSource.neutronE;
+    Tneutron  = _CfSource.Tneutron;
+    gammaE    = _CfSource.gammaE;
+    Tgamma    = _CfSource.Tgamma;
   }    
 
   CfSource& CfSource::operator=(const CfSource& rhs){

@@ -1,0 +1,6 @@
+C***********************************************************************
+         INTEGER   lfmax,MAX_CLUS,MAX_CLUS_SIZE!                       *
+         PARAMETER (lfmax=900)                ! maximum number of hits *
+         PARAMETER (MAX_CLUS=6000)            ! max. number of clusters*
+         PARAMETER (MAX_CLUS_SIZE=200000)      ! cluster storage size   *
+C***********************************************************************

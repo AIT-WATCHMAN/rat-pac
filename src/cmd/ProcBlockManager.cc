@@ -15,8 +15,11 @@
 #include <RAT/OutNetProc.hh>
 #include <RAT/PruneProc.hh>
 #include <RAT/FitCentroidProc.hh>
+#include <RAT/FitBonsaiProc.hh>
 #include <RAT/FitPathProc.hh>
 #include <RAT/SimpleDAQProc.hh>
+#include <RAT/LessSimpleDAQProc.hh>
+#include <RAT/LessSimpleDAQ2Proc.hh>
 
 namespace RAT {
 
@@ -61,10 +64,13 @@ ProcBlockManager::ProcBlockManager(ProcBlock *theMainBlock)
 
   // Fitters
   procAllocators["fitcentroid"] = new ProcAllocatorTmpl<FitCentroidProc>;
+  procAllocators["fitbonsai"] = new ProcAllocatorTmpl<FitBonsaiProc>;
   procAllocators["fitpath"] = new ProcAllocatorTmpl<FitPathProc>;
 
   // DAQ
   procAllocators["simpledaq"]= new ProcAllocatorTmpl<SimpleDAQProc>;
+  procAllocators["lesssimpledaq"]= new ProcAllocatorTmpl<LessSimpleDAQProc>;
+  procAllocators["lesssimpledaq2"]= new ProcAllocatorTmpl<LessSimpleDAQ2Proc>;
 
   // Misc
   procAllocators["count"] = new ProcAllocatorTmpl<CountProc>;

@@ -25,7 +25,7 @@ namespace RAT {
 DetectorConstruction* DetectorConstruction::sDetectorConstruction = NULL;
 
 DetectorConstruction::DetectorConstruction() {
-    DetectorFactory::Register("Watchman",new WatchmanDetectorFactory());
+  DetectorFactory::Register("Watchman",new WatchmanDetectorFactory());
     DetectorFactory::Register("Theia",new TheiaDetectorFactory());
 }
 
@@ -51,7 +51,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct() {
     info << "No experiment-specific tables loaded." << newline;
   }
 
-  try { 
+  try {
     string detector_factory = ldetector->GetS("detector_factory");
     info << "Loading detector factory " << detector_factory << newline;
     DetectorFactory::DefineWithFactory(detector_factory,ldetector);
@@ -62,7 +62,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct() {
       if (db->Load(geo_file) == 0) {
         Log::Die("DetectorConstruction: Could not open detector geometry");
       }
-    } catch (DBNotFoundError &e) {
+    } catch (DBNotFoundError &_e) {
         Log::Die("DetectorConstruction: Could not open geo_file or detector_factory");
     }
   }
@@ -78,8 +78,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct() {
 
   // Add sensitive volumes here (only veto for now)
   G4SDManager* sdman = G4SDManager::GetSDMpointer();
-  G4VSensitiveDetector *veto 
-    =  new BWVetGenericChamber("/mydet/veto/genericchamber");  
+  G4VSensitiveDetector *veto
+    =  new BWVetGenericChamber("/mydet/veto/genericchamber");
   sdman->AddNewDetector(veto);
 
   // Setup photon thinning parameters
@@ -106,4 +106,3 @@ DetectorConstruction* DetectorConstruction::GetDetectorConstruction() {
 }
 
 }
-

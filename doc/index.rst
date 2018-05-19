@@ -17,6 +17,7 @@ User's Guide
 
    overview
    installation
+   tutorials
    command_interface
    producers_processors
    random
@@ -33,6 +34,7 @@ User's Guide
    tracks
    rattest
    wired
+   tools
 
 Programmer's Guide
 ------------------
