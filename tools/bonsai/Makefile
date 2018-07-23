@@ -7,7 +7,7 @@ MAKEFILE = Makefile
 #include $(RATROOT)/src/make/Make.include
 
 ##BONSAI_LIBS  = $(shell $(GENIE)/src/scripts/setup/genie-config --libs)
-RAT_LIBS = -L$(RATROOT)/lib -lRATEvent
+RAT_LIBS = -L$(RATROOT)/lib -lRATEvent -lrat
 ROOT_FLAG = `root-config --cflags --libs`
 
 
@@ -23,14 +23,14 @@ bonsai: FORCE
 #################### CLEANING
 
 purge: FORCE
-	$(RM) *.o *~ core
+	$(RM) *.o *~ core 
 
 clean: FORCE
-	$(RM) *.o *~ core
+	$(RM) *.o *~ core 
 	$(RM) bonsai
 
-dumbway: FORCE
-	g++ `root-config --cflags --libs` -g -o bonsai   bonsai.cc  -I/Users/bergevin1/software/rat-pac/include   -L/Users/bergevin1/software/rat-pac/lib -lRATEvent -lrat -I/Users/bergevin1/software/rat-pac/src/fit/bonsai/
+dumb: FORCE
+	g++ `root-config --cflags --libs` -g -o bonsai bonsai.cc  -I/data/kneale/ratpac/rat-pac/include   -L/data/kneale/ratpac/rat-pac/lib -lRATEvent -lrat -I/data/kneale/ratpac/rat-pac/src/fit/bonsai/
 FORCE:
 
 # DO NOT DELETE
