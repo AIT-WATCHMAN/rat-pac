@@ -6,6 +6,7 @@
 
 #include "globals.hh"
 #include "G4UserSteppingAction.hh"
+#include "G4ParticleChange.hh"
 
 class GLG4PrimaryGeneratorAction;
 
