@@ -7,13 +7,13 @@ MAKEFILE = Makefile
 #include $(RATROOT)/src/make/Make.include
 
 ##BONSAI_LIBS  = $(shell $(GENIE)/src/scripts/setup/genie-config --libs)
-RAT_LIBS = -L$(RATROOT)/lib -lRATEvent -lrat
+RAT_LIBS = -L$(RATROOT)/lib -lRATEvent -lrat -L$(ROOTSYS)/lib -lCore -lRIO -lTree -lPhysics -lMathCore
 ROOT_FLAG = `root-config --cflags --libs`
 
 
 LIBRARIES  := $(LIBRARIES) $(CERN_LIBRARIES) $(RAT_LIBS)
 
-INCLUDES := $(INCLUDES) -I$(RATROOT)/include -I$(RATROOT)/src/fit/bonsai
+INCLUDES := $(INCLUDES) -I$(RATROOT)/include -I$(RATROOT)/src/fit/bonsai -I$(ROOTSYS)/include
 
 all: bonsai
 
