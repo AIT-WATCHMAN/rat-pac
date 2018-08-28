@@ -16,6 +16,7 @@ cat > env.sh <<EOF
 #!/bin/sh
 RATROOT=$ratroot
 PATH=\$RATROOT/bin:\$PATH
+PATH=\$RATROOT/tools/bonsai:\$PATH
 LD_LIBRARY_PATH=\$RATROOT/lib:\$LD_LIBRARY_PATH
 # For Mac OS X
 DYLD_LIBRARY_PATH=\$RATROOT/lib:\$DYLD_LIBRARY_PATH
@@ -28,6 +29,7 @@ cat > env.csh <<EOF
 #!/bin/csh
 setenv RATROOT $ratroot
 setenv PATH "\$RATROOT/bin:\$PATH"
+setenv PATH "\$RATROOT/tools/bonsai:\$PATH"
 if ({\$?LD_LIBRARY_PATH}) then
   setenv LD_LIBRARY_PATH "\${RATROOT}/lib:\$LD_LIBRARY_PATH"
 else
