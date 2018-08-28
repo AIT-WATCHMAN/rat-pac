@@ -30,5 +30,6 @@ watchman_supernova.root
 *.mac
 *.eps
 tools/*.py
+tools/bonsai/bonsai
 open.sh
 SCRATCH
