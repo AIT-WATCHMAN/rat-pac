@@ -44,13 +44,13 @@ invisible: 1,
 }
 
 
-Create a 0.5m-thick concrete base
+//Create a 0.5m-thick concrete base
 {
 name: "GEO",
 index: "concrete",
 valid_begin: [0, 0],
 valid_end: [0, 0],
-mother: rock_1
+mother: "rock_1",
 type: "tube",
 r_max: 13000.0,
 size_z: 250.0,
