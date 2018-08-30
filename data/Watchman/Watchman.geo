@@ -12,7 +12,7 @@ invisible: 1,
 
 ///////////////////// Define the rock volumes. Thin slab of rock is assumed ////////////////////////
 
-//Create a 1m rock layer around the cavern
+//Create a 1-m thick slab around a cylindrical cavern
 {
 name: "GEO",
 index: "rock_1",
@@ -20,54 +20,53 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "world", // world volume has no mother
 type: "tube",
-r_max: 14000.00, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
-size_z: 14000.00, // this will give a 1m layer of rock on the floor and 1.5m on the ceiling
+r_max: 13500.0,
+size_z: 13500.0,
 position: [0.0, 0.0, 0.0],
-material: "rock",
+material: "rock", //rock?
 invisible: 1,
 }
 
 
-//Create a 0.5m concrete layer on the walls
+//Create a 1-m thick slab around a cylindrical cavern- Part 2
 {
 name: "GEO",
-index: "concrete" // changed from "gunite" for updated design (L. Kneale) 
+index: "gunite",
 valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "rock_1", // world volume has no mother
 type: "tube",
-r_max: 13000.0, // changed to incorporate 0.5m layer of concrete on walls (L.Kneale)
-size_z: 12500.0, //changed to incorporate 0.5m layer of concrete on walls
+r_max: 12510.0,
+size_z: 12510.0,
 position: [0.0, 0.0, 0.0],
-material: "concrete", // changed from "gunite" (L. Kneale)
+material: "gunite", //rock?
 invisible: 1,
 }
 
 
-//Create a 0.5m-thick concrete base
+//Create a 1-m thick slab around a cylindrical cavern- Part 2
 {
 name: "GEO",
 index: "concrete",
 valid_begin: [0, 0],
 valid_end: [0, 0],
-mother: "rock_1",
+mother: "gunite", // world volume has no mother
 type: "tube",
-r_max: 13000.0,
-size_z: 250.0,
-position: [0.0, 0.0, -12750.0],
-material: "concrete",
+r_max: 12505.0,
+size_z: 5.0,
+position: [0.0, 0.0, -12505.0],
+material: "concrete", //rock?
 invisible: 1,
 }
 
 
-
-//Create the cavern space between the tank and concrete/rock
+//Create a 1-m thick slab around a cylindrical cavern- Part 2
 {
 name: "GEO",
 index: "cavern",
 valid_begin: [0, 0],
 valid_end: [0, 0],
-mother: "concrete", // world volume has no mother
+mother: "gunite", // world volume has no mother
 type: "tube",
 r_max: 12500.0,
 size_z: 12500.0,
