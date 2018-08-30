@@ -67,6 +67,32 @@ G4VPhysicalVolume *GeoWatchmanShieldFactory::Construct(DBLinkPtr table) {
     G4VisAttributes *innerVis = GetVisAttributes(DB::Get()->GetLink(table->GetS("inner_back_vis")));
     G4VisAttributes *vetoVis = GetVisAttributes(DB::Get()->GetLink(table->GetS("veto_back_vis")));
 
+    //Determine if veto and inner PMT shields are manually
+    //built, or pointing to defined orient_point options
+    bool inner_orient_manual = false;
+    try { 
+      string inner_orient_str = table->GetS("orientation_inner");
+      if (inner_orient_str == "manual")
+	inner_orient_manual = true;
+      else if (inner_orient_str == "point")
+	inner_orient_manual = false;
+      else 
+	Log::Die("GeoBuilder error: Unknown inner PMT orientation " 
+		 + inner_orient_str);
+    } catch (DBNotFoundError &e) { }
+    
+    bool veto_orient_manual = false;
+    try { 
+      string veto_orient_str = table->GetS("orientation_veto");
+      if (veto_orient_str == "manual")
+	veto_orient_manual = true;
+      else if (veto_orient_str == "point")
+	veto_orient_manual = false;
+      else 
+	Log::Die("GeoBuilder error: Unknown veto PMT orientation " 
+		 + veto_orient_str);
+    } catch (DBNotFoundError &e) { }
+    
     //Build the pmt covers
 
     G4Ellipsoid *backFilledSolid = new G4Ellipsoid(volumeName+"_back_filled_solid", backSemiX, backSemiY, backSemiZ, -backSemiZ, 0.*CLHEP::cm);
@@ -83,8 +109,20 @@ G4VPhysicalVolume *GeoWatchmanShieldFactory::Construct(DBLinkPtr table) {
 
     //inner PMTs
     for (int i = innerStart; i < (innerStart+innerLen); i++) {
+        G4ThreeVector orient;
         G4ThreeVector position(pmtX[i],pmtY[i],pmtZ[i]);
-        G4ThreeVector orient(pmtU[i],pmtV[i],pmtW[i]);
+        if (inner_orient_manual)
+            orient.set(pmtU[i],pmtV[i],pmtW[i]);
+        else {
+            G4ThreeVector orient_point;
+            vector<double> orient_point_array;
+            orient_point_array = table->GetDArray("orient_point_inner");
+            if (orient_point_array.size() != 3)
+	            Log::Die("GeoBuilder error: orient_point_inner must have 3 values");
+            orient_point.set(orient_point_array[0], orient_point_array[1],
+		             orient_point_array[2]);
+            orient = (orient_point - position).unit();
+        } 
         orient = orient.unit();
         position = position - 2.0*steelThickness*orient;
         double angle_y = (-1.0)*atan2(orient.x(), orient.z());
@@ -100,8 +138,20 @@ G4VPhysicalVolume *GeoWatchmanShieldFactory::Construct(DBLinkPtr table) {
 
     //veto PMTs
     for (int i = vetoStart; i < (vetoStart+vetoLen); i++) {
+        G4ThreeVector orient;
         G4ThreeVector position(pmtX[i],pmtY[i],pmtZ[i]);
-        G4ThreeVector orient(pmtU[i],pmtV[i],pmtW[i]);
+        if (veto_orient_manual)
+            orient.set(pmtU[i],pmtV[i],pmtW[i]);
+        else {
+            G4ThreeVector orient_point;
+            vector<double> orient_point_array;
+            orient_point_array = table->GetDArray("orient_point_veto");
+            if (orient_point_array.size() != 3)
+	            Log::Die("GeoBuilder error: orient_point_veto must have 3 values");
+            orient_point.set(orient_point_array[0], orient_point_array[1],
+		             orient_point_array[2]);
+            orient = (orient_point - position).unit();
+        } 
         orient = orient.unit();
         position = position - 2.0*steelThickness*orient;
         double angle_y = (-1.0)*atan2(orient.x(), orient.z());
