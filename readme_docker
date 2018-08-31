@@ -3,3 +3,6 @@ uploaded to the docker image.
 
 The correct work procedure is to fork the repository to your personal directory. Make required changes. Make pull request
 by assigning a approved custodian.
+
+Please note that another github exist for WATCHMAN work: AIT-WACTHMAN/watchmakers. Within that github are tools to
+call docker image functions from the users terminal.
