@@ -18,8 +18,9 @@ RUN cd /src/rat-pac \
 # Update {other repos here}
 RUN cd /src/watchmakers \
   && git pull \
+  && git remote -v \ 
   && mkdir -p /docker_interaction_software \
-  && rsync -avz tools/d* /docker_interaction_software/
+  && rsync -avz /src/watchmakers/tools/d* /docker_interaction_software/
 
 
 
