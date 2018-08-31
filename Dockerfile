@@ -16,6 +16,12 @@ RUN cd /src/rat-pac \
   && make
 
 # Update {other repos here}
+RUN cd /src/watchmakers \
+  && git pull \
+  && mkdir -p /docker_interaction_software \
+  && rsync -avz tools/d* /docker_interaction_software/
+
+
 
 # Copy dockerfile for record
 COPY Dockerfile Dockerfile
