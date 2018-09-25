@@ -1,0 +1,8 @@
+#!/bin/sh
+##echo "$1 $2 $3"
+open -a XQuartz
+ip=$ifconfig en0 | grep inet | awk '$1=="inet" {print $2}'
+xhost + $ip
+xhost +local:docker
+## Mac Instruction https://fredrikaverpil.github.io/2016/07/31/docker-for-mac-and-gui-applications/
+docker run  -it -v $PWD:/container/ --env DISPLAY=$ip:0 --volume /tmp/.X11-unix:/tm/.X11-unix  aitwatchman/simulation:bonsai  /src/rat-pac/bin/root /container/$1 /container/$2 /container/$3 /container/$4 /container/$5 /container/$6

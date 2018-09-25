@@ -1,0 +1,8 @@
+#!/bin/sh
+##echo "$1 $2 $3"
+
+if test "$1" == "tag"; then
+  docker run -w=/container -v $PWD:/container/ -it aitwatchman/simulation:$2    python /src/watchmakers/watchmakers.py --docker ${@:3}
+else
+  docker run -w=/container -v $PWD:/container/ -it aitwatchman/simulation:latest python /src/watchmakers/watchmakers.py --docker $*
+fi
