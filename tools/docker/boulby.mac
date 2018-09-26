@@ -5,6 +5,7 @@
 /rat/db/set DETECTOR experiment "Watchman"
 /rat/db/set DETECTOR detector_factory "Watchman"
 /rat/db/set WATCHMAN_PARAMS photocathode_coverage 0.25
+/rat/db/set WATCHMAN_PARAMS veto_coverage 0.02
 /rat/db/set GEO[tank] r_max 10000.000000
 /rat/db/set GEO[detector] r_max 9998.412500
 /rat/db/set GEO[shield] detector_size_d 20000.000000
