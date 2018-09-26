@@ -23,5 +23,18 @@
 # /rat/proc fitcentroid
 # /rat/proc fitpath
 /rat/proc count
-/rat/procset update 1000
+/rat/procset update 10
+
+# Use IO.default_output_filename
+/rat/proclast outroot
+#/rat/procset file "watchman_boulby_lesssimpledaq.root"
+#END EVENT LOOP
+
+/generator/add combo spectrum:fill
+/generator/vtx/set e+ boulby
+/generator/pos/set 0 0 0
+
+/run/beamOn 1000
+
+
 
