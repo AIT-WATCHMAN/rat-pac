@@ -97,7 +97,7 @@ int main(int argc, char **argv) {
 
   TTree *data = new TTree("data","low-energy detector triggered events");
   //Define the Integer Tree Leaves
-  data->Branch("gtid",&gtid,"gitd/I");
+  data->Branch("gtid",&gtid,"gtid/I");
   data->Branch("mcid",&mcid,"mcid/I");
   data->Branch("nhit",&nhits,"nhit/I");
   data->Branch("timestamp_s",&timestamp_s,"timestamp_s/I");
