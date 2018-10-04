@@ -3,24 +3,24 @@
 
 
 if  test "$#" -eq 0; then
-  echo "docker run --rm -v $PWD:/container/ -it aitwatchman/simulation:latest  /src/rat-pac/bin/root"
-  docker run --rm -v $PWD:/container/ -it aitwatchman/simulation:latest  /src/rat-pac/bin/root
+  echo "docker run -u `id -u $USER` --rm -v $PWD:/container/ -it aitwatchman/simulation:latest  /src/rat-pac/bin/root"
+  docker run -u `id -u $USER` --rm -v $PWD:/container/ -it aitwatchman/simulation:latest  /src/rat-pac/bin/root
 elif  test "$1" == "tag"; then
-  echo "docker run --rm -v $PWD:/container/ -it aitwatchman/simulation:$2  /src/rat-pac/bin/root ${@:3:$(($#-2))} /container/${!#}"
-  docker run --rm -v $PWD:/container/ -it aitwatchman/simulation:$2  /src/rat-pac/bin/root ${@:3:$(($#-2))} /container/${!#}
+  echo "docker run -u `id -u $USER` --rm -v $PWD:/container/ -it aitwatchman/simulation:$2  /src/rat-pac/bin/root ${@:3:$(($#-2))} /container/${!#}"
+  docker run -u `id -u $USER` --rm -v $PWD:/container/ -it aitwatchman/simulation:$2  /src/rat-pac/bin/root ${@:3:$(($#-2))} /container/${!#}
 else
-  echo "docker run --rm -v $PWD:/container/ -it aitwatchman/simulation:latest  /src/rat-pac/bin/root ${@:1:$(($#-1))} /container/${!#}"
-  docker run --rm -v $PWD:/container/ -it aitwatchman/simulation:latest  /src/rat-pac/bin/root ${@:1:$(($#-1))} /container/${!#}
+  echo "docker run -u `id -u $USER` --rm -v $PWD:/container/ -it aitwatchman/simulation:latest  /src/rat-pac/bin/root ${@:1:$(($#-1))} /container/${!#}"
+  docker run -u `id -u $USER` --rm -v $PWD:/container/ -it aitwatchman/simulation:latest  /src/rat-pac/bin/root ${@:1:$(($#-1))} /container/${!#}
 fi
 
 
 #
 # if  test "$#" -eq 0; then
-#   echo "docker run --rm -v $PWD:/container/ -it aitwatchman/simulation:latest  /src/rat-pac/bin/root"
+#   echo "docker run -u `id -u $USER` --rm -v $PWD:/container/ -it aitwatchman/simulation:latest  /src/rat-pac/bin/root"
 # elif  test "$1" == "tag"; then
 #   if test "$#" -eq 2; then
-#    echo "A! docker run --rm -v $PWD:/container/ -it aitwatchman/simulation:$2  /src/rat-pac/bin/root "
+#    echo "A! docker run -u `id -u $USER` --rm -v $PWD:/container/ -it aitwatchman/simulation:$2  /src/rat-pac/bin/root "
 #   else
-#     docker run --rm -v $PWD:/container/ -it aitwatchman/simulation:$2  /src/rat-pac/bin/root ${@:2:$(($#-2))} /container/${!#}"
+#     docker run -u `id -u $USER` --rm -v $PWD:/container/ -it aitwatchman/simulation:$2  /src/rat-pac/bin/root ${@:2:$(($#-2))} /container/${!#}"
 #   fi
 # fi
