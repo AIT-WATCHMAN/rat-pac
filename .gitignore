@@ -17,6 +17,8 @@ src/core/config.hh
 .project
 .pydevproject
 .settings
+src/core/Config.hh
+
 
 # Personal addition
 rootfiles

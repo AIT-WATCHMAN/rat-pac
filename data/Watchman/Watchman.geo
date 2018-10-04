@@ -181,7 +181,8 @@ veto_back_vis: "veto_vis",
 //properties to define the shield
 detector_size_z: 16000.0,//Full Height
 detector_size_d: 16000.0,//Full Diameter
-shield_thickness: 1600.0,
+veto_thickness_r: 1600.0,
+veto_thickness_z: 1600.0,
 steel_thickness: 1.5875,
 cols: 96,
 rows: 30,
