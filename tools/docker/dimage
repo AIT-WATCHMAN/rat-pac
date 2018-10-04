@@ -3,7 +3,7 @@
 
 
 if test "$1" == "tag"; then
-  docker run --rm -w=/container -v $PWD:/container/ -it aitwatchman/simulation:$2
+  docker run -u `id -u $USER` --rm -w=/container -v $PWD:/container/ -it aitwatchman/simulation:$2
 else
-  docker run --rm -w=/container -v $PWD:/container/ -it aitwatchman/simulation:latest
+  docker run -u `id -u $USER` --rm -w=/container -v $PWD:/container/ -it aitwatchman/simulation:latest
 fi
