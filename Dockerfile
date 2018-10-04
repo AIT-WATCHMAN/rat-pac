@@ -22,7 +22,7 @@ RUN cd /src/watchmakers \
   && mkdir -p /docker_interaction_software \
   && rsync -avz /src/watchmakers/tools/d* /docker_interaction_software/
 
-
+RUN pip install docopt
 
 # Copy dockerfile for record
 COPY Dockerfile Dockerfile
