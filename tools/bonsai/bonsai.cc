@@ -29,6 +29,10 @@ using namespace std;
 #include <searchgrid.h>
 #include <fourhitgrid.h>
 
+//Need to seperate the Inner-Detector tubes from the Outer-Detector tubes
+static const int innerPMTcode = 1;
+static const int vetoPMTcode  = 2;
+
 extern "C"{
 void lfariadne_(float *av,int *anhit,float *apmt,float *adir, float *amsg, float *aratio,int *anscat,float *acosscat);
 }
@@ -41,7 +45,8 @@ float bonsai_vtxfit[4];
 float goodn[2];
 float adir[3],agoodn,aqual,cosscat;
 int nsct;
-
+int crash_count=0;
+int totInner,totVeto,id;
 int main(int argc, char **argv) {
   printf("\n\nWelcome to BONSAI. The function can take no less than two input and up\n");
   printf("to 6 inputs: infile,outfile,darkNoise,timeOffset,minTime,maxtime\n\n");
@@ -87,14 +92,15 @@ int main(int argc, char **argv) {
   printf("(3) darkNoise \t%20.1f\n", darkNoise); printf("(4) offsetT \t%20.1f\n",offsetT);
   printf("(5) minT \t%20.1f\n",minT); printf("(6) maxT  \t%20.1f\n\n",maxT);
 
-  Int_t  gtid=0, mcid=0,totNHIT=0, nhits=0, od_hit=0, particleCountMC=0,
-  timestamp_ns=0, timestamp_s=0, code=0,old_t_s,old_t_ns,dt1_s=0,dt1_ns=0;
+  Int_t  gtid=0, mcid=0,totNHIT=0, nhits=0, veto_hit=0, particleCountMC=0,
+    timestamp_ns=0, timestamp_s=0, code=0,old_t_s,old_t_ns,dt1_s=0,dt1_ns=0,
+    totVHIT=0,inner_hit=0;
   Double_t  totPE=0., n9=0., _goodness=0., _dirGoodness=0., x=0., y=0., z=0.,
   u=0., v=0., w=0., mcX=0., mcY=0., mcZ=0., mcU=0., mcV=0.,
   mcW=0.,closestPMT=0.,mc_energy=0.;
   Double_t dxx=0.,dyy=0.,dzz=0.,dxmcx=0.,dymcy=0.,dzmcz=0.,dt1=0.,dt0=0.;
   Double_t prev_x = -1e9,prev_y= -1e9,prev_z= -1e9, old_t,p2W,p2ToB;
-
+  
   TTree *data = new TTree("data","low-energy detector triggered events");
   //Define the Integer Tree Leaves
   data->Branch("gtid",&gtid,"gtid/I");
@@ -102,8 +108,10 @@ int main(int argc, char **argv) {
   data->Branch("nhit",&nhits,"nhit/I");
   data->Branch("timestamp_s",&timestamp_s,"timestamp_s/I");
   data->Branch("timestamp_ns",&timestamp_ns,"timestamp_ns/I");
+  data->Branch("inner_hit",&inner_hit,"inner_hit/I");//inner detector    
   data->Branch("id_plus_dr_hit",&totNHIT,"id_plus_dr_hit/I");//Inner detector plus dark rate hits
-  data->Branch("od_hit",&od_hit,"od_hit/I");//Inner detector plus dark rate hits
+  data->Branch("veto_hit",&veto_hit,"veto_hit/I");//veto detector
+  data->Branch("veto_plus_dr_hit",&totVHIT,"veto_plus_dr_hit/I");//veto detector plus dark rate hits  
   //Define the double Tree Leaves
   data->Branch("pe",&totPE,"pe/D");
   data->Branch("n9",&n9,"n9/D");
@@ -131,12 +139,11 @@ int main(int argc, char **argv) {
   runSummary->Branch("subEventTally",subEventTally,"subEventTally[20]/I");
 
 
-
   TFile *f = new TFile(argv[1]);
   TTree *T = (TTree*) f->Get("T");
   TTree *runT = (TTree*) f->Get("runT");
   if (T==0x0 || runT==0x0){
-    return -1;
+   return -1;
   }
 
   TFile *out=new TFile(argv[2],"RECREATE");
@@ -164,10 +171,10 @@ int main(int argc, char **argv) {
   likelihood  *bslike;
   goodness    *bsgdn;
   fourhitgrid *bsgrid;
-  int         cables[500];
-  int	      cables_win[500];
-  float       times[500];
-  float       charges[500];
+  int         cables[500],veto_cables[500];
+  int	      cables_win[500],veto_cables_win[500];
+  float       times[500],veto_times[500];
+  float       charges[500],veto_charges[500];
 
   RAT::DS::Run *run = new RAT::DS::Run();
   runT->SetBranchAddress("run", &run);
@@ -185,25 +192,55 @@ int main(int argc, char **argv) {
   {
     int   i,n;
     n=pmtinfo->GetPMTCount();
-    float xyz[3*n+1];
-
-    printf("have %d PMTs in WATCHMAN\n",n);
-    for(i=0; i<n; i++)
-    {
-      TVector3 pos=pmtinfo->GetPosition(i);
-      xyz[3*i]=pos[0]*0.1;
-      xyz[3*i+1]=pos[1]*0.1;
-      xyz[3*i+2]=pos[2]*0.1;
-      if(pos[0]>pmtBoundR){
-        pmtBoundR = pos[0];
+    totInner = 0; totVeto =0;
+    int count=0;
+ 
+    //Determines the number of inner and veto pmts
+    for(i=0; i<n; i++){
+      if(pmtinfo->GetType(i)==innerPMTcode){
+	totInner+=1;
       }
-      if(pos[2]>pmtBoundZ){
-        pmtBoundZ = pos[2];
+      else if(pmtinfo->GetType(i)==vetoPMTcode){
+	totVeto+=1;
+      }
+      else{
+	printf("PMT does not have valid identifier: %d \n",pmtinfo->GetType(i));
       }
     }
-    printf("PMT boundary (r,z):(%4.1f mm %4.1f, mm)\n",pmtBoundR,pmtBoundZ);
+    if (n != (totInner+totVeto))
+      printf("Mis-match in total PMT numbers: %d, %d \n",n, totInner+totVeto);
 
-    bsgeom=new pmt_geometry(n,xyz);
+    
+    int inpmt= totInner;
+    float xyz[3*inpmt+1];
+    
+
+    printf("In total there are  %d PMTs in WATCHMAN\n",n);
+    
+    for(i=0; i<n; i++)
+    {
+      if(pmtinfo->GetType(i)==innerPMTcode){
+        TVector3 pos=pmtinfo->GetPosition(i);
+        xyz[3*count]=pos[0]*0.1;
+        xyz[3*count+1]=pos[1]*0.1;
+        xyz[3*count+2]=pos[2]*0.1;
+        if(pos[0]>pmtBoundR){
+          pmtBoundR = pos[0];
+        }
+        if(pos[2]>pmtBoundZ){
+          pmtBoundZ = pos[2];
+        }
+	count++;
+      }
+    }
+    
+    printf("There are %d inner pmts and %d veto pmts \n ",totInner,totVeto);
+    printf("Inner PMT boundary (r,z):(%4.1f mm %4.1f, mm)\n",pmtBoundR,pmtBoundZ);
+
+    if (count!= totInner)
+      printf("There is a descreptancy in inner PMTS %d vs %d",count,totInner);
+
+    bsgeom=new pmt_geometry(inpmt,xyz);
     bslike=new likelihood(bsgeom->cylinder_radius(),bsgeom->cylinder_height());
     bsfit=new bonsaifit(bslike);
   }
@@ -252,33 +289,55 @@ int main(int argc, char **argv) {
       mct[i] = prim->GetTime()-ev->GetDeltaT();//200 offset
 
       int hit,nhit=ev->GetPMTCount();
-      nhits = nhit;
+      int count = 0;
+      int veto_count =0;
       // loop over all PMT hits for each subevent
       for(hit=0; hit<nhit; hit++)
       {
         RAT::DS::PMT *pmt=ev->GetPMT(hit);
-        cables[hit]=pmt->GetID()+1;
-        times[hit]=pmt->GetTime()+offsetT;
-        charges[hit]=pmt->GetCharge();
+	id = pmt->GetID();
+	//only use information from the inner pmts
+	if(pmtinfo->GetType(id) == innerPMTcode){
+          cables[count]=pmt->GetID()+1;
+          times[count]=pmt->GetTime()+offsetT;
+          charges[count]=pmt->GetCharge();
+	  count++;
+	}
+	else if(pmtinfo->GetType(id)== vetoPMTcode){
+	  veto_cables[veto_count]=pmt->GetID()+1;
+	  veto_times[veto_count]=pmt->GetTime()+offsetT;
+          veto_charges[veto_count]=pmt->GetCharge();
+	  veto_count++;
+	}  
+	else
+	  printf("Unidentified PMT type: (%d,%d) \n",count,pmtinfo->GetType(id));
       } // end of loop over all PMT hits
-
-      int npmt=pmtinfo->GetPMTCount();
+      veto_hit = veto_count;
+      inner_hit = count;
+      nhit = count;
+      // if (count != totInner){
+	//	printf("Discreptancy in inner PMTs %d counted %d recorded \n", count,totInner);
+	// }
+      //Inner PMT Dark Rate
+      int npmt=totInner;
       float darkrate=darkNoise*npmt;
       float tmin=minT+offsetT;
       float tmax= maxT+offsetT;
       int ndark,darkhit;
-      ndark=rnd.Poisson((tmax-tmin)*1e-9*darkrate);
-
+      ndark=rnd.Poisson((int)((tmax-tmin)*1e-9*darkrate));
+     
+      
+      //int inhit= count;
       //loop over (randomly generated) dark hits and
       //assign random dark rate where event rate is 
-      //below dark rate
+      //below dark rate for the inner detector
       for(darkhit=0; darkhit<ndark; darkhit++)
       {
-        int darkcable=(int) (npmt*rnd.Rndm()+1);
+        int darkcable= (int)(npmt*rnd.Rndm()+1);
         float darkt=tmin+(tmax-tmin)*rnd.Rndm();
-	// loop over all PMT hits
+	// loop over all inner PMT hits
         for(hit=0; hit<nhit; hit++)
-        if (cables[hit]==darkcable) break;
+          if (cables[hit]==darkcable) break;
         if (hit==nhit)
         {
           cables[hit]=darkcable;
@@ -290,31 +349,77 @@ int main(int argc, char **argv) {
         {
           if (darkt<times[hit]) times[hit]=darkt;
           charges[hit]++;
-        } //end of loop over all PMT hits
-      } // end of loop over dark hits
-
+        } //end of loop over all inner  PMT hits
+      } // end of loop over inner dark hits
+      //Veto PMT
+      //Inner PMT Dark Rate                                                                                                                                                                            
+      
+      npmt=totVeto;
+      darkrate=darkNoise*npmt;
+      ndark=rnd.Poisson((tmax-tmin)*1e-9*darkrate);
+      int vhit= veto_count;
+      //loop over (randomly generated) dark hits and                                                                                                        
+      //assign random dark rate where event rate is                                                                                                      
+      //below dark rate for the veto detector                                                                                                              
+      for(darkhit=0; darkhit<ndark; darkhit++)
+      {
+        int darkcable=(int) (npmt*rnd.Rndm()+1);
+        float darkt=tmin+(tmax-tmin)*rnd.Rndm();
+        // loop over all inner PMT hits                                                                                                                                                                                               
+        for(hit=0; hit<vhit; hit++)
+          if (veto_cables[hit]==darkcable) break;
+        if (hit==vhit)
+        {
+          veto_cables[hit]=darkcable;
+          veto_times[hit]=darkt;
+          veto_charges[hit]=1;
+          vhit++;
+        }
+        else
+        {
+          if (darkt<veto_times[hit]) veto_times[hit]=darkt;
+          veto_charges[hit]++;
+        } //end of loop over all veto  PMT hits                                                                                                                                                                                      
+      } // end of loop over vetp dark hits 
+      totVHIT= vhit;
+      totNHIT= nhit;
+       //Determines how many events before crash                                                                           
+      crash_count++;
+      
       // loop over all PMT hits for distance to PMT from vertex
       double dx,dy,dz,dr,dt;
+      count=0;
+     
       for(hit=0; hit<nhit; hit++)
       {
-        int id=cables[hit]-1;
-        TVector3 pos=pmtinfo->GetPosition(id);
-        dx=(pos[0]-mcx[i])*0.1;
-        dy=(pos[1]-mcy[i])*0.1;
-        dz=(pos[2]-mcz[i])*0.1;
-        dr=sqrt(dx*dx+dy*dy+dz*dz);
-        dt=times[hit]-offsetT-dr/21.8-mct[i];
-        // ttof.Fill(dt,1);
+	id=cables[count]-1;
+	if (pmtinfo->GetType(id)==innerPMTcode){	  
+          TVector3 pos=pmtinfo->GetPosition(id);
+	  dx=(pos[0]-mcx[i])*0.1;
+          dy=(pos[1]-mcy[i])*0.1;
+          dz=(pos[2]-mcz[i])*0.1;
+          dr=sqrt(dx*dx+dy*dy+dz*dz);
+	  dt=times[count]-offsetT-dr/21.8-mct[i];
+	  count++;
+
+	}
+      
+	// ttof.Fill(dt,1);
         // tofvsdr.Fill(dr,dt,1);//times[hit]-offsetT-mct[i],1);
         // dtvsdr.Fill(dr,dt,1);
       } //end of loop over all PMT hits
 
+      
+	
       bsgdn=new goodness(bslike->sets(),bslike->chargebins(),
       bsgeom,nhit,cables,times,charges);
       bsgrid=new fourhitgrid(bsgeom->cylinder_radius(),bsgeom->cylinder_height(),
       bsgdn);
       bslike->set_hits(bsgdn);
       bslike->maximize(bsfit,bsgrid);
+      
+    
+    
       // printf("MC %4d: %7.1lf %7.1lf %7.1lf %5.1lf\n",i,
       // mcx[i],mcy[i],mcz[i],mct[i]);
       // printf("BONSAI:  %7.1lf %7.1lf %7.1lf %5.1lf\n",
@@ -323,11 +428,11 @@ int main(int argc, char **argv) {
 
       mcX = mcx[i];mcY = mcy[i];mcZ = mcz[i];
       x= 10.*bsfit->xfit();y= 10.*bsfit->yfit();z= 10.*bsfit->zfit();
-
+     
       dx=10*bsfit->xfit()-mcx[i];
       dy=10*bsfit->yfit()-mcy[i];
       dz=10*bsfit->zfit()-mcz[i];
-
+      
       // bonsaidx.Fill(dx,1);
       // bonsaidy.Fill(dy,1);
       // bonsaidz.Fill(dz,1);
