@@ -56,9 +56,10 @@ G4VPhysicalVolume *GeoWatchmanShieldFactory::Construct(DBLinkPtr table) {
     G4double detSizeZ = table->GetD("detector_size_z");
     G4double detSizeD = table->GetD("detector_size_d");
 
-    G4double shieldThickness = table->GetD("shield_thickness");
+    G4double shieldThickness = table->GetD("veto_thickness_r");
     G4double cablePosRadius = detSizeD/2.0-shieldThickness;
-    G4double sideHeight = detSizeZ-2.*shieldThickness;
+    G4double heightThickness = table->GetD("veto_thickness_z");
+    G4double sideHeight = detSizeZ-2.*heightThickness;
     G4Material *frameMaterial = G4Material::GetMaterial(table->GetS("frame_material"));
     G4OpticalSurface *insideSurface = GetSurface(table->GetS("inside_surface"));
     G4OpticalSurface *outsideSurface = GetSurface(table->GetS("outside_surface"));

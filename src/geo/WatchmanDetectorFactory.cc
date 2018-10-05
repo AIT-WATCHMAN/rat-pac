@@ -33,15 +33,16 @@ namespace RAT {
 
         DBLinkPtr shield              = db->GetLink("GEO","shield");
         const double steel_thickness  = shield->GetD("steel_thickness");
-        const double shield_thickness = shield->GetD("shield_thickness");
+        const double veto_thickness_r = shield->GetD("veto_thickness_r");//Distance between TANK and Inner PMT
         const double detector_size_d  = shield->GetD("detector_size_d");
-	      const double detector_size_z  = shield->GetD("detector_size_z");
+	const double veto_thickness_z = shield->GetD("veto_thickness_z");//Distance between TANK and Inner PMT
+        const double detector_size_z  = shield->GetD("detector_size_z");
 
-        const double cable_radius = detector_size_d/2.0 - shield_thickness + 4.0*steel_thickness;
-        const double pmt_radius = detector_size_d/2.0 - shield_thickness - 4.0*steel_thickness;
+        const double cable_radius = detector_size_d/2.0 - veto_thickness_r + 4.0*steel_thickness;
+        const double pmt_radius = detector_size_d/2.0 - veto_thickness_r - 4.0*steel_thickness;
         const double veto_radius = pmt_radius + veto_offset;
 
-        const double topbot_offset = detector_size_z/2.0 - shield_thickness;
+        const double topbot_offset = detector_size_z/2.0 - veto_thickness_z;
         const double topbot_veto_offset = topbot_offset + veto_offset;
 
         const double surface_area = 2.0*M_PI*pmt_radius*pmt_radius + 2.0*topbot_offset*2.0*M_PI*pmt_radius;

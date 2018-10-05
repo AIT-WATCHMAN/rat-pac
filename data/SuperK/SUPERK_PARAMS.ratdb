@@ -13,7 +13,7 @@ veto_coverage: 0.02,
 
 
 /*steel_thickness: 25.4, 
-shield_thickness: 1000.,
+veto_thickness_r: 1000.,
 detector_size_r: ,
 detector_size_z: */
 
