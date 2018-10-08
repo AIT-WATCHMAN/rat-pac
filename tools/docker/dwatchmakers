@@ -2,7 +2,7 @@
 ##echo "$1 $2 $3"
 
 if test "$1" == "tag"; then
-  docker run -u `id -u $USER` --rm -w=/container -v $PWD:/container/ -it aitwatchman/simulation:$2    /usr/bin/python /src/watchmakers/watchmakers.py --docker ${@:3}
+  docker run  --rm -w=/container -v $PWD:/container/ -it aitwatchman/simulation:$2    /usr/bin/python /src/watchmakers/watchmakers.py --docker ${@:3}
 else
-  docker run -u `id -u $USER` --rm -w=/container -v $PWD:/container/ -it aitwatchman/simulation:latest /usr/bin/python /src/watchmakers/watchmakers.py --docker $*
+  docker run  --rm -w=/container -v $PWD:/container/ -it aitwatchman/simulation:latest /usr/bin/python /src/watchmakers/watchmakers.py --docker $*
 fi
