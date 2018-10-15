@@ -4,15 +4,38 @@ open -a XQuartz
 ip=$ifconfig en0 | grep inet | awk '$1=="inet" {print $2}'
 xhost + $ip
 xhost +local:docker
-if test "$#" -eq 1; then  
-	docker run -u `id -u $USER` --rm  -w=/container -v $PWD:/container/  --env DISPLAY=$ip:0 --env RATROOT:/src/rat-pac --volume /tmp/.X11-unix:/tm/.X11-unix -it aitwatchman/simulation:latest  /src/rat-pac/bin/rat /container/$1 
-fi
-if test "$#" -eq 2; then
-        docker run -u `id -u $USER` --rm  -w=/container -v $PWD:/container/  --env DISPLAY=$ip:0 --env RATROOT:/src/rat-pac --volume /tmp/.X11-unix:/tm/.X11-unix -it aitwatchman/simulation:latest  /src/rat-pac/bin/rat /container/$1 -o /container/$2
-fi
-if test "$#" -eq 3; then
-        docker run -u `id -u $USER` --rm  -w=/container -v $PWD:/container/  --env DISPLAY=$ip:0 --env RATROOT:/src/rat-pac --volume /tmp/.X11-unix:/tm/.X11-unix -it aitwatchman/simulation:latest  /src/rat-pac/bin/rat /container/$1 -o /container/$2 -l /container/$3
-fi
-if test "$#" -eq 0; then
-	docker run -u `id -u $USER` --rm  -w=/container -v $PWD:/container/  --env DISPLAY=$ip:0 --env RATROOT:/src/rat-pac --volume /tmp/.X11-unix:/tm/.X11-unix -it aitwatchman/simulation:latest  /src/rat-pac/bin/rat 
-fi
+
+case "$(uname -s)" in
+    Darwin)
+     echo 'Mac OS X'
+     if test "$#" -eq 1; then  
+	 docker run  --rm  -w=/container -v $PWD:/container/  --env DISPLAY=$ip:0 --env RATROOT:/src/rat-pac --volume /tmp/.X11-unix:/tm/.X11-unix -it aitwatchman/simulation:latest  /src/rat-pac/bin/rat /container/$1 
+     fi
+     if test "$#" -eq 2; then
+         docker run  --rm  -w=/container -v $PWD:/container/  --env DISPLAY=$ip:0 --env RATROOT:/src/rat-pac --volume /tmp/.X11-unix:/tm/.X11-unix -it aitwatchman/simulation:latest  /src/rat-pac/bin/rat /container/$1 -o /container/$2
+     fi
+     if test "$#" -eq 3; then
+         docker run --rm  -w=/container -v $PWD:/container/  --env DISPLAY=$ip:0 --env RATROOT:/src/rat-pac --volume /tmp/.X11-unix:/tm/.X11-unix -it aitwatchman/simulation:latest  /src/rat-pac/bin/rat /container/$1 -o /container/$2 -l /container/$3
+     fi
+     if test "$#" -eq 0; then
+	 docker run  --rm  -w=/container -v $PWD:/container/  --env DISPLAY=$ip:0 --env RATROOT:/src/rat-pac --volume /tmp/.X11-unix:/tm/.X11-unix -it aitwatchman/simulation:latest  /src/rat-pac/bin/rat 
+     fi
+     ;;
+
+ 
+    Linux)
+     echo 'Linux Enviorment'
+     if test "$#" -eq 1; then
+         docker run -u `id -u $USER` --rm  -w=/container -v $PWD:/container/  --env DISPLAY=$ip:0 --env RATROOT:/src/rat-pac --volume /tmp/.X11-unix:/tm/.X11-unix -it aitwatchman/simulation:latest  /src/rat-pac/bin/rat /container/$1
+     fi
+     if test "$#" -eq 2; then
+         docker run -u `id -u $USER` --rm  -w=/container -v $PWD:/container/  --env DISPLAY=$ip:0 --env RATROOT:/src/rat-pac --volume /tmp/.X11-unix:/tm/.X11-unix -it aitwatchman/simulation:latest  /src/rat-pac/bin/rat /container/$1 -o /container/$2
+     fi
+     if test "$#" -eq 3; then
+         docker run -u `id -u $USER` --rm  -w=/container -v $PWD:/container/  --env DISPLAY=$ip:0 --env RATROOT:/src/rat-pac --volume /tmp/.X11-unix:/tm/.X11-unix -it aitwatchman/simulation:latest  /src/rat-pac/bin/rat /container/$1 -o /container/$2 -l /container/$3
+     fi
+     if test "$#" -eq 0; then
+         docker run -u `id -u $USER` --rm  -w=/container -v $PWD:/container/  --env DISPLAY=$ip:0 --env RATROOT:/src/rat-pac --volume /tmp/.X11-unix:/tm/.X11-unix -it aitwatchman/simulation:latest  /src/rat-pac/bin/rat
+     fi
+     ;;
+esac
