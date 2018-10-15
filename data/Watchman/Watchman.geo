@@ -12,7 +12,7 @@ invisible: 1,
 
 ///////////////////// Define the rock volumes. Thin slab of rock is assumed ////////////////////////
 
-//Create a 1-m thick slab around a cylindrical cavern
+//Create a 1-m rock layer around a cylindrical cavern
 {
 name: "GEO",
 index: "rock_1",
@@ -20,58 +20,42 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "world", // world volume has no mother
 type: "tube",
-r_max: 13500.0,
-size_z: 13500.0,
-position: [0.0, 0.0, 0.0],
-material: "rock", //rock?
+r_max: 14000.00, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
+size_z: 13750.00,
+position: [0.0, 0.0, -250.0], //this will allow for the concrete layer on the floor and not on the ceiling
+material: "rock",
 invisible: 1,
 }
 
 
-//Create a 1-m thick slab around a cylindrical cavern- Part 2
+//Create a 0.5m concrete layer on the walls and base
 {
 name: "GEO",
-index: "gunite",
+index: "concrete", // changed from "gunite" for updated design (L. Kneale)
 valid_begin: [0, 0],
 valid_end: [0, 0],
-mother: "rock_1", // world volume has no mother
+mother: "rock_1",
 type: "tube",
-r_max: 12510.0,
-size_z: 12510.0,
-position: [0.0, 0.0, 0.0],
-material: "gunite", //rock?
+r_max: 13000.0, // changed to incorporate 0.5m layer of concrete on walls (L.Kneale) (cavern size is 25m i.e. 12.5m radius)
+size_z: 12751.0, // the extraneous mm ensures that the cavern volume is enclosed by the "concrete" mother volume
+position: [0.0, 0.0, -250.0], // this will give a concrete layer on the floor and not on the ceiling
+material: "concrete", // changed from "gunite" (L. Kneale)
 invisible: 1,
 }
 
 
-//Create a 1-m thick slab around a cylindrical cavern- Part 2
-{
-name: "GEO",
-index: "concrete",
-valid_begin: [0, 0],
-valid_end: [0, 0],
-mother: "gunite", // world volume has no mother
-type: "tube",
-r_max: 12505.0,
-size_z: 5.0,
-position: [0.0, 0.0, -12505.0],
-material: "concrete", //rock?
-invisible: 1,
-}
-
-
-//Create a 1-m thick slab around a cylindrical cavern- Part 2
+//Create the cavern space between the tank and concrete
 {
 name: "GEO",
 index: "cavern",
 valid_begin: [0, 0],
 valid_end: [0, 0],
-mother: "gunite", // world volume has no mother
+mother: "concrete",
 type: "tube",
 r_max: 12500.0,
 size_z: 12500.0,
 position: [0.0, 0.0, 0.0],
-material: "air", //rock?
+material: "air",
 invisible: 1,
 }
 
