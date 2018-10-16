@@ -22,7 +22,7 @@ mother: "world", // world volume has no mother
 type: "tube",
 r_max: 14000.00, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
 size_z: 13750.00,
-position: [0.0, 0.0, -250.0], //this will allow for the concrete layer on the floor and not on the ceiling
+position: [0.0, 0.0, 0.0], //this will allow for the concrete layer on the floor and not on the ceiling
 material: "rock",
 invisible: 1,
 }
@@ -54,7 +54,7 @@ mother: "concrete",
 type: "tube",
 r_max: 12500.0,
 size_z: 12500.0,
-position: [0.0, 0.0, 0.0],
+position: [0.0, 0.0, 250.0],
 material: "air",
 invisible: 1,
 }
