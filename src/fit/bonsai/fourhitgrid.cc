@@ -468,5 +468,5 @@ fourhitgrid::fourhitgrid(void *buffer,double r,double z,hitsel *hits):
       sparsify(bongrid());
     }
   return;
-};
+}
  
