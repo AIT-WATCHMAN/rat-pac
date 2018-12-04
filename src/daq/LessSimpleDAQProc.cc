@@ -95,9 +95,12 @@ namespace RAT {
         for (int kk = 0; kk<nSubEvents; kk++) {
             DS::EV *ev = ds->AddNewEV();
             DS::PMT* pmt;
-            if(kk>0){
-                ev->SetDeltaT(clusterTime[kk]-clusterTime[kk-1]);
-            }
+            //if(kk>0){
+            //    ev->SetDeltaT(clusterTime[kk]-clusterTime[kk-1]);
+            //}
+            // Change by F. Sutanto
+	    if( kk == 0 ){ ev->SetDeltaT(clusterTime[kk]); }
+	    else{ ev->SetDeltaT(clusterTime[kk]-clusterTime[kk-1]); }
             ev->SetCalibratedTriggerTime((clusterTime[kk]));
             ev->SetID(kk);//fEventCounter
 //            ev->SetUniqueID(fEventCounter);
