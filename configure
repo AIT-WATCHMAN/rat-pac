@@ -30,6 +30,7 @@ cat > env.csh <<EOF
 setenv RATROOT $ratroot
 setenv PATH "\$RATROOT/bin:\$PATH"
 setenv PATH "\$RATROOT/tools/bonsai:\$PATH"
+setenv PATH "\$RATROOT/tools/visualizer:\$PATH"
 if ({\$?LD_LIBRARY_PATH}) then
   setenv LD_LIBRARY_PATH "\${RATROOT}/lib:\$LD_LIBRARY_PATH"
 else
