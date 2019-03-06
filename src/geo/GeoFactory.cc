@@ -129,6 +129,13 @@ GeoFactory::ConstructPhysicalVolume(G4LogicalVolume *logi,
     position.setZ(posvector[2] * CLHEP::mm);
   } catch (DBNotFoundError &e) { };
 
+  try { position.setX( table->GetD("posx") * CLHEP::mm ); }
+  catch (DBNotFoundError &e) { };
+  try { position.setY( table->GetD("posy") * CLHEP::mm ); }
+  catch (DBNotFoundError &e) { };
+  try { position.setZ( table->GetD("posz") * CLHEP::mm ); }
+  catch (DBNotFoundError &e) { };
+
   pv = new G4PVPlacement(rotation, position, logi, volume_name,
                          mother, false /*?*/, 0 /*?*/);
 
