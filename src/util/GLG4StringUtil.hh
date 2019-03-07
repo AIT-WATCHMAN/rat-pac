@@ -30,28 +30,28 @@
 // For example, using the hash representation of 0 in hex with width=4 gives: 16#0000 - so there's 4 digits in the number part
 
 std::string util_to_string(bool i,           unsigned radix = 10, radix_display_t display = radix_c_style_or_hash, unsigned width = 0)
-  throw(std::invalid_argument);
+  throw();
 
 std::string util_to_string(short i,          unsigned radix = 10, radix_display_t display = radix_c_style_or_hash, unsigned width = 0)
-  throw(std::invalid_argument);
+  throw();
 
 std::string util_to_string(unsigned short i, unsigned radix = 10, radix_display_t display = radix_c_style_or_hash, unsigned width = 0)
-  throw(std::invalid_argument);
+  throw();
 
 std::string util_to_string(int i,            unsigned radix = 10, radix_display_t display = radix_c_style_or_hash, unsigned width = 0)
-  throw(std::invalid_argument);
+  throw();
 
 std::string util_to_string(unsigned int i,   unsigned radix = 10, radix_display_t display = radix_c_style_or_hash, unsigned width = 0)
-  throw(std::invalid_argument);
+  throw();
 
 std::string util_to_string(long i,           unsigned radix = 10, radix_display_t display = radix_c_style_or_hash, unsigned width = 0)
-  throw(std::invalid_argument);
+  throw();
 
 std::string util_to_string(unsigned long i,  unsigned radix = 10, radix_display_t display = radix_c_style_or_hash, unsigned width = 0)
-  throw(std::invalid_argument);
+  throw();
 
 std::string util_to_string(const void*,      unsigned radix = 16, radix_display_t display = radix_c_style_or_hash, unsigned width = 0)
-  throw(std::invalid_argument);
+  throw();
 
 ////////////////////////////////////////////////////////////////////////////////
 // convert a real type to string
@@ -63,9 +63,9 @@ std::string util_to_string(const void*,      unsigned radix = 16, radix_display_
 // Using any other value for the display type causes std::invalid_argument to be thrown
 
 std::string util_to_string(float f,  real_display_t display = display_mixed, unsigned width = 0, unsigned precision = 6)
-  throw(std::invalid_argument);
+  throw();
 std::string util_to_string(double f, real_display_t display = display_mixed, unsigned width = 0, unsigned precision = 6)
-  throw(std::invalid_argument);
+  throw();
 
 ////////////////////////////////////////////////////////////////////////////////
 // convert a string to a simple type
@@ -81,36 +81,36 @@ std::string util_to_string(double f, real_display_t display = display_mixed, uns
 // Any other value will cause std::invalid_argument to be thrown
 
 bool util_to_bool(const std::string& value, unsigned radix = 0)
-  throw(std::invalid_argument);
+  throw();
 
 short util_to_short(const std::string& value, unsigned radix = 0)
-  throw(std::invalid_argument);
+  throw();
 
 unsigned short util_to_ushort(const std::string& value, unsigned radix = 0)
-  throw(std::invalid_argument);
+  throw();
 
 int util_to_int(const std::string& value, unsigned radix = 0)
-  throw(std::invalid_argument);
+  throw();
 
 unsigned int util_to_uint(const std::string& value, unsigned radix = 0)
-  throw(std::invalid_argument);
+  throw();
 
 long util_to_long(const std::string& value, unsigned radix = 0)
-  throw(std::invalid_argument);
+  throw();
 
 unsigned long util_to_ulong(const std::string& value, unsigned radix = 0)
-  throw(std::invalid_argument);
+  throw();
 
 void* util_to_void_star(const std::string& value, unsigned radix = 0)
-  throw(std::invalid_argument);
+  throw();
 
 // Convert a floating-point type
 
 float util_to_float(const std::string& value)
-  throw(std::invalid_argument);
+  throw();
 
 double util_to_double(const std::string& value)
-  throw(std::invalid_argument);
+  throw();
 
 ////////////////////////////////////////////////////////////////////////////////
 // Perl-inspired split/join functions
