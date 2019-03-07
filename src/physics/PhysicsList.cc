@@ -1,6 +1,8 @@
 #include <string>
 #include <stdexcept>
 #include <Shielding.hh>
+// Required for G4 > 10.5
+#include <G4ParticleTypes.hh>
 #include <G4FastSimulationManagerProcess.hh>
 #include <G4OpticalPhoton.hh>
 #include <G4ParticleDefinition.hh>
