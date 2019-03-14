@@ -1,5 +1,5 @@
 BONSAI_DIR := build/linuxx8664gcc/fit/bonsai
-CSCONS := CXXFLAGS=-std=c++17 scons
+CSCONS := CXXFLAGS=-std=c++11 scons
 
 all: bonsai
 	$(CSCONS)
