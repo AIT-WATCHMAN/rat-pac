@@ -1,8 +1,11 @@
 BONSAI_DIR := build/linuxx8664gcc/fit/bonsai
 CSCONS := CXXFLAGS=-std=c++11 scons
+# Note: I plan to eventually get rid of scons and setup this makefile to
+# handle everything.
 
 all: bonsai
 	$(CSCONS)
+	ln -sf ../build/linuxx8664gcc/RAT_Dict_rdict.pcm lib/RAT_Dict_rdict.pcm
 
 bonsai:
 	mkdir -p $(BONSAI_DIR)
