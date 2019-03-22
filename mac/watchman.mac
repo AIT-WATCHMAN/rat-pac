@@ -7,11 +7,9 @@
 /run/initialize
 
 # BEGIN EVENT LOOP
-/rat/proc simpledaq
-/rat/proc fitbonsai
-/rat/proc fitcentroid
+/rat/proc lesssimpledaq
 /rat/proc count
-/rat/procset update 100
+/rat/procset update 10
 
 # Use IO.default_output_filename
 /rat/proclast outroot
