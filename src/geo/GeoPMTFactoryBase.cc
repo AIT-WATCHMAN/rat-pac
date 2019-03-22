@@ -391,6 +391,11 @@ namespace RAT {
         else
         BEffiTable=NULL;
 
+        bool parent_coord = false;
+        try {
+            parent_coord = table->GetI("use_parent_coordinates") != 0;
+        } catch (DBNotFoundError &e) { }
+
         //PMTINFO is always in global coordinates - so calculate the local offset first
         G4ThreeVector offset = G4ThreeVector(0.0,0.0,0.0);
         for (string parent_name = mother_name; parent_name != ""; ) {
@@ -410,7 +415,8 @@ namespace RAT {
 
             // position
             G4ThreeVector pmtpos(pmt_x[idx], pmt_y[idx], pmt_z[idx]);
-            pmtpos += offset;
+            if( !parent_coord )
+                pmtpos += offset;
             if (rescale_radius)
             pmtpos.setMag(new_radius);
 
