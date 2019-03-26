@@ -4,29 +4,24 @@
 /rat/db/set DETECTOR experiment "Watchman"
 /rat/db/set DETECTOR geo_file "Watchman/Watchman.geo"
 
-/rat/db/load Watchman/DecayChamber.geo
+# Visualize the calibration source
+#/rat/db/load Watchman/DecayChamber.geo
 #/rat/db/set GEO[sourcecan] posz 10000.0
 
 /run/initialize
-
-/process/activate Cerenkov
 
 /vis/open OGLSQt
 /vis/scene/create
 /vis/scene/add/volume
 /vis/sceneHandler/attach
-/vis/scene/add/trajectories
-/vis/drawVolume
+/vis/viewer/set/upVector 0.0 0.0 1.0
+/vis/viewer/set/viewpointThetaPhi -90 135 
+/vis/viewer/set/style s
+/vis/viewer/flush
 
 ## Cut a plane through the detector
-/vis/viewer/addCutawayPlane 0 0 0 cm 1 0 0
-#/vis/viewer/addCutawayPlane 0 -100 0 cm 0 1 0
-/tracking/storeTrajectory 1
+#/vis/viewer/addCutawayPlane 0 0 0 cm 1 0 0
+/vis/viewer/addCutawayPlane 0 -100 0 cm 0 1 0
 #/vis/viewer/set/viewpointThetaPhi -90 0
 #/vis/viewer/zoomTo 10
 #/vis/viewer/panTo 10 0
-
-#/generator/add combo gun2:fill
-#/generator/vtx/set e- 0 0 0 0 5.0 5.0
-#/generator/pos/set sourceblock
-#/run/beamOn 1
