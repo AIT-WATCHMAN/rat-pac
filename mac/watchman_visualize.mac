@@ -2,10 +2,11 @@
 /glg4debug/glg4param omit_hadronic_processes 1.0
 
 /rat/db/set DETECTOR experiment "Watchman"
-/rat/db/set DETECTOR geo_file "Watchman/Watchman.geo"
+/rat/db/set DETECTOR detector_factory "Watchman"
+/rat/db/set WATCHMAN_PARAMS photocathode_coverage 0.25
 
 # Visualize the calibration source
-#/rat/db/load Watchman/DecayChamber.geo
+/rat/db/load Watchman/DecayChamber.geo
 #/rat/db/set GEO[sourcecan] posz 10000.0
 
 /run/initialize
@@ -20,8 +21,8 @@
 /vis/viewer/flush
 
 ## Cut a plane through the detector
-#/vis/viewer/addCutawayPlane 0 0 0 cm 1 0 0
-/vis/viewer/addCutawayPlane 0 -100 0 cm 0 1 0
+/vis/viewer/addCutawayPlane 0 0 0 cm 1 0 0
+#/vis/viewer/addCutawayPlane 0 -100 0 cm 0 1 0
 #/vis/viewer/set/viewpointThetaPhi -90 0
 #/vis/viewer/zoomTo 10
 #/vis/viewer/panTo 10 0
