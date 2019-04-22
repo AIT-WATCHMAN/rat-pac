@@ -63,7 +63,7 @@ public:
 // infrastructure - don't use directly
 
 void _debug_global(const char* file, int line, const char* function, bool state = true);
-void _debug_assert_fail(const char* file, int line, const char* function, const char* test) throw(assert_failed);
+void _debug_assert_fail(const char* file, int line, const char* function, const char* test) throw();
 
 class _debug_trace
 {
