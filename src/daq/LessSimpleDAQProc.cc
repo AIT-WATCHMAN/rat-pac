@@ -31,7 +31,7 @@ namespace RAT {
         int nSubEvents = 0;
         double timeWindow  = 800., oldGroup;
         
-        cout <<"New Event====================================" << endl;
+        //cout <<"New Event====================================" << endl;
         // First part is to load into vector PMT information for full event
         vector <double> timeAndChargeAndID;
         vector<vector <double> > pmtARRAY;
@@ -51,7 +51,7 @@ namespace RAT {
                     timeAndChargeAndID.resize(0);
                     
                     //printf("%4.3e\n",mcpmt->GetMCPhoton(i)->GetFrontEndTime()-mcpmt->GetMCPhoton(i)->GetHitTime());
-                    cout << "(time,charge,id): ("<<mcpmt->GetMCPhoton(i)->GetFrontEndTime()<<","<<mcpmt->GetMCPhoton(i)->GetCharge()<<","<<mcpmt->GetID()<<")"<<endl;
+                    //cout << "(time,charge,id): ("<<mcpmt->GetMCPhoton(i)->GetFrontEndTime()<<","<<mcpmt->GetMCPhoton(i)->GetCharge()<<","<<mcpmt->GetID()<<")"<<endl;
                 }
             }
         }
@@ -63,10 +63,10 @@ namespace RAT {
         
         //get the number odd subevent
         //and tally the cluster time of each subevent
-        cout <<"oooooooooooooooo sorted oooooooooooo" << endl;
+        //cout <<"oooooooooooooooo sorted oooooooooooo" << endl;
         for (unsigned long pmtIndex = 0; pmtIndex < pmtARRAY.size(); pmtIndex++) {
             
-            cout << "(time,charge,id): ("<<pmtARRAY[pmtIndex][0]<<","<< pmtARRAY[pmtIndex][1]<< "," << pmtARRAY[pmtIndex][2]<<")"<<endl;
+            //cout << "(time,charge,id): ("<<pmtARRAY[pmtIndex][0]<<","<< pmtARRAY[pmtIndex][1]<< "," << pmtARRAY[pmtIndex][2]<<")"<<endl;
             
             time = pmtARRAY[pmtIndex][0];
             oldGroup = 0;
