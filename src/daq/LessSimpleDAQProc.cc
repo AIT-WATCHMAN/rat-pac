@@ -31,6 +31,7 @@ namespace RAT {
         int nSubEvents = 0;
         double timeWindow  = 800., oldGroup;
         
+        cout <<"New Event====================================" << endl;
         // First part is to load into vector PMT information for full event
         vector <double> timeAndChargeAndID;
         vector<vector <double> > pmtARRAY;
@@ -49,7 +50,8 @@ namespace RAT {
                     pmtARRAY.push_back(timeAndChargeAndID);
                     timeAndChargeAndID.resize(0);
                     
-                    //                    printf("%4.3e\n",mcpmt->GetMCPhoton(i)->GetFrontEndTime()-mcpmt->GetMCPhoton(i)->GetHitTime());
+                    //printf("%4.3e\n",mcpmt->GetMCPhoton(i)->GetFrontEndTime()-mcpmt->GetMCPhoton(i)->GetHitTime());
+                    cout << "(time,charge,id): ("<<mcpmt->GetMCPhoton(i)->GetFrontEndTime()<<","<<mcpmt->GetMCPhoton(i)->GetCharge()<<","<<mcpmt->GetID()<<")"<<endl;
                 }
             }
         }
@@ -59,7 +61,12 @@ namespace RAT {
         // Give an unrealistic time to compare to
         clusterTime.push_back(1000000000000000000);
         
+        //get the number odd subevent
+        //and tally the cluster time of each subevent
+        cout <<"oooooooooooooooo sorted oooooooooooo" << endl;
         for (unsigned long pmtIndex = 0; pmtIndex < pmtARRAY.size(); pmtIndex++) {
+            
+            cout << "(time,charge,id): ("<<pmtARRAY[pmtIndex][0]<<","<< pmtARRAY[pmtIndex][1]<< "," << pmtARRAY[pmtIndex][2]<<")"<<endl;
             
             time = pmtARRAY[pmtIndex][0];
             oldGroup = 0;
@@ -88,6 +95,8 @@ namespace RAT {
             }
         }
         // std::sort(clusterTime.begin(), clusterTime.end());
+        
+        
         
         timeTmp = 0.;
         int oldID = -1;
@@ -154,7 +163,7 @@ namespace RAT {
                     //if the PMT is not in the vector yet, add it to the vector
                     else{
                         idGroup.push_back( pmtARRAY[pmtIndex][2] );
-                        tGroup.push_back ( pmtARRAY[pmtIndex][0] );
+                        tGroup.push_back ( pmtARRAY[pmtIndex][0] - clusterTime[kk] );
                         qGroup.push_back ( pmtARRAY[pmtIndex][1] );
                     }
                     
