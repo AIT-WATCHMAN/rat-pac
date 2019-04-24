@@ -28,6 +28,10 @@
 
 #include "iostream"
 
+#include <G4Paraboloid.hh>
+#include <G4SubtractionSolid.hh>
+#include <G4VisAttributes.hh>
+
 using namespace std;
 
 namespace RAT {
@@ -86,6 +90,15 @@ namespace RAT {
         int    mu_metal       = table->GetI("mu_metal");
         bool   mumetalshields = false;
         if( mu_metal == 1 ){ mumetalshields = true; G4cout << "Mu metal shield is added!! \n "; }
+
+
+        //add light cone
+        int    light_cone       = table->GetI("light_cone");
+        bool   lightcones = false;
+        if( light_cone == 1 ){ lightcones = true; G4cout << "Light cones are added!! \n "; }
+        //
+        //
+        //
 
         PMTConstructionParams pmtParam;
         pmtParam.faceGap = 0.1 * CLHEP::mm;
@@ -218,6 +231,26 @@ namespace RAT {
                                            10.0*CLHEP::cm,
                                            0., CLHEP::twopi );
         G4LogicalVolume *mumetal_log=new G4LogicalVolume(mumetal_solid, pmtParam.dynode, "mumetal_log");
+
+
+
+
+
+	// Add Light cone geometry from Sheffield
+        G4Paraboloid* lightcone_outer = new G4Paraboloid("lightcone_outer",
+                                                        10.0*CLHEP::cm,
+                                                        0.5*27.3*CLHEP::cm,
+                                                        0.5*40*CLHEP::cm);
+        G4Paraboloid* lightcone_inner = new G4Paraboloid("lightcone_inner",
+                                                        12.0*CLHEP::cm,
+                                                        0.5*25.3*CLHEP::cm,
+                                                        0.5*38*CLHEP::cm);
+        G4SubtractionSolid* lightcone_solid = new G4SubtractionSolid("lightcone_solid",
+                                                                    lightcone_outer,
+                                                                    lightcone_inner);
+
+        G4LogicalVolume *lightcone_log=new G4LogicalVolume(lightcone_solid, G4Material::GetMaterial("TiO2"), "lightcone_log");
+
 
 
 
@@ -549,6 +582,25 @@ namespace RAT {
                  false,
                  id);
             }
+
+            G4RotationMatrix* lightconerot = new G4RotationMatrix();
+            lightconerot->rotateY(angle_y);
+            lightconerot->rotateX(angle_x);
+            //place the mumetal shields
+            G4ThreeVector offsetlightcone = /*G4ThreeVector(0.0, 0.0, 10.0*CLHEP::cm)*/ pmtdir * 9.5*CLHEP::cm;
+            G4ThreeVector lightconepos = pmtpos + offsetlightcone;
+            if (lightcones) {
+              new G4PVPlacement
+              (lightconerot,
+              lightconepos,
+              "mumetal_phys",
+              lightcone_log,
+              phys_mother,
+              false,
+              id);
+            }
+            
+
 
             if (!pmtParam.useEnvelope && logiWg) {
                 // If not using envelope volume, the waveguide must be placed in a separate
