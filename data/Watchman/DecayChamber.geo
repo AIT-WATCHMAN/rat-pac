@@ -73,7 +73,7 @@ valid_end: [0, 0],
 
 mother: "sourceair",
 type: "pmtarray",
-pmt_model: "morganPmt", //trigger pmt -- r7081pe
+pmt_model: "calibrationPmt", //trigger pmt -- r7081pe
 pmt_detector_type: "idpmt",
 sensitive_detector: "/mydet/pmt/trigger", 
 efficiency_correction: 1.000,
