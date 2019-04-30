@@ -38,7 +38,7 @@ valid_end: [0, 0],
 mother: "sourceair",
 type: "tube",
 
-material: "scintillator",
+material: "BGO_scint",
 position: [0.0, 0.0, -98.5],
 invisible: 0,
 r_max: 50.0,
