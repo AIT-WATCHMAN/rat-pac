@@ -10,6 +10,7 @@ all: bonsai
 bonsai:
 	mkdir -p $(BONSAI_DIR)
 	gfortran -c src/fit/bonsai/lfariadne.F -o $(BONSAI_DIR)/lfariadne.o
+	$(MAKE) -C tools/bonsai
 
 installdata:
 	$(CSCONS) installdata
