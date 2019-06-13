@@ -6,6 +6,7 @@ CSCONS := CXXFLAGS=-std=c++11 scons
 all: bonsai
 	$(CSCONS)
 	ln -sf ../build/linuxx8664gcc/RAT_Dict_rdict.pcm lib/RAT_Dict_rdict.pcm
+	$(MAKE) -C tools/bonsai
 
 bonsai:
 	mkdir -p $(BONSAI_DIR)

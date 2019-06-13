@@ -38,7 +38,7 @@ valid_end: [0, 0],
 mother: "sourceair",
 type: "tube",
 
-material: "scintillator",
+material: "BGO_scint",
 position: [0.0, 0.0, -98.5],
 invisible: 0,
 r_max: 50.0,
@@ -73,7 +73,7 @@ valid_end: [0, 0],
 
 mother: "sourceair",
 type: "pmtarray",
-pmt_model: "morganPmt", //trigger pmt -- r7081pe
+pmt_model: "calibrationPmt", //trigger pmt -- r7081pe
 pmt_detector_type: "idpmt",
 sensitive_detector: "/mydet/pmt/trigger", 
 efficiency_correction: 1.000,
