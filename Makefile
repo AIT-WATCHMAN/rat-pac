@@ -33,8 +33,7 @@ all: bonsai
 	$(CSCONS)
 
 	ln -sf ../$(OUT_DIR)/RAT_Dict_rdict.pcm lib/RAT_Dict_rdict.pcm
-
-
+	$(MAKE) -C tools/bonsai
 
 bonsai:
 
