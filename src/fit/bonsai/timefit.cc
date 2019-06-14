@@ -562,7 +562,7 @@ inline float timefit::makelike(int set,float &bg,float range)
   float llmax;
   int   i,nbg;
 
-  if ((sig<0) || (sig[set]>event_hits->nhits(set))) return(-1e10);
+  if ((sig[set]<0) || (sig[set]>event_hits->nhits(set))) return(-1e10);
   bg=(event_hits->nhits(set)-sig[set])/range;
   nbg=0;
   for(llmax=0,i=event_hits->first_hit(set); i<event_hits->beyond_last_hit(set); i++)
