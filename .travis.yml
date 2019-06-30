@@ -1,0 +1,12 @@
+install: pip install -r docs/requirements.txt
+script: cd doc && make html
+
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  keep-history: true
+  local-dir: doc/_build
+  target_branch: master
+  on:
+    branch: src
