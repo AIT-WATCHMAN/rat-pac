@@ -47,7 +47,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'RAT'
+project = u'RAT-PAC'
 copyright = u'2014, S. Seibert et al.'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -89,7 +89,7 @@ exclude_patterns = ['_build']
 #show_authors = False
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'sphinx'
+pygments_style = 'friendly'
 
 # A list of ignored prefixes for module index sorting.
 #modindex_common_prefix = []
@@ -111,8 +111,10 @@ html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
 html_theme_options = {
     "bootswatch_theme": "simplex",
     "navbar_sidebarrel": False,
-    "globaltoc_depth": 3,
+    "globaltoc_depth": 2,
 }
+
+html_sidebars = {"**": ["searchbox.html", "sidebartoc.html"]}
 
 # Add any paths that contain custom themes here, relative to this directory.
 #html_theme_path = []

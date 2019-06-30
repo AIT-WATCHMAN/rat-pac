@@ -1,4 +1,4 @@
-install: pip install -r docs/requirements.txt
+install: pip install -r doc/requirements.txt
 script: cd doc && make html
 
 deploy:

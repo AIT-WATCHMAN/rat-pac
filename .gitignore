@@ -35,3 +35,4 @@ tools/*.py
 tools/bonsai/bonsai
 open.sh
 SCRATCH
+doc/_build

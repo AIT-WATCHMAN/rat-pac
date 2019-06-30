@@ -143,12 +143,15 @@ The DetectorFactory to use is specified by name in the `DETECTOR` table under th
 and supersedes the ``geo_file`` field if used. If no ``DetectorFactory`` is specified, the ``geo_file`` specified 		
 is loaded as described above. A DetectorFactory should define tables in the DB in the same way a ``.geo`` 		
 file would and make use of ``GeoFactory`` components. 		
-::	
+
+.. code-block::	
+
     /rat/db/set DETECTOR experiment "Watchman"		
     /rat/db/set DETECTOR geo_file "Watchman/Watchman.geo"		
 		
 v.s.		
-::		
+.. code-block::
+		
     /rat/db/set DETECTOR experiment "Watchman"		
     /rat/db/set DETECTOR detector_factory "Watchman"		
 		
