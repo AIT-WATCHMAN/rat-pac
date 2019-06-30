@@ -1,6 +1,6 @@
 language: python
 
-version: 3.6
+python: 3.6
 
 install: pip install -r doc/requirements.txt
 script: cd doc && make html
