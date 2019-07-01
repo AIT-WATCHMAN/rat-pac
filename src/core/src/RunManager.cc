@@ -5,7 +5,7 @@
 #include <G4RunManager.hh>
 
 #ifdef G4VIS_USE
-#include <GLG4VisManager.hh>
+#include <RAT/GLG4VisManager.hh>
 #endif
 
 namespace RAT {
@@ -22,7 +22,7 @@ RunManager::RunManager(ProcBlock* theMainBlock) {
 
 void RunManager::Init() {
   theRunManager = new G4RunManager;  // Manages GEANT4 simulation process
-  
+
   // Particle transport and interactions.  Note that this has to be
   // created outside of Gsim, since the physics list must be
   // initialized before the user tracking action.
@@ -30,7 +30,7 @@ void RunManager::Init() {
 
   // Create the  simulation manager.
   ratGsim = new Gsim(mainBlock);
-  
+
   // Visualization, only if you choose to have it!
 #ifdef G4VIS_USE
   theVisManager = new GLG4VisManager();

@@ -6,7 +6,7 @@
 
 #include "local_g4compat.hh"
 
-#include "GLG4VEventAction.hh"
+#include "RAT/GLG4VEventAction.hh"
 
 #include "G4Event.hh"
 #include "G4EventManager.hh"
@@ -25,7 +25,7 @@
 #include "G4ios.hh"
 #include "G4UIcmdWithAString.hh"
 
-#include "GLG4Scint.hh"  // for doScintilllation and total energy deposition info
+#include "RAT/GLG4Scint.hh"  // for doScintilllation and total energy deposition info
 
 
 //GLG4HitPhotonCollection GLG4VEventAction :: theHitPhotons= GLG4HitPhotonCollection();
@@ -133,8 +133,8 @@ void GLG4VEventAction::BeginOfEventAction(const G4Event* )
 {
   GLG4Scint::ResetTotEdep();
   // clearing theHitPMTCollection clears away the HitPhotons and HitPMTs
-  theHitPMTCollection.Clear(); 
-  Clear();  
+  theHitPMTCollection.Clear();
+  Clear();
 }
 
 void GLG4VEventAction::EndOfEventAction(const G4Event* evt)
@@ -143,17 +143,17 @@ void GLG4VEventAction::EndOfEventAction(const G4Event* evt)
   G4int n_trajectories = 0;
   if(trajectoryContainer)
     { n_trajectories = trajectoryContainer->size(); }
-  
+
   FillData(evt);
 
   // draw trajectories
   if(G4VVisManager::GetConcreteInstance() && drawFlag != "none")
   {
-    for(G4int i=0; i<n_trajectories; i++) 
+    for(G4int i=0; i<n_trajectories; i++)
       {
 	// GLG4UDGE: the explicit cast on the next line is not a good thing.
 	   G4Trajectory* trj = (G4Trajectory *)((*trajectoryContainer)[i]);
-           if ( (drawFlag == "all") 
+           if ( (drawFlag == "all")
 		|| ((drawFlag == "allnonopt")
 		    &&(trj->GetParticleName() != "opticalphoton"))
                 || ((drawFlag == "charged")&&(trj->GetCharge() != 0.)) )

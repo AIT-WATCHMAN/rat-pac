@@ -1,4 +1,4 @@
-add_library(daq STATIC
+add_library(daq OBJECT
         src/LessSimpleDAQProc.cc
         src/MiniCleanPMTCharge.cc
         src/PDFPMTCharge.cc

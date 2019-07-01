@@ -11,8 +11,8 @@
 //Changed by Franco Giuliani, July 2009
 
 #ifdef G4VIS_USE
-#include "GLG4VisManager.hh"
-#include "GLG4VisMessenger.hh"
+#include "RAT/GLG4VisManager.hh"
+#include "RAT/GLG4VisMessenger.hh"
 #include "G4ViewParameters.hh"
 
 // Supported drivers...
@@ -156,11 +156,11 @@ void GLG4VisManager::RegisterGraphicsSystems () {
 void GLG4VisManager::RegisterModelFactories()
 {
    // Trajectory draw models
-   RegisterModelFactory(new G4TrajectoryGenericDrawerFactory());       
+   RegisterModelFactory(new G4TrajectoryGenericDrawerFactory());
    RegisterModelFactory(new G4TrajectoryDrawByChargeFactory());
    RegisterModelFactory(new G4TrajectoryDrawByParticleIDFactory());
-   RegisterModelFactory(new G4TrajectoryDrawByOriginVolumeFactory());  
-   RegisterModelFactory(new G4TrajectoryDrawByAttributeFactory());  
+   RegisterModelFactory(new G4TrajectoryDrawByOriginVolumeFactory());
+   RegisterModelFactory(new G4TrajectoryDrawByAttributeFactory());
 
    // Trajectory filter models
    RegisterModelFactory(new G4TrajectoryChargeFilterFactory());

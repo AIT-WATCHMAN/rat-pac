@@ -31,7 +31,7 @@
 #include <RAT/EventInfo.hh>
 #include <RAT/TrackInfo.hh>
 #include <RAT/PrimaryVertexInformation.hh>
-#include <StackingAction.hh>
+#include <RAT/StackingAction.hh>
 
 #include <RAT/GLG4PrimaryGeneratorAction.hh>
 #include <RAT/GLG4Scint.hh>
@@ -57,13 +57,13 @@
 #include <math.h>
 
 namespace RAT {
-    
+
     // Doesn't waste space unless you want to draw tracks
     bool Gsim::FillPointCont = false;
     bool Gsim::StoreOpticalTrackID = false;
     std::set<G4String> Gsim::fStoreParticleTraj;
     std::set<G4String> Gsim::fDiscardParticleTraj;
-    
+
     // 01-Aug-2006 WGS: I'm putting in the default initializers to remind
     // us that they're being called anyway, because Gsim inherits from
     // these classes.
@@ -71,12 +71,12 @@ namespace RAT {
         mainBlock = NULL;
         Init();
     }
-    
+
     Gsim::Gsim(ProcBlock* theMainBlock) : Producer(), G4UserEventAction(), G4UserTrackingAction() {
         mainBlock = theMainBlock;
         Init();
     }
-    
+
     int get_pdgcode(const G4PrimaryParticle* p) {
         G4int glg4pdgcode = p->GetPDGcode();
         if (glg4pdgcode==0 && p->GetG4code()!=0) {
@@ -90,22 +90,22 @@ namespace RAT {
         }
         return glg4pdgcode;
     }
-    
+
     void Gsim::Init() {
         // GEANT4 setup with GLG4sim detector construction and physics processes
         // Adapted from glg4sim.cc. Thanks Glenn!
         // Manages GEANT4 simulation process
         theRunManager = G4RunManager::GetRunManager();
-        
+
         // Detector geometry
         DetectorConstruction* theDetectorConstruction =
         DetectorConstruction::GetDetectorConstruction();
         theRunManager->SetUserInitialization(theDetectorConstruction);
-        
+
         // Particle generator
         theRunManager->SetUserAction(new GLG4PrimaryGeneratorAction());
         theRunManager->SetUserAction(new StackingAction);
-        
+
         // Add RAT-specific generators
         GlobalFactory<GLG4VertexGen>::Register("ibd",
                                                new Alloc<GLG4VertexGen,
@@ -128,7 +128,7 @@ namespace RAT {
         GlobalFactory<GLG4VertexGen>::Register("fastneutron",
                                                new Alloc<GLG4VertexGen,
                                                VertexGen_FastNeutron>);
-        
+
         GlobalFactory<GLG4Gen>::Register("decaychain",
                                          new Alloc<GLG4Gen,DecayChain_Gen>);
         GlobalFactory<GLG4Gen>::Register("cf",
@@ -143,29 +143,29 @@ namespace RAT {
                                          new Alloc<GLG4Gen,Coincidence_Gen>);
         GlobalFactory<GLG4Gen>::Register("vertexfile",
                                          new Alloc<GLG4Gen,VertexFile_Gen>);
-        
+
         // An additional "messenger" class for user diagnostics
         theDebugMessenger = new GLG4DebugMessenger(theDetectorConstruction);
-        
+
         // User actions to control Run Manager behavior
-        
+
         // Detect start of run so we can create run description objects
         theRunManager->SetUserAction(static_cast<G4UserRunAction*>(this));
-        
+
         // Tracking action used to add our specialized Trajectory object
         // to capture particle track information
         theRunManager->SetUserAction(static_cast<G4UserTrackingAction*>(this));
         theRunManager->SetUserAction(new GLG4SteppingAction);
-        
+
         // ...and finally the hook.  Here's where we trap GEANT4 at the end of
         // each event and do our business.
         theRunManager->SetUserAction(static_cast<G4UserEventAction*>(this));
-        
+
         // PMT transit time and single-pe charge calculators
         fPMTTime.resize(0);
         fPMTCharge.resize(0);
     }
-    
+
     Gsim::~Gsim() {
         // GEANT4 will try to delete the G4UserEventAction when we delete
         // the Run Manager, but that object is us!!  Clear event action
@@ -173,40 +173,40 @@ namespace RAT {
         // SetUserAction() is overloaded.
         theRunManager->SetUserAction(static_cast<G4UserEventAction*>(NULL));
         theRunManager->SetUserAction(static_cast<G4UserTrackingAction*>(NULL));
-        
+
         for (size_t i = 0; i < fPMTTime.size(); i++) {
             delete fPMTTime[i];
             delete fPMTCharge[i];
         }
     }
-    
+
     void Gsim::BeginOfRunAction(const G4Run* /*aRun*/) {
-        
+
         DBLinkPtr lmc = DB::Get()->GetLink("MC");
         runID = DB::Get()->GetDefaultRun();
         utc = TTimeStamp(); // default to now
-        
+
         info << "Gsim: Simulating run " << runID << newline;
         info << "Gsim: Run start at " << utc.AsString() << newline;
-        
+
         if (!DS::RunStore::GetRun(runID)) {
             MakeRun(runID);
         }
-        
+
         DBLinkPtr lnoise = DB::Get()->GetLink("NOISE");
         noiseRate = lnoise->GetD("noise_rate");
-        
+
         DBLinkPtr ldaq = DB::Get()->GetLink("DAQ");
         channelEfficiency = ldaq->GetD("channel_efficiency");
-        
+
         DS::Run* run = DS::RunStore::GetRun(runID);
         fPMTInfo = run->GetPMTInfo();
-        
+
         for (size_t i = 0; i < fPMTTime.size(); i++) {
             delete fPMTTime[i];
             delete fPMTCharge[i];
         }
-        
+
         const size_t numModels = fPMTInfo->GetModelCount();
         fPMTTime.resize(numModels);
         fPMTCharge.resize(numModels);
@@ -225,17 +225,17 @@ namespace RAT {
                 fPMTCharge[i] = new RAT::MiniCleanPMTCharge();
             }
         }
-        
+
         // Tell the generator when the run starts
         GLG4PrimaryGeneratorAction* theGLG4PGA=
         GLG4PrimaryGeneratorAction::GetTheGLG4PrimaryGeneratorAction();
         theGLG4PGA->SetRunUTC(utc);
-        
+
         // Find out whether /tracking/storeTrajectory was set by user.
         // fpTrackingManager provided by G4UserTrackingAction parent class
         // We have to restore this state at the end of the event.
         fInitialStoreTrajectoryState = fpTrackingManager->GetStoreTrajectory();
-        
+
         // Check for a maximum photoelectron limit. Events exceeding this limit
         // are aborted.
         try {
@@ -248,31 +248,31 @@ namespace RAT {
         }
         nabort = 0;
     }
-    
+
     void Gsim::EndOfRunAction(const G4Run* /*arun*/) {
         if(maxpe > 0){
             info << "Gsim: Tracking aborted for " << nabort
             << " events exceeding " << maxpe << " photoelectrons" << newline;
         }
     }
-    
+
     void Gsim::BeginOfEventAction(const G4Event* anEvent) {
         GLG4Scint::ResetTotEdep();
-        
+
         // Clearing theHitPMTCollection clears away the HitPhotons and HitPMTs
         GLG4VEventAction::GetTheHitPMTCollection()->Clear();
-        
+
         EventInfo* eventInfo =
         dynamic_cast<EventInfo* >(anEvent->GetUserInformation());
-        
+
         eventInfo->StorePhotonIDs = StoreOpticalTrackID;
-        
+
         // This is only necessary if the photons are flagged to be tracked and stored
         if (StoreOpticalTrackID) {
             OpticalPhotonIDs.resize(10000);
         }
     }
-    
+
     void Gsim::EndOfEventAction(const G4Event* anEvent) {
         // Now build data structure out of G4Event
         DS::Root* ds = new DS::Root;
@@ -280,27 +280,27 @@ namespace RAT {
         ds->SetRunID(runID);
         ds->AppendProcResult("gsim", Processor::OK);
         ds->SetRatVersion(RATVERSION);
-        
+
         // Let main processor block process the event
         mainBlock->DSEvent(ds);
-        
+
         delete ds;
-        
+
         // Check if the user has requested exit
         if (SignalHandler::IsTermRequested()) {
             warn << "Terminating since Ctrl-C (SIGINT) caught..." << newline;
             theRunManager->AbortRun(true); // Soft abort
         }
-        
+
         // Reset the store trajectory state to the initial state as
         // specified in the user macro.
         fpTrackingManager->SetStoreTrajectory(fInitialStoreTrajectoryState);
-        
+
         if (StoreOpticalTrackID) {
             OpticalPhotonIDs.resize(0);
         }
     }
-    
+
     void Gsim::PreUserTrackingAction(const G4Track* aTrack)  {
         // Add storage for our custom tracking information if
         // we haven't already added it by creating a track object elsewhere
@@ -309,7 +309,7 @@ namespace RAT {
             // grumble, grumble, C++ const keyword, grumble
             const_cast<G4Track*>(aTrack)->SetUserInformation(new TrackInfo);
         }
-        
+
         // For very large, complex tracks, it is not sufficient to
         // discard the track if we do not want it.  We must prevent
         // GEANT4 from saving the information in the first place.
@@ -318,7 +318,7 @@ namespace RAT {
         // on the fly.  We restore the original state at the end of
         // the event, which is critical if beamOn is called more than once
         // in a macro.
-        
+
         // Store track if requested for this particle.  fpTrackingManager
         // provided by G4UserTrackingAction parent class
         if(GetStoreParticleTraj(aTrack->GetDefinition()->GetParticleName())) {
@@ -328,22 +328,22 @@ namespace RAT {
         else {
             fpTrackingManager->SetStoreTrajectory(false);
         }
-        
+
         if (aTrack->GetDefinition()->GetParticleName() == "opticalphoton") {
             G4Event* event = G4EventManager::GetEventManager()->GetNonconstCurrentEvent();
             EventInfo* eventInfo = dynamic_cast<EventInfo* >(event->GetUserInformation());
             TrackInfo *trackInfo = dynamic_cast<TrackInfo*>(aTrack->GetUserInformation());
-            
+
             std::string creatorProcessName;
             const G4VProcess* creatorProcess = aTrack->GetCreatorProcess();
             if (creatorProcess)
                 creatorProcessName = creatorProcess->GetProcessName();
-            
+
             // Now deal with creator process naming override from trackInfo
             if (trackInfo && trackInfo->GetCreatorProcess() != "") {
                 creatorProcessName = trackInfo->GetCreatorProcess();
             }
-            
+
             if (creatorProcessName == "Scintillation") {
                 eventInfo->numScintPhoton++;
                 eventInfo->timePhotonID.push_back(aTrack->GetGlobalTime());
@@ -357,7 +357,7 @@ namespace RAT {
                 eventInfo->timePhotonID.push_back(2.);
                 eventInfo->timePhotonMatrix.push_back(eventInfo->timePhotonID);
                 eventInfo->timePhotonID.resize(0);
-                
+
             }else if (creatorProcessName == "Cerenkov") {
                 eventInfo->numCerenkovPhoton++;
                 eventInfo->timePhotonID.push_back(aTrack->GetGlobalTime());
@@ -367,19 +367,19 @@ namespace RAT {
             }
         }
     }
-    
+
     void Gsim::PostUserTrackingAction(const G4Track* aTrack) {
         // Now that we know how the track was terminated, we can fill
         // the OpticalCentroid
         std::string creatorProcessName;
         std::string destroyerProcessName;
-        
+
         // The road to hell is paved with global variables,
         // and GEANT4 is my travelling companion.
         G4Event* event = G4EventManager::GetEventManager()->GetNonconstCurrentEvent();
         EventInfo* eventInfo = dynamic_cast<EventInfo* >(event->GetUserInformation());
         TrackInfo* trackInfo = dynamic_cast<TrackInfo*>(aTrack->GetUserInformation());
-        
+
         // Abort events with too many PE if a limit has been set.
         if (maxpe > 0) {
             int nhits = 0;
@@ -393,30 +393,30 @@ namespace RAT {
                 nabort ++;
             }
         }
-        
+
         int TrackID = aTrack->GetTrackID();
         int ParentID = aTrack->GetParentID();
-        
+
         // Determine the creator process
         const G4VProcess* creatorProcess = aTrack->GetCreatorProcess();
         if (creatorProcess) {
             creatorProcessName = creatorProcess->GetProcessName();
         }
-        
+
         // Now deal with creator process naming override from trackInfo
         if (trackInfo && trackInfo->GetCreatorProcess() != "") {
             creatorProcessName = trackInfo->GetCreatorProcess();
         }
-        
+
         if(trackInfo) {
             // Fill the energy centroid
             eventInfo->energyCentroid.Add(trackInfo->energyCentroid);
-            
+
             // Finally fill the optical centroid information if we have an optical
             // photon which was not created by the TPB but WAS absorbed by it. This
             // represents the best approximation to the "reconstructable" event
             // vertex, neglecting exotics like TPB scintillation and cerenkov emmission
-            
+
             // With surface TPB model: Not reemitted, but killed by SurfaceAbsorption
             // With bulk TPB model:    Not made by OpWLS, but killed by OpWLS
             if ((aTrack->GetDefinition()->GetParticleName() == "opticalphoton") &&
@@ -435,38 +435,38 @@ namespace RAT {
             }
         }
     }
-    
+
     void Gsim::MakeRun(int _runID) {
         DBLinkPtr lrun = DB::Get()->GetLink("RUN", "", _runID);
         DS::Run* run = new DS::Run();
-        
+
         run->SetID(_runID);
         run->SetType((unsigned) lrun->GetI("runtype"));
-        
+
         run->SetPMTInfo(&GeoPMTFactoryBase::GetPMTInfo());
-        
+
         DS::RunStore::AddNewRun(run);
     }
-    
+
     void Gsim::MakeEvent(const G4Event* g4ev, DS::Root* ds) {
         DS::MC* mc = ds->GetMC();
         EventInfo* exinfo = dynamic_cast<EventInfo*>(g4ev->GetUserInformation());
-        
+
         // Event Header
         ds->SetRunID(theRunManager->GetCurrentRun()->GetRunID());
         mc->SetID(g4ev->GetEventID());
         mc->SetUTC(exinfo->utc);
-        
+
         // Vertex Info
         for (int ivert=0; ivert<g4ev->GetNumberOfPrimaryVertex(); ivert++) {
             G4PrimaryVertex* pv = g4ev->GetPrimaryVertex(ivert);
-            
+
             double t = pv->GetT0();
             TVector3 pos(pv->GetX0(), pv->GetY0(), pv->GetZ0());
-            
+
             for (int ipart=0; ipart<pv->GetNumberOfParticle(); ipart++) {
                 DS::MCParticle* rat_mcpart = mc->AddNewMCParticle();
-                
+
                 G4PrimaryParticle* p = pv->GetPrimary(ipart);
                 rat_mcpart->SetPDGCode(get_pdgcode(p));
                 if (p->GetG4code()){
@@ -480,7 +480,7 @@ namespace RAT {
                 rat_mcpart->SetPosition(pos);
                 rat_mcpart->SetPolarization(TVector3(p->GetPolX(), p->GetPolY(), p->GetPolZ()));
             }
-            
+
             PrimaryVertexInformation *ratpvi = dynamic_cast<PrimaryVertexInformation*> (pv->GetUserInformation());
             if (ratpvi){
                 for (int i=0;i<ratpvi->GetParentParticleCount();i++){
@@ -500,14 +500,14 @@ namespace RAT {
                 }
             }
         }
-        
+
         // Calibration source information
         const DS::Calib* calib = exinfo->GetCalib();
         // only copy if there is something real to copy
         if (calib->GetID() != -1) {
             *ds->GetCalib() = *calib;
         }
-        
+
         // Trajectory Info
         G4TrajectoryContainer* traj_list = g4ev->GetTrajectoryContainer();
         if (traj_list) {
@@ -521,7 +521,7 @@ namespace RAT {
                 *track = *traj->GetTrack();
             }
         }
-        
+
         // If the event was aborted because of the maximum number of
         // photoelectron limit, then store the information about the
         // primary particle and any tracking information, but do not keep
@@ -529,7 +529,7 @@ namespace RAT {
         if(g4ev->IsAborted()) {
             return;
         }
-        
+
         std::vector<std::vector <double> > a = GLG4Scint::GetScintMatrix();
         std::sort(a.begin(),a.end());
         int triggers = -1,actualTrigger = 0;
@@ -563,19 +563,19 @@ namespace RAT {
             actualTrigger+=1;
             G4cout << "TRIGG "<<   actualTrigger << " " << triggers << " " << start_time << " " << old_time-start_time << " " << rollingEnergy<< " " << avgX/avgCnt <<  " " << avgY/avgCnt <<  " " << avgZ/avgCnt << G4endl;
         }
-        
-        
+
+
         std::vector<G4double>  rollingZero;//mfb
         std::vector<std::vector<double> > rollingPhotons;//mfb
         rollingZero.push_back(0.);
         rollingZero.push_back(0.);
         rollingZero.push_back(0.);
         rollingZero.push_back(0.);
-        
+
         std::sort(exinfo->timePhotonMatrix.begin(),exinfo->timePhotonMatrix.end());
         old_time = -1e9, start_time = -1e9,rollingEnergy = 0.;
         triggers = -1;
-        
+
         for(unsigned long aIndex = 0; aIndex < exinfo->timePhotonMatrix.size(); aIndex++){
             if((exinfo->timePhotonMatrix[aIndex][0]-old_time) > timeWindow){
                 triggers+=1;
@@ -590,11 +590,11 @@ namespace RAT {
         for(unsigned long aIndex = 0; aIndex < rollingPhotons.size(); aIndex++){
             //G4cout << "Mysterious !  " << aIndex << " " << rollingPhotons[aIndex][3] << " |  " << rollingPhotons[aIndex][0] << " " << rollingPhotons[aIndex][1] << " " <<rollingPhotons[aIndex][2] << G4endl;
         }
-        
-        
+
+
         // SetPMTPhotonInfo
         // G4cout << "Size of PMTArray " << GLG4PMTOpticalModel::pmtHitVector.size()<< G4endl;
-        
+
         // MC summary information
         DS::MCSummary* summary = mc->GetMCSummary();
         summary->SetEnergyCentroid(exinfo->energyCentroid.GetMean());
@@ -610,40 +610,40 @@ namespace RAT {
         summary->SetNumCerenkovPhoton(exinfo->numCerenkovPhoton);
         summary->SetPhotonInfo(rollingPhotons);
         summary->SetPMTPhotonInfo(GLG4PMTOpticalModel::pmtHitVector);
-        
+
         GLG4Scint::ResetTimeChargeMatrix();
         exinfo->timePhotonMatrix.resize(0);
         GLG4PMTOpticalModel::pmtHitVector.resize(0);
-        
+
         // std::vector<std::vector<double> > _pmtHitVector = GLG4PMTOpticalModel::pmtHitVector;
         // G4cout << "Size of PMTArray " << GLG4PMTOpticalModel::pmtHitVector.size()<< G4endl;
         // GLG4PMTOpticalModel::pmtHitVector.resize(0);
-        
+
         /** PMT and noise simulation */
         GLG4HitPMTCollection* hitpmts = GLG4VEventAction::GetTheHitPMTCollection();
         int numPE = 0;
-        
+
         double firsthittime = std::numeric_limits<double>::max();
         double lasthittime = std::numeric_limits<double>::min();
-        
+
         // Get the PMT type for IDPMTs. Then in the loop,
         // increment numPE only when the PE is in an IDPMT.
         //Map ID-INDEX for later noise calculation
         std::map<int, int> mcpmtObjects;
-        
+
         for (int ipmt=0; ipmt<hitpmts->GetEntries(); ipmt++) {
             GLG4HitPMT* a_pmt= hitpmts->GetPMT(ipmt);
             a_pmt->SortTimeAscending();
-            
+
             // Create and initialize a RAT DS::MCPMT
             // note that GLG4HitPMTs are given IDs which are their index
             DS::MCPMT* rat_mcpmt = mc->AddNewMCPMT();
             mcpmtObjects[a_pmt->GetID()] = mc->GetMCPMTCount()-1; //the index of the last element represents the index of the PMT we just added
             rat_mcpmt->SetID(a_pmt->GetID());
             rat_mcpmt->SetType(fPMTInfo->GetType(a_pmt->GetID()));
-            
+
             numPE += a_pmt->GetEntries();
-            
+
             /** Add "real" hits from actual simulated photons */
             for (int i=0; i<a_pmt->GetEntries(); i++) {
                 if (StoreOpticalTrackID) {
@@ -652,7 +652,7 @@ namespace RAT {
                 else {
                     AddMCPhoton(rat_mcpmt, a_pmt->GetPhoton(i), false, NULL);
                 }
-                
+
                 /** Update event start and end time */
                 double hittime = a_pmt->GetPhoton(i)->GetTime();
                 if (hittime < firsthittime) {
@@ -668,7 +668,7 @@ namespace RAT {
             }
         }
         mc->SetNumPE(numPE);
-        
+
         /**
          * Add noise hits
          *
@@ -681,7 +681,7 @@ namespace RAT {
         double detectorWideRate = channelRate * pmtcount / channelEfficiency;
         int noiseHits = \
         static_cast<int>(floor(CLHEP::RandPoisson::shoot(detectorWideRate)));
-        
+
         for (int ihit=0; ihit<noiseHits; ihit++) {
             GLG4HitPhoton* hit = new GLG4HitPhoton();
             int pmtid = static_cast<int>(G4UniformRand() * pmtcount);
@@ -699,12 +699,12 @@ namespace RAT {
             AddMCPhoton(mc->GetMCPMT(mcpmtObjects[pmtid]), hit, true, (StoreOpticalTrackID ? exinfo : NULL));
         }
     }
-    
+
     void Gsim::AddMCPhoton(DS::MCPMT* rat_mcpmt, const GLG4HitPhoton* photon,
                            bool isDarkHit, EventInfo* /*exinfo*/) {
         DS::MCPhoton* rat_mcphoton = rat_mcpmt->AddNewMCPhoton();
         rat_mcphoton->SetDarkHit(isDarkHit);
-        
+
         // parameters relevant only for actual photon hits, not noise hits
         if (!isDarkHit) {
             rat_mcphoton->SetLambda(photon->GetWavelength());
@@ -729,7 +729,7 @@ namespace RAT {
         rat_mcphoton->SetFrontEndTime(fPMTTime[fPMTInfo->GetModel(rat_mcpmt->GetID())]->PickTime(photon->GetTime()));
         rat_mcphoton->SetCharge(fPMTCharge[fPMTInfo->GetModel(rat_mcpmt->GetID())]->PickCharge());
     }
-    
+
     void Gsim::SetStoreParticleTraj(const G4String& particleName,
                                     const bool& gDoStore) {
         if(gDoStore) {
@@ -739,7 +739,7 @@ namespace RAT {
             fDiscardParticleTraj.insert(particleName);
         }
     }
-    
+
     bool Gsim::GetStoreParticleTraj(const G4String& particleName) {
         if (!fInitialStoreTrajectoryState) {
             // in case fStoreParticleTraj has an entry, keep
@@ -764,7 +764,7 @@ namespace RAT {
                 return false;
         }
     }
-    
+
     G4String Gsim::GetStoreParticleTrajString(const bool& gDoStore) {
         G4String ret = "";
         if (gDoStore) {
@@ -785,7 +785,7 @@ namespace RAT {
         }
         return ret;
     }
-    
+
     // PhotonRecurse runs back from the PMT photon through the track - parent
     // ID pairs in PhotonIDs to find the original track which created the
     // optical photon
@@ -794,13 +794,13 @@ namespace RAT {
             parentID=trackID;
             return;
         }
-        
+
         if (PhotonIDs[trackID]!=0)
             firstCreatedID = trackID;
-        
+
         PhotonRecurse(PhotonIDs, PhotonIDs[trackID], parentID, firstCreatedID);
     }
-    
+
     void Gsim::SetOpticalPhotonIDs(std::string particle_type, int trackID,
                                    int parentID) {
         if (static_cast<size_t>(trackID) > OpticalPhotonIDs.size()) {
@@ -814,5 +814,5 @@ namespace RAT {
             OpticalPhotonIDs[trackID] = 0;
         }
     }
-    
+
 } // namespace RAT

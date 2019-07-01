@@ -1,13 +1,13 @@
 /** @file GLG4HitPMTCollection.cc
     For GLG4HitPMTCollection class.
-    
+
     This file is part of the GenericLAND software library.
     $Id: GLG4HitPMTCollection.cc,v 1.1 2005/08/30 19:55:22 volsung Exp $
 
     @author Glenn Horton-Smith, December 2004
 */
 
-#include "GLG4HitPMTCollection.hh"
+#include "RAT/GLG4HitPMTCollection.hh"
 #include <algorithm>
 #include <G4ios.hh>
 
@@ -56,10 +56,10 @@ void GLG4HitPMTCollection::DetectPhoton(GLG4HitPhoton* new_photon)
 }
 
 void GLG4HitPMTCollection::SortTimeAscending()
-{ 
+{
   for(size_t i=0; i<fPMT.size(); i++)
     fPMT[i]->SortTimeAscending();
-  std::sort(fPMT.begin(), fPMT.end(), Compare_HitPMTPtr_TimeAscending ); 
+  std::sort(fPMT.begin(), fPMT.end(), Compare_HitPMTPtr_TimeAscending );
 }
 
 /** return the number of HitPMTs in internal collection */

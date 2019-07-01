@@ -1,13 +1,13 @@
 /** @file GLG4HitPMT.cc
     For GLG4HitPMT class.
-    
+
     This file is part of the GenericLAND software library.
     $Id: GLG4HitPMT.cc,v 1.2 2005/08/31 17:47:54 volsung Exp $
 
     @author Glenn Horton-Smith, December 2004
 */
 
-#include "GLG4HitPMT.hh"
+#include "RAT/GLG4HitPMT.hh"
 #include <algorithm>
 #include <limits>
 #include <G4ios.hh>
@@ -20,9 +20,9 @@
 
 /// controls when to start trying to merge HitPhotons
 /// WARNING: Set to huge number to avoid suprising people
-const size_t GLG4HitPMT::kApproxMaxIndividualHitPhotonsPerPMT 
+const size_t GLG4HitPMT::kApproxMaxIndividualHitPhotonsPerPMT
     = std::numeric_limits<size_t>::max();
-    
+
 /// hit merging window in ns
 const double GLG4HitPMT::kMergeTime= 1.0;
 
@@ -47,10 +47,10 @@ void GLG4HitPMT::Clear()
 
 /** Add HitPhoton, or try to merge with another HitPhoton when number
     of HitPhotons is bigger than kApproxMaxIndividualHitPhotonsPerPMT.
-    
+
     If number of HitPhotons stored is less than
     kApproxMaxIndividualHitPhotonsPerPMT, just add it to the list.
-    
+
     If number of HitPhotons stored is greater than or equal to
     kApproxMaxIndividualHitPhotonsPerPMT, sort the vector, then find
     the HitPhoton that immediately preceeds it in sorted vector.  If
@@ -73,7 +73,7 @@ void GLG4HitPMT::Clear()
     argument is deleted if merging with an existing HitPhoton occurs.
 
     @param new_photon  New HitPhoton to add (or merge).
-*/  
+*/
 void GLG4HitPMT::DetectPhoton(GLG4HitPhoton* new_photon) {
   if (fPhotons.size() < kApproxMaxIndividualHitPhotonsPerPMT) {
     fPhotons.push_back(new_photon);
@@ -112,7 +112,7 @@ void GLG4HitPMT::DetectPhoton(GLG4HitPhoton* new_photon) {
       }
     }
   }
-  
+
 }
 
 /// sort HitPhotons so earliest are first
@@ -144,7 +144,7 @@ void GLG4HitPMT::Print(std::ostream &os, bool fullDetailsMode)
       fPhotons[i]->GetPolarization(x,y,z);
       os << "      polarization= " << x << " " << y << " " << z << G4endl;
     }
-  }    
+  }
 }
 
 
