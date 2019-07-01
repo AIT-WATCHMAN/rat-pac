@@ -1,7 +1,7 @@
 #include <RAT/PosGen_FillShell.hh>
 #include <RAT/Log.hh>
 #include <RAT/StringUtil.hh>
-#include <GLG4VertexGen.hh>
+#include <RAT/GLG4VertexGen.hh>
 
 #include <G4TransportationManager.hh>
 #include <G4Navigator.hh>
@@ -12,13 +12,13 @@
 
 #include <sstream>
 
-namespace RAT 
+namespace RAT
 {
   PosGen_FillShell::PosGen_FillShell(const char *arg_dbname)
     : GLG4PosGen(arg_dbname), pos(0.,0.,0.), pVolume(0), max_iterations(10000000) { }
 
   // In order to get a GEANT4 physical volume by name, we must search through
-  // the list in the G4PhysicalVolumeStore.  
+  // the list in the G4PhysicalVolumeStore.
   G4VPhysicalVolume* PosGen_FillShell::FindPhysVolume(const std::string volume_name)
   {
     G4PhysicalVolumeStore* store = G4PhysicalVolumeStore::GetInstance();
@@ -41,7 +41,7 @@ namespace RAT
 
     // it is a GLG4 convention that SetState with a null string argument
     // should print usage information
-    if (newValues.length() == 0) 
+    if (newValues.length() == 0)
     {
       G4cout << "Current state of this GLG4PosGen_PointPaintFill:\n"
              << " \"" << GetState() << "\"\n" << G4endl;
@@ -109,7 +109,7 @@ namespace RAT
   G4String PosGen_FillShell::GetState() const
   {
     std::string rv = dformat("%d %d %d %d %d %s", pos.x(), pos.y(), pos.z(), ri, ro, pVolume->GetName().c_str());
-    return G4String(rv);  
+    return G4String(rv);
   }
 
   // PosGen_FillShell::GeneratePosition sets argResult to a point uniformly
@@ -137,13 +137,13 @@ namespace RAT
 
       iterations++;
       Log::Assert(iterations<max_iterations, "PosGen_FillShell::GeneratePosition: Failed to find a point within volume " + pVolume->GetName() + " in " + ::to_string(max_iterations) + " tries.");
-      
+
     } while(!(gNavigator->LocateGlobalPointAndSetup(rpos, 0, true)->GetName() == pVolume->GetName()));
 
     debug << "PosGen_FillShell::GeneratePosition: Point in volume " << pVolume->GetName()  << " found in " << iterations << " tries.\n";
 
     argResult = rpos;
   }
- 
+
 } // namespace RAT
 

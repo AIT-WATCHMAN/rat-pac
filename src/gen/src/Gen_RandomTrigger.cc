@@ -1,6 +1,6 @@
-#include "Gen_RandomTrigger.hh"
-#include "GLG4TimeGen.hh"
-#include "GLG4StringUtil.hh"
+#include "RAT/Gen_RandomTrigger.hh"
+#include "RAT/GLG4TimeGen.hh"
+#include "RAT/GLG4StringUtil.hh"
 
 #include <RAT/Factory.hh>
 #include <G4Event.hh>

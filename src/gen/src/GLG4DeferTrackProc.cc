@@ -9,7 +9,7 @@
 //
 ////////////////////////////////////////////////////////////////////////
 
-#include "GLG4DeferTrackProc.hh"
+#include "RAT/GLG4DeferTrackProc.hh"
 
 #include "G4Step.hh"
 #include "G4VParticleChange.hh"
@@ -17,7 +17,7 @@
 #include "G4GeometryTolerance.hh"
 class G4UImessenger; // for G4ProcessTable.hh
 #include "G4ProcessTable.hh"
-#include "GLG4PrimaryGeneratorAction.hh"
+#include "RAT/GLG4PrimaryGeneratorAction.hh"
 #include <CLHEP/Units/PhysicalConstants.h>
 
 
@@ -29,7 +29,7 @@ GLG4DeferTrackProc::GLG4DeferTrackProc(const G4String& aName)
    if (verboseLevel>0) {
      G4cout << GetProcessName() << " is created "<< G4endl;
    }
-   
+
    _generator= GLG4PrimaryGeneratorAction::GetTheGLG4PrimaryGeneratorAction();
    if (_generator == 0) {
      G4Exception(__FILE__, "No Primary Generator Action", FatalException, "GLG4DeferTrackProc:: no GLG4PrimaryGeneratorAction instance.");
@@ -46,7 +46,7 @@ GLG4DeferTrackProc::GLG4DeferTrackProc(GLG4DeferTrackProc& right)
 {}
 
 ////////////////////////////////////////////////////////////////
- 
+
 G4double GLG4DeferTrackProc::PostStepGetPhysicalInteractionLength(
                              const G4Track& aTrack,
 			     G4double   /* previousStepSize */,

@@ -33,7 +33,7 @@
 #define __RAT_DecayChain_Gen__
 
 #include <globals.hh>
-#include <GLG4Gen.hh>
+#include <RAT/GLG4Gen.hh>
 
 class G4Event;
 class GLG4TimeGen;

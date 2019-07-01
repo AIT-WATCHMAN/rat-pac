@@ -1,6 +1,6 @@
-#include "GLG4TimeGen.hh"
+#include "RAT/GLG4TimeGen.hh"
 #include <Randomize.hh>
-#include "GLG4StringUtil.hh"
+#include "RAT/GLG4StringUtil.hh"
 #include <CLHEP/Units/SystemOfUnits.h>
 
 void GLG4TimeGen_Uniform::SetState(G4String state)

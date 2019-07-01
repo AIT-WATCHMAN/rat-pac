@@ -8,7 +8,7 @@
 
 #include <RAT/Log.hh>
 
-#include "GLG4VertexGen.hh"
+#include "RAT/GLG4VertexGen.hh"
 #include <RAT/GLG4PosGen.hh>
 #include <RAT/GLG4TimeGen.hh>
 #include <RAT/Factory.hh>
@@ -18,7 +18,7 @@
 #include <G4PrimaryVertex.hh>
 #include <G4ThreeVector.hh>
 
-#include <Randomize.hh> 
+#include <Randomize.hh>
 #include <CLHEP/Units/SystemOfUnits.h>
 
 #include <vector>
@@ -35,7 +35,7 @@ namespace RAT {
 
 		// Create a messenger to allow the user to change some ES parameters.
 		messenger = new CoincidenceMessenger(this);
-    	
+
 		// As in the generator, use a default time generator if the
     	// user does not supply one.
     	timeGen 	= new GLG4TimeGen_Poisson();
@@ -66,15 +66,15 @@ namespace RAT {
 			messenger = 0;
   		}
 	}
-	
+
 /*--------------------------------------------------------------*/
 	void Coincidence_Gen::GenerateEvent(G4Event* event)
 	{
 		G4ThreeVector 	pos;
-		// We will need to keep track of how much energy has been generated if the 
+		// We will need to keep track of how much energy has been generated if the
 		// total event energy is to be limited
 		G4double		KEgen=0;
-		
+
 		// generate times for all the events
 		vector<double> times;
 		vector<double> MaxE;
@@ -104,32 +104,32 @@ namespace RAT {
 		}else{
  			// each event has random time in event window
 			// the first one will be the start of the event so  keep track of that
-			double firsttime = fTimeWindow; // set to latest possible value to begin		
-			for(int iEx=0; iEx<=nExtra; ++iEx){	
+			double firsttime = fTimeWindow; // set to latest possible value to begin
+			for(int iEx=0; iEx<=nExtra; ++iEx){
 				double t = G4UniformRand()*fTimeWindow;
 				times.push_back(t);	// for the extra interactions
 				if(t<firsttime)firsttime=t;
 			}
 			// now subtract this first time from every time
-			for(int iEx=0; iEx<=nExtra; ++iEx){	
+			for(int iEx=0; iEx<=nExtra; ++iEx){
 				times[iEx] -= firsttime;
 			}
 		}
 		// now access the maxima and minima energy each extra generator can provide
-		for(int iEx=0; iEx<nExtra; ++iEx){	
+		for(int iEx=0; iEx<nExtra; ++iEx){
 			MaxE.push_back(vertexGenExtra[iEx]->EMaximum());
 			MinE.push_back(vertexGenExtra[iEx]->EMinimum());
 		}
 		// But if more than one extra generator, we actually want a cumulative total of the other energy limits
 		float sumLo = 0;
 		float sumHi = 0;
-		for(int iEx=nExtra-1; iEx>=0; --iEx){	
+		for(int iEx=nExtra-1; iEx>=0; --iEx){
 			sumLo += MinE[iEx];
 			sumHi += MaxE[iEx];
 			MinE[iEx] = sumLo;
 			MaxE[iEx] = sumHi;
 		}
-		
+
 		// A test vertex and particle (used to extract event energy)
 		G4PrimaryVertex* vtemp=0;
 		G4PrimaryParticle* PP;
@@ -145,7 +145,7 @@ namespace RAT {
 			hi = fHiEnergy-sumLo;
 			if(lo<0)lo = 0;
 			if(hi<0){
-				G4cerr << "Coincidence_Gen: cannot achieve selected energy range with these generators." << G4endl;					
+				G4cerr << "Coincidence_Gen: cannot achieve selected energy range with these generators." << G4endl;
 			}
 			if(vertexGen->ELimitable()){
 				vertexGen->LimitEnergies(lo,hi);
@@ -169,10 +169,10 @@ namespace RAT {
 				}
 				if(count==100){
 					// Jump out of what could have been infinite loop
-					G4cerr << "No luck finding correct energy ! " << G4endl; 
+					G4cerr << "No luck finding correct energy ! " << G4endl;
 				}
-				// got a good vertex so add it to the real event 
-				event->AddPrimaryVertex(vtemp);	
+				// got a good vertex so add it to the real event
+				event->AddPrimaryVertex(vtemp);
 			}
 			// now access event, primary vertex and extract energy
 			vtemp = event->GetPrimaryVertex();
@@ -200,7 +200,7 @@ namespace RAT {
 				if(vertexGenExtra[iEx]->ELimitable()){
 					// Set limits on energy and add the vertex
 					vertexGenExtra[iEx]->LimitEnergies(lo,hi);
-					vertexGenExtra[iEx]->GeneratePrimaryVertex(event, pos, times[iEx+1]);				
+					vertexGenExtra[iEx]->GeneratePrimaryVertex(event, pos, times[iEx+1]);
 				}else{
 					// we will have to apply trial and error so generate temporary event and test it
 					G4double testE = -999*CLHEP::MeV;
@@ -218,10 +218,10 @@ namespace RAT {
 					}
 					if(count==100||count==1){
 						// Jump out of what could have been infinite loop
-						G4cerr << "No luck finding correct energy ! " << G4endl; 
+						G4cerr << "No luck finding correct energy ! " << G4endl;
 					}
-					// got a good vertex so add it to the real event 
-					event->AddPrimaryVertex(vtemp);				
+					// got a good vertex so add it to the real event
+					event->AddPrimaryVertex(vtemp);
 				}
 				// and increment our energy sum (if not last event)
 				if(iEx<(nExtra-1)){
@@ -229,11 +229,11 @@ namespace RAT {
 					for(int iP=0;iP<vtemp->GetNumberOfParticle(); ++iP){
 						PP = vtemp->GetPrimary(iP);
 						KEgen += sqrt(PP->GetMomentum().mag2()+pow(PP->GetMass(),2))-PP->GetMass();
-					}	
-				}				
+					}
+				}
 			}else{
 				// No limits on the energy so just add the vertex
-				vertexGenExtra[iEx]->GeneratePrimaryVertex(event, pos, times[iEx+1]);				
+				vertexGenExtra[iEx]->GeneratePrimaryVertex(event, pos, times[iEx+1]);
 			}
 		}
 	}
@@ -250,7 +250,7 @@ namespace RAT {
 	void Coincidence_Gen::SetState(G4String state)
 	{
 		// arguments are V1:P1:T
-		// V1 = first vertex type, required 
+		// V1 = first vertex type, required
 		// P1 = first vertex position, required
 		// T  = overall time generator, optional, default = poisson
 
@@ -279,7 +279,7 @@ namespace RAT {
 			G4cerr << "Unknown generator \"" << unknown.id << "\"" << G4endl;
 		}
 	}
-    
+
 	G4String Coincidence_Gen::GetState() const
 	{
 		return stateStr;
@@ -289,23 +289,23 @@ namespace RAT {
 	void Coincidence_Gen::SetEnergyRange(G4String newValues)
 	{
 		newValues = util_strip_default(newValues);
-		if (newValues.length() == 0) {		
+		if (newValues.length() == 0) {
 			// Print help and current state
-			G4cout 	<< " Current limits on Coincidence_Gen generated energy range = " 
-				   	<< fLoEnergy << " - " << fHiEnergy << " MeV\n" 
+			G4cout 	<< " Current limits on Coincidence_Gen generated energy range = "
+				   	<< fLoEnergy << " - " << fHiEnergy << " MeV\n"
 				    << " To change use syntax:  Elo  Ehi \n"
 					<< " Elo = lower energy limit in MeV, Ehi = upper energy limit in MeV"
-					<< " !!!! But note that this option will be very slow for vertex generators whose energy cannot be limited !!! " 
+					<< " !!!! But note that this option will be very slow for vertex generators whose energy cannot be limited !!! "
 					<< G4endl;
 		}
- 		G4std::istringstream is(newValues.c_str());	
+ 		G4std::istringstream is(newValues.c_str());
 		double Elo, Ehi;
 		is >> Elo >> Ehi;
 		if(Elo<Ehi){
 			fLoEnergy = Elo;
 			fHiEnergy = Ehi;
-			G4cout  << "Coincidence_Gen: Restricting generated energy range to " << Elo << " - " << Ehi << " MeV\n" 
-					<< " !!!! But note that this option will be very slow for vertex generators whose energy cannot be limited !!!! " 
+			G4cout  << "Coincidence_Gen: Restricting generated energy range to " << Elo << " - " << Ehi << " MeV\n"
+					<< " !!!! But note that this option will be very slow for vertex generators whose energy cannot be limited !!!! "
 					<< " !!!! And does not work when event energy comes from radioactive decay !!!! "
 					<< G4endl;
 		}else{
@@ -353,8 +353,8 @@ namespace RAT {
 		}else{
 			return G4String("Coincidence_Gen error: no pos generator selected");
 		}
-	}	
-	
+	}
+
 /*--------------------------------------------------------------*/
 	void Coincidence_Gen::SetVertexState(G4String state)
 	{
@@ -375,7 +375,7 @@ namespace RAT {
 		}else{
 			return G4String("Coincidence_Gen error: no vertex generator selected");
 		}
-	}	
+	}
 
 /*--------------------------------------------------------------*/
 	void Coincidence_Gen::AddExtra(G4String state){
@@ -393,7 +393,7 @@ namespace RAT {
 				case 2:
 					G4cout << "adding new interaction " << nExtra+1 << " " << parts[0] << " "<<
 					parts[1] << G4endl;
-					
+
 					delete posGenExtra[nExtra]; posGenExtra[nExtra] = 0;
 					posGenExtra[nExtra] = RAT::GlobalFactory<GLG4PosGen>::New(parts[1]);
 					delete vertexGenExtra[nExtra]; vertexGenExtra[nExtra] = 0;
@@ -417,8 +417,8 @@ namespace RAT {
 		if (nint<=nExtra){	// check we have added an extra interaction
 			return stateStrExtra[nint-1];
 		}else{
-			return G4String("Coincidence_Gen error: that extra interaction has not been selected");			
-		}	
+			return G4String("Coincidence_Gen error: that extra interaction has not been selected");
+		}
 	}
 
 /*--------------------------------------------------------------*/
@@ -442,7 +442,7 @@ namespace RAT {
 		}else{
 			return G4String("Coincidence_Gen error: that extra interaction has not been selected");
 		}
-	}	
+	}
 
 /*--------------------------------------------------------------*/
 	void Coincidence_Gen::SetExtraVertexState(G4String state)
@@ -464,41 +464,41 @@ namespace RAT {
 		}else{
 			return G4String("Coincidence_Gen error: that extra interaction has not been selected");
 		}
-	}	
+	}
 
 /*--------------------------------------------------------------*/
 	void Coincidence_Gen::SetExponentials(G4String newValues)
 	{
-		/* Set exponential time constants to separate decays. 
+		/* Set exponential time constants to separate decays.
 		* Default is to give each vertex a random time in the event window but if this option is called
-		* User must set a time constant for each added vertex. 
+		* User must set a time constant for each added vertex.
 		* First vertex is at t - 0, the rest have times selected from exponentials
 		* each exponential applies to the time since last vertex */
-  		
+
 		_exptiming = true;
 		G4std::istringstream is(newValues.c_str());
 		for(int i=0; i<nExtra; ++i){
 		 	is >> fExponent[i];
 			if(is.good()){
-				G4cout << "Coincidence_Gen: Setting extra interaction " << i+1 
+				G4cout << "Coincidence_Gen: Setting extra interaction " << i+1
 					   << " exponential time constant to " <<  fExponent[i] << G4endl;
 			}else{
 				G4cerr << "Coincidence_Gen error: "
-				       << "Exponential timing selected, but insufficient time constants provided " 
+				       << "Exponential timing selected, but insufficient time constants provided "
 					   << G4endl;
 			}
 		}
 	}
-	
+
 	/*--------------------------------------------------------------*/
 	void Coincidence_Gen::SetExpoForceWindow(G4bool newValues)
 	{
 		/* Set Force the events to be all in the time window. If set to false, the event not inside the window
 		 will not be simulated.It is valable for all the coincidence interactions, with the time window starting
 		 with the first event.*/
-		
+
 		_expTimingTimeWindowForce = newValues;
 	}
 }
-	
+
 

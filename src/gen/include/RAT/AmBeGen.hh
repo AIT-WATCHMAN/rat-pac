@@ -19,7 +19,7 @@
 #ifndef __RAT_AmBeGen__
 #define __RAT_AmBeGen__
 
-#include <GLG4Gen.hh>
+#include <RAT/GLG4Gen.hh>
 
 #include <globals.hh>
 

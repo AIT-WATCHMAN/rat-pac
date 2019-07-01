@@ -1,8 +1,8 @@
-#include "GLG4Gen.hh"
-#include "GLG4VertexGen.hh"
-#include "GLG4PosGen.hh"
-#include "GLG4TimeGen.hh"
-#include "GLG4StringUtil.hh"
+#include "RAT/GLG4Gen.hh"
+#include "RAT/GLG4VertexGen.hh"
+#include "RAT/GLG4PosGen.hh"
+#include "RAT/GLG4TimeGen.hh"
+#include "RAT/GLG4StringUtil.hh"
 
 #include <RAT/Factory.hh>
 
@@ -32,7 +32,7 @@ void GLG4Gen_Combo::GenerateEvent(G4Event *event)
   G4ThreeVector pos;
   posGen->GeneratePosition(pos);
   G4double t0 = NextTime();
- 
+
   vertexGen->GeneratePrimaryVertex(event, pos, t0);
 }
 
@@ -40,7 +40,7 @@ void GLG4Gen_Combo::ResetTime(double offset)
 {
   nextTime = timeGen->GenerateEventTime() + offset;
 }
- 
+
 void GLG4Gen_Combo::SetState(G4String state)
 {
   state = util_strip_default(state);
@@ -141,7 +141,7 @@ GLG4Gen_DeferTrack::GLG4Gen_DeferTrack(const G4Track *track)
 			  mom.x(), mom.y(), mom.z() );// momentum
   particle->SetPolarization(pol.x(), pol.y(), pol.z()); // polarization
   particle->SetMass(track->GetDefinition()->GetPDGMass()); // Geant4 is silly.
-  
+
   vertex->SetPrimary( particle );
 
   nextTime = vertex->GetT0();
@@ -189,7 +189,7 @@ void GLG4Gen_External::GenerateEvent(G4Event *event)
     posGen->GeneratePosition(pos);
   }
   G4double t0 = NextTime();
- 
+
   vertexGen->GeneratePrimaryVertex(event, pos, t0);
 }
 
@@ -197,7 +197,7 @@ void GLG4Gen_External::ResetTime(double offset)
 {
   nextTime = timeGen->GenerateEventTime() + offset;
 }
- 
+
 void GLG4Gen_External::SetState(G4String state)
 {
   state = util_strip_default(state);

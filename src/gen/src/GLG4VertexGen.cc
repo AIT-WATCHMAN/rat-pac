@@ -18,9 +18,9 @@
 #include "G4Event.hh"
 #include "G4Track.hh"
 #include "G4HEPEvtParticle.hh"
-#include "GLG4VertexGen.hh"
+#include "RAT/GLG4VertexGen.hh"
 #include "Randomize.hh"
-#include "GLG4StringUtil.hh"
+#include "RAT/GLG4StringUtil.hh"
 
 #include <string.h>  // for strcmp
 #include <sstream>
@@ -45,18 +45,18 @@ using namespace std;
 
 ////////////////////////////////////////////////////////////////
 const char * GLG4VertexGen_Gun::theElementNames[] = {
-  "H",                                                                                                "He", 
-  "Li", "Be",                                                             "B",  "C",  "N",  "O", "F", "Ne", 
-  "Na", "Mg",                                                             "Al", "Si", "P", "S", "Cl", "Ar", 
-  "K", "Ca", "Sc", "Ti", "V", "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn", "Ga", "Ge", "As", "Se", "Br", "Kr", 
-  "Rb", "Sr", "Y", "Zr", "Nb", "Mo","Tc", "Ru", "Rh", "Pd", "Ag", "Cd", "In", "Sn", "Sb", "Te", "I",  "Xe", 
-  "Cs", "Ba", 
-              "La", "Ce", "Pr", "Nd", "Pm", "Sm", "Eu", "Gd", "Tb", "Dy", "Ho", "Er", "Tm", "Yb", "Lu", 
-                   "Hf", "Ta", "W", "Re", "Os", "Ir", "Pt", "Au", "Hg", "Tl", "Pb", "Bi", "Po", "At", "Rn", 
-  "Fr", "Ra", 
+  "H",                                                                                                "He",
+  "Li", "Be",                                                             "B",  "C",  "N",  "O", "F", "Ne",
+  "Na", "Mg",                                                             "Al", "Si", "P", "S", "Cl", "Ar",
+  "K", "Ca", "Sc", "Ti", "V", "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn", "Ga", "Ge", "As", "Se", "Br", "Kr",
+  "Rb", "Sr", "Y", "Zr", "Nb", "Mo","Tc", "Ru", "Rh", "Pd", "Ag", "Cd", "In", "Sn", "Sb", "Te", "I",  "Xe",
+  "Cs", "Ba",
+              "La", "Ce", "Pr", "Nd", "Pm", "Sm", "Eu", "Gd", "Tb", "Dy", "Ho", "Er", "Tm", "Yb", "Lu",
+                   "Hf", "Ta", "W", "Re", "Os", "Ir", "Pt", "Au", "Hg", "Tl", "Pb", "Bi", "Po", "At", "Rn",
+  "Fr", "Ra",
               "Ac", "Th", "Pa",  "U", "Np", "Pu", "Am", "Cm", "Bk", "Cf", "Es", "Fm", "Md", "No", "Lr",
               "Rf", "Db", "Sg", "Bh", "Hs", "Mt", "Xa"
-  
+
 };
 
 
@@ -162,7 +162,7 @@ GeneratePrimaryVertex(G4Event *argEvent, G4ThreeVector &dx, G4double dt)
     }
 
     particle->SetMass(mass); // Geant4 is silly.
-  
+
     vertex->SetPrimary( particle );
 
     argEvent->AddPrimaryVertex(vertex);
@@ -271,7 +271,7 @@ SetState(G4String newValues)
 		      / _mom.mag2() );
   }
   _mom *= p_renorm;
-          
+
   // set particle polarization
   is >> x >> y >> z;
   if (is.fail())
@@ -304,24 +304,24 @@ GetState()
 
 ////////////////////////////////////////////////////////////////   Gun V2
 const char * GLG4VertexGen_Gun2::theElementNames[] = {
-  "H",                                                                                                "He", 
-  "Li", "Be",                                                             "B",  "C",  "N",  "O", "F", "Ne", 
-  "Na", "Mg",                                                             "Al", "Si", "P", "S", "Cl", "Ar", 
-  "K", "Ca", "Sc", "Ti", "V", "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn", "Ga", "Ge", "As", "Se", "Br", "Kr", 
-  "Rb", "Sr", "Y", "Zr", "Nb", "Mo","Tc", "Ru", "Rh", "Pd", "Ag", "Cd", "In", "Sn", "Sb", "Te", "I",  "Xe", 
-  "Cs", "Ba", 
-              "La", "Ce", "Pr", "Nd", "Pm", "Sm", "Eu", "Gd", "Tb", "Dy", "Ho", "Er", "Tm", "Yb", "Lu", 
-                   "Hf", "Ta", "W", "Re", "Os", "Ir", "Pt", "Au", "Hg", "Tl", "Pb", "Bi", "Po", "At", "Rn", 
-  "Fr", "Ra", 
+  "H",                                                                                                "He",
+  "Li", "Be",                                                             "B",  "C",  "N",  "O", "F", "Ne",
+  "Na", "Mg",                                                             "Al", "Si", "P", "S", "Cl", "Ar",
+  "K", "Ca", "Sc", "Ti", "V", "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn", "Ga", "Ge", "As", "Se", "Br", "Kr",
+  "Rb", "Sr", "Y", "Zr", "Nb", "Mo","Tc", "Ru", "Rh", "Pd", "Ag", "Cd", "In", "Sn", "Sb", "Te", "I",  "Xe",
+  "Cs", "Ba",
+              "La", "Ce", "Pr", "Nd", "Pm", "Sm", "Eu", "Gd", "Tb", "Dy", "Ho", "Er", "Tm", "Yb", "Lu",
+                   "Hf", "Ta", "W", "Re", "Os", "Ir", "Pt", "Au", "Hg", "Tl", "Pb", "Bi", "Po", "At", "Rn",
+  "Fr", "Ra",
               "Ac", "Th", "Pa",  "U", "Np", "Pu", "Am", "Cm", "Bk", "Cf", "Es", "Fm", "Md", "No", "Lr",
               "Rf", "Db", "Sg", "Bh", "Hs", "Mt", "Xa"
-  
+
 };
 
 
 GLG4VertexGen_Gun2::GLG4VertexGen_Gun2(const char *arg_dbname)
     : GLG4VertexGen(arg_dbname), _mom(0.,0.,0.), _ke1(0.0), _ke2(0.0), _pol(0.,0.,0.),
-    _multiplicity(1) 
+    _multiplicity(1)
 {
   _pDef= G4ParticleTable::GetParticleTable()->FindParticle("geantino");
 }
@@ -338,17 +338,17 @@ GeneratePrimaryVertex(G4Event *argEvent, G4ThreeVector &dx, G4double dt)
 {
   for (int imult=0; imult<_multiplicity; imult++) {
     G4PrimaryVertex* vertex= new G4PrimaryVertex( dx, dt );
-    
+
     if (_pDef == 0) {
 	_pDef= G4ParticleTable::GetParticleTable()->FindParticle("geantino");
     }
     G4double mass= _pDef->GetPDGMass();
-    
+
     G4PrimaryParticle* particle;
-    
+
     G4double temp_ke_max;
     G4double temp_ke_min;
-    
+
     if (_ke1 > _ke2)
     {
 	temp_ke_max = _ke1;
@@ -361,20 +361,20 @@ GeneratePrimaryVertex(G4Event *argEvent, G4ThreeVector &dx, G4double dt)
     G4double _ke = (_ke2 - _ke1)*G4UniformRand()+_ke1;
 
     G4ThreeVector dir;
-    if (_mom.mag2() > 0.0) 
+    if (_mom.mag2() > 0.0)
     {
 	if (_mom_theta > 0.0)                 // emission into a cone of angle _mom_theta
 	{
 	    G4double phi= 2.*CLHEP::pi* G4UniformRand();
 	    G4double cosTheta = 1.0 - (1.0 - cos(_mom_theta)) * G4UniformRand();
 	    G4double sinTheta = sqrt(1. - cosTheta * cosTheta);
-	    
+
 	    G4double ux = sinTheta * cos(phi);
 	    G4double uy = sinTheta * sin(phi);
 	    G4double uz = cosTheta;
-	    
-	    dir = G4ThreeVector(ux,uy,uz);  
-	    
+
+	    dir = G4ThreeVector(ux,uy,uz);
+
 	    dir.rotateY(_mom.theta());
 	    dir.rotateZ(_mom.phi());
 	}
@@ -388,15 +388,15 @@ GeneratePrimaryVertex(G4Event *argEvent, G4ThreeVector &dx, G4double dt)
 				  dir.y(),           // y component of momentum
 				  dir.z()       );   // z component of momentum
 	dir = dir.unit();
-	
+
     }
     else {
       // isotropic direction
-     
+
       G4double phi= 2.*CLHEP::pi* G4UniformRand();
       G4double cosTheta = -1. + 2. * G4UniformRand();
       G4double sinTheta = sqrt(1. - cosTheta * cosTheta);
-      
+
       G4double ux = sinTheta * cos(phi);
       G4double uy = sinTheta * sin(phi);
       G4double uz = cosTheta;
@@ -435,11 +435,11 @@ GeneratePrimaryVertex(G4Event *argEvent, G4ThreeVector &dx, G4double dt)
     }
 
     particle->SetMass(mass); // Geant4 is silly.
-  
+
     vertex->SetPrimary( particle );
 
     argEvent->AddPrimaryVertex(vertex);
-  
+
   }
 }
 
@@ -524,18 +524,18 @@ SetState(G4String newValues)
   if (is.fail())
     return;
   _mom= G4ThreeVector(x, y, z);
- 
+
   is >> x;
   if (is.fail())
     return;
   _mom_theta = x * CLHEP::deg;
-  
+
   is >> x >> y;
-  if (is.fail()) 
+  if (is.fail())
     return;
   _ke1= x * CLHEP::MeV;
   _ke2= y * CLHEP::MeV;
- 
+
 
    // set particle polarization
   is >> x >> y >> z;
@@ -544,7 +544,7 @@ SetState(G4String newValues)
   _pol= G4ThreeVector(x,y,z);
 
   // set multiplicity
-  is >> _multiplicity;        
+  is >> _multiplicity;
 }
 
 
@@ -592,9 +592,9 @@ Open(const char *argFilename) {
   }
   if (_file != 0)
     Close();
-  
+
   _filename= argFilename;
-  
+
   // is a pipe requested?
   if (argFilename[strlen(argFilename)-1]=='|') {
     _isPipe= true;
@@ -643,7 +643,7 @@ GetDataLine(char *buffer, size_t size)
 {
   int rewind_count= 0;
   char firstword[64];
-  
+
   for (;;) {
     buffer[0]= '\0';
     if ( fgets(buffer, size, _file) != buffer ) {
@@ -670,7 +670,7 @@ GetDataLine(char *buffer, size_t size)
       }
     }
     // check for "sentinel" block
-   
+
     firstword[0]= '\0';
     sscanf(buffer, " %63s", firstword); // leading space means skip whitespace
     if ( firstword[0]=='#' || firstword[0] == '\0' )
@@ -749,8 +749,8 @@ where
     PHEP5    == mass in GeV
     DT       == vertex _delta_ time, in ns (*)
     X        == x vertex in mm
-    Y        == y vertex in mm 
-    Z        == z vertex in mm 
+    Y        == y vertex in mm
+    Z        == z vertex in mm
     PLX      == x polarization
     PLY      == y polarization
     PLZ      == z polarization
@@ -806,7 +806,7 @@ GeneratePrimaryVertex(G4Event *argEvent, G4ThreeVector &dx, G4double dt)
   vertexSet.push_back( new G4PrimaryVertex(dx, dt) );
 
   G4double vertexX=0.0, vertexY=0.0, vertexZ=0.0, vertexT=0.0;
-  
+
   for( int IHEP=0; IHEP<NHEP; IHEP++ )
   {
     G4int ISTHEP=0;     // status code
@@ -837,7 +837,7 @@ GeneratePrimaryVertex(G4Event *argEvent, G4ThreeVector &dx, G4double dt)
       return;
     }
     istringstream is(buffer);
-    // if request was made to use positions listed in ascii input, 
+    // if request was made to use positions listed in ascii input,
     // read them into req_vertexX, Y, and Z
     if(_useExternalPos){
       is >> ISTHEP >> IDHEP >> JDAHEP1 >> JDAHEP2
@@ -852,11 +852,11 @@ GeneratePrimaryVertex(G4Event *argEvent, G4ThreeVector &dx, G4double dt)
 	       << " No events will be generated for this line.\n";
 	return;
       }
-    } else { // use positions from a different position generator, 
+    } else { // use positions from a different position generator,
              // not the content of the ascii input
       is >> ISTHEP >> IDHEP >> JDAHEP1 >> JDAHEP2
 	 >> PHEP1 >> PHEP2 >> PHEP3 >> PHEP5 >> req_vertex_dT;
-    } 
+    }
 
     // reset units if "dimensionless" pseudo-particle information
     if (ISTHEP >= kISTHEP_InformatonMin)
@@ -876,7 +876,7 @@ GeneratePrimaryVertex(G4Event *argEvent, G4ThreeVector &dx, G4double dt)
       else
 	IDHEP += kPDGcodeModulus*ISTHEP;
     }
-    
+
     // create G4PrimaryParticle object
     // create an "ion" (nucleus) if IDHEP>9800000
     G4PrimaryParticle* particle;
@@ -965,9 +965,9 @@ GeneratePrimaryVertex(G4Event *argEvent, G4ThreeVector &dx, G4double dt)
   }
 
   // check if there is at least one particle
-  if( HPlist.empty() ) return; 
+  if( HPlist.empty() ) return;
 
-  // make connection between daughter particles decayed from 
+  // make connection between daughter particles decayed from
   // the same mother
   for( size_t i=0; i<HPlist.size(); i++ )
   {
@@ -1000,7 +1000,7 @@ GeneratePrimaryVertex(G4Event *argEvent, G4ThreeVector &dx, G4double dt)
   // put initial particles to the vertex (or vertices)
   for( size_t ii=0; ii<HPlist.size(); ii++ )
   {
-    if( HPlist[ii]->GetISTHEP() > 0 ) // ISTHEP of daughters had been 
+    if( HPlist[ii]->GetISTHEP() > 0 ) // ISTHEP of daughters had been
                                        // set to negative
     {
       G4PrimaryParticle* initialParticle = HPlist[ii]->GetTheParticle();
@@ -1015,7 +1015,7 @@ GeneratePrimaryVertex(G4Event *argEvent, G4ThreeVector &dx, G4double dt)
 
   // Put the vertex (or vertices) to G4Event object
   {for (size_t iv=0; iv<vertexSet.size(); iv++) {
-    argEvent->AddPrimaryVertex( vertexSet[iv] ); 
+    argEvent->AddPrimaryVertex( vertexSet[iv] );
   }}
 }
 
@@ -1056,7 +1056,7 @@ GetState()
 #if 0
 /*  Below are the standard components for a "GLG4VertexGen": */
 
-  
+
 GLG4VertexGen_XXX::GLG4VertexGen_XXX(const char *arg_dbname)
   : GLG4VertexGen(arg_dbname)
 {
@@ -1074,7 +1074,7 @@ GeneratePrimaryVertex(G4Event *argEvent)
   G4PrimaryVertex* vertex= new G4PrimaryVertex( 0.,0.,0.,0. );
 
   pDef= G4ParticleTable::GetParticleTable()->FindParticle("geantino");
-  
+
   G4PrimaryParticle* particle;
   particle=
       new G4PrimaryParticle(pDef,              // particle code
@@ -1083,7 +1083,7 @@ GeneratePrimaryVertex(G4Event *argEvent)
 			    mom.z()       );   // z component of momentum
   particle->SetPolarization(rpol.x(), rpol.y(), rpol.z());
   particle->SetMass(pDef->GetPDGMass()); // Geant4 is silly.
-  
+
   vertex->SetPrimary( particle );
 
   argEvent->AddPrimaryVertex(vertex);

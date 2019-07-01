@@ -8,8 +8,8 @@
 ////////////////////////////////////////////////////////////////
 
 // include files (boring)
-#include "GLG4PrimaryGeneratorAction.hh"
-#include "GLG4PrimaryGeneratorMessenger.hh"
+#include "RAT/GLG4PrimaryGeneratorAction.hh"
+#include "RAT/GLG4PrimaryGeneratorMessenger.hh"
 
 #include "globals.hh"
 #include "G4Event.hh"
@@ -20,10 +20,10 @@
 #include <CLHEP/Units/PhysicalConstants.h>
 #include "Randomize.hh"
 
-#include "GLG4Gen.hh"
-#include "GLG4TimeGen.hh"
-#include "GLG4VertexGen.hh"            // for vertex generator
-#include "GLG4PosGen.hh"               // for global position generator
+#include "RAT/GLG4Gen.hh"
+#include "RAT/GLG4TimeGen.hh"
+#include "RAT/GLG4VertexGen.hh"            // for vertex generator
+#include "RAT/GLG4PosGen.hh"               // for global position generator
 #include <RAT/Factory.hh>
 #include <RAT/PosGen_RegexFill.hh>
 #include <RAT/PosGen_Line.hh>
@@ -63,37 +63,37 @@ GLG4PrimaryGeneratorAction()
   myMessenger = new GLG4PrimaryGeneratorMessenger(this);
   myUniversalTime= 0.0;
   myUniversalTimeSincePriorEvent= 0.0;
-  
+
   myEventWindow= 0*CLHEP::ns;
 
   // load up factories with known generators
 
   // Generic generators
-  RAT::GlobalFactory<GLG4Gen>::Register("combo", 
+  RAT::GlobalFactory<GLG4Gen>::Register("combo",
 					new RAT::Alloc<GLG4Gen, GLG4Gen_Combo>);
-  RAT::GlobalFactory<GLG4Gen>::Register("external", 
+  RAT::GlobalFactory<GLG4Gen>::Register("external",
 					new RAT::Alloc<GLG4Gen, GLG4Gen_External>);
   RAT::GlobalFactory<GLG4Gen>::Register("random_trigger",
           new RAT::Alloc<GLG4Gen, Gen_RandomTrigger>);
 
   // These generators are used by combo to make a "custom" generator
   // Rate generators
-  RAT::GlobalFactory<GLG4TimeGen>::Register("uniform", 
-					    new RAT::Alloc<GLG4TimeGen, 
+  RAT::GlobalFactory<GLG4TimeGen>::Register("uniform",
+					    new RAT::Alloc<GLG4TimeGen,
 					    GLG4TimeGen_Uniform>);
   RAT::GlobalFactory<GLG4TimeGen>::Register("poisson",
-					    new RAT::Alloc<GLG4TimeGen, 
+					    new RAT::Alloc<GLG4TimeGen,
 					    GLG4TimeGen_Poisson>);
 
   // Vertex generators
-  RAT::GlobalFactory<GLG4VertexGen>::Register("gun", 
-					      new RAT::Alloc<GLG4VertexGen, 
+  RAT::GlobalFactory<GLG4VertexGen>::Register("gun",
+					      new RAT::Alloc<GLG4VertexGen,
 					      GLG4VertexGen_Gun>);
-  RAT::GlobalFactory<GLG4VertexGen>::Register("gun2", 
-					      new RAT::Alloc<GLG4VertexGen, 
+  RAT::GlobalFactory<GLG4VertexGen>::Register("gun2",
+					      new RAT::Alloc<GLG4VertexGen,
 					      GLG4VertexGen_Gun2>);
-  RAT::GlobalFactory<GLG4VertexGen>::Register("pbomb", 
-					      new RAT::Alloc<GLG4VertexGen, 
+  RAT::GlobalFactory<GLG4VertexGen>::Register("pbomb",
+					      new RAT::Alloc<GLG4VertexGen,
 					      RAT::VertexGen_PhotonBomb>);
   RAT::GlobalFactory<GLG4VertexGen>::Register("wimp",
 					      new RAT::Alloc<GLG4VertexGen,
@@ -103,35 +103,35 @@ GLG4PrimaryGeneratorAction()
 					      GLG4VertexGen_HEPEvt>);
 
   // Position generators
-  RAT::GlobalFactory<GLG4PosGen>::Register("point", 
-					   new RAT::Alloc<GLG4PosGen, 
+  RAT::GlobalFactory<GLG4PosGen>::Register("point",
+					   new RAT::Alloc<GLG4PosGen,
 					   GLG4PosGen_Point>);
-  RAT::GlobalFactory<GLG4PosGen>::Register("line", 
-					   new RAT::Alloc<GLG4PosGen, 
+  RAT::GlobalFactory<GLG4PosGen>::Register("line",
+					   new RAT::Alloc<GLG4PosGen,
 					   RAT::PosGen_Line>);
-  RAT::GlobalFactory<GLG4PosGen>::Register("fillshell", 
-					   new RAT::Alloc<GLG4PosGen, 
+  RAT::GlobalFactory<GLG4PosGen>::Register("fillshell",
+					   new RAT::Alloc<GLG4PosGen,
 					   RAT::PosGen_FillShell>);
-  RAT::GlobalFactory<GLG4PosGen>::Register("radial", 
-					   new RAT::Alloc<GLG4PosGen, 
+  RAT::GlobalFactory<GLG4PosGen>::Register("radial",
+					   new RAT::Alloc<GLG4PosGen,
 					   RAT::PosGen_Radial>);
-  RAT::GlobalFactory<GLG4PosGen>::Register("fillshell", 
-					   new RAT::Alloc<GLG4PosGen, 
+  RAT::GlobalFactory<GLG4PosGen>::Register("fillshell",
+					   new RAT::Alloc<GLG4PosGen,
 					   RAT::PosGen_FillShell>);
-  RAT::GlobalFactory<GLG4PosGen>::Register("paint", 
-					   new RAT::Alloc<GLG4PosGen, 
+  RAT::GlobalFactory<GLG4PosGen>::Register("paint",
+					   new RAT::Alloc<GLG4PosGen,
 					   GLG4PosGen_Paint>);
-  RAT::GlobalFactory<GLG4PosGen>::Register("fill", 
-					   new RAT::Alloc<GLG4PosGen, 
+  RAT::GlobalFactory<GLG4PosGen>::Register("fill",
+					   new RAT::Alloc<GLG4PosGen,
 					   GLG4PosGen_Fill>);
-  RAT::GlobalFactory<GLG4PosGen>::Register("regexfill", 
-					   new RAT::Alloc<GLG4PosGen, 
+  RAT::GlobalFactory<GLG4PosGen>::Register("regexfill",
+					   new RAT::Alloc<GLG4PosGen,
 					   RAT::PosGen_RegexFill>);
-  RAT::GlobalFactory<GLG4PosGen>::Register("multipoint", 
-					   new RAT::Alloc<GLG4PosGen, 
+  RAT::GlobalFactory<GLG4PosGen>::Register("multipoint",
+					   new RAT::Alloc<GLG4PosGen,
 					   RAT::PosGen_Multipoint>);
   RAT::GlobalFactory<GLG4PosGen>::Register("triMeshSurface",
-					   new RAT::Alloc<GLG4PosGen, 
+					   new RAT::Alloc<GLG4PosGen,
 					   RAT::PosGen_TriMeshSurface>);
 
   needReset = true;
@@ -159,11 +159,11 @@ void GLG4PrimaryGeneratorAction::ClearGenerators(void)
 }
 // GeneratePrimaries (this is the interesting part!)
 void GLG4PrimaryGeneratorAction::GeneratePrimaries(G4Event* argEvent)
-{  
+{
   RAT::EventInfo *eventInfo = new RAT::EventInfo;
   eventInfo->utc = RAT::AddNanoseconds(runUTC, (long) GetUniversalTime());
-  argEvent->SetUserInformation((G4VUserEventInformation*) eventInfo);  
-  
+  argEvent->SetUserInformation((G4VUserEventInformation*) eventInfo);
+
   if (needReset) {
     // Need to reset the times of all the generators now that we've started
     // running.
@@ -175,7 +175,7 @@ void GLG4PrimaryGeneratorAction::GeneratePrimaries(G4Event* argEvent)
       gen->ResetTime();
       temp.push(gen);
     }
-    
+
     myGenList = temp; // copy them all back
     needReset = false;
   }
@@ -184,7 +184,7 @@ void GLG4PrimaryGeneratorAction::GeneratePrimaries(G4Event* argEvent)
   // (priority queue will always have next event on top)
   if (myGenList.empty())
     G4Exception(__FILE__, "No Active Generator", FatalException, "GLG4PrimaryGeneratorAction: No generators selected!");
-  
+
   double timeToNextEvent = myGenList.top()->NextTime();
   myUniversalTimeSincePriorEvent = timeToNextEvent;
   myUniversalTime += timeToNextEvent;

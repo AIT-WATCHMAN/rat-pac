@@ -20,9 +20,9 @@
 #include "G4GeometryTolerance.hh"
 #include <CLHEP/Units/SystemOfUnits.h>
 
-#include "GLG4PosGen.hh"
-#include "GLG4VertexGen.hh" // for GLG4VertexGen_HEPEvt
-#include "GLG4StringUtil.hh"
+#include "RAT/GLG4PosGen.hh"
+#include "RAT/GLG4VertexGen.hh" // for GLG4VertexGen_HEPEvt
+#include "RAT/GLG4StringUtil.hh"
 
 
 // To support GEANT4.6 and up
@@ -87,7 +87,7 @@ GLG4PosGen_Paint::GLG4PosGen_Paint(const char *arg_dbname)
 void GLG4PosGen_Paint::GeneratePosition( G4ThreeVector &argResult )
 {
   double surfaceTolerance = G4GeometryTolerance::GetInstance()->GetSurfaceTolerance();
-  
+
   // We need to refer to physical volume.  First set up the navigator
   // to know the surrounding volume and heirarchy (Note this must
   // always be done, even if we already know _pVolume.)
@@ -101,7 +101,7 @@ void GLG4PosGen_Paint::GeneratePosition( G4ThreeVector &argResult )
       "Could not find any volume at " << _pos << G4endl;
     return;
   }
-  
+
   // check or set related field variables
   if (pv != _pVolume) {  // normally happens just once after a SetState()
     if (_pVolume == 0) { // SetState() sets _pVolume==0
@@ -172,10 +172,10 @@ void GLG4PosGen_Paint::GeneratePosition( G4ThreeVector &argResult )
   // although this is largely irrelevant for us).  This is true even for
   // non-convex solids if one considers all intercepts, such that the
   // interior solid does not shadow itself.
-  
+
   G4ThreeVector rpos; // this will hold the position result
   for (int iloop=0, jloop=0; /* test inside */ ; iloop++) {
-    
+
     // First decide whether we will use a stacked intercept or trace a new
     // ray.  The following procedure avoids using consecutive intercepts
     // from the same ray; in order to avoid an ever-increasing list size,
@@ -186,7 +186,7 @@ void GLG4PosGen_Paint::GeneratePosition( G4ThreeVector &argResult )
       double Rsphere= 0.50001*sqrt(dx*dx+dy*dy+dz*dz) + surfaceTolerance;
       G4ThreeVector sphere_center(x0+0.5*dx, y0+0.5*dy, z0+0.5*dz);
       while (iint >= _intercepts.size()) {
-	
+
 	// "infinite" loop test
 	jloop++;
 	if ( jloop >= 100000 ) {
@@ -255,7 +255,7 @@ void GLG4PosGen_Paint::GeneratePosition( G4ThreeVector &argResult )
 	  else {
 	    spos += surfaceTolerance*raydir;
 	  }
-	  
+
 	  dist= solid->DistanceToOut( spos, raydir );
 	  if (dist >= 2.0*Rsphere)
 	    break;
@@ -285,13 +285,13 @@ void GLG4PosGen_Paint::GeneratePosition( G4ThreeVector &argResult )
     _intercepts.erase(_intercepts.begin()+iint);
     // the above line is not as inefficient as an old C or early C++
     // programmer might think, due to the "allocator".
-    
+
     local_to_global.ApplyPointTransform( rpos ); // convert to global coords
-    
+
     // now apply material restriction, if any
     if ( _material == 0 )
       break; // no material restriction
-    
+
     G4VPhysicalVolume *pvtest=
       gNavigator->LocateGlobalPointAndSetup(rpos,0,true); // fast check mode
     if ( pvtest != 0
@@ -320,7 +320,7 @@ void GLG4PosGen_Paint::SetState( G4String newValues )
 	   << G4endl;
     return;
   }
-  
+
   G4std::istringstream is(newValues.c_str());
 
   // set position
@@ -354,12 +354,12 @@ G4String GLG4PosGen_Paint::GetState() const
 	   << "GLG4PosGen_Paint::GetState()" << G4endl;
     volname = "!";
   }
-  
+
   os << _pos.x() << ' ' << _pos.y() << ' ' << _pos.z()
      << ' ' << volname << ' ' << _thickness << ' ' << _materialName
      << G4std::ends;
   G4String rv(os.str());
-  return rv;  
+  return rv;
 }
 
 
@@ -390,7 +390,7 @@ void GLG4PosGen_Fill::GeneratePosition( G4ThreeVector &argResult )
       "Could not find any volume at " << _pos << G4endl;
     return;
   }
-  
+
   // check or set related field variables
   if (pv != _pVolume) {  // normally happens just once after a SetState()
     if (_pVolume == 0) { // SetState() sets _pVolume==0
@@ -453,7 +453,7 @@ void GLG4PosGen_Fill::GeneratePosition( G4ThreeVector &argResult )
 
   // more complicated case: generate points uniformly in the
   // surrounding volume.
-  
+
   // loop over the following:
   //  generate points in bounding box of solid until we find one inside
   //  convert to global coordinates
@@ -498,7 +498,7 @@ void GLG4PosGen_Fill::GeneratePosition( G4ThreeVector &argResult )
     }
   }
   _nfound++;
-  
+
   argResult = rpos;
   return;
 }
@@ -542,7 +542,7 @@ void GLG4PosGen_Fill::SetState( G4String newValues )
     }
     return;
   }
-  
+
   G4std::istringstream is(newValues.c_str());
 
   // set position
@@ -574,13 +574,13 @@ G4String GLG4PosGen_Fill::GetState() const
 	   << "GLG4PosGen_FilL::GetState()" << G4endl;
     volname = "!";
   }
-  
+
   os << _pos.x() << ' ' << _pos.y() << ' ' << _pos.z()
      << ' ' << volname << ' ' << _materialName;
 
   os << G4std::ends;
   G4String rv(os.str());
-  return rv;  
+  return rv;
 }
 
 ////////////////////////////////////////////////////////////////
@@ -702,7 +702,7 @@ void GLG4PosGen_Cosmic::SetState( G4String newValues )
 	   << G4endl;
     return;
   }
-  
+
   G4std::istringstream is(newValues.c_str());
 
   // set width and height
@@ -724,7 +724,7 @@ G4String GLG4PosGen_Cosmic::GetState()
   os << _width << ' ' << _height << G4std::ends;
   G4String rv(os.str());
   os.freeze(0); // avoid memory leak!
-  return rv;  
+  return rv;
 }
 
 #endif

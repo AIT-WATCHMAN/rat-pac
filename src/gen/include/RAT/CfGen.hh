@@ -21,7 +21,7 @@
 #ifndef __RAT_CfGen__
 #define __RAT_CfGen__
 
-#include <GLG4Gen.hh>
+#include <RAT/GLG4Gen.hh>
 
 #include <globals.hh>
 
