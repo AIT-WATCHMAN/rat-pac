@@ -22,7 +22,7 @@
 // [see detailed class description in GLG4Scint.hh]
 
 #include "G4UnitsTable.hh"
-#include "GLG4Scint.hh"
+#include "RAT/GLG4Scint.hh"
 #include "G4ios.hh"
 #include "G4Timer.hh"
 #include "Randomize.hh"

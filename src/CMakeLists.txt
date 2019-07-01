@@ -10,7 +10,7 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 #add_subdirectory(gen)
 #add_subdirectory(geo)
 #add_subdirectory(io)
-#add_subdirectory(physics)
+add_subdirectory(physics)
 add_subdirectory(stlplus)
 add_subdirectory(util)
 
@@ -29,8 +29,20 @@ add_subdirectory(util)
 #        $<TARGET_OBJECTS:stlplus>
 #        $<TARGET_OBJECTS:util>)
 #
-#add_executable(rat rat.cc)
-#target_link_libraries(rat PUBLIC RAT ${ROOT_LIBRARIES} ${Geant4_LIBRARIES})
+#add_executable(rat rat.cc
+#        $<TARGET_OBJECTS:cmd>
+#        $<TARGET_OBJECTS:core>
+#        $<TARGET_OBJECTS:daq>
+#        $<TARGET_OBJECTS:db>
+#        $<TARGET_OBJECTS:ds>
+#        $<TARGET_OBJECTS:fit>
+#        $<TARGET_OBJECTS:gen>
+#        $<TARGET_OBJECTS:geo>
+#        $<TARGET_OBJECTS:io>
+#        $<TARGET_OBJECTS:physics>
+#        $<TARGET_OBJECTS:stlplus>
+#        $<TARGET_OBJECTS:util>)
+#target_link_libraries(rat PUBLIC ${ROOT_LIBRARIES} ${Geant4_LIBRARIES})
 #
 #
 #

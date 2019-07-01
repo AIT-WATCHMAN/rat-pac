@@ -8,10 +8,10 @@
 //   Original: Glenn Horton-Smith, Dec 2001
 //
 // GLG4OpAttenuation.cc
-// 
+//
 
 #include "G4ios.hh"
-#include "GLG4OpAttenuation.hh"
+#include "RAT/GLG4OpAttenuation.hh"
 
 #include "G4DynamicParticle.hh"
 #include "G4Material.hh"
@@ -35,7 +35,7 @@ using namespace std;
 //      cos(\theta) = 4*(P_{cumulative}-1/2) / (3-cos^2\theta)
 //                                                ^^^^^^^^^^^ table value used
 #define N_COSTHETA_ENTRIES 129
-static double Cos2ThetaTable[N_COSTHETA_ENTRIES]; 
+static double Cos2ThetaTable[N_COSTHETA_ENTRIES];
 static int TableInitialized= 0;
 
 DummyProcess GLG4OpAttenuation::fgAttenuation("Attenuation");
@@ -95,7 +95,7 @@ GLG4OpAttenuation::PostStepDoIt(const G4Track& aTrack, const G4Step& aStep)
 
 	G4MaterialPropertiesTable* aMaterialPropertyTable;
 	G4MaterialPropertyVector* OpScatFracVector;
-	
+
         G4double OpScatFrac = 0.0;
 
 	aMaterialPropertyTable = aMaterial->GetMaterialPropertiesTable();
@@ -118,7 +118,7 @@ GLG4OpAttenuation::PostStepDoIt(const G4Track& aTrack, const G4Step& aStep)
 	  G4double Cos2Theta0=
 	    Cos2ThetaTable[(int)(fabs(urand)*2.0*(N_COSTHETA_ENTRIES-1)+0.5)];
 	  G4double CosTheta= 4.0*urand/(3.0-Cos2Theta0);
-#ifdef G4DEBUG	  
+#ifdef G4DEBUG
 	  if (fabs(CosTheta)>1.0) {
 	    cerr << "GLG4OpAttenution: Warning, CosTheta=" << CosTheta
 		 << " urand=" << urand
@@ -130,7 +130,7 @@ GLG4OpAttenuation::PostStepDoIt(const G4Track& aTrack, const G4Step& aStep)
 	  G4double Phi= (2.0*G4UniformRand()-1.0)*M_PI;
 	  G4ThreeVector e2( aParticle->GetMomentumDirection()
 			    .cross( aParticle->GetPolarization() ) );
-	  
+
 	  G4ThreeVector NewMomentum=
 	    ( CosTheta * aParticle->GetPolarization() +
 	      (SinTheta*cos(Phi)) * aParticle->GetMomentumDirection() +
@@ -140,7 +140,7 @@ GLG4OpAttenuation::PostStepDoIt(const G4Track& aTrack, const G4Step& aStep)
 	  // old new momentum and old polarization
 	  G4ThreeVector NewPolarization=
 	    ( aParticle->GetPolarization() - CosTheta*NewMomentum).unit();
-	  
+
 	  aParticleChange.ProposeMomentumDirection(NewMomentum);
 	  aParticleChange.ProposePolarization(NewPolarization);
 
@@ -150,12 +150,12 @@ GLG4OpAttenuation::PostStepDoIt(const G4Track& aTrack, const G4Step& aStep)
 	  // photon absorbed (may be re-radiated... but that is GLG4Scint's job)
 	  aParticleChange.ProposeTrackStatus(fStopAndKill);
 	  postStepPoint->SetProcessDefinedStep(&fgAttenuation);
-	  
+
 	  if (verboseLevel>0) {
 	    G4cout << "\n** Photon absorbed! **" << G4endl;
 	  }
 	}
-	
+
 	return G4VDiscreteProcess::PostStepDoIt(aTrack, aStep);
 }
 

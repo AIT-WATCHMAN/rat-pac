@@ -10,8 +10,8 @@
  @author Dario Motta, Feb. 23 2005: Formalism light interaction with photocathode.
  */
 
-#include "GLG4PMTOpticalModel.hh"
-#include "GLG4PMTSD.hh"
+#include "RAT/GLG4PMTOpticalModel.hh"
+#include "RAT/GLG4PMTSD.hh"
 
 #include "G4LogicalBorderSurface.hh"
 #include "G4OpticalSurface.hh"
