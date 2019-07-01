@@ -6,16 +6,16 @@
 #include <CLHEP/Random/RandFlat.h>
 #include <TMath.h>
 #include <TH1.h>
-#include <MiniCleanPMTCharge.hh>
+#include <RAT/MiniCleanPMTCharge.hh>
 
 namespace RAT {
 
 MiniCleanPMTCharge::MiniCleanPMTCharge() {
   m = 8.1497;
-  a1 = 0.27235E-01; 
-  b1 = 0.7944E-03; 
-  c1 = 0.81228E-01; 
-  qP0 = .59; 
+  a1 = 0.27235E-01;
+  b1 = 0.7944E-03;
+  c1 = 0.81228E-01;
+  qP0 = .59;
   qPa = 4.41;
   gamM = TMath::Gamma(m);
   beta = pow(m,m)/gamM;
