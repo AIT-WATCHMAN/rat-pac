@@ -1,4 +1,4 @@
-add_library(fit OBJECT
+add_library(fit STATIC
         src/FitPathProc.cc
         src/FitCentroidProc.cc
         src/FitBonsaiProc.cc
@@ -13,8 +13,9 @@ target_include_directories(fit PRIVATE
         ${PROJECT_SOURCE_DIR}/src/stlplus/include
         ${PROJECT_SOURCE_DIR}/src/util/include)
 target_include_directories(fit PRIVATE include)
+target_link_libraries(fit PUBLIC ${ROOT_LIBRARIES} ${Geant4_LIBRARIES})
 
-add_library(bonsai OBJECT
+add_library(bonsai STATIC
         bonsai/ariadne.cc
         bonsai/binfile.cc
         bonsai/bonsai.cc
@@ -37,6 +38,7 @@ add_library(bonsai OBJECT
         bonsai/vertex.cc
         bonsai/vertexfit.cc)
 target_include_directories(bonsai PRIVATE include)
+target_link_libraries(bonsai PUBLIC ${ROOT_LIBRARIES} ${Geant4_LIBRARIES})
 
 # TODO
 add_library(bonsai_fortran OBJECT

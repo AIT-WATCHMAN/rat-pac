@@ -1,4 +1,4 @@
-add_library(gen OBJECT
+add_library(gen STATIC
         src/AmBeGen.cc
         src/AmBeSource.cc
         src/BetaFunction.cc
@@ -46,3 +46,4 @@ target_include_directories(gen PRIVATE
         ${PROJECT_SOURCE_DIR}/src/stlplus/include
         ${PROJECT_SOURCE_DIR}/src/util/include)
 target_include_directories(gen PRIVATE include)
+target_link_libraries(gen PUBLIC ${ROOT_LIBRARIES} ${Geant4_LIBRARIES})

@@ -1,4 +1,4 @@
-add_library(physics OBJECT
+add_library(physics STATIC
         src/BNLOpWLS.cc
         src/BNLOpWLSBuilder.cc
         src/BNLOpWLSData.cc
@@ -19,3 +19,4 @@ target_include_directories(physics PRIVATE
         ${PROJECT_SOURCE_DIR}/src/stlplus/include
         ${PROJECT_SOURCE_DIR}/src/util/include)
 target_include_directories(physics PRIVATE include)
+target_link_libraries(physics PUBLIC ${ROOT_LIBRARIES} ${Geant4_LIBRARIES})

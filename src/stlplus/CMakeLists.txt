@@ -1,4 +1,4 @@
-add_library(stlplus OBJECT
+add_library(stlplus STATIC
         src/file_system.cc
         src/fileio.cc
         src/persistent.cc

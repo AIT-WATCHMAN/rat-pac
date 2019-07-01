@@ -1,4 +1,4 @@
-add_library(daq OBJECT
+add_library(daq STATIC
         src/LessSimpleDAQProc.cc
         src/MiniCleanPMTCharge.cc
         src/PDFPMTCharge.cc
@@ -14,3 +14,4 @@ target_include_directories(daq PRIVATE
         ${PROJECT_SOURCE_DIR}/src/stlplus/include
         ${PROJECT_SOURCE_DIR}/src/util/include)
 target_include_directories(daq PRIVATE include)
+target_link_libraries(daq PUBLIC ${ROOT_LIBRARIES} ${Geant4_LIBRARIES})

@@ -1,4 +1,4 @@
-add_library(core OBJECT
+add_library(core STATIC
         src/GLG4HitPhoton.cc
         src/GLG4HitPMT.cc
         src/GLG4SteppingAction.cc
@@ -31,3 +31,4 @@ target_include_directories(core PRIVATE
         ${PROJECT_SOURCE_DIR}/src/stlplus/include
         ${PROJECT_SOURCE_DIR}/src/util/include)
 target_include_directories(core PRIVATE include)
+target_link_libraries(core PUBLIC ${ROOT_LIBRARIES} ${Geant4_LIBRARIES})

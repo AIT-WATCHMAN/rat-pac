@@ -1,4 +1,4 @@
-add_library(cmd OBJECT
+add_library(cmd STATIC
         src/CoincidenceMessenger.cc
         src/DBMessenger.cc
         src/ESgenMessenger.cc
@@ -27,3 +27,4 @@ target_include_directories(cmd PRIVATE
         ${PROJECT_SOURCE_DIR}/src/util/include)
 
 target_include_directories(cmd PRIVATE include)
+target_link_libraries(cmd PUBLIC ${Geant4_LIBRARIES})

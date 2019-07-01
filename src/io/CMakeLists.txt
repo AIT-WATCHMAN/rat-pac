@@ -1,4 +1,4 @@
-add_library(io OBJECT
+add_library(io STATIC
         src/DSReader.cc
         src/DSWriter.cc
         src/InNetProducer.cc
@@ -15,3 +15,5 @@ target_include_directories(io PRIVATE
         ${PROJECT_SOURCE_DIR}/src/stlplus/include
         ${PROJECT_SOURCE_DIR}/src/util/include)
 target_include_directories(io PRIVATE include)
+
+target_link_libraries(io PUBLIC ${ROOT_LIBRARIES} ${Geant4_LIBRARIES})

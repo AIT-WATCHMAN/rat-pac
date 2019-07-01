@@ -1,4 +1,4 @@
-add_library(geo OBJECT
+add_library(geo STATIC
         src/BWVetGenericChamber.cc
         src/BWVetGenericChamberHit.cc
         src/ConeWaveguideConstruction.cc
@@ -57,3 +57,4 @@ target_include_directories(geo PRIVATE
         ${PROJECT_SOURCE_DIR}/src/stlplus/include
         ${PROJECT_SOURCE_DIR}/src/util/include)
 target_include_directories(geo PRIVATE include)
+target_link_libraries(geo PUBLIC ${ROOT_LIBRARIES} ${Geant4_LIBRARIES})

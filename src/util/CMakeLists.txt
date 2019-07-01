@@ -17,3 +17,4 @@ target_include_directories(util PRIVATE
         ${PROJECT_SOURCE_DIR}/src/db/include
         ${PROJECT_SOURCE_DIR}/src/stlplus/include)
 target_include_directories(util PRIVATE include)
+target_link_libraries(util PUBLIC ${ROOT_LIBRARIES} ${Geant4_LIBRARIES})

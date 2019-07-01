@@ -11,6 +11,7 @@ include(${ROOT_USE_FILE})
 find_package(Geant4 REQUIRED)
 include(${Geant4_USE_FILE})
 
+
 ## Config header
 configure_file(${CMAKE_SOURCE_DIR}/config/Config.hh.in
         ${CMAKE_SOURCE_DIR}/include/RAT/Config.hh
