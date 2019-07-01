@@ -1,0 +1,57 @@
+add_library(gen OBJECT
+        src/AmBeGen.cc
+        src/AmBeSource.cc
+        src/BetaFunction.cc
+        src/CfGen.cc
+        src/CfSource.cc
+        src/Coincidence_Gen.cc
+        src/DecayChain.cc
+        src/DecayChain_Gen.cc
+        src/ESgen.cc
+        src/FermiFunction.cc
+        src/GLG4DeferTrackProc.cc
+        src/GLG4Gen.cc
+        src/GLG4PosGen.cc
+        src/GLG4PrimaryGeneratorAction.cc
+        src/GLG4TimeGen.cc
+        src/GLG4VertexGen.cc
+        src/GdGen.cc
+        src/Gen_LED.cc
+        src/Gen_RandomTrigger.cc
+        src/IBDgen.cc
+        src/PosGen_FillShell.cc
+        src/PosGen_Line.cc
+        src/PosGen_Multipoint.cc
+        src/PosGen_Radial.cc
+        src/PosGen_RegexFill.cc
+        src/PosGen_TriMeshSurface.cc
+        src/ReacIBDgen.cc
+        src/SNgen.cc
+        src/VertexFile_Gen.cc
+        src/VertexGen_ES.cc
+        src/VertexGen_FastNeutron.cc
+        src/VertexGen_IBD.cc
+        src/VertexGen_Isotope.cc
+        src/VertexGen_PhotonBomb.cc
+        src/VertexGen_ReacIBD.cc
+        src/VertexGen_SN.cc
+        src/VertexGen_Spectrum.cc
+        src/VertexGen_WIMP.cc)
+
+target_include_directories(gen PRIVATE
+        ${PROJECT_SOURCE_DIR}/src/cmd/include
+        ${PROJECT_SOURCE_DIR}/src/core/include
+        ${PROJECT_SOURCE_DIR}/src/daq/include
+        ${PROJECT_SOURCE_DIR}/src/db/include
+        ${PROJECT_SOURCE_DIR}/src/ds/include
+        ${PROJECT_SOURCE_DIR}/src/gen/include
+        ${PROJECT_SOURCE_DIR}/src/geo/include
+        ${PROJECT_SOURCE_DIR}/src/io/include
+        ${PROJECT_SOURCE_DIR}/src/physics/include
+        ${PROJECT_SOURCE_DIR}/src/stlplus/include
+        ${PROJECT_SOURCE_DIR}/src/util/include)
+target_include_directories(gen PRIVATE include)
+
+install(DIRECTORY include # source directory
+        DESTINATION include/${PROJECT_NAME} # target directory
+        FILES_MATCHING PATTERN "*.hh")

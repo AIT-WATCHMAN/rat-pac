@@ -1,0 +1,67 @@
+add_library(geo OBJECT
+        src/BWVetGenericChamber.cc
+        src/BWVetGenericChamberHit.cc
+        src/ConeWaveguideConstruction.cc
+        src/ConeWaveguideFactory.cc
+        src/DetectorConstruction.cc
+        src/DetectorFactory.cc
+        src/GLG4BoxSD.cc
+        src/GLG4PMTSD.cc
+        src/GLG4TestSolid.cc
+        src/GLG4TorusStack.cc
+        src/GeoBoxFactory.cc
+        src/GeoBubbleFactory.cc
+        src/GeoBuilder.cc
+        src/GeoConvexLensFactory.cc
+        src/GeoCutTubeFactory.cc
+        src/GeoFactory.cc
+        src/GeoLensFactory.cc
+        src/GeoPMTArrayFactory.cc
+        src/GeoPMTCoverageFactory.cc
+        src/GeoPMTFactoryBase.cc
+        src/GeoPMTParser.cc
+        src/GeoPerfBoxFactory.cc
+        src/GeoPerfSphereFactory.cc
+        src/GeoPerfTubeFactory.cc
+        src/GeoPolygonFactory.cc
+        src/GeoReflectorFactory.cc
+        src/GeoReflectorWaveguideFactory.cc
+        src/GeoRevArrayFactory.cc
+        src/GeoRevolutionChimneyFactory.cc
+        src/GeoRevolutionFactory.cc
+        src/GeoSolidArrayFactoryBase.cc
+        src/GeoSolidFactory.cc
+        src/GeoSphereFactory.cc
+        src/GeoSurfaceFactory.cc
+        src/GeoTorusFactory.cc
+        src/GeoTubeArrayFactory.cc
+        src/GeoTubeFactory.cc
+        src/GeoTubeIntersectionFactory.cc
+        src/GeoWatchmanShieldFactory.cc
+        src/GeoWaterBoxArrayFactory.cc
+        src/Materials.cc
+        src/PMTConcentrator.cc
+        src/PMTConstruction.cc
+        src/TheiaDetectorFactory.cc
+        src/TubeFacetSolid.cc
+        src/UnionSolidArray.cc
+        src/WatchmanDetectorFactory.cc
+        src/WaterBoxConstruction.cc)
+
+target_include_directories(geo PRIVATE
+        ${PROJECT_SOURCE_DIR}/src/cmd/include
+        ${PROJECT_SOURCE_DIR}/src/core/include
+        ${PROJECT_SOURCE_DIR}/src/daq/include
+        ${PROJECT_SOURCE_DIR}/src/db/include
+        ${PROJECT_SOURCE_DIR}/src/ds/include
+        ${PROJECT_SOURCE_DIR}/src/gen/include
+        ${PROJECT_SOURCE_DIR}/src/geo/include
+        ${PROJECT_SOURCE_DIR}/src/io/include
+        ${PROJECT_SOURCE_DIR}/src/physics/include
+        ${PROJECT_SOURCE_DIR}/src/stlplus/include
+        ${PROJECT_SOURCE_DIR}/src/util/include)
+target_include_directories(geo PRIVATE include)
+
+install(DIRECTORY include # source directory
+        DESTINATION include/${PROJECT_NAME} # target directory
+        FILES_MATCHING PATTERN "*.hh")

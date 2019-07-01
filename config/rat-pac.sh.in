@@ -1,0 +1,12 @@
+#!/bin/sh
+
+export RATROOT=@CMAKE_INSTALL_PREFIX@
+export PATH=$RATROOT/bin:$PATH
+export PATH=$RATROOT/tools/bonsai:$PATH
+export PATH=$RATROOT/tools/visualizer:$PATH
+export LD_LIBRARY_PATH=$RATROOT/lib:$LD_LIBRARY_PATH
+export GLG4DATA=$RATROOT/data
+export PYTHONPATH=$RATROOT/python:$PYTHONPATH
+export ROOT_INCLUDE_PATH=$RATROOT/include
+# For Mac OS X
+export DYLD_LIBRARY_PATH=$RATROOT/lib:$DYLD_LIBRARY_PATH
