@@ -15,7 +15,7 @@
 //   Last modified: 2000/11/20
 //
 
-#include "GLG4BoxSD.hh"
+#include "RAT/GLG4BoxSD.hh"
 
 #include "G4Track.hh"
 #include "G4Step.hh"
@@ -82,12 +82,12 @@ G4bool GLG4BoxSD::ProcessHits(G4Step*aStep,G4TouchableHistory*)
 
   G4ParticleDefinition* pdef= pTrack->GetDefinition();
   if ( pdef->GetPDGCharge() == 0 ) {
-    if ( e0 > gCut ) 
+    if ( e0 > gCut )
       for (i=iz1; i<iz2; i++)     // note "<" for only boundary-crossings
 	h_ng[i] ++;
   }
   else {
-    if ( e0 > eCut ) 
+    if ( e0 > eCut )
       for (i=iz1; i<iz2; i++)     // note "<" for only boundary-crossings
 	h_ne[i] ++;
   }
@@ -99,7 +99,7 @@ G4bool GLG4BoxSD::ProcessHits(G4Step*aStep,G4TouchableHistory*)
 
 void GLG4BoxSD::EndOfEvent(G4HCofThisEvent*)
 {
-  
+
   if (verboseLevel > 0)
     PrintAll();
 
@@ -119,7 +119,7 @@ void GLG4BoxSD::EndOfEvent(G4HCofThisEvent*)
 }
 
 void GLG4BoxSD::clear()
-{} 
+{}
 
 void GLG4BoxSD::DrawAll()
 {}

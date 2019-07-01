@@ -17,7 +17,3 @@ target_include_directories(util PRIVATE
         ${PROJECT_SOURCE_DIR}/src/db/include
         ${PROJECT_SOURCE_DIR}/src/stlplus/include)
 target_include_directories(util PRIVATE include)
-
-install(DIRECTORY include # source directory
-        DESTINATION include/${PROJECT_NAME} # target directory
-        FILES_MATCHING PATTERN "*.hh")

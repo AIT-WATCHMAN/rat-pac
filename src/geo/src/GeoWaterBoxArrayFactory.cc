@@ -1,4 +1,4 @@
-#include <GeoWaterBoxArrayFactory.hh>
+#include <RAT/GeoWaterBoxArrayFactory.hh>
 #include <RAT/WaterBoxConstruction.hh>
 
 #include <RAT/DB.hh>
@@ -17,13 +17,13 @@ namespace RAT {
   ///
   /// makes an array of waterbox physical volumes
   G4VPhysicalVolume *GeoWaterBoxArrayFactory::Construct(DBLinkPtr table) {
-    info << "GeoWaterBoxArrayFactory: Constructing volume "+ table->GetIndex()  
+    info << "GeoWaterBoxArrayFactory: Constructing volume "+ table->GetIndex()
          << newline;
-   
+
     string volume_name = table->GetIndex();
     WaterBoxConstruction waterBox;
     G4LogicalVolume* waterBox_log = waterBox.ConstructLogicalVolume(table);
-    
+
     string mother_name = table->GetS("mother");
     G4LogicalVolume *mother = FindMother(mother_name);
     if (mother == 0)
@@ -33,7 +33,7 @@ namespace RAT {
     if (phys_mother == 0)
       Log::Die("GeoBuilder error: PMT mother physical volume " + mother_name
 	       +" not found");
-    
+
     string pos_table_name = table->GetS("waterbox_locations");
     DBLinkPtr lpos_table = DB::Get()->GetLink(pos_table_name);
     const vector<double> &box_x = lpos_table->GetDArray("x");

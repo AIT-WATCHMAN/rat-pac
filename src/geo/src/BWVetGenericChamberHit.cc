@@ -3,7 +3,7 @@
 // --------------------------------------------------------------
 //
 
-#include <BWVetGenericChamberHit.hh>
+#include <RAT/BWVetGenericChamberHit.hh>
 #include <G4VVisManager.hh>
 #include <G4Circle.hh>
 #include <G4Colour.hh>

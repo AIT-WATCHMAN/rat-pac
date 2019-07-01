@@ -19,7 +19,3 @@ target_include_directories(physics PRIVATE
         ${PROJECT_SOURCE_DIR}/src/stlplus/include
         ${PROJECT_SOURCE_DIR}/src/util/include)
 target_include_directories(physics PRIVATE include)
-
-install(DIRECTORY include # source directory
-        DESTINATION include/${PROJECT_NAME} # target directory
-        FILES_MATCHING PATTERN "*.hh")

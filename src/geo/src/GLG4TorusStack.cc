@@ -8,7 +8,7 @@
 // based on the Program) you indicate your acceptance of this statement,
 // and all its terms, whatever they may be.
 //
-// 
+//
 // class GLG4TorusStack
 //
 // Implementation
@@ -17,7 +17,7 @@
 // 1999/11/22 G.Horton-Smith First version of GLG4TorusStack
 //  (see CVS history for other changes)
 
-#include "GLG4TorusStack.hh"
+#include "RAT/GLG4TorusStack.hh"
 
 #include "G4VoxelLimits.hh"
 #include "G4AffineTransform.hh"
@@ -129,7 +129,7 @@ GLG4TorusStack::SetAllParameters
 	      n_increasing++;
 	}
 	z_edge[n]= z_edge_[0];
-	rho_edge[n]= rho_edge_[0]; 
+	rho_edge[n]= rho_edge_[0];
    }
 
   // z_edge must be monotonically increasing
@@ -150,7 +150,7 @@ GLG4TorusStack::SetAllParameters
     }
     if ( rho_edge[i] ==  rho_edge[i+1] ) { // cylinder -- special case!
       a[i]= rho_edge[i];
-      b[i]= 0.0; 
+      b[i]= 0.0;
     }
     else {
       a[i]= ( ((z_edge[i+1]-z_edge[i])*(z_edge[i+1]+z_edge[i]-2*z_o[i])
@@ -166,7 +166,7 @@ GLG4TorusStack::SetAllParameters
 	else {
 	  G4cerr << "Warning: ambiguous toroid segment curvature in GLG4TorusStack!" << G4endl;
 	}
-      }  
+      }
     }
   }
 
@@ -203,7 +203,7 @@ void GLG4TorusStack::CheckABRho()
 // informational message any time such a change is made if G4DEBUG is defined.
 
   for (int i=0; i<n; i++) {
-    
+
       // check validity of rho_edges given derived a[i] values
       if (b[i] > 0) {
 	// make sure both rho_edges are >= a[i]
@@ -252,7 +252,7 @@ void GLG4TorusStack::CheckABRho()
 	}
       }
   }
-}      
+}
 
 
 
@@ -309,7 +309,7 @@ GLG4TorusStack::FindFirstTorusRoot(
  G4double &sout)           // distance to root, if found
 {
   GLG4TorusStack_TorusFunc tfunc;
-  
+
   tfunc.rr= square(p.x()) + square(p.y());
   tfunc.ru= p.x()*v.x() + p.y()*v.y();
   tfunc.uu= square(v.x()) + square(v.y());
@@ -339,7 +339,7 @@ GLG4TorusStack::FindFirstTorusRoot(
 	  C /= 2*A;
 	  if (fEntering)
 	    sout= -B-C;   // want first root if looking for entrance point
-	  else 
+	  else
 	    sout= -B+C;   // want second root if looking for exit point
 	}
       }
@@ -387,7 +387,7 @@ GLG4TorusStack::RootFinder::FindRoot(
   // initial function calls
   f_and_Df(smin, f1, Df1);
   f_and_Df(smax, f2, Df2);
-  
+
   // adjust endpoints so it looks like a valid bracket:
   //  want f1 < 0, Df1 > 0 if fFindFallingRoot == false
   //  want f1 > 0, Df1 < 0 if fFindFallingRoot == true
@@ -401,7 +401,7 @@ GLG4TorusStack::RootFinder::FindRoot(
       f_and_Df(smin, f1, Df1);
     }
   }
-      
+
   // root-finding loop
  retry:                  // will retry at most once
   s= smin;
@@ -417,7 +417,7 @@ GLG4TorusStack::RootFinder::FindRoot(
     }
     if (stry <= smin || stry >= smax || fabs(ds) > 0.5*oldds) {
       stry= 0.5*(smax + smin);
-      ds= stry-s; 
+      ds= stry-s;
       if ( fabs(ds) <= fabs(stry+s)*DBL_EPSILON )
 	// You might think that this test would only matter if we hit
 	// this block twice in a row, in which case stry==s, and so
@@ -427,7 +427,7 @@ GLG4TorusStack::RootFinder::FindRoot(
 	// end up close to, but not quite, zero.  The test above takes
 	// care of that.  Anyway, we want to break here in order to
 	// preserve value of "oldds".
-	break;  
+	break;
       s=  stry;
     }
     else {
@@ -459,7 +459,7 @@ GLG4TorusStack::RootFinder::FindRoot(
     // the following code is rarely called!
     // scan for the minimum using 640 divisions of the interval
     G4double ds= (smax-smin)/640.0;                  // we need plenty of steps in order to ensure the boundary is found
-                                                     // otherwise we will obtain a strangely shaped PMT 
+                                                     // otherwise we will obtain a strangely shaped PMT
     for (s=smin+0.5*ds; s<smax; s+=ds) {
       f_and_Df(s, f, Df);
       if ( !samesign(f1, f) && !samesign(Df1, Df) )  // the distance AND the derivative must change in order for this to be
@@ -610,7 +610,7 @@ G4bool GLG4TorusStack::CalculateExtent(const EAxis pAxis,
 
 // Calculate rotated vertex coordinates
 	  G4ThreeVectorList *vertices;
-	  G4int noPolygonVertices ;  // will be 4 
+	  G4int noPolygonVertices ;  // will be 4
 	  vertices=CreateRotatedVertices(pTransform,noPolygonVertices);
 
 	  pMin=+kInfinity;
@@ -618,21 +618,21 @@ G4bool GLG4TorusStack::CalculateExtent(const EAxis pAxis,
 
 	  noEntries=vertices->size();
 	  noBetweenSections4=noEntries-noPolygonVertices;
-	  
+
 	  for (i=0;i<noEntries;i+=noPolygonVertices)
 	    {
 		ClipCrossSection(vertices,i,pVoxelLimit,pAxis,pMin,pMax);
 	    }
-	  
+
 	  for (i=0;i<noBetweenSections4;i+=noPolygonVertices)
 	    {
 		ClipBetweenSections(vertices,i,pVoxelLimit,pAxis,pMin,pMax);
 	    }
-	  
+
 	  if (pMin!=kInfinity||pMax!=-kInfinity)
 	    {
 		existsAfterClip=true;
-		
+
 // Add 2*tolerance to avoid precision troubles
 		pMin-=surfaceTolerance;
 		pMax+=surfaceTolerance;
@@ -648,7 +648,7 @@ G4bool GLG4TorusStack::CalculateExtent(const EAxis pAxis,
 					 (pVoxelLimit.GetMinXExtent()+pVoxelLimit.GetMaxXExtent())*0.5,
 					 (pVoxelLimit.GetMinYExtent()+pVoxelLimit.GetMaxYExtent())*0.5,
 					 (pVoxelLimit.GetMinZExtent()+pVoxelLimit.GetMaxZExtent())*0.5);
-		
+
 		if (Inside(pTransform.Inverse().TransformPoint(clipCentre))!=kOutside)
 		  {
 		      existsAfterClip=true;
@@ -658,7 +658,7 @@ G4bool GLG4TorusStack::CalculateExtent(const EAxis pAxis,
 	    }
 	  delete vertices;
 	  return existsAfterClip;
-    
+
 }
 
 // -----------------------------------------------------------------
@@ -671,7 +671,7 @@ EInside GLG4TorusStack::Inside(const G4ThreeVector& p) const
 
     if (in == kOutside)
       return in;
-    
+
     // check inner solid, if there is one
     if (inner) {
       EInside in2= inner->Inside1(p);
@@ -728,11 +728,11 @@ EInside GLG4TorusStack::Inside1(const G4ThreeVector& p) const
       }
     }
 
-    if ( drtor > 0.5*myRadTolerance ) 
+    if ( drtor > 0.5*myRadTolerance )
       return(kOutside);
     else if ( drtor > -0.5*myRadTolerance )
       return(kSurface);
-   
+
     return in;
 }
 
@@ -758,7 +758,7 @@ G4ThreeVector GLG4TorusStack::SurfaceNormal( const G4ThreeVector& p) const
 
     pz=  p.z();
     pr= glg4_hypot(p.x(), p.y());
-    
+
     // find index of region containing nearest point on surface
     G4int i= FindNearestSegment(pr,pz);
 
@@ -810,7 +810,7 @@ G4double GLG4TorusStack::DistanceToIn(const G4ThreeVector& p,
 {
     G4double dist_to_in= kInfinity;
     DEBUG_GLG4TorusStack(dist_to_in=1.01e100;)
-    
+
     // do we have an inner solid to consider?
     if (inner) {
       // are we inside or on the surface of the inner (subtracted) solid?
@@ -927,7 +927,7 @@ G4double GLG4TorusStack::DistanceToIn(const G4ThreeVector& p,
 	  s1= -myRadTolerance;    // "-" to include all of surface
 	if (rv2 > 0.0) {
 	  s= tmin+sqrt(tmin*tmin+(r_out2-rp2)/rv2)+myRadTolerance;
-	  if ( s1 < s && s2 > s) 
+	  if ( s1 < s && s2 > s)
 	    s2= s;  // clip maximum distance of root
 	}
 	nroots=
@@ -949,7 +949,7 @@ G4double GLG4TorusStack::DistanceToIn(const G4ThreeVector& p,
 
     // don't bother checking to see if intercept is inside
     // subtracted (inner) volume, since that should only happen on ends
-    
+
     // all done
     if (dist_to_in < myRadTolerance)
       dist_to_in= 0.0;
@@ -968,7 +968,7 @@ G4double GLG4TorusStack::DistanceToIn(const G4ThreeVector& p) const
 
     pz=  p.z();
     pr= glg4_hypot(p.x(), p.y());
-    
+
     // find index of region containing nearest point on surface
     G4int i= FindNearestSegment(pr,pz);
 
@@ -981,7 +981,7 @@ G4double GLG4TorusStack::DistanceToIn(const G4ThreeVector& p) const
     else {
       safe= pr - G4std::max(rho_edge[i], rho_edge[i+1]);
     }
-    
+
     if (safe<0.0)
       safe=0.0;
 
@@ -992,7 +992,7 @@ G4double GLG4TorusStack::DistanceToIn(const G4ThreeVector& p) const
       if (safe < 0.0)
 	safe= 0.0;
     }
-    
+
     return safe;
 }
 
@@ -1034,7 +1034,7 @@ G4double GLG4TorusStack::DistanceToOut(const G4ThreeVector& p,
       *validNorm= false;
     }
     isurface= -2;
-    
+
     // find where we are in z
     if (p.z() > z_edge[n] + 0.5*myRadTolerance) {
       return 0.0;
@@ -1102,7 +1102,7 @@ G4double GLG4TorusStack::DistanceToOut(const G4ThreeVector& p,
 	  s1= -myRadTolerance;    // "-" to include all of surface
 	if (rv2 > 0.0) {
 	  s= tmin+sqrt(tmin*tmin+(max_rho*max_rho-rp2)/rv2)+myRadTolerance;
-	  if ( s1 < s && s2 > s) 
+	  if ( s1 < s && s2 > s)
 	    s2= s;  // clip maximum distance of root
 	}
 	nroots=
@@ -1128,7 +1128,7 @@ G4double GLG4TorusStack::DistanceToOut(const G4ThreeVector& p,
       G4double t= ( z_edge[n] - p.z() ) / v.z();
       if ( t > -0.5*myRadTolerance && t < dist_to_out) {
 	dist_to_out= t;
-	isurface= n;	
+	isurface= n;
       }
     }
     else if (v.z() < 0.0) {
@@ -1143,8 +1143,8 @@ G4double GLG4TorusStack::DistanceToOut(const G4ThreeVector& p,
     if (dist_to_out >= kInfinity) {
       G4cerr << "WARNING from GLG4TorusStack::DistanceToOut: "
 	"did not find an intercept with the track!\n";
-    } 
-#endif 
+    }
+#endif
 
     if (calcNorm && norm )
       {
@@ -1198,7 +1198,7 @@ G4double GLG4TorusStack::DistanceToOut(const G4ThreeVector& p,
 	  G4cout.flush();
 	  G4cerr << "Warning from GLG4TorusStack::DistanceToOut: I have calculated a normal that is antiparallel to the momentum vector!  I must have done something wrong! isurface=" << isurface << " a[isurface]=" << a[isurface] << " b[isurface]=" << b[isurface] << " v=" << v << " norm=" << (*norm) << G4endl;
 	  *norm= - *norm;
-	  G4cerr.flush();	  
+	  G4cerr.flush();
 	}
       }
 
@@ -1215,7 +1215,7 @@ G4double GLG4TorusStack::DistanceToOut(const G4ThreeVector& p) const
 
     pz=  p.z();
     pr= glg4_hypot(p.x(), p.y());
-    
+
     // find index of region containing nearest point on surface
     G4int i= FindNearestSegment(pr,pz);
 
@@ -1228,11 +1228,11 @@ G4double GLG4TorusStack::DistanceToOut(const G4ThreeVector& p) const
     else {
       safe= G4std::min(rho_edge[i], rho_edge[i+1]) - pr;
     }
-    
+
     if (safe<0.0) safe=0.0;
 
     // if we're safely inside the exterior solid,
-    // and we have an inner solid, 
+    // and we have an inner solid,
     // then check safe DistanceToIn of inner solid.
     // use minimum safe distance
     if (safe > 0.0 && inner != NULL) {
@@ -1242,7 +1242,7 @@ G4double GLG4TorusStack::DistanceToOut(const G4ThreeVector& p) const
       if (safe2 < safe)
 	safe= safe2;
     }
-    
+
     return safe;
 }
 
@@ -1276,14 +1276,14 @@ G4ThreeVectorList*
 	{
 	    noCrossSections=kMaxMeshSections;
 	}
-	
+
     meshAngle= CLHEP::twopi/(noCrossSections-1);
     meshRMax= max_rho/cos(meshAngle*0.5);
 
 // set start angle such that mesh will be at fRmax
 // on the x axis. Will give better extent calculations when not rotated.
     sAngle=-meshAngle*0.5;
-    
+
     vertices=new G4ThreeVectorList(noCrossSections*4);
     if (vertices)
 	{
@@ -1498,17 +1498,17 @@ GLG4PolyhedronTorusStack::GLG4PolyhedronTorusStack(const G4int n,
     G4Exception(__FILE__, "WTF", FatalException, "Logic error 2 in GLG4PolyhedronTorusStack, memory corrupted!");
   }
   np2= j-np1;
-  
+
   //   R O T A T E    P O L Y L I N E S
 
-  RotateAroundZ(0, 0.0, CLHEP::twopi, np1, np2, zz, rr, -1, 1); 
+  RotateAroundZ(0, 0.0, CLHEP::twopi, np1, np2, zz, rr, -1, 1);
   SetReferences();
 
   delete [] zz;
   delete [] rr;
 
   InvertFacets();
-  
+
 }
 
 G4Polyhedron* GLG4TorusStack::CreatePolyhedron () const {

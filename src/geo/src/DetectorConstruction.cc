@@ -6,7 +6,7 @@
 #include <G4VPhysicalVolume.hh>
 #include <G4SolidStore.hh>
 #include <G4SDManager.hh>
-#include <BWVetGenericChamber.hh>
+#include <RAT/BWVetGenericChamber.hh>
 #include <RAT/DetectorConstruction.hh>
 #include <RAT/PhotonThinning.hh>
 #include <RAT/DB.hh>

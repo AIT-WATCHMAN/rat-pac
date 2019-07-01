@@ -1,4 +1,4 @@
-#include <GeoPMTFactoryBase.hh>
+#include <RAT/GeoPMTFactoryBase.hh>
 #include <RAT/DB.hh>
 #include <RAT/Log.hh>
 
@@ -21,7 +21,7 @@
 
 #include "G4FastSimulationManager.hh"
 #include "G4VFastSimulationModel.hh"
-#include "GLG4PMTOpticalModel.hh"
+#include "RAT/GLG4PMTOpticalModel.hh"
 #include "G4PhysicsOrderedFreeVector.hh"
 
 #include "G4RandomDirection.hh"

@@ -62,7 +62,7 @@
   G4ThreeVector PickRandomPoint(G4VisExtent &ve, G4int itype= -1)
     3 point choice styles: uniform in box volume, uniform on box surface,
                            equal prob to each box surface, uniform on surface
-     -- itype=-1 means equal probability for each of the three styles 
+     -- itype=-1 means equal probability for each of the three styles
 
   Author: Glenn Horton-Smith (Tohoku) 1999.12.09
   Last modified: 2000.08.09 (G.H-S.)
@@ -70,7 +70,7 @@
 
 #include "globals.hh"
 
-#include "GLG4TestSolid.hh"
+#include "RAT/GLG4TestSolid.hh"
 #include "G4VSolid.hh"
 #include "G4VisExtent.hh"
 #include "G4VoxelLimits.hh"
@@ -96,9 +96,9 @@ static G4std::ostream& myenderr(G4std::ostream& outs)
 static G4String MakeErrString(G4std::ostringstream & errstr)
 {
   errstr << G4std::ends;
-  std::string st; 
-  st = errstr.str(); 
-  const char* cp = st.c_str(); 
+  std::string st;
+  st = errstr.str();
+  const char* cp = st.c_str();
   if (cp == NULL) {
     return G4String("");
   }
@@ -132,7 +132,7 @@ G4String  GLG4TestSolid::Test(const G4VSolid &s, G4int npair)
   if (xmax < xmin || ymax < ymin || zmax < zmin)
     errmsg << "CalculateExtent internal inconsistency" << myenderr;
   if (extent.GetXmax() < extent.GetXmin()
-      || extent.GetYmax() < extent.GetYmin() 
+      || extent.GetYmax() < extent.GetYmin()
       || extent.GetZmax() < extent.GetZmin() )
     errmsg << "GetExtent internal inconsistency" << myenderr;
   if (xmax < extent.GetXmin() || xmin > extent.GetXmax())
@@ -193,7 +193,7 @@ G4String  GLG4TestSolid::Test(const G4VSolid &s, G4int npair)
       v= (p2-p1).unit();
 
       errmsg << TestRay(s, p1, v, myCheckTolerance);
-      
+
       if ((int) errmsg.str().size() > lastpcount) {
 	errmsg << "Above errors going from " << p1 << " to " << p2
 	       << "\n\t x=" << p1.x() << "; y=" << p1.y() << "; z=" << p1.z()
@@ -210,11 +210,11 @@ G4String  GLG4TestSolid::Test(const G4VSolid &s, G4int npair)
 	errmsg << "Above errors going from " << p2 << " to " << p1
 	       << "\n\t x=" << p2.x() << "; y=" << p2.y() << "; z=" << p2.z()
 	       << "\n\t dx="<< v.x()  << ";dy=" << v.y()  << ";dz=" << v.z()
-	       << "\n\t ipair=" << ipair << "(b)\n" << myenderr;	  
+	       << "\n\t ipair=" << ipair << "(b)\n" << myenderr;
 	nerr++;
 	lastpcount= errmsg.str().size();
       }
-      
+
     }
   if (ipair < npair) {
     errmsg << "Aborted after " << ipair << " pairs, " << nerr << " errors\n";
@@ -425,11 +425,11 @@ G4String  GLG4TestSolid::TestAtSurface(const G4VSolid &s,
 	errmsg << "Not outside when expected in surface-checking loop" << myenderr;
       }
       disti[ioffs+1]= s.DistanceToIn(pos, -norm);
-      
+
       pos= p1 - surfCheckDisplFactor*myCheckTolerance*norm + ioffs*surfCheckDisplFactor*myCheckTolerance*e[idir];
       if (s.Inside(pos) != kInside) {
 	errmsg << "Not inside when expected in surface-checking loop" << myenderr;
-      }      
+      }
       disto[ioffs+1]= s.DistanceToOut(pos, norm);
       // check these distances for consistency
       if ( fabs(disti[ioffs+1]-surfCheckDisplFactor*myCheckTolerance)
@@ -473,7 +473,7 @@ G4String  GLG4TestSolid::TestAtSurface(const G4VSolid &s,
 //    if (dist0 != 0.0)
 //      errmsg << "Failed already-outside test at outside, " << dist0 <<myenderr;
   }
-  
+
   if (errmsg.str().size() > 0)
     errmsg << "\t-- TestAtSurface(solid, " << p1 << ", " <<  myCheckTolerance
 	   << ")" << myenderr;
@@ -507,15 +507,15 @@ G4ThreeVector GLG4TestSolid::PickRandomPoint(G4VisExtent &ve,
   G4double dx, dy, dz;
   G4ThreeVector rv;
   int isurf=0;
-  
+
   if (itype < 0) {
     itype= (int)(rndqd32()*3.0);
   }
-  
+
   dx= (ve.GetXmax()-ve.GetXmin());
   dy= (ve.GetYmax()-ve.GetYmin());
   dz= (ve.GetZmax()-ve.GetZmin());
-  
+
   switch (itype%3) {
   case 0: // random in volume
     rv= G4ThreeVector( rndqd32()*dx + ve.GetXmin(),

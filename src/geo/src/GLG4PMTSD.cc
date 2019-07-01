@@ -10,8 +10,8 @@
 //  Based on earlier work by O. Tajima and G. Horton-Smith
 //
 
-#include "GLG4PMTSD.hh"
-#include "GLG4VEventAction.hh"
+#include "RAT/GLG4PMTSD.hh"
+#include "RAT/GLG4VEventAction.hh"
 
 #include "G4Track.hh"
 #include "G4Step.hh"
@@ -20,7 +20,7 @@
 #include "G4ios.hh"
 #include "G4SDManager.hh"
 
-#include "GLG4Scint.hh"  // for doScintilllation and total energy deposition info
+#include "RAT/GLG4Scint.hh"  // for doScintilllation and total energy deposition info
 #include "G4VSolid.hh" // for access to solid store
 #include "Randomize.hh"
 
@@ -33,7 +33,7 @@ GLG4PMTSD::GLG4PMTSD(G4String name, int arg_max_pmts, int arg_pmt_no_offset,
   max_pmts= arg_max_pmts;
   pmt_no_offset= arg_pmt_no_offset;
   my_id_pmt_size= arg_my_id_pmt_size;
-  
+
   hit_sum= new G4int[max_pmts];
 }
 
@@ -82,7 +82,7 @@ void GLG4PMTSD::SimpleHit( G4int ipmt,
 	     << " and offset=" << pmt_no_offset << " !" << G4endl;
       return;
     }
-  
+
   hit_sum[pmt_index]+= iHitPhotonCount;
 
   // create new GLG4HitPhoton, the way of recording photo hits on PMTs
@@ -90,17 +90,17 @@ void GLG4PMTSD::SimpleHit( G4int ipmt,
   hit_photon->SetPMTID((int)ipmt);
   hit_photon->SetTime((double) time );
   hit_photon->SetKineticEnergy((double) kineticEnergy );
-  hit_photon->SetPosition( 
+  hit_photon->SetPosition(
 			  (double)hit_position.x(),
 			  (double)hit_position.y(),
 			  (double)hit_position.z()
 			  );
-  hit_photon->SetMomentum( 
+  hit_photon->SetMomentum(
 			  (double)hit_momentum.x(),
 			  (double)hit_momentum.y(),
 			  (double)hit_momentum.z()
 			  );
-  hit_photon->SetPolarization( 
+  hit_photon->SetPolarization(
 			      (double)hit_polarization.x(),
 			      (double)hit_polarization.y(),
 			      (double)hit_polarization.z()
@@ -108,7 +108,7 @@ void GLG4PMTSD::SimpleHit( G4int ipmt,
   hit_photon->SetCount( iHitPhotonCount );
   hit_photon->SetTrackID( trackID );
   hit_photon->SetPrepulse( prepulse );
-    
+
   //  GLG4VEventAction::GetTheHitPhotons()->AddHitPhoton(hit_photon);
   GLG4VEventAction::GetTheHitPMTCollection()->DetectPhoton(hit_photon);
 }
@@ -117,7 +117,7 @@ void GLG4PMTSD::SimpleHit( G4int ipmt,
 void GLG4PMTSD::EndOfEvent(G4HCofThisEvent*)
 {
   int ipmt;
-    
+
   n_pmt_hits=0;
   n_hit_pmts=0;
   for (ipmt=0; ipmt<max_pmts; ipmt++) {
@@ -131,7 +131,7 @@ void GLG4PMTSD::EndOfEvent(G4HCofThisEvent*)
 
 
 void GLG4PMTSD::clear()
-{} 
+{}
 
 void GLG4PMTSD::DrawAll()
 {}

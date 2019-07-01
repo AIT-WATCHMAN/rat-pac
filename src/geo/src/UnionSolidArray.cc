@@ -1,4 +1,4 @@
-#include <UnionSolidArray.hh>
+#include <RAT/UnionSolidArray.hh>
 
 #include <G4DisplacedSolid.hh>
 #include <G4UnionSolid.hh>
@@ -10,10 +10,10 @@ namespace RAT {
 G4VSolid *MakeUnionSolidArray(const std::string &name,
                               const std::vector<G4VSolid*> &solids,
                               int firstIndex, int length)
-{      
+{
    if (length == -1)
       length = solids.size();
-   
+
    if (length == 0)
       return 0;
    else if (length == 1) {
@@ -26,8 +26,8 @@ G4VSolid *MakeUnionSolidArray(const std::string &name,
       G4VSolid *right = MakeUnionSolidArray(name+"R", solids,
                                             // pick up remainder on right side
                                             firstIndex+splitLength, length-splitLength);
-                                            
-      return new G4UnionSolid(name, left, right);                           
+
+      return new G4UnionSolid(name, left, right);
    }
 }
 

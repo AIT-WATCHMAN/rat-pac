@@ -12,7 +12,3 @@ add_library(stlplus OBJECT
         src/stringio.cc)
 
 target_include_directories(stlplus PRIVATE include)
-
-install(DIRECTORY include # source directory
-        DESTINATION include/${PROJECT_NAME} # target directory
-        FILES_MATCHING PATTERN "*.hh")
