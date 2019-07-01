@@ -1,6 +1,6 @@
 #include <iostream>
-#include <RAT/string_utilities.hpp>
-#include <RAT/dprintf.hpp>
+#include <string_utilities.hpp>
+#include <dprintf.hpp>
 
 #include <RAT/TrackNode.hh>
 #include <RAT/TrackCursor.hh>
@@ -22,7 +22,7 @@ TrackNode *TrackCursor::TrackEnd() const
 {
   TrackNode *cur = fCur;
   while (!cur->IsTrackEnd()) cur = cur->GetNext();
-  return cur;  
+  return cur;
 }
 
 TrackNode *TrackCursor::Step(int i) const
@@ -49,7 +49,7 @@ int TrackCursor::TrackChildCount() const {
     cur = cur->GetNext();
     count += cur->child.size();
   }
-  
+
   return count;
 }
 
@@ -60,7 +60,7 @@ TrackNode *TrackCursor::TrackChild(int i) const
     i -= cur->child.size();
     cur = cur->GetNext();
   }
-  
+
   if (cur == 0)
     return 0; // Hit end of list before found child
   else
@@ -83,8 +83,8 @@ double TrackCursor::TrackLength() const
   return length;
 }
 
-void TrackCursor::Go(TrackNode *node) 
-{ 
+void TrackCursor::Go(TrackNode *node)
+{
   fCur = node;
   if (fVerbose)
     PrintTrack();
@@ -147,7 +147,7 @@ TrackNode *TrackCursor::GoTrackChild(int i)
     Go(newCur);
   return newCur;
 }
- 
+
 TrackNode *TrackCursor::GoParent()
 {
   TrackNode *newCur = Parent();
@@ -173,7 +173,7 @@ std::string TrackCursor::PrintTrackIDs(TrackNode *node)
   vector<string> trackIDStrings;
   TrackCursor cursor(node);
   TrackNode *current = cursor.GoTrackStart();
-  
+
   while(current != 0) {
     if (trackIDs.count(current->GetTrackID()) == 0) {
       trackIDs.insert(current->GetTrackID());
@@ -203,13 +203,13 @@ std::string TrackCursor::PrintTrack(TrackNode *node)
   output += dformat("Track %s: %s", PrintTrackIDs(cur).c_str(), cur->GetParticleName().c_str());
   TrackNode *parent = cursor.Parent();
   if (parent != 0)
-    output += dformat("  parent: %s(%s)\n", parent->GetParticleName().c_str(), 
+    output += dformat("  parent: %s(%s)\n", parent->GetParticleName().c_str(),
 		      PrintTrackIDs(parent).c_str());
   else
     output += "\n";
 
   string ecol;
-  if (cur->GetParticleName() == "opticalphoton") 
+  if (cur->GetParticleName() == "opticalphoton")
     ecol = "  nm  ";
   else
     ecol = "  MeV ";
@@ -222,12 +222,12 @@ std::string TrackCursor::PrintTrack(TrackNode *node)
   while (cur != 0) {
     string id = (cur == node ? "*" : " ") + dformat("%2d. ", cur->GetStepID());
 
-    string pos = dformat("(%6.1f,%6.1f,%6.1f) %10s ", 
+    string pos = dformat("(%6.1f,%6.1f,%6.1f) %10s ",
               cur->GetEndpoint().x(), cur->GetEndpoint().y(), cur->GetEndpoint().z(),
 			        cur->GetVolume().c_str());
 
     string ene;
-    if (cur->GetParticleName() == "opticalphoton") 
+    if (cur->GetParticleName() == "opticalphoton")
       ene = dformat("%3.0f nm ", (h_Planck*c_light / cur->GetKE()) / nm);
     else if (cur->GetKE() < 0.001)
       ene = "<0.001 ";
@@ -243,7 +243,7 @@ std::string TrackCursor::PrintTrack(TrackNode *node)
       others = "->";
       vector<string> otherNames;
       for (unsigned i=0; i < cur->child.size(); i++)
-	otherNames.push_back(dformat("%s(%s)", 
+	otherNames.push_back(dformat("%s(%s)",
 				     cur->child[i]->GetParticleName().c_str(),
 				     PrintTrackIDs(cur->child[i]).c_str()));
 
@@ -262,7 +262,7 @@ std::string TrackCursor::PrintTrack(TrackNode *node)
 
 TrackNode *TrackCursor::FindNextTrack()
 {
-  // Depth-first iteration through the track tree, visiting intermediate tracks 
+  // Depth-first iteration through the track tree, visiting intermediate tracks
   // "on the way down"
   if (TrackChildCount() > 0)
     return GoTrackChild(0); // Next track down tree
@@ -299,7 +299,7 @@ TrackNode *TrackCursor::FindNextTrack(TrackTest *predicate)
   TrackNode *origLocation = Here();
   bool verboseRemember = fVerbose;
   fVerbose = false;
-  
+
   TrackNode *candidate = FindNextTrack();
   while(candidate != 0 && !(*predicate)(candidate))
     candidate = FindNextTrack();

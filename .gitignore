@@ -35,3 +35,8 @@ tools/*.py
 tools/bonsai/bonsai
 open.sh
 SCRATCH
+
+.idea/
+.vscode/
+doc/_build/
+RAT/Config.hh

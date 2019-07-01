@@ -9,15 +9,15 @@ add_library(io OBJECT
         src/TrackNav.cc)
 
 target_include_directories(io PRIVATE
-        ${PROJECT_SOURCE_DIR}/src/cmd/include
+#        ${PROJECT_SOURCE_DIR}/src/cmd/include
         ${PROJECT_SOURCE_DIR}/src/core/include
-        ${PROJECT_SOURCE_DIR}/src/daq/include
+#        ${PROJECT_SOURCE_DIR}/src/daq/include
         ${PROJECT_SOURCE_DIR}/src/db/include
         ${PROJECT_SOURCE_DIR}/src/ds/include
-        ${PROJECT_SOURCE_DIR}/src/gen/include
-        ${PROJECT_SOURCE_DIR}/src/gen/include
-        ${PROJECT_SOURCE_DIR}/src/geo/include
-        ${PROJECT_SOURCE_DIR}/src/physics/include
+#        ${PROJECT_SOURCE_DIR}/src/gen/include
+#        ${PROJECT_SOURCE_DIR}/src/gen/include
+#        ${PROJECT_SOURCE_DIR}/src/geo/include
+#        ${PROJECT_SOURCE_DIR}/src/physics/include
         ${PROJECT_SOURCE_DIR}/src/stlplus/include
         ${PROJECT_SOURCE_DIR}/src/util/include)
 target_include_directories(io PRIVATE include)

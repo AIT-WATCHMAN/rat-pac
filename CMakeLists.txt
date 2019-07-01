@@ -11,6 +11,10 @@ include(${ROOT_USE_FILE})
 find_package(Geant4 REQUIRED)
 include(${Geant4_USE_FILE})
 
+## Config header
+configure_file(${CMAKE_SOURCE_DIR}/config/Config.hh.in
+        ${CMAKE_SOURCE_DIR}/include/RAT/Config.hh
+        @ONLY NEWLINE_STYLE UNIX)
 
 add_subdirectory(src)
 
@@ -29,9 +33,6 @@ add_subdirectory(src)
 #        WORLD_READ
 #        DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
 
-### Config header
-#configure_file(${CMAKE_SOURCE_DIR}/config/config.hh.in
-#        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/include/config.hh
-#        @ONLY NEWLINE_STYLE UNIX)
+
 
 
