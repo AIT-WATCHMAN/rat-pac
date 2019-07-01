@@ -30,8 +30,8 @@
 #include <sstream>  // for string streams
 #include "iomanip"  // for G4std::setw(), etc..
 
-#include "GLG4Gen.hh"
-#include "GLG4StringUtil.hh"
+#include "RAT/GLG4Gen.hh"
+#include "RAT/GLG4StringUtil.hh"
 
 #include "local_g4compat.hh"
 

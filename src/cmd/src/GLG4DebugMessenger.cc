@@ -22,7 +22,7 @@
 #include "G4Timer.hh"
 #include "Randomize.hh"
 
-#include "GLG4TestSolid.hh"
+#include "RAT/GLG4TestSolid.hh"
 #include "G4SolidStore.hh"
 #include "G4PhysicalVolumeStore.hh"
 #include "G4LogicalVolumeStore.hh"

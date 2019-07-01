@@ -20,14 +20,10 @@ target_include_directories(cmd PRIVATE
         ${PROJECT_SOURCE_DIR}/src/ds/include
         ${PROJECT_SOURCE_DIR}/src/fit/include
         ${PROJECT_SOURCE_DIR}/src/gen/include
-        ${PROJECT_SOURCE_DIR}/src/gen/include
         ${PROJECT_SOURCE_DIR}/src/geo/include
         ${PROJECT_SOURCE_DIR}/src/io/include
         ${PROJECT_SOURCE_DIR}/src/physics/include
         ${PROJECT_SOURCE_DIR}/src/stlplus/include
         ${PROJECT_SOURCE_DIR}/src/util/include)
-target_include_directories(cmd PRIVATE include)
 
-install(DIRECTORY include # source directory
-        DESTINATION include/${PROJECT_NAME} # target directory
-        FILES_MATCHING PATTERN "*.hh")
+target_include_directories(cmd PRIVATE include)
