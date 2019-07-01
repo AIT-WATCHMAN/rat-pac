@@ -12,12 +12,12 @@ void pmt_geometry::loadgeom(void)
   binfile bf("geom.bin",'r');
 
   npmt=bf.read(sizes,numbers,starts);
-  if (npmt!=1) 
+  if (npmt!=1)
     {
       printf("Invalid Geometry file: %d Arrays\n",npmt);
       exit(1);
     }
-  if (sizes[0]!=4) 
+  if (sizes[0]!=4)
     {
       printf("Invalid Geometry file: Array of size %d\n",sizes[0]);
       exit(1);

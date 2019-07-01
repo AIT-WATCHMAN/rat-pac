@@ -14,7 +14,7 @@ inline bonsai::bonsai(int index)
   makebranch(index);
   if (fit->ismax(point_index))
     maxbranch=this;
-} 
+}
 
 bonsai *bonsai::maxbranch;
 vertex *bonsai::fit;

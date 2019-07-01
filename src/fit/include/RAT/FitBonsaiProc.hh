@@ -2,10 +2,10 @@
 #include <RAT/DS/Root.hh>
 #include <RAT/Processor.hh>
 
-#include <RAT/BONSAI/pmt_geometry.h>
-#include <RAT/BONSAI/goodness.h>
-#include <RAT/BONSAI/likelihood.h>
-#include <RAT/BONSAI/bonsaifit.h>
+#include <BONSAI/pmt_geometry.h>
+#include <BONSAI/goodness.h>
+#include <BONSAI/likelihood.h>
+#include <BONSAI/bonsaifit.h>
 
 #include <vector>
 #include <map>
@@ -13,15 +13,15 @@
 
 namespace RAT
 {
-    
+
     class FitBonsaiProc : public Processor
     {
     public:
         FitBonsaiProc();
         virtual ~FitBonsaiProc();
-        
+
         virtual Processor::Result Event(DS::Root *ds, DS::EV *ev);
-        
+
     protected:
         TRandom rnd;
         pmt_geometry *bonsai_geometry;
@@ -33,5 +33,5 @@ namespace RAT
         int maxnhit;
 
     };
-    
+
 }

@@ -182,7 +182,7 @@ char fit_param::parse(char *line,unsigned char length,
   else
     pos1=0;
   // find end of number
-  for(; (pos1<length) && 
+  for(; (pos1<length) &&
 	((line[pos1]=='.') || ((line[pos1]>='0') && (line[pos1]<='9')));
       pos1++);
   // end the string at the end of the number
@@ -214,7 +214,7 @@ inline void fit_param::parse(char *line)
   if (parse(line,length,"air","ime","raction",FLOAT_TYPE,&tlim)) return;
   if (parse(line,length,"aximum","its","ombin",SHORT_INT_TYPE,&nselall)) return;
   if (parse(line,length,"nitial","rid","onstant",FLOAT_TYPE,&gcon0)) return;
-  
+
   if (parse(line,length,"lusfit","rid","onstant",
 			    ARRAY_FLOAT_TYPE,&cgrid)) return;
   if (parse(line,length,"all","istance","ertices",FLOAT_TYPE,&dw4hit)) return;
@@ -242,7 +242,7 @@ inline void fit_param::parse(char *line)
       clusthetaminus=new float[np];
       clusdirweight=new float[np];
       for(ar=0; ar<np; ar++)
-	{	 
+	{
 	  cdwall[ar]=time[ar]=gdiff[ar]=gfrac[ar]=rmin[ar]=rstop[ar]=-1;
 	  clustheta0[ar]=clusthetaplus[ar]=clusthetaminus[ar]=clusdirweight[ar]=-1;
 	}

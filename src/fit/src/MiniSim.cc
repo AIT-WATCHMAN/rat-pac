@@ -1,11 +1,11 @@
-#include "MiniSim.hh"
+#include "RAT/MiniSim.hh"
 #include <G4RunManager.hh>
 #include <RAT/GLG4Scint.hh>
 #include <RAT/DB.hh>
 #include <G4VParticleChange.hh>
 
 namespace RAT {
-  
+
   MiniSim::MiniSim() : fHaveControl(false), fUseGLG4(false)
   {
     // check for the standard glg4 scintillation
@@ -17,20 +17,20 @@ namespace RAT {
     if(scintPhysList == "glg4")
       fUseGLG4 = true;
   }
-  
-  MiniSim::~MiniSim() 
+
+  MiniSim::~MiniSim()
   {
     if (fHaveControl)
       ReleaseSimControl();
   }
-  
+
   void MiniSim::TakeSimControl()
   {
     if (fHaveControl)
       return;
-    
+
     G4RunManager *runManager = G4RunManager::GetRunManager();
-    
+
     // Store old configuration for later restore
     fOrigRunAction      = runManager->GetUserRunAction();
     fOrigEventAction    = runManager->GetUserEventAction();
@@ -38,7 +38,7 @@ namespace RAT {
     fOrigTrackingAction = runManager->GetUserTrackingAction();
     fOrigSteppingAction = runManager->GetUserSteppingAction();
     fOrigPrimaryGeneratorAction = runManager->GetUserPrimaryGeneratorAction();
-    
+
     // Point run manager at us (or nothing)
     runManager->SetUserAction(static_cast<G4UserRunAction*>(0));
     runManager->SetUserAction(static_cast<G4UserEventAction*>(this));
@@ -48,7 +48,7 @@ namespace RAT {
     runManager->SetUserAction(static_cast<G4VUserPrimaryGeneratorAction*>(this));
     fHaveControl = true;
   }
-  
+
   void MiniSim::ReleaseSimControl()
   {
     if (!fHaveControl)
@@ -65,14 +65,14 @@ namespace RAT {
     runManager->SetUserAction(const_cast<G4VUserPrimaryGeneratorAction*>(fOrigPrimaryGeneratorAction));
     fHaveControl = false;
   }
-  
+
   void MiniSim::BeamOn(int nevents) {
     G4RunManager *runManager = G4RunManager::GetRunManager();
     TakeSimControl();
     runManager->BeamOn(nevents);
     ReleaseSimControl();
   }
-  
+
   void MiniSim::UserSteppingAction(const G4Step* aStep)
   {
     G4Track* track= aStep->GetTrack();
@@ -98,7 +98,7 @@ namespace RAT {
     }
     else
       num_zero_steps_in_a_row= 0;
-    
+
     // check for very high number of steps
     if (track->GetCurrentStepNumber() > 1000000) {
       const G4VPhysicalVolume* pv= track->GetVolume();
@@ -113,9 +113,9 @@ namespace RAT {
 	     << "\n position=" << track->GetPosition()
 	     << " momentum=" << track->GetMomentum()
 	     << G4endl;
-      track->SetTrackStatus( fStopAndKill );    
+      track->SetTrackStatus( fStopAndKill );
     }
-    
+
     if(fUseGLG4){
       // invoke scintillation process
       G4VParticleChange * pParticleChange = GLG4Scint::GenericPostPostStepDoIt(aStep);
@@ -130,6 +130,6 @@ namespace RAT {
       }
       pParticleChange->Clear();
     }
-  }  
-    
+  }
+
 } // namespace RAT

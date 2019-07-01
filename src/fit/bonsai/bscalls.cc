@@ -435,7 +435,7 @@ void it_vfwrite(FILE *itvw,unsigned int event_number,int trigger_type,
 	  cfit,cvertex_tubes,cvtx[0],cvtx[1],cvtx[2],cvtx[3],
 	  cdir[0],cdir[1],cdir[2],cgof);
   fprintf(itvw,"%4d %3d %8.2f %8.2f %8.2f %6.1f %6.4f %7.4f %7.4f %6.4f %6.4f %6.4f %8.3f %8.3f\n",
-	  bfit,bvertex_tubes,bvtx[0],bvtx[1],bvtx[2],bvtx[3],      
+	  bfit,bvertex_tubes,bvtx[0],bvtx[1],bvtx[2],bvtx[3],
 	  bdir[0],bdir[1],bdir[2],bdir[3],bdir[4],bgof,bll,bll0);
 }
 
