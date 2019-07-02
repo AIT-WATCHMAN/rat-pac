@@ -4,17 +4,9 @@ add_library(fit OBJECT
         src/FitBonsaiProc.cc
         src/MiniSim.cc)
 
+target_include_directories(fit PUBLIC ${RAT_INCDIRS})
 
-target_include_directories(fit PRIVATE
-        ${PROJECT_SOURCE_DIR}/src/core/include
-        ${PROJECT_SOURCE_DIR}/src/db/include
-        ${PROJECT_SOURCE_DIR}/src/ds/include
-        ${PROJECT_SOURCE_DIR}/src/physics/include
-        ${PROJECT_SOURCE_DIR}/src/stlplus/include
-        ${PROJECT_SOURCE_DIR}/src/util/include)
-target_include_directories(fit PRIVATE include)
-
-add_library(bonsai OBJECT
+add_library(_bonsai OBJECT
         bonsai/ariadne.cc
         bonsai/binfile.cc
         bonsai/bonsai.cc
@@ -28,6 +20,7 @@ add_library(bonsai OBJECT
         bonsai/hits.cc
         bonsai/hitsel.cc
         bonsai/likelihood.cc
+        bonsai/lfariadne.F
         bonsai/plato.cc
         bonsai/pmt_geometry.cc
         bonsai/pot.cc
@@ -36,9 +29,4 @@ add_library(bonsai OBJECT
         bonsai/tree.cc
         bonsai/vertex.cc
         bonsai/vertexfit.cc)
-target_include_directories(bonsai PRIVATE include)
-
-# TODO
-add_library(bonsai_fortran OBJECT
-        bonsai/lfariadne.F)
-set_property(TARGET bonsai_fortran PROPERTY LINKER_LANGUAGE Fortran)
+target_include_directories(_bonsai PUBLIC include)

@@ -38,11 +38,4 @@ add_library(gen OBJECT
         src/VertexGen_Spectrum.cc
         src/VertexGen_WIMP.cc)
 
-target_include_directories(gen PRIVATE
-        ${PROJECT_SOURCE_DIR}/src/cmd/include
-        ${PROJECT_SOURCE_DIR}/src/core/include
-        ${PROJECT_SOURCE_DIR}/src/db/include
-        ${PROJECT_SOURCE_DIR}/src/ds/include
-        ${PROJECT_SOURCE_DIR}/src/stlplus/include
-        ${PROJECT_SOURCE_DIR}/src/util/include)
-target_include_directories(gen PRIVATE include)
+target_include_directories(gen PUBLIC ${RAT_INCDIRS})

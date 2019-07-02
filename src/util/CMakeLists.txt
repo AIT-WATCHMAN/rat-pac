@@ -11,9 +11,8 @@ add_library(util OBJECT
         src/getopt.cc
         src/getopt1.cc)
 
-target_include_directories(util PRIVATE
-        ${PROJECT_SOURCE_DIR}/src/core/include
-        ${PROJECT_SOURCE_DIR}/src/daq/include
-        ${PROJECT_SOURCE_DIR}/src/db/include
-        ${PROJECT_SOURCE_DIR}/src/stlplus/include)
-target_include_directories(util PRIVATE include)
+target_include_directories(util PUBLIC ${RAT_INCDIRS})
+
+#### Target: Shared library to make RooFit stop printing that stupid banner
+add_library(SilenceRooFitBanner SHARED src/SilenceRooFitBanner.cc)
+target_link_libraries(SilenceRooFitBanner PUBLIC ${ROOT_LIBRARIES})

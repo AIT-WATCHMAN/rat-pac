@@ -48,12 +48,4 @@ add_library(geo OBJECT
         src/WatchmanDetectorFactory.cc
         src/WaterBoxConstruction.cc)
 
-target_include_directories(geo PRIVATE
-        ${PROJECT_SOURCE_DIR}/src/cmd/include
-        ${PROJECT_SOURCE_DIR}/src/core/include
-        ${PROJECT_SOURCE_DIR}/src/db/include
-        ${PROJECT_SOURCE_DIR}/src/ds/include
-        ${PROJECT_SOURCE_DIR}/src/physics/include
-        ${PROJECT_SOURCE_DIR}/src/stlplus/include
-        ${PROJECT_SOURCE_DIR}/src/util/include)
-target_include_directories(geo PRIVATE include)
+target_include_directories(geo PUBLIC ${RAT_INCDIRS})

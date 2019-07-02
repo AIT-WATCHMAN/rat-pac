@@ -39,4 +39,4 @@ SCRATCH
 .idea/
 .vscode/
 doc/_build/
-RAT/Config.hh
+.pytest_cache*

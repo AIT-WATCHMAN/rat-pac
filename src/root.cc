@@ -12,7 +12,7 @@ Int_t doBanner() {
 int main(int argc, char *argv[]) {
   TRint *app = new TRint("ROOT for RAT", &argc, argv);
   std::string ratroot = getenv("RATROOT");
-  std::string initmacro = ratroot + std::string("src/rootinit.C");
+  std::string initmacro = ratroot + std::string("/src/rootinit.C");
   gROOT->ProcessLine((std::string(".x ") + initmacro).c_str());
   std::cout << "RAT: Libraries loaded." << std::endl;
   app->Run();

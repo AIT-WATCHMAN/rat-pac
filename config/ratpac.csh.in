@@ -2,8 +2,6 @@
 
 setenv RATROOT @CMAKE_INSTALL_PREFIX@
 setenv PATH "$RATROOT/bin:$PATH"
-setenv PATH "$RATROOT/tools/bonsai:$PATH"
-setenv PATH "$RATROOT/tools/visualizer:$PATH"
 if ({$?LD_LIBRARY_PATH}) then
   setenv LD_LIBRARY_PATH "${RATROOT}/lib:$LD_LIBRARY_PATH"
 else
@@ -19,8 +17,8 @@ else
 endif
 
 if ({$?PYTHONPATH}) then
-  setenv PYTHONPATH "$RATROOT/python:$PYTHONPATH"
+  setenv PYTHONPATH "$RATROOT/share/python:$PYTHONPATH"
 else
-  setenv PYTHONPATH "$RATROOT/python"
+  setenv PYTHONPATH "$RATROOT/share/python"
 endif
-setenv GLG4DATA "$RATROOT/data"
+setenv GLG4DATA "$RATROOT/share/GLG4Data"

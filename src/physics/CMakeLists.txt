@@ -10,12 +10,4 @@ add_library(physics OBJECT
         src/PhotonThinning.cc
         src/PhysicsList.cc)
 
-target_include_directories(physics PRIVATE
-        ${PROJECT_SOURCE_DIR}/src/cmd/include
-        ${PROJECT_SOURCE_DIR}/src/core/include
-        ${PROJECT_SOURCE_DIR}/src/db/include
-        ${PROJECT_SOURCE_DIR}/src/ds/include
-        ${PROJECT_SOURCE_DIR}/src/geo/include
-        ${PROJECT_SOURCE_DIR}/src/stlplus/include
-        ${PROJECT_SOURCE_DIR}/src/util/include)
-target_include_directories(physics PRIVATE include)
+target_include_directories(physics PUBLIC ${RAT_INCDIRS})

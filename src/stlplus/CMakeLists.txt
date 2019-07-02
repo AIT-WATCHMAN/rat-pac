@@ -11,4 +11,4 @@ add_library(stlplus OBJECT
         src/dprintf.cc
         src/stringio.cc)
 
-target_include_directories(stlplus PRIVATE include)
+target_include_directories(stlplus PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)

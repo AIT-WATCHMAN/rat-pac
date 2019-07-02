@@ -32,7 +32,7 @@
 #include <RAT/DBMessenger.hh>
 #include <RAT/TrackingMessenger.hh>
 #include <RAT/OutROOTProc.hh>
-#include <RAT/getopt.h>
+#include <getopt.h>
 #include <TStopwatch.h>
 #include <TRandom.h>
 
