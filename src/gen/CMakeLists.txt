@@ -1,4 +1,4 @@
-add_library(gen OBJECT
+add_library(gen STATIC
         src/AmBeGen.cc
         src/AmBeSource.cc
         src/BetaFunction.cc

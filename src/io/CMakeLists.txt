@@ -1,4 +1,4 @@
-add_library(io OBJECT
+add_library(io STATIC
         src/DSReader.cc
         src/DSWriter.cc
         src/InNetProducer.cc

@@ -1,4 +1,4 @@
-add_library(fit OBJECT
+add_library(fit STATIC
         src/FitPathProc.cc
         src/FitCentroidProc.cc
         src/FitBonsaiProc.cc

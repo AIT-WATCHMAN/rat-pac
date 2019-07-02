@@ -1,4 +1,4 @@
-add_library(core OBJECT
+add_library(core STATIC
         src/GLG4HitPhoton.cc
         src/GLG4HitPMT.cc
         src/GLG4SteppingAction.cc

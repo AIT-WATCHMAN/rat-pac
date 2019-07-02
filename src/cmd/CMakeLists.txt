@@ -1,4 +1,4 @@
-add_library(cmd OBJECT
+add_library(cmd STATIC
         src/CoincidenceMessenger.cc
         src/DBMessenger.cc
         src/ESgenMessenger.cc

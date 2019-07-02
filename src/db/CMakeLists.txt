@@ -1,4 +1,4 @@
-add_library(db OBJECT
+add_library(db STATIC
         src/DBTextLoader.cc
         src/HTTPDownloader.cc
         src/json.cc

@@ -1,4 +1,4 @@
-add_library(physics OBJECT
+add_library(physics STATIC
         src/BNLOpWLS.cc
         src/BNLOpWLSBuilder.cc
         src/BNLOpWLSData.cc

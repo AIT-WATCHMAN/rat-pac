@@ -1,4 +1,4 @@
-add_library(ds OBJECT
+add_library(ds STATIC
         src/Root.cc
         src/MCPMT.cc
         src/RunStore.cc)

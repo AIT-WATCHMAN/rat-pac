@@ -1,4 +1,4 @@
-add_library(geo OBJECT
+add_library(geo STATIC
         src/BWVetGenericChamber.cc
         src/BWVetGenericChamberHit.cc
         src/ConeWaveguideConstruction.cc
