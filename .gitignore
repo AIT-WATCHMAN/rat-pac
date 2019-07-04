@@ -2,8 +2,7 @@
 build
 env.sh
 env.csh
-include/RAT
-include/local_g4version.hh
+src/core/include/RAT/Config.hh
 *.pyc
 .sconsign
 .sconsign.dblite
