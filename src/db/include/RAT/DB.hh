@@ -90,7 +90,7 @@ double rindex = lmedia->GetD("index_of_refraction");
 #include <RAT/HTTPDownloader.hh>
 #include <RAT/DBLink.hh>
 #include <RAT/DBFieldCallback.hh>
-#include <smart_ptr.hpp>
+#include <RAT/smart_ptr.hpp>
 
 namespace RAT {
 

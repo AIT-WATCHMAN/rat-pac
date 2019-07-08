@@ -75,11 +75,11 @@ Log::Die("Could not open " + filename + " for input.");
 #include <vector>
 #include <utility>
 
-#include "dprintf.hpp"
-#include "fileio.hpp"
-#include "stringio.hpp"
-#include "multiio.hpp"
-#include "string_utilities.hpp"
+#include "RAT/dprintf.hpp"
+#include "RAT/fileio.hpp"
+#include "RAT/stringio.hpp"
+#include "RAT/multiio.hpp"
+#include "RAT/string_utilities.hpp"
 
 #include <TObject.h>
 #include <TMap.h>

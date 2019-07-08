@@ -5,10 +5,10 @@
   License:   BSD License, see ../docs/license.html
 
   ------------------------------------------------------------------------------*/
-#include "os_fixes.hpp"
-#include "textio.hpp"
-#include "dprintf.hpp"
-#include "string_utilities.hpp"
+#include "RAT/os_fixes.hpp"
+#include "RAT/textio.hpp"
+#include "RAT/dprintf.hpp"
+#include "RAT/string_utilities.hpp"
 #include <ctype.h>
 
 ////////////////////////////////////////////////////////////////////////////////

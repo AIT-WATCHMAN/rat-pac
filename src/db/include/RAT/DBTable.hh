@@ -12,7 +12,7 @@
 
 #include <string>
 #include <vector>
-#include <hash.hpp>
+#include <RAT/hash.hpp>
 #include <RAT/DBFieldCallback.hh>
 #include <RAT/HashFunc.hh>
 #include <RAT/json.hh>

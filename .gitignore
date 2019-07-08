@@ -39,3 +39,4 @@ SCRATCH
 .vscode/
 doc/_build/
 .pytest_cache*
+ratpac.*sh

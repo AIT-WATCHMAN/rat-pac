@@ -15,11 +15,11 @@
   Cygwin/Gnu version: as Unix version
 
   ------------------------------------------------------------------------------*/
-#include "os_fixes.hpp"
-#include "debug.hpp"
-#include "file_system.hpp"
-#include "string_utilities.hpp"
-#include "fileio.hpp"
+#include "RAT/os_fixes.hpp"
+#include "RAT/debug.hpp"
+#include "RAT/file_system.hpp"
+#include "RAT/string_utilities.hpp"
+#include "RAT/fileio.hpp"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>

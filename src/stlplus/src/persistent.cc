@@ -5,11 +5,11 @@
   License:   BSD License, see ../docs/license.html
 
   ------------------------------------------------------------------------------*/
-#include "os_fixes.hpp"
-#include "persistent.hpp"
-#include "textio.hpp"
-#include "string_utilities.hpp"
-#include "smart_ptr.hpp"
+#include "RAT/os_fixes.hpp"
+#include "RAT/persistent.hpp"
+#include "RAT/textio.hpp"
+#include "RAT/string_utilities.hpp"
+#include "RAT/smart_ptr.hpp"
 
 ////////////////////////////////////////////////////////////////////////////////
 // File format version

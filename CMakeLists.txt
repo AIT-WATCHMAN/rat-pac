@@ -1,55 +1,102 @@
-cmake_minimum_required(VERSION 3.11)
-project(rat-pac VERSION 1.0
+cmake_minimum_required(VERSION 3.11...3.14)
+project(ratpac VERSION 1.0
                 DESCRIPTION "Watchman RAT-PAC"
-                LANGUAGES CXX Fortran)
+                LANGUAGES C CXX Fortran)
 
+###########################################################
+# Require out-of-source builds
+file(TO_CMAKE_PATH "${PROJECT_BINARY_DIR}/CMakeLists.txt" LOC_PATH)
+if(EXISTS "${LOC_PATH}")
+    message(FATAL_ERROR "You cannot build in a source directory (or any directory with a CMakeLists.txt file). Please make a build subdirectory. Feel free to remove CMakeCache.txt and CMakeFiles.")
+endif()
+
+
+###########################################################
+# Set default build type
+set(default_build_type "Debug") # TODO switch this
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+  message(STATUS "Setting build type to '${default_build_type}' as none was specified.")
+  set(CMAKE_BUILD_TYPE "${default_build_type}" CACHE
+      STRING "Choose the type of build." FORCE)
+  # Set the possible values of build type for cmake-gui
+  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS
+    "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+endif()
+
+###########################################################
+# Set CMAKE standards
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-## Set up root
+###########################################################
+# Options
+option(BONSAI "Install bonsai tool" ON)
+
+###########################################################
+# Set up third party libraries
+
+# Root
 find_package(ROOT CONFIG REQUIRED COMPONENTS Minuit2 PyROOT)
 include(${ROOT_USE_FILE})
 
-## Set up Geant4
 find_package(Geant4 REQUIRED)
 include(${Geant4_USE_FILE})
 
+find_package(Threads REQUIRED)
 
-## Config header
+
+###########################################################
+# Configure header with our version information
 configure_file(${CMAKE_SOURCE_DIR}/config/Config.hh.in
-        ${CMAKE_SOURCE_DIR}/include/RAT/Config.hh
+        ${CMAKE_SOURCE_DIR}/src/core/include/RAT/Config.hh
         @ONLY NEWLINE_STYLE UNIX)
 
-find_package(Threads REQUIRED)
+# Configure local scripts
+set(RATROOT ${PROJECT_BINARY_DIR})
+set(RATSHARE ${PROJECT_SOURCE_DIR})
+configure_file(${CMAKE_SOURCE_DIR}/config/ratpac.sh.in
+       ${PROJECT_SOURCE_DIR}/ratpac.sh
+       @ONLY NEWLINE_STYLE UNIX)
+configure_file(${CMAKE_SOURCE_DIR}/config/ratpac.csh.in
+        ${PROJECT_SOURCE_DIR}/ratpac.csh
+       @ONLY NEWLINE_STYLE UNIX)
+
+###########################################################
+# Compile our libraries and executables
 
 add_subdirectory(src)
 add_subdirectory(tools)
 
-### Install the data
-install(DIRECTORY data/ DESTINATION share/GLG4Data
-        PATTERN "data/*")
+###########################################################
+# Installation
 
-### Install the python files
-install(DIRECTORY python/ DESTINATION share/python
-        PATTERN "python/*")
-
-### Install the mac files
-install(DIRECTORY mac/ DESTINATION share/mac
-        PATTERN "mac/*")
-
-### Install the doc files
-install(DIRECTORY doc/ DESTINATION share/RAT/doc
-        PATTERN "doc/*")
-
-### Install the env files
+# Configure global scripts
+set(RATROOT ${CMAKE_INSTALL_PREFIX})
+set(RATSHARE ${CMAKE_INSTALL_PREFIX}/share/RAT)
 configure_file(${CMAKE_SOURCE_DIR}/config/ratpac.sh.in
-       ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ratpac.sh
+       ${PROJECT_BINARY_DIR}/bin/ratpac.sh
        @ONLY NEWLINE_STYLE UNIX)
 configure_file(${CMAKE_SOURCE_DIR}/config/ratpac.csh.in
-        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ratpac.csh
+       ${PROJECT_BINARY_DIR}/bin/ratpac.csh
        @ONLY NEWLINE_STYLE UNIX)
-install(FILES ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ratpac.sh
-             ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ratpac.csh
+
+install(DIRECTORY data/ DESTINATION ${RATSHARE}/data
+        PATTERN "data/*")
+
+# Install the python files
+install(DIRECTORY python/ DESTINATION ${RATSHARE}/python
+        PATTERN "python/*")
+
+# Install the mac files
+install(DIRECTORY mac/ DESTINATION ${RATSHARE}/mac
+        PATTERN "mac/*")
+
+# Install the doc files
+install(DIRECTORY doc/ DESTINATION ${RATSHARE}/doc
+        PATTERN "doc/*")
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/ratpac.sh
+             ${CMAKE_CURRENT_BINARY_DIR}/ratpac.csh
        DESTINATION bin)

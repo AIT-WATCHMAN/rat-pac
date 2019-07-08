@@ -1,3 +1,6 @@
+###########################################################
+# CMakeLists for core module
+
 add_library(core STATIC
         src/GLG4HitPhoton.cc
         src/GLG4HitPMT.cc
@@ -20,4 +23,14 @@ add_library(core STATIC
         src/Log.cc
         src/GLG4HitPMTCollection.cc)
 
-target_include_directories(core PUBLIC ${RAT_INCDIRS})
+# Set our include directories
+target_include_directories(core PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
+        $<INSTALL_INTERFACE:include)
+
+# Link necessary dependencies
+target_link_libraries(core PUBLIC cmd daq db ds gen geo physics stlplus util)
+
+# Copy our headers when installing
+install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/RAT
+        DESTINATION include)

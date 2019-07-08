@@ -1,3 +1,6 @@
+###########################################################
+# CMakeLists for geo module
+
 add_library(geo STATIC
         src/BWVetGenericChamber.cc
         src/BWVetGenericChamberHit.cc
@@ -48,4 +51,14 @@ add_library(geo STATIC
         src/WatchmanDetectorFactory.cc
         src/WaterBoxConstruction.cc)
 
-target_include_directories(geo PUBLIC ${RAT_INCDIRS})
+# Set our include directories
+target_include_directories(geo PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
+        $<INSTALL_INTERFACE:include)
+
+# Link necessary dependencies
+target_link_libraries(geo PUBLIC cmd core db ds physics stlplus util)
+
+# Copy our headers when installing
+install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/RAT
+        DESTINATION include)

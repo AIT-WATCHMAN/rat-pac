@@ -1,12 +1,34 @@
+###########################################################
+# CMakeLists for ds module
+
 add_library(ds STATIC
         src/Root.cc
         src/MCPMT.cc
         src/RunStore.cc)
+# Set our include directories
+target_include_directories(ds PUBLIC
+$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
+$<INSTALL_INTERFACE:include)
 
-target_include_directories(ds PUBLIC ${RAT_INCDIRS})
+# Link necessary dependencies
+target_link_libraries(ds PUBLIC core db geo stlplus util)
+
+# Copy our headers when installing
+install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/RAT
+DESTINATION include)
+
+#################################################
+# Create Root Dictionary
 
 # Have to global import to work with root macro
-include_directories(${RAT_INCDIRS})
+include_directories(
+        ${CMAKE_CURRENT_LIST_DIR}/include
+        ${PROJECT_SOURCE_DIR}/src/io/include
+        ${PROJECT_SOURCE_DIR}/src/db/include
+        ${PROJECT_SOURCE_DIR}/src/core/include
+        ${PROJECT_SOURCE_DIR}/src/stlplus/include
+        ${PROJECT_SOURCE_DIR}/src/util/include)
+
 root_generate_dictionary(G__RATDict
         ${CMAKE_CURRENT_LIST_DIR}/include/RAT/DS/Root.hh
         ${CMAKE_CURRENT_LIST_DIR}/include/RAT/DS/EV.hh
@@ -40,10 +62,14 @@ root_generate_dictionary(G__RATDict
         ${PROJECT_SOURCE_DIR}/src/io/include/RAT/ObjInt.hh
         ${PROJECT_SOURCE_DIR}/src/io/include/RAT/ObjDbl.hh
         LINKDEF include/RAT/DS/LinkDef.hh)
-add_library(RATDict OBJECT G__RATDict.cxx)
 
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libRATDict_rdict.pcm ${CMAKE_CURRENT_BINARY_DIR}/libRATDict.rootmap
-       PERMISSIONS OWNER_WRITE OWNER_READ
-       GROUP_READ
-       WORLD_READ
+add_library(RATDict OBJECT G__RATDict.cxx)
+target_include_directories(RATDict PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
+        $<INSTALL_INTERFACE:include>)
+target_link_libraries(RATDict PUBLIC core db io)
+
+# Export the proper dicitonary files to lib
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libRATDict_rdict.pcm 
+              ${CMAKE_CURRENT_BINARY_DIR}/libRATDict.rootmap
        DESTINATION lib)

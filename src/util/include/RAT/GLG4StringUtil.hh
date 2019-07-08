@@ -5,7 +5,7 @@
 // Copyright 2004, Andy Rushton
 // Renamed to prevent linker collision - (SS)
 
-#include "format_types.hpp"
+#include "RAT/format_types.hpp"
 #include <stdexcept>
 #include <string>
 #include <cstring>

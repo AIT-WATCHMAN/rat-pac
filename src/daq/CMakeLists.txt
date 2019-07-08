@@ -1,3 +1,6 @@
+###########################################################
+# CMakeLists for daq module
+
 add_library(daq STATIC
         src/LessSimpleDAQProc.cc
         src/MiniCleanPMTCharge.cc
@@ -6,4 +9,14 @@ add_library(daq STATIC
         src/PDFPMTTime.cc
         src/SimpleDAQProc.cc)
 
-target_include_directories(daq PUBLIC ${RAT_INCDIRS})
+# Set our include directories
+target_include_directories(daq PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
+        $<INSTALL_INTERFACE:include)
+
+# Link necessary dependencies
+target_link_libraries(daq PUBLIC core db ds geo stlplus util)
+
+# Copy our headers when installing
+install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/RAT
+        DESTINATION include)

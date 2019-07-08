@@ -1,7 +1,9 @@
-add_subdirectory(bonsai)
-add_subdirectory(visualizer)
+############################################################
+# CMakeLists for the tools of ratpac
 
-install(TARGETS bonsai visualizer
-        RUNTIME DESTINATION bin
-        LIBRARY DESTINATION lib
-        ARCHIVE DESTINATION lib)
+if(BONSAI)
+        add_subdirectory(bonsai)
+endif()
+add_subdirectory(visualizer)
+add_subdirectory(rat)
+add_subdirectory(root)

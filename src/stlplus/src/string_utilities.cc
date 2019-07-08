@@ -5,10 +5,10 @@
   License:   BSD License, see ../docs/license.html
 
 ------------------------------------------------------------------------------*/
-#include "string_utilities.hpp"
-#include "debug.hpp"
-#include "dprintf.hpp"
-#include "textio.hpp"
+#include "RAT/string_utilities.hpp"
+#include "RAT/debug.hpp"
+#include "RAT/dprintf.hpp"
+#include "RAT/textio.hpp"
 #include <ctype.h>
 #include <stdlib.h>
 

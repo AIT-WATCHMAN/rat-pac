@@ -1,6 +1,6 @@
 #!/bin/csh
 
-setenv RATROOT @CMAKE_INSTALL_PREFIX@
+setenv RATROOT @RATROOT@
 setenv PATH "$RATROOT/bin:$PATH"
 if ({$?LD_LIBRARY_PATH}) then
   setenv LD_LIBRARY_PATH "${RATROOT}/lib:$LD_LIBRARY_PATH"
@@ -17,8 +17,8 @@ else
 endif
 
 if ({$?PYTHONPATH}) then
-  setenv PYTHONPATH "$RATROOT/share/python:$PYTHONPATH"
+  setenv PYTHONPATH "@RATSHARE@/python:$PYTHONPATH"
 else
-  setenv PYTHONPATH "$RATROOT/share/python"
+  setenv PYTHONPATH "@RATSHARE@/python"
 endif
-setenv GLG4DATA "$RATROOT/share/GLG4Data"
+setenv GLG4DATA "@RATSHARE@/data"

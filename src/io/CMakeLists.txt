@@ -1,3 +1,6 @@
+###########################################################
+# CMakeLists for io module
+
 add_library(io STATIC
         src/DSReader.cc
         src/DSWriter.cc
@@ -8,4 +11,14 @@ add_library(io STATIC
         src/TrackCursor.cc
         src/TrackNav.cc)
 
-target_include_directories(io PUBLIC ${RAT_INCDIRS})
+# Set our include directories
+target_include_directories(io PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
+        $<INSTALL_INTERFACE:include)
+
+# Link necessary dependencies
+target_link_libraries(io PUBLIC cmd core db ds stlplus util)
+
+# Copy our headers when installing
+install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/RAT
+        DESTINATION include)

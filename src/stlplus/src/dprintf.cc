@@ -5,9 +5,9 @@
   License:   BSD License, see ../docs/license.html
 
   ------------------------------------------------------------------------------*/
-#include "dprintf.hpp"
-#include "debug.hpp"
-#include "string_utilities.hpp"
+#include "RAT/dprintf.hpp"
+#include "RAT/debug.hpp"
+#include "RAT/string_utilities.hpp"
 #include <stdio.h>
 #include <limits.h>
 #include <float.h>

@@ -1,7 +1,7 @@
 #include <RAT/MultiChargeDist.hh>
 #include <RAT/MiniCleanPMTCharge.hh>
 #include <RAT/PDFPMTCharge.hh>
-#include <string_utilities.hpp>
+#include <RAT/string_utilities.hpp>
 #include <RAT/DB.hh>
 #include <RAT/DBLink.hh>
 #include <TMath.h>

@@ -1,3 +1,6 @@
+###########################################################
+# CMakeLists for the cmd module
+
 add_library(cmd STATIC
         src/CoincidenceMessenger.cc
         src/DBMessenger.cc
@@ -13,4 +16,14 @@ add_library(cmd STATIC
         src/SNgenMessenger.cc
         src/TrackingMessenger.cc)
 
-target_include_directories(cmd PUBLIC ${RAT_INCDIRS})
+# Set our include directories
+target_include_directories(cmd PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
+        $<INSTALL_INTERFACE:include)
+
+# Link necessary dependencies
+target_link_libraries(cmd PUBLIC core daq db ds fit gen geo io physics stlplus util)
+
+# Copy our headers when installing
+install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/RAT
+        DESTINATION include)

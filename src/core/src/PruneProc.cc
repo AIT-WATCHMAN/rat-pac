@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <algorithm>
-#include "string_utilities.hpp"
+#include "RAT/string_utilities.hpp"
 
 using namespace std;
 

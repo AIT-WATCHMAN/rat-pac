@@ -3,7 +3,7 @@
 #include <RAT/Config.hh>
 
 #include <vector>
-#include <string_utilities.hpp>
+#include <RAT/string_utilities.hpp>
 
 #include <TMessage.h>
 

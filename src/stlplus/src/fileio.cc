@@ -5,10 +5,10 @@
   License:   BSD License, see ../docs/license.html
 
   ------------------------------------------------------------------------------*/
-#include "os_fixes.hpp"
-#include "fileio.hpp"
+#include "RAT/os_fixes.hpp"
+#include "RAT/fileio.hpp"
 #include <errno.h>
-#include "debug.hpp"
+#include "RAT/debug.hpp"
 ////////////////////////////////////////////////////////////////////////////////
 // Output
 
