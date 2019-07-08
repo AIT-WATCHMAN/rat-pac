@@ -71,6 +71,7 @@ target_include_directories(RATDict PUBLIC
 target_link_libraries(RATDict PUBLIC core db io)
 
 # Export the proper dicitonary files to lib
+file(COPY include/ DESTINATION ${RATPAC_INCDIR})
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libRATDict_rdict.pcm 
               ${CMAKE_CURRENT_BINARY_DIR}/libRATDict.rootmap
        DESTINATION lib)

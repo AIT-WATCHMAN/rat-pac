@@ -20,5 +20,6 @@ target_include_directories(io PUBLIC
 target_link_libraries(io PUBLIC cmd core db ds stlplus util)
 
 # Copy our headers when installing
+file(COPY include/ DESTINATION ${RATPAC_INCDIR})
 install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/RAT
         DESTINATION include)

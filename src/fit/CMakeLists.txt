@@ -51,6 +51,7 @@ target_include_directories(_bonsai PUBLIC
         $<INSTALL_INTERFACE:include)
 
 # Copy our headers when installing
+file(COPY include/ DESTINATION ${RATPAC_INCDIR})
 install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/BONSAI
         DESTINATION include)
         

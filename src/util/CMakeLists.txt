@@ -23,6 +23,7 @@ target_include_directories(util PUBLIC
 target_link_libraries(util PUBLIC core daq db stlplus)
 
 # Copy our headers when installing
+file(COPY include/ DESTINATION ${RATPAC_INCDIR})
 install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/RAT
         DESTINATION include)
 

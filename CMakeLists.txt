@@ -33,10 +33,13 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 # RATPAC
 set(RATPAC_BINARY_DIR ${PROJECT_BINARY_DIR}/bin)
 set(RATPAC_LIBRARY_DIR ${PROJECT_BINARY_DIR}/lib)
+set(RATPAC_INCDIR ${PROJECT_BINARY_DIR}/include)
 
 ###########################################################
 # Options
 option(BONSAI "Install bonsai tool" ON)
+option(ROOT "Install bootstrapped root executable" ON)
+option(RAT "Install rat executable" ON)
 
 ###########################################################
 # Set up third party libraries
