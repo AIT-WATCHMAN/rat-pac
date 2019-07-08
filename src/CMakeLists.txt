@@ -21,24 +21,24 @@ add_subdirectory(util)
 # Create our libraries and executables
 
 # RAT shared library
-add_library(RATPAC STATIC)
+add_library(RATPAC)
 target_link_libraries(RATPAC PUBLIC 
        ${ROOT_LIBRARIES} ${Geant4_LIBRARIES} Threads::Threads
        cmd core daq db ds fit _bonsai gen geo io physics stlplus util RATDict)
 
 
 ### Target: Shared library for ROOT
-add_library(RATEvent SHARED)
+add_library(RATEvent)
 target_link_libraries(RATEvent PUBLIC 
        ${Geant4_LIBRARIES} ${ROOT_LIBRARIES}
        core ds db io util stlplus RATDict)
 
-# add_custom_command(
-#        TARGET RATEvent POST_BUILD
-#        COMMAND ${CMAKE_COMMAND} -E copy
-#                      ${CMAKE_CURRENT_BINARY_DIR}/ds/libRATDict_rdict.pcm
-#                      ${CMAKE_CURRENT_BINARY_DIR}/ds/libRATDict.rootmap
-#                      ${PROJECT_BINARY_DIR}/lib)
+add_custom_command(
+       TARGET RATEvent POST_BUILD
+       COMMAND ${CMAKE_COMMAND} -E copy
+                     ${CMAKE_CURRENT_BINARY_DIR}/ds/libRATDict_rdict.pcm
+                     ${CMAKE_CURRENT_BINARY_DIR}/ds/libRATDict.rootmap
+                     ${PROJECT_BINARY_DIR}/lib)
 
 set_target_properties(RATPAC RATEvent 
     PROPERTIES

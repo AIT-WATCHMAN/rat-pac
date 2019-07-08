@@ -13,7 +13,7 @@ endif()
 
 ###########################################################
 # Set default build type
-set(default_build_type "Debug") # TODO switch this
+set(default_build_type "Release")
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   message(STATUS "Setting build type to '${default_build_type}' as none was specified.")
   set(CMAKE_BUILD_TYPE "${default_build_type}" CACHE
@@ -29,6 +29,10 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
+# RATPAC
+set(RATPAC_BINARY_DIR ${PROJECT_BINARY_DIR}/bin)
+set(RATPAC_LIBRARY_DIR ${PROJECT_BINARY_DIR}/lib)
 
 ###########################################################
 # Options
@@ -76,10 +80,10 @@ add_subdirectory(tools)
 set(RATROOT ${CMAKE_INSTALL_PREFIX})
 set(RATSHARE ${CMAKE_INSTALL_PREFIX}/share/RAT)
 configure_file(${CMAKE_SOURCE_DIR}/config/ratpac.sh.in
-       ${PROJECT_BINARY_DIR}/bin/ratpac.sh
+       ${RATPAC_BINARY_DIR}/ratpac.sh
        @ONLY NEWLINE_STYLE UNIX)
 configure_file(${CMAKE_SOURCE_DIR}/config/ratpac.csh.in
-       ${PROJECT_BINARY_DIR}/bin/ratpac.csh
+       ${RATPAC_BINARY_DIR}/ratpac.csh
        @ONLY NEWLINE_STYLE UNIX)
 
 install(DIRECTORY data/ DESTINATION ${RATSHARE}/data

@@ -61,7 +61,8 @@ root_generate_dictionary(G__RATDict
         ${PROJECT_SOURCE_DIR}/src/core/include/RAT/Log.hh
         ${PROJECT_SOURCE_DIR}/src/io/include/RAT/ObjInt.hh
         ${PROJECT_SOURCE_DIR}/src/io/include/RAT/ObjDbl.hh
-        LINKDEF include/RAT/DS/LinkDef.hh)
+        LINKDEF include/RAT/DS/LinkDef.hh
+        DEPENDENCIES io db core stlplus util ds)
 
 add_library(RATDict OBJECT G__RATDict.cxx)
 target_include_directories(RATDict PUBLIC
