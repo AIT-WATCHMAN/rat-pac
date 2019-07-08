@@ -1,0 +1,7 @@
+.idea
+.vscode
+.git
+build
+**/*.log
+doc/_build
+.DS_Store
