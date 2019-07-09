@@ -1,5 +1,5 @@
 # RAT configuration files
-build
+build*
 env.sh
 env.csh
 src/core/include/RAT/Config.hh
