@@ -1,7 +1,7 @@
 ###########################################################
 # CMakeLists for fit module
 
-add_library(fit STATIC
+add_library(fit OBJECT
         src/FitPathProc.cc
         src/FitCentroidProc.cc
         src/FitBonsaiProc.cc
@@ -10,18 +10,18 @@ add_library(fit STATIC
 
 # Set our include directories
 target_include_directories(fit PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
+        $<BUILD_INTERFACE:${RATPAC_INCDIR}>
         $<INSTALL_INTERFACE:include)
 
-# Link necessary dependencies
-target_link_libraries(fit PUBLIC core db ds physics stlplus util)
+# # Link necessary dependencies
+# target_link_libraries(fit PUBLIC core db ds physics stlplus util)
 
 # Copy our headers when installing
 install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/RAT
         DESTINATION include)
 
 ### Bonsai
-add_library(_bonsai STATIC
+add_library(_bonsai OBJECT
         bonsai/ariadne.cc
         bonsai/binfile.cc
         bonsai/bonsai.cc
@@ -47,7 +47,7 @@ add_library(_bonsai STATIC
 
 # Set our include directories
 target_include_directories(_bonsai PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
+        $<BUILD_INTERFACE:${RATPAC_INCDIR}>
         $<INSTALL_INTERFACE:include)
 
 # Copy our headers when installing

@@ -21,14 +21,14 @@ add_subdirectory(util)
 # Create our libraries and executables
 
 # RAT shared library
-add_library(RATPAC)
+add_library(RATPAC SHARED)
 target_link_libraries(RATPAC PUBLIC 
-       ${ROOT_LIBRARIES} ${Geant4_LIBRARIES} Threads::Threads
+       ${ROOT_LIBRARIES} ${Geant4_LIBRARIES}
        cmd core daq db ds fit _bonsai gen geo io physics stlplus util RATDict)
 
 
 ### Target: Shared library for ROOT
-add_library(RATEvent)
+add_library(RATEvent SHARED)
 target_link_libraries(RATEvent PUBLIC 
        ${Geant4_LIBRARIES} ${ROOT_LIBRARIES}
        core ds db io util stlplus RATDict)

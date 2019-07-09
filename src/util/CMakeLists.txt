@@ -1,7 +1,7 @@
 ###########################################################
 # CMakeLists for util module
 
-add_library(util STATIC
+add_library(util OBJECT
         src/GLG4StringUtil.cc
         src/GaussianRatioPDF.cc
         src/MultiChargeDist.cc
@@ -16,11 +16,11 @@ add_library(util STATIC
 
 # Set our include directories
 target_include_directories(util PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
+        $<BUILD_INTERFACE:${RATPAC_INCDIR}>
         $<INSTALL_INTERFACE:include)
 
-# Link necessary dependencies
-target_link_libraries(util PUBLIC core daq db stlplus)
+# # Link necessary dependencies
+# target_link_libraries(util PUBLIC core daq db stlplus)
 
 # Copy our headers when installing
 file(COPY include/ DESTINATION ${RATPAC_INCDIR})

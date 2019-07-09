@@ -1,7 +1,7 @@
 ###########################################################
 # CMakeLists for stlplus module
 
-add_library(stlplus STATIC
+add_library(stlplus OBJECT
         src/file_system.cc
         src/fileio.cc
         src/persistent.cc
@@ -16,7 +16,7 @@ add_library(stlplus STATIC
 
 # Set our include directories
 target_include_directories(stlplus PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
+        $<BUILD_INTERFACE:${RATPAC_INCDIR}>
         $<INSTALL_INTERFACE:include)
 
 # Copy our headers when installing

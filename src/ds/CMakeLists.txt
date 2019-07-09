@@ -1,17 +1,17 @@
 ###########################################################
 # CMakeLists for ds module
 
-add_library(ds STATIC
+add_library(ds OBJECT
         src/Root.cc
         src/MCPMT.cc
         src/RunStore.cc)
 # Set our include directories
 target_include_directories(ds PUBLIC
-$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
+$<BUILD_INTERFACE:${RATPAC_INCDIR}>
 $<INSTALL_INTERFACE:include)
 
-# Link necessary dependencies
-target_link_libraries(ds PUBLIC core db geo stlplus util)
+# # Link necessary dependencies
+# target_link_libraries(ds PUBLIC core db geo stlplus util)
 
 # Copy our headers when installing
 install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/RAT
@@ -21,13 +21,7 @@ DESTINATION include)
 # Create Root Dictionary
 
 # Have to global import to work with root macro
-include_directories(
-        ${CMAKE_CURRENT_LIST_DIR}/include
-        ${PROJECT_SOURCE_DIR}/src/io/include
-        ${PROJECT_SOURCE_DIR}/src/db/include
-        ${PROJECT_SOURCE_DIR}/src/core/include
-        ${PROJECT_SOURCE_DIR}/src/stlplus/include
-        ${PROJECT_SOURCE_DIR}/src/util/include)
+include_directories(${RATPAC_INCDIR})
 
 root_generate_dictionary(G__RATDict
         ${CMAKE_CURRENT_LIST_DIR}/include/RAT/DS/Root.hh
@@ -66,7 +60,7 @@ root_generate_dictionary(G__RATDict
 
 add_library(RATDict OBJECT G__RATDict.cxx)
 target_include_directories(RATDict PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
+        $<BUILD_INTERFACE:${RATPAC_INCDIR}>
         $<INSTALL_INTERFACE:include>)
 target_link_libraries(RATDict PUBLIC core db io)
 

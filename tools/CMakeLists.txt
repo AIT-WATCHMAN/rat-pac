@@ -3,12 +3,19 @@
 
 if(BONSAI)
         add_subdirectory(bonsai)
+        list(APPEND TOOLS bonsai)
 endif()
-add_subdirectory(visualizer)
-add_subdirectory(rat)
-add_subdirectory(root)
+# add_subdirectory(visualizer)
+if(RAT)
+        add_subdirectory(rat)
+        list(APPEND TOOLS rat)
+endif()
+if(ROOT)
+        add_subdirectory(root)
+        list(APPEND TOOLS root)
+endif()
 
-set_target_properties(bonsai visualizer rat root
+set_target_properties(${TOOLS}
     PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY ${RATPAC_BINARY_DIR}
         ARCHIVE_OUTPUT_DIRECTORY ${RATPAC_LIBRARY_DIR}

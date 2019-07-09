@@ -1,7 +1,7 @@
 ###########################################################
 # CMakeLists for physics module
 
-add_library(physics STATIC
+add_library(physics OBJECT
         src/BNLOpWLS.cc
         src/BNLOpWLSBuilder.cc
         src/BNLOpWLSData.cc
@@ -15,11 +15,11 @@ add_library(physics STATIC
 
 # Set our include directories
 target_include_directories(physics PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
+        $<BUILD_INTERFACE:${RATPAC_INCDIR}>
         $<INSTALL_INTERFACE:include)
 
-# Link necessary dependencies
-target_link_libraries(physics PUBLIC cmd core db ds geo stlplus util)
+# # Link necessary dependencies
+# target_link_libraries(physics PUBLIC cmd core db ds geo stlplus util)
 
 # Copy our headers when installing
 file(COPY include/ DESTINATION ${RATPAC_INCDIR})

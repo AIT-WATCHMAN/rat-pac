@@ -1,7 +1,7 @@
 ###########################################################
 # CMakeLists for gen module
 
-add_library(gen STATIC
+add_library(gen OBJECT
         src/AmBeGen.cc
         src/AmBeSource.cc
         src/BetaFunction.cc
@@ -43,11 +43,11 @@ add_library(gen STATIC
 
 # Set our include directories
 target_include_directories(gen PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
+        $<BUILD_INTERFACE:${RATPAC_INCDIR}>
         $<INSTALL_INTERFACE:include)
 
-# Link necessary dependencies
-target_link_libraries(gen PUBLIC cmd core db ds stlplus util)
+# # Link necessary dependencies
+# target_link_libraries(gen PUBLIC cmd core db ds stlplus util)
 
 # Copy our headers when installing
 file(COPY include/ DESTINATION ${RATPAC_INCDIR})

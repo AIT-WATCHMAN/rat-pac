@@ -1,7 +1,7 @@
 ###########################################################
 # CMakeLists for geo module
 
-add_library(geo STATIC
+add_library(geo OBJECT
         src/BWVetGenericChamber.cc
         src/BWVetGenericChamberHit.cc
         src/ConeWaveguideConstruction.cc
@@ -53,11 +53,11 @@ add_library(geo STATIC
 
 # Set our include directories
 target_include_directories(geo PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
+        $<BUILD_INTERFACE:${RATPAC_INCDIR}>
         $<INSTALL_INTERFACE:include)
 
-# Link necessary dependencies
-target_link_libraries(geo PUBLIC cmd core db ds physics stlplus util)
+# # Link necessary dependencies
+# target_link_libraries(geo PUBLIC cmd core db ds physics stlplus util)
 
 # Copy our headers when installing
 file(COPY include/ DESTINATION ${RATPAC_INCDIR})
