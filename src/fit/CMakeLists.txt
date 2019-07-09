@@ -13,13 +13,6 @@ target_include_directories(fit PUBLIC
         $<BUILD_INTERFACE:${RATPAC_INCDIR}>
         $<INSTALL_INTERFACE:include)
 
-# # Link necessary dependencies
-# target_link_libraries(fit PUBLIC core db ds physics stlplus util)
-
-# Copy our headers when installing
-install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/RAT
-        DESTINATION include)
-
 ### Bonsai
 add_library(_bonsai OBJECT
         bonsai/ariadne.cc
@@ -52,6 +45,4 @@ target_include_directories(_bonsai PUBLIC
 
 # Copy our headers when installing
 file(COPY include/ DESTINATION ${RATPAC_INCDIR})
-install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/BONSAI
-        DESTINATION include)
         

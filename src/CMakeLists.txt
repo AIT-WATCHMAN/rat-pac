@@ -33,6 +33,7 @@ target_link_libraries(RATEvent PUBLIC
        ${Geant4_LIBRARIES} ${ROOT_LIBRARIES}
        core ds db io util stlplus RATDict)
 
+# This copies the root dict files to <build>/lib
 add_custom_command(
        TARGET RATEvent POST_BUILD
        COMMAND ${CMAKE_COMMAND} -E copy
@@ -57,5 +58,5 @@ install(TARGETS RATPAC RATEvent
         ARCHIVE DESTINATION lib)
 
 ### Install the global headers
-install(DIRECTORY ${PROJECT_SOURCE_DIR}/include 
+install(DIRECTORY ${RATPAC_INCDIR} 
        DESTINATION ${CMAKE_INSTALL_PREFIX})

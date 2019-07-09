@@ -10,13 +10,6 @@ target_include_directories(ds PUBLIC
 $<BUILD_INTERFACE:${RATPAC_INCDIR}>
 $<INSTALL_INTERFACE:include)
 
-# # Link necessary dependencies
-# target_link_libraries(ds PUBLIC core db geo stlplus util)
-
-# Copy our headers when installing
-install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/RAT
-DESTINATION include)
-
 #################################################
 # Create Root Dictionary
 
@@ -66,6 +59,6 @@ target_link_libraries(RATDict PUBLIC core db io)
 
 # Export the proper dicitonary files to lib
 file(COPY include/ DESTINATION ${RATPAC_INCDIR})
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libRATDict_rdict.pcm 
-              ${CMAKE_CURRENT_BINARY_DIR}/libRATDict.rootmap
-       DESTINATION lib)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libRATDict.rootmap
+              ${CMAKE_CURRENT_BINARY_DIR}/libRATDict_rdict.pcm
+        DESTINATION lib)

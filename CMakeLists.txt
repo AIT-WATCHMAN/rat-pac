@@ -104,6 +104,6 @@ install(DIRECTORY mac/ DESTINATION ${RATSHARE}/mac
 install(DIRECTORY doc/ DESTINATION ${RATSHARE}/doc
         PATTERN "doc/*")
 
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/ratpac.sh
-             ${CMAKE_CURRENT_BINARY_DIR}/ratpac.csh
+install(FILES ${RATPAC_BINARY_DIR}/ratpac.sh
+             ${RATPAC_BINARY_DIR}/ratpac.csh
        DESTINATION bin)

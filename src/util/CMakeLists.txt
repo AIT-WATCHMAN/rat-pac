@@ -19,13 +19,8 @@ target_include_directories(util PUBLIC
         $<BUILD_INTERFACE:${RATPAC_INCDIR}>
         $<INSTALL_INTERFACE:include)
 
-# # Link necessary dependencies
-# target_link_libraries(util PUBLIC core daq db stlplus)
-
 # Copy our headers when installing
 file(COPY include/ DESTINATION ${RATPAC_INCDIR})
-install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/RAT
-        DESTINATION include)
 
 #### Target: Shared library to make RooFit stop printing that stupid banner
 add_library(SilenceRooFitBanner SHARED src/SilenceRooFitBanner.cc)

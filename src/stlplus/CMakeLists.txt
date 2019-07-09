@@ -21,5 +21,3 @@ target_include_directories(stlplus PUBLIC
 
 # Copy our headers when installing
 file(COPY include/ DESTINATION ${RATPAC_INCDIR})
-install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include
-        DESTINATION ${CMAKE_INSTALL_PREFIX})

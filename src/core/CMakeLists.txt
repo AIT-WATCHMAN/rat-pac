@@ -28,10 +28,5 @@ target_include_directories(core PUBLIC
         $<BUILD_INTERFACE:${RATPAC_INCDIR}>
         $<INSTALL_INTERFACE:include)
 
-# # Link necessary dependencies
-# target_link_libraries(core PUBLIC cmd daq db ds gen geo physics stlplus util)
-
 # Copy our headers when installing
 file(COPY include/ DESTINATION ${RATPAC_INCDIR})
-install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/RAT
-        DESTINATION include)
