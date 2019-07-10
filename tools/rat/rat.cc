@@ -54,7 +54,6 @@ class CmdOptions {
   int run;
 };
 
-int OutROOTProc::run_num = -1;
 CmdOptions parse_command_line(int argc, char **argv);
 void help();
 std::string get_short_hostname();

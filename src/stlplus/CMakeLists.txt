@@ -2,17 +2,17 @@
 # CMakeLists for stlplus module
 
 add_library(stlplus OBJECT
+        src/debug.cc
+        src/dprintf.cc
+        src/exceptions.cc
         src/file_system.cc
         src/fileio.cc
-        src/persistent.cc
-        src/exceptions.cc
-        src/debug.cc
-        src/os_fixes.cc
-        src/textio.cc
-        src/string_utilities.cc
         src/multiio.cc
-        src/dprintf.cc
-        src/stringio.cc)
+        src/os_fixes.cc
+        src/persistent.cc
+        src/string_utilities.cc
+        src/stringio.cc
+        src/textio.cc)
 
 # Set our include directories
 target_include_directories(stlplus PUBLIC

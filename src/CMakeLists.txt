@@ -21,36 +21,54 @@ add_subdirectory(util)
 # Create our libraries and executables
 
 # RAT shared library
-add_library(RATPAC SHARED)
+add_library(RATPAC STATIC)
 target_link_libraries(RATPAC PUBLIC 
        ${ROOT_LIBRARIES} ${Geant4_LIBRARIES}
        cmd core daq db ds fit _bonsai gen geo io physics stlplus util RATDict)
 
 
-### Target: Shared library for ROOT
-add_library(RATEvent SHARED)
+### Target: library for ROOT
+add_library(RATEvent SHARED
+       core/src/Log.cc
+       db/src/DB.cc
+       db/src/DBJsonLoader.cc
+       db/src/DBLink.cc
+       db/src/DBTable.cc
+       db/src/DBTextLoader.cc
+       db/src/HTTPDownloader.cc
+       db/src/json.cc
+       ds/src/MCPMT.cc
+       ds/src/Root.cc
+       ds/src/RunStore.cc
+       io/src/DSReader.cc
+       io/src/DSWriter.cc
+       io/src/TrackCursor.cc
+       io/src/TrackNav.cc
+       stlplus/src/debug.cc
+       stlplus/src/dprintf.cc
+       stlplus/src/exceptions.cc
+       stlplus/src/file_system.cc
+       stlplus/src/fileio.cc
+       stlplus/src/multiio.cc
+       stlplus/src/string_utilities.cc
+       stlplus/src/stringio.cc
+       stlplus/src/textio.cc
+       util/src/ReadFile.cc)
+target_include_directories(RATEvent PUBLIC ${RATPAC_INCDIR})
 target_link_libraries(RATEvent PUBLIC 
-       ${Geant4_LIBRARIES} ${ROOT_LIBRARIES}
-       core ds db io util stlplus RATDict)
+       ${Geant4_LIBRARIES} ${ROOT_LIBRARIES} RATDict)
 
 # This copies the root dict files to <build>/lib
-add_custom_command(
-       TARGET RATEvent POST_BUILD
-       COMMAND ${CMAKE_COMMAND} -E copy
-                     ${CMAKE_CURRENT_BINARY_DIR}/ds/libRATDict_rdict.pcm
-                     ${CMAKE_CURRENT_BINARY_DIR}/ds/libRATDict.rootmap
-                     ${PROJECT_BINARY_DIR}/lib)
+add_custom_command(TARGET RATEvent POST_BUILD
+   COMMAND ${CMAKE_COMMAND} -E copy
+       ${CMAKE_CURRENT_BINARY_DIR}/ds/libRATDict_rdict.pcm
+       ${CMAKE_CURRENT_BINARY_DIR}/ds/libRATDict.rootmap
+       ${PROJECT_BINARY_DIR}/lib)
 
 set_target_properties(RATPAC RATEvent 
     PROPERTIES
        ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib
        LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
-
-# Make sure we don't overwrite original root
-# if(EXISTS "${CMAKE_INSTALL_PREFIX}/bin/root")
-#        message("Renaming the original root binary to root.old")
-#        file(RENAME ${CMAKE_INSTALL_PREFIX}/bin/root ${CMAKE_INSTALL_PREFIX}/bin/root.old)
-# endif()
 
 install(TARGETS RATPAC RATEvent
         RUNTIME DESTINATION bin

@@ -1,16 +1,16 @@
 ############################################################
 # CMakeLists for the tools of ratpac
 
-if(BONSAI)
+if(RATPAC_BONSAI)
         add_subdirectory(bonsai)
         list(APPEND TOOLS bonsai)
 endif()
 # add_subdirectory(visualizer)
-if(RAT)
+if(RATPAC_RAT)
         add_subdirectory(rat)
         list(APPEND TOOLS rat)
 endif()
-if(ROOT)
+if(RATPAC_ROOT)
         add_subdirectory(root)
         list(APPEND TOOLS root)
 endif()

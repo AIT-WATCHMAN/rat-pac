@@ -30,16 +30,14 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-# RATPAC
-set(RATPAC_BINARY_DIR ${PROJECT_BINARY_DIR}/bin)
-set(RATPAC_LIBRARY_DIR ${PROJECT_BINARY_DIR}/lib)
-set(RATPAC_INCDIR ${PROJECT_BINARY_DIR}/include)
-
 ###########################################################
 # Options
-option(BONSAI "Install bonsai tool" ON)
-option(ROOT "Install bootstrapped root executable" ON)
-option(RAT "Install rat executable" ON)
+set(RATPAC_BINARY_DIR ${PROJECT_BINARY_DIR}/bin CACHE PATH "Where to output executables")
+set(RATPAC_LIBRARY_DIR ${PROJECT_BINARY_DIR}/lib CACHE PATH "Where to output library files")
+set(RATPAC_INCDIR ${PROJECT_BINARY_DIR}/include CACHE PATH "Where to collect headers")
+option(RATPAC_BONSAI "build bonsai tool" ON)
+option(RATPAC_ROOT "build bootstrapped root executable" ON)
+option(RATPAC_RAT "build rat executable" ON)
 
 ###########################################################
 # Set up third party libraries
@@ -89,6 +87,7 @@ configure_file(${CMAKE_SOURCE_DIR}/config/ratpac.csh.in
        ${RATPAC_BINARY_DIR}/ratpac.csh
        @ONLY NEWLINE_STYLE UNIX)
 
+# Install the data files
 install(DIRECTORY data/ DESTINATION ${RATSHARE}/data
         PATTERN "data/*")
 
@@ -104,6 +103,7 @@ install(DIRECTORY mac/ DESTINATION ${RATSHARE}/mac
 install(DIRECTORY doc/ DESTINATION ${RATSHARE}/doc
         PATTERN "doc/*")
 
+# Install env files
 install(FILES ${RATPAC_BINARY_DIR}/ratpac.sh
              ${RATPAC_BINARY_DIR}/ratpac.csh
        DESTINATION bin)
