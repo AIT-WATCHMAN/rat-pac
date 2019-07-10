@@ -9,6 +9,9 @@ Dockerfile*
 .gitignore
 .dockerignore
 **/*.root
+!data/*.root
+data/**/*.MD
+data/**/*.jpeg
 
 ### CMake ###
 CMakeLists.txt.user
