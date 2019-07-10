@@ -117,8 +117,8 @@ void timefit::load_dist(void)
 
   // ********************** load pdfs from file **********************
   printf("Loading pdfs...\n");
-  std::string path = getenv("RATSHARE");
-  std::string abs_filename = path + "/data/bonsai/like.bin";
+  std::string path = getenv("GLG4DATA");
+  std::string abs_filename = path + "/bonsai/like.bin";
   binfile      bf( (char*)(abs_filename.c_str()),'r');
 
   if (bf.read(sizes,numbers,starts)!=2)

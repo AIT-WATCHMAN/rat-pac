@@ -382,8 +382,8 @@ fit_param::fit_param(void) {
 
   printf("reading fit_param.dat...\n");
 
-  std::string path = getenv("RATSHARE");
-  std::string abs_filename = path + "/data/bonsai/fit_param.dat";
+  std::string path = getenv("GLG4DATA");
+  std::string abs_filename = path + "/bonsai/fit_param.dat";
   FILE *pfile = fopen(abs_filename.c_str(), "r");
 
   char line[256];
