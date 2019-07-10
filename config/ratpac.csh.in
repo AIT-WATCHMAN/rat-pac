@@ -1,6 +1,7 @@
 #!/bin/csh
 
 setenv RATROOT @RATROOT@
+setenv RATSHARE @RATSHARE@
 setenv PATH "$RATROOT/bin:$PATH"
 if ({$?LD_LIBRARY_PATH}) then
   setenv LD_LIBRARY_PATH "${RATROOT}/lib:$LD_LIBRARY_PATH"
@@ -17,8 +18,8 @@ else
 endif
 
 if ({$?PYTHONPATH}) then
-  setenv PYTHONPATH "@RATSHARE@/python:$PYTHONPATH"
+  setenv PYTHONPATH "$RATSHARE/python:$PYTHONPATH"
 else
-  setenv PYTHONPATH "@RATSHARE@/python"
+  setenv PYTHONPATH "$RATSHARE/python"
 endif
-setenv GLG4DATA "@RATSHARE@/data"
+setenv GLG4DATA "$RATSHARE/data"

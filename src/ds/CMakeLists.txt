@@ -7,55 +7,52 @@ add_library(ds OBJECT
         src/RunStore.cc)
 # Set our include directories
 target_include_directories(ds PUBLIC
-$<BUILD_INTERFACE:${RATPAC_INCDIR}>
-$<INSTALL_INTERFACE:include)
+        $<BUILD_INTERFACE:${RATPAC_INCDIR}>
+        $<INSTALL_INTERFACE:include>)
 
 #################################################
 # Create Root Dictionary
 
 # Have to global import to work with root macro
-include_directories(${RATPAC_INCDIR})
-
-root_generate_dictionary(G__RATDict
-        ${CMAKE_CURRENT_LIST_DIR}/include/RAT/DS/Root.hh
-        ${CMAKE_CURRENT_LIST_DIR}/include/RAT/DS/EV.hh
-        ${CMAKE_CURRENT_LIST_DIR}/include/RAT/DS/MC.hh
-        ${CMAKE_CURRENT_LIST_DIR}/include/RAT/DS/MCParticle.hh
-        ${CMAKE_CURRENT_LIST_DIR}/include/RAT/DS/MCPhoton.hh
-        ${CMAKE_CURRENT_LIST_DIR}/include/RAT/DS/MCPMT.hh
-        ${CMAKE_CURRENT_LIST_DIR}/include/RAT/DS/MCSummary.hh
-        ${CMAKE_CURRENT_LIST_DIR}/include/RAT/DS/PMT.hh
-        ${CMAKE_CURRENT_LIST_DIR}/include/RAT/DS/RunStore.hh
-        ${CMAKE_CURRENT_LIST_DIR}/include/RAT/DS/Run.hh
-        ${CMAKE_CURRENT_LIST_DIR}/include/RAT/DS/PosFit.hh
-        ${CMAKE_CURRENT_LIST_DIR}/include/RAT/DS/PMTInfo.hh
-        ${CMAKE_CURRENT_LIST_DIR}/include/RAT/DS/MCTrack.hh
-        ${CMAKE_CURRENT_LIST_DIR}/include/RAT/DS/MCTrackStep.hh
-        ${CMAKE_CURRENT_LIST_DIR}/include/RAT/DS/Calib.hh
-        ${CMAKE_CURRENT_LIST_DIR}/include/RAT/DS/Centroid.hh
-        ${CMAKE_CURRENT_LIST_DIR}/include/RAT/DS/PathFit.hh
-        ${CMAKE_CURRENT_LIST_DIR}/include/RAT/DS/BonsaiFit.hh
-        ${PROJECT_SOURCE_DIR}/src/io/include/RAT/DSReader.hh
-        ${PROJECT_SOURCE_DIR}/src/io/include/RAT/DSWriter.hh
-        ${PROJECT_SOURCE_DIR}/src/io/include/RAT/TrackNav.hh
-        ${PROJECT_SOURCE_DIR}/src/io/include/RAT/TrackNode.hh
-        ${PROJECT_SOURCE_DIR}/src/io/include/RAT/TrackCursor.hh
-        ${PROJECT_SOURCE_DIR}/src/db/include/RAT/DB.hh
-        ${PROJECT_SOURCE_DIR}/src/db/include/RAT/DBLink.hh
-        ${PROJECT_SOURCE_DIR}/src/db/include/RAT/DBTextLoader.hh
-        ${PROJECT_SOURCE_DIR}/src/db/include/RAT/DBJsonLoader.hh
-        ${PROJECT_SOURCE_DIR}/src/db/include/RAT/HTTPDownloader.hh
-        ${PROJECT_SOURCE_DIR}/src/core/include/RAT/Log.hh
-        ${PROJECT_SOURCE_DIR}/src/io/include/RAT/ObjInt.hh
-        ${PROJECT_SOURCE_DIR}/src/io/include/RAT/ObjDbl.hh
-        LINKDEF include/RAT/DS/LinkDef.hh
-        DEPENDENCIES io db core stlplus util ds)
-
-add_library(RATDict OBJECT G__RATDict.cxx)
-target_include_directories(RATDict PUBLIC
+include_directories(
         $<BUILD_INTERFACE:${RATPAC_INCDIR}>
         $<INSTALL_INTERFACE:include>)
-target_link_libraries(RATDict PUBLIC core db io)
+
+root_generate_dictionary(G__RATDict
+        RAT/DS/Root.hh
+        RAT/DS/EV.hh
+        RAT/DS/MC.hh
+        RAT/DS/MCParticle.hh
+        RAT/DS/MCPhoton.hh
+        RAT/DS/MCPMT.hh
+        RAT/DS/MCSummary.hh
+        RAT/DS/PMT.hh
+        RAT/DS/RunStore.hh
+        RAT/DS/Run.hh
+        RAT/DS/PosFit.hh
+        RAT/DS/PMTInfo.hh
+        RAT/DS/MCTrack.hh
+        RAT/DS/MCTrackStep.hh
+        RAT/DS/Calib.hh
+        RAT/DS/Centroid.hh
+        RAT/DS/PathFit.hh
+        RAT/DS/BonsaiFit.hh
+        RAT/DSReader.hh
+        RAT/DSWriter.hh
+        RAT/TrackNav.hh
+        RAT/TrackNode.hh
+        RAT/TrackCursor.hh
+        RAT/DB.hh
+        RAT/DBLink.hh
+        RAT/DBTextLoader.hh
+        RAT/DBJsonLoader.hh
+        RAT/HTTPDownloader.hh
+        RAT/Log.hh
+        RAT/ObjInt.hh
+        RAT/ObjDbl.hh
+        LINKDEF include/RAT/DS/LinkDef.hh)
+
+add_library(RATDict OBJECT G__RATDict.cxx)
 
 # Export the proper dicitonary files to lib
 file(COPY include/ DESTINATION ${RATPAC_INCDIR})

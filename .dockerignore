@@ -1,13 +1,14 @@
 .idea
 .vscode
 .git
-build
+build*
 **/*.log
 doc/_build
 .DS_Store
 Dockerfile*
 .gitignore
 .dockerignore
+**/*.root
 
 ### CMake ###
 CMakeLists.txt.user
