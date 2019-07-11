@@ -49,7 +49,7 @@ int util_from_char [] =
 // signed version of the generic image generation function for all integer types
 template<typename T>
 static std::string util_simage (T i, unsigned radix, radix_display_t display, unsigned width)
-  throw(std::invalid_argument)
+  throw()
 {
   if (radix < 2 || radix > 36)
     throw std::invalid_argument("invalid radix value " + util_to_string(radix));
@@ -214,7 +214,7 @@ static std::string util_simage (T i, unsigned radix, radix_display_t display, un
 // unsigned version
 template<typename T>
 static std::string util_uimage (T i, unsigned radix, radix_display_t display, unsigned width)
-  throw(std::invalid_argument)
+  throw()
 {
   if (radix < 2 || radix > 36)
     throw std::invalid_argument("invalid radix value " + util_to_string(radix));
@@ -376,44 +376,44 @@ static std::string util_uimage (T i, unsigned radix, radix_display_t display, un
 // Integer types
 
 std::string util_to_string(bool i, unsigned radix, radix_display_t display, unsigned width)
-  throw(std::invalid_argument)
+  throw()
 {
   // use the char representation for bool
   return util_uimage<char>(i, radix, display, width);
 }
 
 std::string util_to_string(short i, unsigned radix, radix_display_t display, unsigned width)
-  throw(std::invalid_argument)
+  throw()
 {
   return util_simage(i, radix, display, width);
 }
 
 std::string util_to_string(unsigned short i, unsigned radix, radix_display_t display, unsigned width)
-  throw(std::invalid_argument)
+  throw()
 {
   return util_uimage(i, radix, display, width);
 }
 
 std::string util_to_string(int i, unsigned radix, radix_display_t display, unsigned width)
-  throw(std::invalid_argument)
+  throw()
 {
   return util_simage(i, radix, display, width);
 }
 
 std::string util_to_string(unsigned i, unsigned radix, radix_display_t display, unsigned width)
-  throw(std::invalid_argument)
+  throw()
 {
   return util_uimage(i, radix, display, width);
 }
 
 std::string util_to_string(long i, unsigned radix, radix_display_t display, unsigned width)
-  throw(std::invalid_argument)
+  throw()
 {
   return util_simage(i, radix, display, width);
 }
 
 std::string util_to_string(unsigned long i, unsigned radix, radix_display_t display, unsigned width)
-  throw(std::invalid_argument)
+  throw()
 {
   return util_uimage(i, radix, display, width);
 }
@@ -421,7 +421,7 @@ std::string util_to_string(unsigned long i, unsigned radix, radix_display_t disp
 // floating-point types
 
 std::string util_to_string(float f, real_display_t display, unsigned width, unsigned precision)
-  throw(std::invalid_argument)
+  throw()
 {
   std::string format;
   switch(display)
@@ -442,7 +442,7 @@ std::string util_to_string(float f, real_display_t display, unsigned width, unsi
 }
 
 std::string util_to_string(double f, real_display_t display, unsigned width, unsigned precision)
-  throw(std::invalid_argument)
+  throw()
 {
   std::string format;
   switch(display)
@@ -470,7 +470,7 @@ std::string util_to_string(double f, real_display_t display, unsigned width, uns
 // signed version
 template<typename T>
 static T svalue(const std::string& str, unsigned radix)
-  throw(std::invalid_argument)
+  throw()
 {
   if (radix != 0 && (radix < 2 || radix > 36))
     throw std::invalid_argument("invalid radix value " + util_to_string(radix));
@@ -697,7 +697,7 @@ static T svalue(const std::string& str, unsigned radix)
 // unsigned version
 template<typename T>
 static T uvalue(const std::string& str, unsigned radix)
-  throw(std::invalid_argument)
+  throw()
 {
   if (radix != 0 && (radix < 2 || radix > 36))
     throw std::invalid_argument("invalid radix value " + util_to_string(radix));
@@ -922,43 +922,43 @@ static T uvalue(const std::string& str, unsigned radix)
 // exported functions
 
 bool util_to_bool(const std::string& str, unsigned radix)
-  throw(std::invalid_argument)
+  throw()
 {
   return uvalue<unsigned char>(str, radix) != 0;
 }
 
 short util_to_short(const std::string& str, unsigned radix)
-  throw(std::invalid_argument)
+  throw()
 {
   return svalue<short>(str, radix);
 }
 
 unsigned short util_to_ushort(const std::string& str, unsigned radix)
-  throw(std::invalid_argument)
+  throw()
 {
   return uvalue<unsigned short>(str, radix);
 }
 
 int util_to_int(const std::string& str, unsigned radix)
-  throw(std::invalid_argument)
+  throw()
 {
   return svalue<int>(str, radix);
 }
 
 unsigned int util_to_uint(const std::string& str, unsigned radix)
-  throw(std::invalid_argument)
+  throw()
 {
   return uvalue<unsigned>(str, radix);
 }
 
 long util_to_long(const std::string& str, unsigned radix)
-  throw(std::invalid_argument)
+  throw()
 {
   return svalue<long>(str, radix);
 }
 
 unsigned long util_to_ulong(const std::string& str, unsigned radix)
-  throw(std::invalid_argument)
+  throw()
 {
   return uvalue<unsigned long>(str, radix);
 }
@@ -967,13 +967,13 @@ unsigned long util_to_ulong(const std::string& str, unsigned radix)
 ////////////////////////////////////////////////////////////////////////////////
 
 float util_to_float(const std::string& value)
-  throw(std::invalid_argument)
+  throw()
 {
   return (float)util_to_double(value);
 }
 
 double util_to_double(const std::string& value)
-  throw(std::invalid_argument)
+  throw()
 {
   // TODO - error checking
   return strtod(value.c_str(), 0);

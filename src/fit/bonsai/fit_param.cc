@@ -4,6 +4,8 @@
 #include <math.h>
 #include "BONSAI/fit_param.h"
 
+#include <string>
+
 #define FLOAT_TYPE           1
 #define INT_TYPE             2
 #define SHORT_INT_TYPE       3
@@ -357,7 +359,9 @@ fit_param::fit_param(void)
   if (nselall) return;
   printf("reading fit_param.dat...\n");
 
-  FILE          *pfile=fopen("fit_param.dat","r");
+  std::string path = getenv("RATROOT");
+  std::string abs_filename = path + "/fit_param.dat";
+  FILE          *pfile=fopen( abs_filename.c_str(),"r");
 
   char          line[256];
   unsigned char ar;

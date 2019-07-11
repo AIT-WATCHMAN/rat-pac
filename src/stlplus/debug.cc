@@ -43,7 +43,7 @@ void _debug_global(const char* file, int line, const char* function, bool state)
   fprintf(stderr, "debug global : %s\n", debug_global ? "on" : "off");
 }
 
-void _debug_assert_fail(const char* file, int line, const char* function, const char* test) throw(assert_failed)
+void _debug_assert_fail(const char* file, int line, const char* function, const char* test) throw()
 {
   fprintf(stderr, "%s:%i:[%i]%s: assertion failed: %s\n", 
           filename_part(file).c_str(), line, debug_trace_depth, function ? function : unknown_function, test);

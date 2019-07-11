@@ -16,6 +16,8 @@
 #include <stdlib.h>
 #include "BONSAI/binfile.h"
 
+#include <string>
+
 // **********************************************
 // fits the vertex time, assuming a given vertex
 // calculates the likelihood for the timing dist.
@@ -115,7 +117,9 @@ void timefit::load_dist(void)
 
   // ********************** load pdfs from file **********************
   printf("Loading pdfs...\n");
-  binfile      bf("like.bin",'r');
+  std::string path = getenv("RATROOT");
+  std::string abs_filename = path + "/like.bin";
+  binfile      bf( (char*)(abs_filename.c_str()),'r');
 
   if (bf.read(sizes,numbers,starts)!=2)
     {

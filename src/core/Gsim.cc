@@ -24,6 +24,7 @@
 #include <RAT/Coincidence_Gen.hh>
 #include <RAT/VertexFile_Gen.hh>
 #include <RAT/CfGen.hh>
+#include <RAT/AmBeGen.hh>
 #include <RAT/GdGen.hh>
 #include <RAT/ReacIBDgen.hh>
 #include <RAT/SNgen.hh>
@@ -132,6 +133,8 @@ namespace RAT {
                                          new Alloc<GLG4Gen,DecayChain_Gen>);
         GlobalFactory<GLG4Gen>::Register("cf",
                                          new Alloc<GLG4Gen,CfGen>);
+        GlobalFactory<GLG4Gen>::Register("ambe",
+                                         new Alloc<GLG4Gen,AmBeGen>);
         GlobalFactory<GLG4Gen>::Register("gd",
                                          new Alloc<GLG4Gen,GdGen>);
         GlobalFactory<GLG4Gen>::Register("led",
