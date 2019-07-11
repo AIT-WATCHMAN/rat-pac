@@ -14,6 +14,7 @@ target_include_directories(ds PUBLIC
 # Create Root Dictionary
 
 # Have to global import to work with root macro
+file(COPY include/ DESTINATION ${RATPAC_INCDIR})
 include_directories(
         $<BUILD_INTERFACE:${RATPAC_INCDIR}>
         $<INSTALL_INTERFACE:include>)
@@ -55,7 +56,6 @@ root_generate_dictionary(G__RATDict
 add_library(RATDict OBJECT G__RATDict.cxx)
 
 # Export the proper dicitonary files to lib
-file(COPY include/ DESTINATION ${RATPAC_INCDIR})
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libRATDict.rootmap
               ${CMAKE_CURRENT_BINARY_DIR}/libRATDict_rdict.pcm
         DESTINATION lib)

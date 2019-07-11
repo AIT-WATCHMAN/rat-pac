@@ -1,9 +1,7 @@
 FROM ubuntu
 LABEL maintener="Miles Lucas <mdlucas@hawaii.edu>"
 
-
 SHELL ["/bin/bash", "-c"]
-
 
 RUN apt-get -q update && apt-get -qy install --no-install-recommends \
     git \
@@ -34,10 +32,10 @@ WORKDIR /src
 RUN pip3 -q install setuptools wheel  && pip3 -q install numpy docopt
 
 # ROOT
-ARG ROOT_VERSION=6.12.06
+ARG ROOT_VERSION=6.16.00
 RUN curl -s https://root.cern.ch/download/root_v${ROOT_VERSION}.source.tar.gz | tar -xz
 RUN cmake \
-    -DCMAKE_BUILD_TYPE=MinSizeRel \
+    -DCMAKE_BUILD_TYPE=Release \
     -Dminuit2=ON \
     -Dpython3=ON \
     root-${ROOT_VERSION} -Broot-build
@@ -49,6 +47,7 @@ RUN pip3 -q install root_numpy
 ARG GEANT4_VERSION=10.5.1
 RUN curl -sL https://github.com/Geant4/geant4/archive/v${GEANT4_VERSION}.tar.gz | tar -xz
 RUN cmake \
+    -DCMAKE-BUILD_TYPE=MinSizeRel \ 
     -DGEANT4_INSTALL_DATA=ON \
     -DGEANT4_USE_SYSTEM_EXPAT=OFf \
     -DGEANT4_BUILD_MULTITHREADED=ON \
@@ -61,10 +60,16 @@ RUN cmake --build geant4-build --target install -- -j$(nproc) && \
 
 
 # rat-pac installation
-COPY . /home/splinter/ratpac
-WORKDIR /home/splinter/ratpac
+COPY . /src/ratpac
 RUN source /usr/local/bin/thisroot.sh && \
-    source /usr/local/bin/geant4.sh && chown -R splinter .
+    source /usr/local/bin/geant4.sh && \
+    mkdir /home/splinter/ratpac && \
+    cmake -DCMAKE_INSTALL_PREFIX=/home/splinter/ratpac ratpac -Bratpac-build && \
+    cmake --build ratpac-build --target install -- -j$(nproc) && \
+    rm -rf ratpac-build ratpac && chown -R splinter /home/splinter
+
+# Create environment file
+RUN echo -e "source /usr/local/bin/thisroot.sh\nsource /usr/local/bin/geant4.sh\nsource /home/splinter/ratpac/bin/ratpac.sh" >> /etc/bash.bashrc
 
 USER splinter
 WORKDIR /home/splinter
