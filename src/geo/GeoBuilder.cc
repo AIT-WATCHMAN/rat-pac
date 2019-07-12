@@ -30,6 +30,7 @@
 #include <RAT/GeoPerfBoxFactory.hh>
 #include <RAT/GeoCutTubeFactory.hh>
 #include <RAT/GeoWatchmanShieldFactory.hh>
+#include <RAT/GeoPolyArrayFactory.hh>
 
 using namespace std;
 
@@ -62,6 +63,7 @@ GeoBuilder::GeoBuilder()
   new GeoPerfBoxFactory();
   new GeoCutTubeFactory();
   new GeoWatchmanShieldFactory();
+  new GeoPolyArrayFactory();
 
   // Register standard waveguides
   GlobalFactory<WaveguideFactory>::Register("cone",
