@@ -104,7 +104,7 @@ int main(int argc, char **argv)
   Double_t x=0., y=0., z=0., tim=0., u=0., v=0., w=0.;
   Double_t mc_x=0., mc_y=0., mc_z=0., mc_tim=0., mc_u=0., mc_v=0., mc_w=0.;
   Double_t closestPMT=0.,mc_energy=0.;
-  Double_t dxx=0.,dyy=0.,dzz=0.,dxmcx=0.,dymcy=0.,dzmc_z=0.,dt1=0.,dt0=0.;
+  Double_t dxx=0.,dyy=0.,dzz=0.,dxmcx=0.,dymcy=0.,dzmcz=0.,dt1=0.,dt0=0.;
   Double_t prev_x = -1e9,prev_y= -1e9,prev_z= -1e9, old_t,p2W,p2ToB;
   Int_t sub_event_tally[20] = {};
   Double_t pmtBoundR=0.,pmtBoundZ=0.;
@@ -207,7 +207,7 @@ int main(int argc, char **argv)
   data->Branch("dzPrevz",&dzz,"dzPrevz/D");
   data->Branch("dxmcx",&dxmcx,"dxmcx/D");
   data->Branch("dymcy",&dymcy,"dymcy/D");
-  data->Branch("dzmc_z",&dzmc_z,"dzmc_z/D");
+  data->Branch("dzmcz",&dzmcz,"dzmcz/D");
   data->Branch("dt",&dt1,"dt/D");  data->Branch("dt_s",&dt1_s,"dt_s/I");
   data->Branch("dt_ns",&dt1_ns,"dt_ns/I"); data->Branch("dt0",&dt0,"dt0/D");
 
@@ -496,7 +496,7 @@ int main(int argc, char **argv)
 	    {
 	      dxx = 0.;dyy = 0.;dzz = 0.;
 	    }
-	  dxmcx = x-mc_x;dymcy = y-mc_y;dzmc_z = z-mc_z;
+	  dxmcx = x-mc_x;dymcy = y-mc_y;dzmcz = z-mc_z;
 	  dt1_s = timestamp_s - old_t_s;
 	  dt1_ns = timestamp_ns - old_t_ns;
 

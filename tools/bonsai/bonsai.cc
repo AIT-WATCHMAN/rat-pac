@@ -116,7 +116,7 @@ int main(int argc, char **argv) {
   Double_t mc_x = 0., mc_y = 0., mc_z = 0., mc_tim = 0., mc_u = 0., mc_v = 0.,
            mc_w = 0.;
   Double_t closestPMT = 0., mc_energy = 0.;
-  Double_t dxx = 0., dyy = 0., dzz = 0., dxmcx = 0., dymcy = 0., dzmc_z = 0.,
+  Double_t dxx = 0., dyy = 0., dzz = 0., dxmcx = 0., dymcy = 0., dzmcz = 0.,
            dt1 = 0., dt0 = 0.;
   Double_t prev_x = -1e9, prev_y = -1e9, prev_z = -1e9, old_t, p2W, p2ToB;
   Int_t sub_event_tally[20] = {};
@@ -226,7 +226,7 @@ int main(int argc, char **argv) {
   data->Branch("dzPrevz", &dzz, "dzPrevz/D");
   data->Branch("dxmcx", &dxmcx, "dxmcx/D");
   data->Branch("dymcy", &dymcy, "dymcy/D");
-  data->Branch("dzmc_z", &dzmc_z, "dzmc_z/D");
+  data->Branch("dzmcz", &dzmcz, "dzmcz/D");
   data->Branch("dt", &dt1, "dt/D");
   data->Branch("dt_s", &dt1_s, "dt_s/I");
   data->Branch("dt_ns", &dt1_ns, "dt_ns/I");
@@ -455,7 +455,7 @@ int main(int argc, char **argv) {
       }
       dxmcx = x - mc_x;
       dymcy = y - mc_y;
-      dzmc_z = z - mc_z;
+      dzmcz = z - mc_z;
       dt1_s = timestamp_s - old_t_s;
       dt1_ns = timestamp_ns - old_t_ns;
 
@@ -496,15 +496,16 @@ int main(int argc, char **argv) {
       data->Fill();
     }
   }
-  out->cd();
-  data->Write();
-  run_summary->Fill();
-  run_summary->Write();
-  out->Close();
-  delete (bsfit);
-  delete (bslike);
-  delete (bsgeom);
-  return 0;
+}
+out->cd();
+data->Write();
+run_summary->Fill();
+run_summary->Write();
+out->Close();
+delete (bsfit);
+delete (bslike);
+delete (bsgeom);
+return 0;
 }
 
 int nwin(RAT::DS::PMTInfo *pmtinfo, float twin, float *v, int nfit, int *cfit,
