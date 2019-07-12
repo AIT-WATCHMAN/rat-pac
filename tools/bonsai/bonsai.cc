@@ -496,16 +496,15 @@ int main(int argc, char **argv) {
       data->Fill();
     }
   }
-}
-out->cd();
-data->Write();
-run_summary->Fill();
-run_summary->Write();
-out->Close();
-delete (bsfit);
-delete (bslike);
-delete (bsgeom);
-return 0;
+  out->cd();
+  data->Write();
+  run_summary->Fill();
+  run_summary->Write();
+  out->Close();
+  delete (bsfit);
+  delete (bslike);
+  delete (bsgeom);
+  return 0;
 }
 
 int nwin(RAT::DS::PMTInfo *pmtinfo, float twin, float *v, int nfit, int *cfit,
