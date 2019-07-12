@@ -64,12 +64,13 @@ Parameters
     /rat/procset prune "cutlist"
 
 * cutlist - (required) a comma separated (no spaces) list of parts of the data structure to remove. [[BR]]The currently allowed entries are:
- * mc.particle
- * mc.pmt
- * mc.pmt.photon
- * mc.track
- * ev
- * ev.pmt
+    * mc.particle
+    * mc.pmt
+    * mc.pmt.photon
+    * mc.track
+    * ev
+    * ev.pmt
+
 
 If /tracking/storeTrajectory is turned on, mc.track:particle is used, where particle is the name of the particle track you want to prune (mc.track:opticalphoton will prune optical photon tracks).
 

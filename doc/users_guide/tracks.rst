@@ -22,6 +22,7 @@ Each point, except the initial point, in the track has associated with it a "pro
  * The energy and momentum of the particle can be altered.
  * The particle can be destroyed.  (AKA "the track is killed")
  * New particles can be created.
+
 However, the type of particle (electron, positron, Gd-153 nucleus, etc) cannot change during a track.  New particles always get new tracks.
 
 In principle, new tracks created by a process can start anywhere, but in practice they either (a) always start at the interaction point (such as in a discrete process like pair production) or (b) are distributed along the track segment between the current point and the previous one (such as in a continuous process like ionization).
