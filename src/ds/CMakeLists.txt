@@ -10,14 +10,13 @@ target_include_directories(ds PUBLIC
         $<BUILD_INTERFACE:${RATPAC_INCDIR}>
         $<INSTALL_INTERFACE:include>)
 
+file(COPY include/ DESTINATION ${RATPAC_INCDIR})
+
 #################################################
 # Create Root Dictionary
 
-# Have to global import to work with root macro
-file(COPY include/ DESTINATION ${RATPAC_INCDIR})
-include_directories(
-        $<BUILD_INTERFACE:${RATPAC_INCDIR}>
-        $<INSTALL_INTERFACE:include>)
+# hack hack hack hack hack
+include_directories(${RATPAC_INCDIR})
 
 root_generate_dictionary(G__RATDict
         RAT/DS/Root.hh
@@ -51,11 +50,15 @@ root_generate_dictionary(G__RATDict
         RAT/Log.hh
         RAT/ObjInt.hh
         RAT/ObjDbl.hh
-        LINKDEF include/RAT/DS/LinkDef.hh)
+        LINKDEF include/RAT/DS/LinkDef.hh
+        DEPENDENCIES core ds db io)
 
 add_library(RATDict OBJECT G__RATDict.cxx)
+target_include_directories(RATDict PUBLIC
+        $<BUILD_INTERFACE:${RATPAC_INCDIR}>
+        $<INSTALL_INTERFACE:include>)
 
-# Export the proper dicitonary files to lib
+# Export the proper dicitonary file to lib
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libRATDict.rootmap
               ${CMAKE_CURRENT_BINARY_DIR}/libRATDict_rdict.pcm
         DESTINATION lib)
