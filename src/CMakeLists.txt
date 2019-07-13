@@ -8,7 +8,6 @@ add_subdirectory(cmd)
 add_subdirectory(core)
 add_subdirectory(daq)
 add_subdirectory(db)
-add_subdirectory(ds)
 add_subdirectory(fit)
 add_subdirectory(gen)
 add_subdirectory(geo)
@@ -16,6 +15,8 @@ add_subdirectory(io)
 add_subdirectory(physics)
 add_subdirectory(stlplus)
 add_subdirectory(util)
+# ds has to come last to avoid race condition with ratdict 
+add_subdirectory(ds)
 
 ###########################################################
 # Create our libraries and executables
