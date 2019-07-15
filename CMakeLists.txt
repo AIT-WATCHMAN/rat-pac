@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.11...3.14)
-project(ratpac VERSION 1.0
+project(ratpac VERSION 1.0.0
                 DESCRIPTION "Watchman RAT-PAC"
                 LANGUAGES C CXX Fortran)
 
@@ -42,11 +42,10 @@ option(RATPAC_RAT "build rat executable" ON)
 ###########################################################
 # Set up third party libraries
 
-# Root
 find_package(ROOT CONFIG REQUIRED COMPONENTS Minuit2 PyROOT)
 include(${ROOT_USE_FILE})
 
-find_package(Geant4 REQUIRED)
+find_package(Geant4 REQUIRED COMPONENTS qt)
 include(${Geant4_USE_FILE})
 
 find_package(Threads REQUIRED)
