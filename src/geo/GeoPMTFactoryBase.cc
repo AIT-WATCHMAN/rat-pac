@@ -559,16 +559,17 @@ namespace RAT {
             //place the mumetal shields
             G4ThreeVector offsetmumetal = G4ThreeVector(0.0, 0.0, /*-10.0*/0.0*CLHEP::cm);
             //G4cout << "pmtpos is " << pmtpos << "\n";
-            G4ThreeVector mumetalpos = pmtpos + offsetmumetal;
+            G4ThreeVector offsetmu_rot = pmtrot->inverse()(offsetmumetal);
+            G4ThreeVector mumetalpos = pmtpos + offsetmu_rot;
             if (mu_metal) {
                 new G4PVPlacement
-                ( 0,
-                 mumetalpos,
-                 "mumetal_phys",
-                 mumetal_log,
-                 phys_mother,
-                 false,
-                 id);
+                ( pmtrot,
+                  mumetalpos,
+                  "mumetal_phys",
+                  mumetal_log,
+                  phys_mother,
+                  false,
+                  id);
             }
 
             if (!pmtParam.useEnvelope && logiWg) {
