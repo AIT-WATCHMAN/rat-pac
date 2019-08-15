@@ -117,8 +117,8 @@ void timefit::load_dist(void)
 
   // ********************** load pdfs from file **********************
   printf("Loading pdfs...\n");
-  std::string path = getenv("RATROOT");
-  std::string abs_filename = path + "/like.bin";
+  std::string path = getenv("GLG4DATA");
+  std::string abs_filename = path + "/bonsai/like.bin";
   binfile      bf( (char*)(abs_filename.c_str()),'r');
 
   if (bf.read(sizes,numbers,starts)!=2)
@@ -463,7 +463,7 @@ float timefit::makelike(float t0)
       // 17-MAY-2008 by y.t.  to avoid divided by 0 (as a test)
 //      sig[set]=event_hits->nhits(set)-nbg*(tofmax-tofmin)/
 //	            (tofmax-tofmin-time_range[set]);
-      if ((tofmax-tofmin-time_range[set])>0) 
+      if ((tofmax-tofmin-time_range[set])>0)
 	  sig[set]=event_hits->nhits(set)-nbg*(tofmax-tofmin)/
 	      (tofmax-tofmin-time_range[set]);
       else
@@ -485,7 +485,7 @@ float timefit::makelike(float t0)
 	    like[i]*=norm;
 	  }
     }
-//  llmax+=nbg*log(bg); // 17-MAY-2008 fixed by M.Smy/Y.Takeuchi 
+//  llmax+=nbg*log(bg); // 17-MAY-2008 fixed by M.Smy/Y.Takeuchi
   if ((bg<0) || ((bg==0) && (nbg!=0))) return(-1e10);
   if (nbg>0) llmax+=nbg*log(bg);
   return(llmax);

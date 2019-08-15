@@ -1,9 +1,8 @@
 # RAT configuration files
-build
+build*
 env.sh
 env.csh
-include/RAT
-include/local_g4version.hh
+src/core/include/RAT/Config.hh
 *.pyc
 .sconsign
 .sconsign.dblite
@@ -35,3 +34,9 @@ tools/*.py
 tools/bonsai/bonsai
 open.sh
 SCRATCH
+
+.idea/
+.vscode/
+doc/_build/
+.pytest_cache*
+ratpac.*sh

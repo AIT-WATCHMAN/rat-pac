@@ -174,7 +174,7 @@ inline int vertex::closest_dist2(float *v,float lim)
       if (d2<lim) return(i-1);
     }
   return(-1);
-} 
+}
 
 // delete all vertices except the worst fit
 void vertex::purge(void)
