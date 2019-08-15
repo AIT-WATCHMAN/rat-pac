@@ -25,10 +25,10 @@ using namespace std;
 
 #include <TRandom.h>
 
-#include <pmt_geometry.h>
-#include <goodness.h>
-#include <searchgrid.h>
-#include <fourhitgrid.h>
+#include <BONSAI/pmt_geometry.h>
+#include <BONSAI/goodness.h>
+#include <BONSAI/searchgrid.h>
+#include <BONSAI/fourhitgrid.h>
 
 //Need to seperate the Inner-Detector tubes from the Outer-Detector tubes
 static const int innerPMTcode = 1;

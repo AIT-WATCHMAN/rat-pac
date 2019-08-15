@@ -141,7 +141,7 @@ int binfile::read(int *&sizes,int *&numbers,void **&starts)
       starts[i]=datp;
       for(j=0; j<numbers[i]; j++,datp+=sizes[i])
 	{
-	  if (fread(primer,1,sizes[i],fp)!=(unsigned int)sizes[i])	 
+	  if (fread(primer,1,sizes[i],fp)!=(unsigned int)sizes[i])
 	    {
 	      printf("Unable to read record from file!\n");
 	      exit(1);
@@ -159,7 +159,7 @@ int binfile::read(int *&sizes,int *&numbers,void **&starts)
 	      for(k=2; k<6; k++)
 		datp[offset[k]]=primer[k-2];
 	      break;
-	    case 8: 
+	    case 8:
 	      for(k=6; k<14; k++)
 		datp[offset[k]]=primer[k-6];
 	      break;
