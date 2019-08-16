@@ -35,7 +35,7 @@ namespace RAT {
         const double steel_thickness  = shield->GetD("steel_thickness");
         const double veto_thickness_r = shield->GetD("veto_thickness_r");//Distance between TANK and Inner PMT
         const double detector_size_d  = shield->GetD("detector_size_d");
-	const double veto_thickness_z = shield->GetD("veto_thickness_z");//Distance between TANK and Inner PMT
+	    const double veto_thickness_z = shield->GetD("veto_thickness_z");//Distance between TANK and Inner PMT
         const double detector_size_z  = shield->GetD("detector_size_z");
 
         const double cable_radius = detector_size_d/2.0 - veto_thickness_r + 4.0*steel_thickness;
