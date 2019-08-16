@@ -494,8 +494,12 @@ end_idx: 3257, //idx of the last pmt
 start_idx: 0, //idx of the first pmt
 pmt_model: "r7081pe",
 mu_metal: 0,
+<<<<<<< HEAD
 mu_metal_material: "aluminum",
 mu_metal_surface: "aluminum",
+=======
+light_cone: 0,
+>>>>>>> 3734ae8c9ea38b6bb03c4b428f888d8215b4d121
 pmt_detector_type: "idpmt",
 sensitive_detector: "/mydet/pmt/inner",
 efficiency_correction: 0.90000,
@@ -517,6 +521,7 @@ end_idx: 3553, //idx of the last pmt
 start_idx: 3258, //idx of the first pmt
 pmt_model: "r7081pe",
 mu_metal: 0,
+light_cone: 0,
 pmt_detector_type: "idpmt",
 sensitive_detector: "/mydet/pmt/veto",
 efficiency_correction: 0.90000,
