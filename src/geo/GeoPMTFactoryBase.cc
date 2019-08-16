@@ -23,6 +23,7 @@
 #include "G4VFastSimulationModel.hh"
 #include "GLG4PMTOpticalModel.hh"
 #include "G4PhysicsOrderedFreeVector.hh"
+#include "G4LogicalSkinSurface.hh"
 
 #include "G4RandomDirection.hh"
 
@@ -83,9 +84,32 @@ namespace RAT {
         DBLinkPtr lpmt = DB::Get()->GetLink("PMT", pmt_model);
 
         //add mu metal shields
-        int    mu_metal       = table->GetI("mu_metal");
-        bool   mumetalshields = false;
-        if( mu_metal == 1 ){ mumetalshields = true; G4cout << "Mu metal shield is added!! \n "; }
+        int mu_metal = 0; // default to no shields
+        try { mu_metal = table->GetI("mu_metal"); }
+        catch (DBNotFoundError &e) { }
+        // Material Properties
+        G4Material* mu_metal_material = G4Material::GetMaterial("aluminum");
+        try { mu_metal_material = G4Material::GetMaterial( table->GetS("mu_metal_material") ); }
+        catch (DBNotFoundError &e) { }
+        // Surface Properties
+        G4SurfaceProperty* mu_metal_surface = Materials::optical_surface["aluminum"];
+        try { mu_metal_surface = Materials::optical_surface[ table->GetS("mu_metal_surface") ]; }
+        catch (DBNotFoundError &e) { }
+        G4cout << "Mu metal shield is added!! \n "; 
+
+        G4Tubs* mumetal_solid = new G4Tubs("mumetal_solid",
+                                           13.0*CLHEP::cm, // rmin
+                                           13.2*CLHEP::cm, // rmax
+                                           10.0*CLHEP::cm, // z
+                                           0., CLHEP::twopi );
+        G4LogicalVolume *mumetal_log=new G4LogicalVolume(
+            mumetal_solid,                     // G4VSolid
+            mu_metal_material,                 // G4Material
+            "mumetal_log");
+        G4LogicalSkinSurface* mumetal_skin = new G4LogicalSkinSurface(
+            "mumetal_surface",
+            mumetal_log,       //Logical Volume
+            mu_metal_surface); //Surface Property
 
         PMTConstructionParams pmtParam;
         pmtParam.faceGap = 0.1 * CLHEP::mm;
@@ -210,15 +234,6 @@ namespace RAT {
         G4LogicalVolume *logiPMT = pmtConstruct.NewPMT(volume_name, vis_simple);
         G4LogicalVolume *logiWg = 0;
         G4ThreeVector offsetWg;
-
-        //add mumetal shield if needed
-        //bool mumetalshields= true;
-        G4Tubs* mumetal_solid = new G4Tubs("mumetal_solid",
-                                           13.0*CLHEP::cm,13.2*CLHEP::cm,
-                                           10.0*CLHEP::cm,
-                                           0., CLHEP::twopi );
-        G4LogicalVolume *mumetal_log=new G4LogicalVolume(mumetal_solid, pmtParam.dynode, "mumetal_log");
-
 
 
         //G4VPhysicalVolume *mid_water_phys = FindPhysMother("mid_water");
@@ -544,16 +559,17 @@ namespace RAT {
             //place the mumetal shields
             G4ThreeVector offsetmumetal = G4ThreeVector(0.0, 0.0, /*-10.0*/0.0*CLHEP::cm);
             //G4cout << "pmtpos is " << pmtpos << "\n";
-            G4ThreeVector mumetalpos = pmtpos + offsetmumetal;
-            if (mumetalshields) {
+            G4ThreeVector offsetmu_rot = pmtrot->inverse()(offsetmumetal);
+            G4ThreeVector mumetalpos = pmtpos + offsetmu_rot;
+            if (mu_metal) {
                 new G4PVPlacement
-                ( 0,
-                 mumetalpos,
-                 "mumetal_phys",
-                 mumetal_log,
-                 phys_mother,
-                 false,
-                 id);
+                ( pmtrot,
+                  mumetalpos,
+                  "mumetal_phys",
+                  mumetal_log,
+                  phys_mother,
+                  false,
+                  id);
             }
 
             if (!pmtParam.useEnvelope && logiWg) {

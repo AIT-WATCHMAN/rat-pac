@@ -494,6 +494,8 @@ end_idx: 3257, //idx of the last pmt
 start_idx: 0, //idx of the first pmt
 pmt_model: "r7081pe",
 mu_metal: 0,
+mu_metal_material: "aluminum",
+mu_metal_surface: "aluminum",
 pmt_detector_type: "idpmt",
 sensitive_detector: "/mydet/pmt/inner",
 efficiency_correction: 0.90000,
