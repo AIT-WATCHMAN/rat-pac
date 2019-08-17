@@ -253,13 +253,13 @@ namespace RAT {
 
 	// Add Light cone geometry from Sheffield
         G4Paraboloid* lightcone_outer = new G4Paraboloid("lightcone_outer",
-                                                        10.0*CLHEP::cm,
-                                                        0.5*27.3*CLHEP::cm,
-                                                        0.5*40*CLHEP::cm);
+                                                        17.163*CLHEP::cm,
+                                                        0.5*25.5*CLHEP::cm,
+                                                        0.5*42.081*CLHEP::cm);
         G4Paraboloid* lightcone_inner = new G4Paraboloid("lightcone_inner",
-                                                        12.0*CLHEP::cm,
+                                                        17.363*CLHEP::cm,
                                                         0.5*25.3*CLHEP::cm,
-                                                        0.5*38*CLHEP::cm);
+                                                        0.5*41.881*CLHEP::cm);
         G4SubtractionSolid* lightcone_solid = new G4SubtractionSolid("lightcone_solid",
                                                                     lightcone_outer,
                                                                     lightcone_inner);
