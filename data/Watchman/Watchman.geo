@@ -71,11 +71,11 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "cavern",
 type: "tube",
-r_max: 8000.0,
-size_z: 8000.0,
+r_max: 10000.0,
+size_z: 10000.0,
 position: [0.0, 0.0, 0.0],
 material: "stainless_steel",
-color: [0.2,0.2,0.2,0.1],
+color: [0.8,0.8,0.9,1.0],
 drawstyle: "solid"
 }
 
@@ -86,14 +86,293 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "tank",
 type: "tube",
-r_max: 7984.125,
-size_z: 7984.125, //half height, mm
+r_max: 9984.125,
+size_z: 9984.125, //half height, mm
 position: [0.0, 0.0, 0.0],
 material: "doped_water",
-color: [0.2,0.2,0.2,0.1],
+color: [0.2,0.2,0.9,0.2],
 drawstyle: "solid"
 }
 
+
+
+
+//reflective tarp for veto region - including reflection properties
+{
+name: "GEO",
+index: "white_sheet_side",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+mother: "detector",
+type: "tube",
+r_max:  7100.0,// These are guessed. Need a proper estimate
+r_min:  7090.0,//
+size_z: 7100.0,// These are guessed. Need a proper estimate
+position: [0.0, 0.0, 0.0],
+material: "polypropylene",
+color: [0.9,0.9,0.9,0.3],
+drawstyle: "solid",
+}
+{
+//Bergevin: Set the interface were reflection can occur. Must make sure volume1 and volume2
+//are in the correct order
+name: "GEO",
+index: "midsurface",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+invisible: 0, // omitted for visualization
+mother: "white_sheet_side", //not used but needs to be a valid name, parent of 'a' and 'b' would be best choice
+type: "border",
+volume1: "detector",
+volume2: "white_sheet_side",
+reverse: 1, //0 only considers photons from a->b, 1 does both directions
+surface: "reflective_tarp",
+}
+
+{
+{name: "GEO",
+index: "white_sheet_top",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+mother: "detector",
+type: "tube",
+r_max:  7100.0,// These are guessed. Need a proper estimate
+size_z: 10.0,// These are guessed. Need a proper estimate
+position: [0.0, 0.0, 7100.0],
+material: "polypropylene",
+color: [0.9,0.9,0.9,0.3],
+drawstyle: "solid",
+}
+{
+//Bergevin: Set the interface were reflection can occur. Must make sure volume1 and volume2
+//are in the correct order
+name: "GEO",
+index: "midsurface",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+invisible: 0, // omitted for visualization
+mother: "white_sheet_top", //not used but needs to be a valid name, parent of 'a' and 'b' would be best choice
+type: "border",
+volume1: "detector",
+volume2: "white_sheet_top",
+reverse: 1, //0 only considers photons from a->b, 1 does both directions
+surface: "reflective_tarp",
+}
+
+{
+name: "GEO",
+index: "white_sheet_bottom",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+mother: "detector",
+type: "tube",
+r_max:  7100.0,// These are guessed. Need a proper estimate
+size_z: 10.0,// These are guessed. Need a proper estimate
+position: [0.0, 0.0, -7100.0],
+material: "polypropylene",
+color: [0.9,0.9,0.9,0.3],
+drawstyle: "solid",
+}
+{
+//Bergevin: Set the interface were reflection can occur. Must make sure volume1 and volume2
+//are in the correct order
+name: "GEO",
+index: "midsurface",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+invisible: 0, // omitted for visualization
+mother: "white_sheet_bottom", //not used but needs to be a valid name, parent of 'a' and 'b' would be best choice
+type: "border",
+volume1: "detector",
+volume2: "white_sheet_bottom",
+reverse: 1, //0 only considers photons from a->b, 1 does both directions
+surface: "reflective_tarp",
+}
+
+
+
+
+//reflective tarp for veto region - including reflection properties
+{
+name: "GEO",
+index: "white_sheet_tank_side",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+mother: "detector",
+type: "tube",
+r_max:  9970.0,// These are guessed. Need a proper estimate
+r_min:  9960.0,//
+size_z: 9970.0,// These are guessed. Need a proper estimate
+position: [0.0, 0.0, 0.0],
+material: "polypropylene",
+color: [0.9,0.9,0.9,0.3],
+drawstyle: "solid",
+}
+{
+//Bergevin: Set the interface were reflection can occur. Must make sure volume1 and volume2
+//are in the correct order
+name: "GEO",
+index: "midsurface",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+invisible: 0, // omitted for visualization
+mother: "white_sheet_tank_side", //not used but needs to be a valid name, parent of 'a' and 'b' would be best choice
+type: "border",
+volume1: "detector",
+volume2: "white_sheet_tank_side",
+reverse: 1, //0 only considers photons from a->b, 1 does both directions
+surface: "reflective_tarp",
+}
+{name: "GEO",
+index: "white_sheet_tank_top",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+mother: "detector",
+type: "tube",
+r_max:  9965.0,// These are guessed. Need a proper estimate
+size_z: 10.0,// These are guessed. Need a proper estimate
+position: [0.0, 0.0, 9970.0],
+material: "polypropylene",
+color: [0.9,0.9,0.9,0.3],
+drawstyle: "solid",
+}
+{
+//Bergevin: Set the interface were reflection can occur. Must make sure volume1 and volume2
+//are in the correct order
+name: "GEO",
+index: "midsurface",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+invisible: 0, // omitted for visualization
+mother: "white_sheet_tank_top", //not used but needs to be a valid name, parent of 'a' and 'b' would be best choice
+type: "border",
+volume1: "detector",
+volume2: "white_sheet_tank_top",
+reverse: 1, //0 only considers photons from a->b, 1 does both directions
+surface: "reflective_tarp",
+}
+{
+name: "GEO",
+index: "white_sheet_tank_bottom",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+mother: "detector",
+type: "tube",
+r_max:  9965.0,// These are guessed. Need a proper estimate
+size_z: 10.0,// These are guessed. Need a proper estimate
+position: [0.0, 0.0, -9970.0],
+material: "polypropylene",
+color: [0.9,0.9,0.9,0.3],
+drawstyle: "solid",
+}
+{
+//Bergevin: Set the interface were reflection can occur. Must make sure volume1 and volume2
+//are in the correct order
+name: "GEO",
+index: "midsurface",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+invisible: 0, // omitted for visualization
+mother: "white_sheet_tank_bottom", //not used but needs to be a valid name, parent of 'a' and 'b' would be best choice
+type: "border",
+volume1: "detector",
+volume2: "white_sheet_tank_bottom",
+reverse: 1, //0 only considers photons from a->b, 1 does both directions
+surface: "reflective_tarp",
+}
+
+//non-reflective tarp for inner detector - including non-reflective properties
+{
+name: "GEO",
+index: "black_sheet_side",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+mother: "detector",
+type: "tube",
+r_max:  6710.0,// These are guessed. Need a proper estimate
+r_min:  6700.0,//
+size_z: 6700.0,// These are guessed. Need a proper estimate
+position: [0.0, 0.0, 0.0],
+material: "polypropylene",
+color: [0.,0.,0.,1.0],
+drawstyle: "solid",
+}
+{
+//Bergevin: Set the interface were reflection can occur. Must make sure volume1 and volume2
+//are in the correct order
+name: "GEO",
+index: "midsurface",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+invisible: 0, // omitted for visualization
+mother: "black_sheet_side", //not used but needs to be a valid name, parent of 'a' and 'b' would be best choice
+type: "border",
+volume1: "detector",
+volume2: "black_sheet_side",
+reverse: 1, //0 only considers photons from a->b, 1 does both directions
+surface: "nonreflective_tarp",
+}
+{
+name: "GEO",
+index: "black_sheet_top",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+mother: "detector",
+type: "tube",
+r_max:  6710.0,// These are guessed. Need a proper estimate
+size_z: 10.0,// These are guessed. Need a proper estimate
+position: [0.0, 0.0, 6705.0],
+material: "polypropylene",
+color: [0.,0.,0.,1.0],
+drawstyle: "solid",
+}{
+//Bergevin: Set the interface were reflection can occur. Must make sure volume1 and volume2
+//are in the correct order
+name: "GEO",
+index: "midsurface",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+invisible: 0, // omitted for visualization
+mother: "black_sheet_top", //not used but needs to be a valid name, parent of 'a' and 'b' would be best choice
+type: "border",
+volume1: "detector",
+volume2: "black_sheet_top",
+reverse: 1, //0 only considers photons from a->b, 1 does both directions
+surface: "nonreflective_tarp",
+}
+{
+name: "GEO",
+index: "black_sheet_bottom",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+mother: "detector",
+type: "tube",
+r_max:  6710.0,// These are guessed. Need a proper estimate
+size_z: 10.0,// These are guessed. Need a proper estimate
+position: [0.0, 0.0, -6705.0],
+material: "polypropylene",
+color: [0.,0.,0.,1.0],
+drawstyle: "solid",
+}
+{
+//Bergevin: Set the interface were reflection can occur. Must make sure volume1 and volume2
+//are in the correct order
+name: "GEO",
+index: "midsurface",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+invisible: 0, // omitted for visualization
+mother: "black_sheet_bottom", //not used but needs to be a valid name, parent of 'a' and 'b' would be best choice
+type: "border",
+volume1: "detector",
+volume2: "black_sheet_bottom",
+reverse: 1, //0 only considers photons from a->b, 1 does both directions
+surface: "nonreflective_tarp",
+}
+
+
+
+/*  This needs to be redone by Yan-Jie and Brian to follow the PSUP model
 { //position table for hold-up cables
 name: "cable_pos",
 valid_begin: [0, 0],
@@ -122,6 +401,8 @@ material: "stainless_steel",
 drawstyle: "solid",
 color: [0.2,0.2,0.2,0.1],
 }
+*/
+
 
 {
 name: "inner_vis",
@@ -156,24 +437,24 @@ back_material: "polypropylene",
 orientation_inner: "manual", //should match "inner_pmts" orientation
 orient_point_inner: [0.,0.,0.], //only used if orientation_inner is "point"
 inner_start: 0,
-inner_len: 4330, //set to 0 to prevent building covers
+inner_len: 3258, //set to 0 to prevent building covers
 inner_back_surface: "black_water",
 inner_back_vis: "inner_vis",
 orientation_veto: "manual", //should match "veto_pmts" orientation
 orient_point_veto: [0.,0.,0.], //only used if orientation_veto is "point"
-veto_start: 4330,
-veto_len: 482, //set to 0 to prevent building covers
+veto_start: 3258,
+veto_len: 296, //set to 0 to prevent building covers
 veto_back_surface: "black_water",
 veto_back_vis: "veto_vis",
 
 //properties to define the shield
-detector_size_z: 16000.0,//Full Height
-detector_size_d: 16000.0,//Full Diameter
-veto_thickness_r: 1600.0,
-veto_thickness_z: 1600.0,
+detector_size_z: 20000.0,//Full Height
+detector_size_d: 20000.0,//Full Diameter
+veto_thickness_r: 3300.0,
+veto_thickness_z: 3300.0,
 steel_thickness: 1.5875,
-cols: 96,
-rows: 30,
+cols: 84,
+rows: 26,
 frame_material: "stainless_steel",
 inside_surface: "black_water",
 outside_surface: "white_water",
@@ -209,12 +490,13 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "detector",
 type: "pmtarray",
-end_idx: 4329, //idx of the last pmt
+end_idx: 3257, //idx of the last pmt
 start_idx: 0, //idx of the first pmt
 pmt_model: "r7081pe",
 mu_metal: 0,
 mu_metal_material: "aluminum",
 mu_metal_surface: "aluminum",
+light_cone: 0,
 pmt_detector_type: "idpmt",
 sensitive_detector: "/mydet/pmt/inner",
 efficiency_correction: 0.90000,
@@ -232,10 +514,11 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "detector",
 type: "pmtarray",
-end_idx: 4811, //idx of the last pmt
-start_idx: 4330, //idx of the first pmt
+end_idx: 3553, //idx of the last pmt
+start_idx: 3258, //idx of the first pmt
 pmt_model: "r7081pe",
 mu_metal: 0,
+light_cone: 0,
 pmt_detector_type: "idpmt",
 sensitive_detector: "/mydet/pmt/veto",
 efficiency_correction: 0.90000,
