@@ -41,10 +41,16 @@ If you want to install the code, just add
 
 ## Docker
 
-We have a docker image with rat pre-installed at [morganaskins/ratpac](hub.docker.com/r/morganaskins/ratpac)
+We have a docker image with rat pre-installed at
+[morganaskins/ratpac](hub.docker.com/r/morganaskins/ratpac)
 
-In this current implementation, any branched merged into the master version of the github will automatically be uploaded to the docker image.
+In this current implementation, any branched merged into the master version of
+the github will automatically be uploaded to the docker image.
 
-The correct work procedure is to fork the repository to your personal directory. Make required changes. Make pull request by assigning a approved custodian.
+The correct work procedure is to fork the repository to your personal
+directory. Make required changes. Make pull request by assigning a approved
+custodian.
 
-Please note that another github exist for WATCHMAN work: https://github.com/AIT-WACTHMAN/watchmakers. Within that github are tools to call docker image functions from the users terminal.
+Please note that another github exist for WATCHMAN work:
+https://github.com/AIT-WACTHMAN/watchmakers. Within that github are tools to
+call docker image functions from the users terminal.
