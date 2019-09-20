@@ -51,8 +51,8 @@ namespace RAT {
     if ( path == 0 )
       {
 	// RATDecayDataDir enviornment variable not found.
-	// Check to see if RATROOT is set
-	path = getenv("RATROOT");
+	// Check to see if RATSHARE is set
+	path = getenv("RATSHARE");
 	if( path == 0 )
 	  {
 	    // Environment variable not found... so just use a name
@@ -61,7 +61,7 @@ namespace RAT {
 	  }
 	else
 	  {
-	    // RATROOT enviornment variable found.
+	    // RATSHARE enviornment variable found.
 	    // Add data subdir to get the correct directory.
 	    dirName = std::string(path) + "/data";
 	  }
