@@ -15,6 +15,7 @@ Table of Contents
 .. toctree::
    :maxdepth: 2
 
+   watchman_guide/index
    users_guide/index
    programmers_guide/index
 
