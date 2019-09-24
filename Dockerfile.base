@@ -1,77 +1,26 @@
 FROM ubuntu
-LABEL maintener="Miles Lucas <mdlucas@hawaii.edu>"
+LABEL maintainer="Morgan Askins <maskins@berkeley.edu>"
 
 SHELL ["/bin/bash", "-c"]
 
-RUN apt-get -q update && apt-get -qy install --no-install-recommends \
-    git \
-    curl \
-    neovim \
-    python3-dev \
-    python3-pip \
-    gfortran \
-    build-essential \
-    libx11-dev \
-    libxpm-dev \
-    libxft-dev \
-    libxext-dev \
-    libqt4-dev \
-    libqt4-opengl-dev \
-    libxerces-c-dev \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get -q update \
+ && DEBIAN_FRONTEND=noninteractive apt-get -qy install --no-install-recommends \
+    git curl build-essential vim libx11-dev libxpm-dev emacs \
+    xserver-xorg-video-intel libxft-dev libxext-dev libqt4-dev libqt4-opengl-dev \
+    libcurl4-gnutls-dev gfortran ca-certificates libssl-dev libffi-dev \
+ && apt-get autoclean \
+ && apt-get clean
 
-RUN curl -s "https://cmake.org/files/v3.14/cmake-3.14.3-Linux-x86_64.tar.gz" | \
-    tar --strip-components=1 -xz -C /usr/local
+RUN useradd -ms /bin/bash watchman
 
-# Create user
-RUN useradd -ms /bin/bash splinter
+WORKDIR /
 
-WORKDIR /src
+RUN git clone --recursive https://github.com/AIT-WATCHMAN/wmutils.git wmutils
+WORKDIR /wmutils
 
-# Initial python deps
-RUN pip3 -q install setuptools wheel  && pip3 -q install numpy docopt
+RUN ./watchmanInstaller.sh -j8
 
-# ROOT
-ARG ROOT_VERSION=6.16.00
-RUN curl -s https://root.cern.ch/download/root_v${ROOT_VERSION}.source.tar.gz | tar -xz
-RUN cmake \
-    -DCMAKE_BUILD_TYPE=Release \
-    -Dminuit2=ON \
-    -Dpython3=ON \
-    root-${ROOT_VERSION} -Broot-build
-RUN cmake --build root-build --target install -- -j$(nproc) && rm -rf root-build root-${ROOT_VERSION}
-ENV ROOTSYS=/usr/local
-RUN pip3 -q install root_numpy
-
-# Geant4
-ARG GEANT4_VERSION=10.5.1
-RUN curl -sL https://github.com/Geant4/geant4/archive/v${GEANT4_VERSION}.tar.gz | tar -xz
-RUN cmake \
-    -DCMAKE-BUILD_TYPE=MinSizeRel \ 
-    -DGEANT4_INSTALL_DATA=ON \
-    -DGEANT4_USE_SYSTEM_EXPAT=OFf \
-    -DGEANT4_BUILD_MULTITHREADED=ON \
-    -DGEANT4_USE_QT=ON \
-    -DGEANT4_INSTALL_EXAMPLES=OFF \
-    -DGEANT4_USE_GDML=ON \
-    geant4-${GEANT4_VERSION} -Bgeant4-build
-RUN cmake --build geant4-build --target install -- -j$(nproc) && \
-    rm -rf geant4-${GEANT4_VERSION} geant4-build
-
-
-# rat-pac installation
-COPY . /src/ratpac
-RUN source /usr/local/bin/thisroot.sh && \
-    source /usr/local/bin/geant4.sh && \
-    mkdir /home/splinter/ratpac && \
-    cmake -DCMAKE_INSTALL_PREFIX=/home/splinter/ratpac ratpac -Bratpac-build && \
-    cmake --build ratpac-build --target install -- -j$(nproc) && \
-    rm -rf ratpac-build ratpac && chown -R splinter /home/splinter
-
-# Create environment file
-RUN echo -e "source /usr/local/bin/thisroot.sh\nsource /usr/local/bin/geant4.sh\nsource /home/splinter/ratpac/bin/ratpac.sh" >> /etc/bash.bashrc
-
-USER splinter
-WORKDIR /home/splinter
+RUN chown -R watchman /wmutils
+USER watchman
 
 CMD [ "/bin/bash" ]
