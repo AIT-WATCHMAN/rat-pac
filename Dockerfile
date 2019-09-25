@@ -12,7 +12,6 @@ RUN sed -i '1i#!/bin/bash' env.sh \
  && echo -e "\nexec \"\$@\"" >> env.sh \
  && chmod +x env.sh
 
-RUN chown -R watchman /wmutils
 USER watchman
 
 ENTRYPOINT ["/wmutils/env.sh"]

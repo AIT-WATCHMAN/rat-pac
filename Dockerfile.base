@@ -18,9 +18,9 @@ WORKDIR /
 RUN git clone --recursive https://github.com/AIT-WATCHMAN/wmutils.git wmutils
 WORKDIR /wmutils
 
-RUN ./watchmanInstaller.sh -j8
+RUN ./watchmanInstaller.sh -j8 \
+ && chown -R watchman:watchman /wmutils
 
-RUN chown -R watchman /wmutils
 USER watchman
 
 CMD [ "/bin/bash" ]
