@@ -1,4 +1,4 @@
-# RAT (is an Analysis Tool), Public Edition
+# RAT (is an Analysis Tool), Watchman Edition
 
 RAT is a simulation and analysis package built with GEANT4, ROOT, and C++,
 originally developed by S. Seibert for the Braidwood Collaboration. Versions
@@ -28,29 +28,23 @@ Installation requires [ROOT](https://root.cern.ch), [Geant4](https://geant4.web.
 
 Install using cmake
 
-    $ git clone https://github.com/AIT-WACTHMAN/ratpac
-    $ cd ratpac 
-    $ mkdir build
-    $ cd build
-    $ cmake ../
-    $ cmake --build . -- -j$(nproc)
+    $ git clone https://github.com/AIT-WATCHMAN/rat-pac
+    $ cd rat-pac 
+    $ cmake . -Bbuild
+    $ cmake --build build -- -j$(nproc)
 
 If you want to install the code, just add
 
-    $ cmake --build . --target install -j$(nproc)
+    $ cmake --build build . --target install -j$(nproc)
 
 ## Docker
 
 We have a docker image with rat pre-installed at
-[morganaskins/ratpac](hub.docker.com/r/morganaskins/ratpac)
+[aitwatchman/ratpac](hub.docker.com/r/aitwatchman/ratpac)
 
 In this current implementation, any branched merged into the master version of
 the github will automatically be uploaded to the docker image.
 
 The correct work procedure is to fork the repository to your personal
-directory. Make required changes. Make pull request by assigning a approved
+directory. Make required changes. Make pull request by assigning an approved
 custodian.
-
-Please note that another github exist for WATCHMAN work:
-https://github.com/AIT-WACTHMAN/watchmakers. Within that github are tools to
-call docker image functions from the users terminal.
