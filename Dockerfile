@@ -1,23 +1,18 @@
-FROM mileslucas/ratpac:base
-LABEL maintener="Miles Lucas <mdlucas@hawaii.edu>"
+FROM aitwatchman/ratpac:base
+LABEL maintainer="Morgan Askins <maskins@berkeley.edu>"
 
-USER root
+SHELL ["/bin/bash", "-c"]
 
-# Watchmakers
-RUN git clone https://github.com/ait-watchman/watchmakers
-RUN cd watchmakers && \
-    ./configure && \
-    echo -e "source $(pwd)/env_wm.sh\n" >> /etc/bash.bashrc && \
-    cd ../
+WORKDIR /wmutils
+RUN ./update.sh
+RUN rm -rf ratpac \
+ && ./watchmanInstaller.sh --only ratpac
 
-# Sibyl
-RUN git clone https://github.com/ait-watchman/sibyl
-RUN source /home/splinter/ratpac/bin/ratpac.sh && \
-    cd sibyl && \
-    make && \
-    cd ../
+RUN sed -i '1i#!/bin/bash' env.sh \
+ && echo -e "\nexec \"\$@\"" >> env.sh \
+ && chmod +x env.sh
 
-RUN chown -R splinter /home/splinter
-USER splinter
+USER watchman
 
-CMD ["/bin/bash"]
+ENTRYPOINT ["/wmutils/env.sh"]
+CMD [ "/bin/bash" ]
