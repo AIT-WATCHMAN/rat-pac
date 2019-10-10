@@ -229,7 +229,7 @@ float goodness::quality(float *vertex)
     }
   cosc=sqrt(sumdx*sumdx+sumdy*sumdy+sumdz*sumdz);
   phi=atan2(sumdy,sumdz);
-  if (sumg>1e-10) //if (gdns>1e-10)	
+  if (sumg>1e-10) //if (gdns>1e-10)
     {
       cosc/=sumg;             //cosc/=gdns;
       theta=acos(sumdz/sumg); //theta=acos(sumdz/gdns);
