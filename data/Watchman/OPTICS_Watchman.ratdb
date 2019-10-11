@@ -61,4 +61,34 @@ PROPERTY_LIST: ["EFFICIENCY", "RINDEX", "KINDEX", "THICKNESS", ]
 
 }
 
-
+////   Below are the BGO scintillator infos for ANNIE (taken using WebPlotDigitizer from the Saint Gobain datasheet)
+{
+name: "OPTICS",
+index: "BGO_scint",
+valid_begin : [0, 0],
+valid_end : [0, 0],
+surface: 1,
+finish: "ground",
+model: "glisur",
+type: "dielectric_dielectric",
+polish: 0.9,
+LIGHT_YIELD: 8500.000000,
+RINDEX_option: "wavelength",
+RINDEX_value1: [60.0, 400.0, 450.0, 500.0, 550.0, 600.0, 800.0, ],
+RINDEX_value2: [2.15, 2.15, 2.15, 2.15, 2.15, 2.15, 2.15, ], //2.15 at max emission wavelength
+SCINTILLATION_option: "dy_dwavelength",
+SCINTILLATION_value1: [375.111, 378.141, 381.722, 385.027, 389.158, 393.289, 397.419, 401.272, 405.124, 409.801, 413.375, 416.673, 420.521, 424.645, 428.219, 431.244, 433.994, 436.469, 439.495, 442.796, 446.373, 449.4, 452.703, 456.283, 460.138, 464.272, 468.958, 475.026, 479.716, 486.342, 492.694, 497.115, 500.432, 503.749, 507.619, 511.766, 516.189, 520.337, 524.208, 527.251, 530.571, 534.444, 537.211, 540.806, 543.85, 547.721, 551.04, 556.294, 560.166, 563.761, 569.291, 574.267, 579.518, 585.322, 590.85, 596.101, 600.247, 606.051, 612.408, 618.21, 625.67, 631.749, 637.55, ],
+SCINTILLATION_value2: [0.014, 0.038, 0.062, 0.086, 0.118, 0.153, 0.188, 0.226, 0.27, 0.324, 0.372, 0.424, 0.48, 0.537, 0.587, 0.628, 0.663, 0.695, 0.73, 0.769, 0.811, 0.843, 0.874, 0.903, 0.933, 0.955, 0.976, 0.992, 0.997, 0.99, 0.973, 0.954, 0.936, 0.917, 0.895, 0.871, 0.844, 0.816, 0.789, 0.762, 0.731, 0.7, 0.674, 0.647, 0.62, 0.591, 0.566, 0.529, 0.499, 0.474, 0.439, 0.409, 0.382, 0.35, 0.321, 0.294, 0.272, 0.243, 0.211, 0.188, 0.156, 0.13, 0.111, ],
+SCINTWAVEFORM_value1: [-9.8, -24.0, -67.6, ],
+SCINTWAVEFORM_value2: [0.60, 0.0, 0.40, ],
+SCINTWAVEFORMalpha_value1: [-8.218, -23.41, -288.9, ],
+SCINTWAVEFORMalpha_value2: [0.5206, 0.4259, 0.5356e-1, ],
+SCINTWAVEFORMneutron_value1: [-6.862, -12.79e-2, -84.34, ],
+SCINTWAVEFORMneutron_value2: [0.7407, 0.2050, 0.5427e-1, ],
+SCINTMOD_value1: [1.0, ],
+SCINTMOD_value2: [0.022, ], //from NIM B, Volume 360, 1 October 2015, Pages 129-138
+ABSLENGTH_option: "wavelength", //copied from the "glass" abs length
+ABSLENGTH_value1: [60.0, 200.0, 300.0, 330.0, 500.0, 600.0, 770.0, 800.0, ],
+ABSLENGTH_value2: [0.1e-3, 0.1e-3, 0.1e-3, 1.0e3, 2.0e3, 1.0e3, 0.5e3, 0.1e-3, ],
+PROPERTY_LIST: ["LIGHT_YIELD", "RINDEX", "SCINTILLATION", "SCINTWAVEFORM", "SCINTWAVEFORMalpha", "SCINTWAVEFORMneutron", "SCINTMOD", "ABSLENGTH", ]
+}

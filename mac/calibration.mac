@@ -1,0 +1,47 @@
+# This macro gives examples on how to use a moveable calibration
+# source in simulations.
+/glg4debug/glg4param omit_muon_processes  0.0
+/glg4debug/glg4param omit_hadronic_processes  0.0
+
+# Default watchman, can be switched.
+/rat/db/set DETECTOR experiment "Watchman"
+/rat/db/set DETECTOR geo_file "Watchman/Watchman.geo"
+#/rat/db/set DETECTOR detector_factory "Watchman"
+#/rat/db/set WATCHMAN_PARAMS photocathode_coverage 0.25
+
+/rat/db/load Watchman/DecayChamber.geo
+# The source container can be moved around with:
+#/rat/db/set GEO[sourcecan] posx 0.0
+
+/run/initialize
+# Tracking on
+/tracking/storeTrajectory 1
+
+# BEGIN EVENT LOOP
+/rat/proc lesssimpledaq
+/rat/proc count
+/rat/procset update 1
+
+# Use IO.default_output_filename
+/rat/proclast outroot
+#/rat/procset file "calib.root"
+#END EVENT LOOP
+
+## AmBe
+#/generator/add ambe regexfill:poisson
+
+## Arbitrary Gamma or electron
+#/generator/add combo gun2:regexfill
+#/generator/vtx/set e- 0 0 0 0 5.0 5.0
+#/generator/vtx/set gamma 0 0 0 0 10.0 10.0
+
+## Cobalt 60
+/generator/add decaychain 60Co:regexfill:poisson
+
+## Nitrogen 16
+#/generator/add decaychain 16N:regexfill:poisson
+
+## Set the position within the scint block
+/generator/pos/set sourceblock
+
+/run/beamOn 100

@@ -226,3 +226,38 @@ SCINTILLATION_WLS_value2: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
 
 PROPERTY_LIST: ["LIGHT_YIELD", "SCINTWAVEFORM", "SCINTWAVEFORMalpha", "SCINTMOD", "SCINTMODalpha", "SCINTMODneutron", "RINDEX", "SCINTILLATION", "SCINTILLATION_WLS", "ABSLENGTH", "RSLENGTH", "REEMISSION_PROB", ]
 }
+
+{
+name: "ELEMENT",
+index: "Bismuth",
+valid_begin : [0, 0],
+valid_end : [0, 0],
+SYMBOL: "Bi",
+z: 83,
+isotopes: [209],
+isotopes_frac: [1.0],
+}
+
+{
+name: "ELEMENT",
+index: "Germanium",
+valid_begin : [0, 0],
+valid_end : [0, 0],
+SYMBOL: "Ge",
+z: 32,
+isotopes: [70,72,73,74,76],
+isotopes_frac: [0.2123, 0.2766, 0.0773, 0.3594, 0.0744],
+}
+
+// Bi4 Ge3 O12
+{
+name: "MATERIAL",
+index: "BGO_scint",
+valid_begin : [0, 0],
+valid_end : [0, 0],
+density: 7.13,
+nelements: 3,
+nmaterials: 0,
+elements: ["Bismuth" "Germanium", "Oxygen"],
+elemprop: [0.671, 0.175, 0.154],
+}

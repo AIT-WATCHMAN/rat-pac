@@ -16,6 +16,8 @@
 #include <stdlib.h>
 #include "BONSAI/binfile.h"
 
+#include <string>
+
 // **********************************************
 // fits the vertex time, assuming a given vertex
 // calculates the likelihood for the timing dist.
@@ -115,7 +117,9 @@ void timefit::load_dist(void)
 
   // ********************** load pdfs from file **********************
   printf("Loading pdfs...\n");
-  binfile      bf("like.bin",'r');
+  std::string path = getenv("GLG4DATA");
+  std::string abs_filename = path + "/bonsai/like.bin";
+  binfile      bf( (char*)(abs_filename.c_str()),'r');
 
   if (bf.read(sizes,numbers,starts)!=2)
     {
@@ -459,7 +463,7 @@ float timefit::makelike(float t0)
       // 17-MAY-2008 by y.t.  to avoid divided by 0 (as a test)
 //      sig[set]=event_hits->nhits(set)-nbg*(tofmax-tofmin)/
 //	            (tofmax-tofmin-time_range[set]);
-      if ((tofmax-tofmin-time_range[set])>0) 
+      if ((tofmax-tofmin-time_range[set])>0)
 	  sig[set]=event_hits->nhits(set)-nbg*(tofmax-tofmin)/
 	      (tofmax-tofmin-time_range[set]);
       else
@@ -481,7 +485,7 @@ float timefit::makelike(float t0)
 	    like[i]*=norm;
 	  }
     }
-//  llmax+=nbg*log(bg); // 17-MAY-2008 fixed by M.Smy/Y.Takeuchi 
+//  llmax+=nbg*log(bg); // 17-MAY-2008 fixed by M.Smy/Y.Takeuchi
   if ((bg<0) || ((bg==0) && (nbg!=0))) return(-1e10);
   if (nbg>0) llmax+=nbg*log(bg);
   return(llmax);
@@ -558,7 +562,7 @@ inline float timefit::makelike(int set,float &bg,float range)
   float llmax;
   int   i,nbg;
 
-  if ((sig<0) || (sig[set]>event_hits->nhits(set))) return(-1e10);
+  if ((sig[set]<0) || (sig[set]>event_hits->nhits(set))) return(-1e10);
   bg=(event_hits->nhits(set)-sig[set])/range;
   nbg=0;
   for(llmax=0,i=event_hits->first_hit(set); i<event_hits->beyond_last_hit(set); i++)

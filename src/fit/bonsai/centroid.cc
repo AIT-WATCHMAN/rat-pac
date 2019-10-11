@@ -1,7 +1,7 @@
 #include <math.h>
 #include "BONSAI/centroid.h"
 
- 
+
 // **********************************************
 // align unitary matrix with a given vector
 // **********************************************
@@ -150,7 +150,7 @@ void centroid::tridiag(axes &ax)
   p1-=h*u1;
   p2-=h*u2;
 
-  matrix[1]-=2*p1*u1;  matrix[4]-=p1*u2+p2*u1;  matrix[5]=0;  
+  matrix[1]-=2*p1*u1;  matrix[4]-=p1*u2+p2*u1;  matrix[5]=0;
                        matrix[2]-=2*p2*u2;
                                                 matrix[3]=n;
 }
@@ -164,7 +164,7 @@ centroid::centroid(int n,float *points,float *weight)
 {
   int    i;
   double x,y,z,w,ws;
- 
+
   matrix=centr+3;
   for(i=0; i<9; i++) centr[i]=0;
   ws=0;

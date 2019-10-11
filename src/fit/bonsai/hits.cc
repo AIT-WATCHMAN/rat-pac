@@ -112,7 +112,7 @@ int hits::inv35(double *mat,int *rowind,int *colind)
       /*mat[ind+colind[pass]]=1;*/
       for(col=pass+1; col<5; col++)
 	mat[ind+colind[col]]*=factor;
-      // force zeros in this column 
+      // force zeros in this column
       force_zero(mat,rowind,colind,pass,ind);
 #ifdef DEBUG
       printf("*********result of %d**********\n",pass);
@@ -247,8 +247,8 @@ hits::hits(int ns,float *set,float *pmt_loc,int *bad_ch,
 	      times[pos]=tim_raw[number];
 	      charges[pos]=chg_raw[number];
 	      avcharges[j]+=chg_raw[number];
-	      positions[3*pos]=pmt_loc[3*number];	  
-	      positions[3*pos+1]=pmt_loc[3*number+1];	  
+	      positions[3*pos]=pmt_loc[3*number];
+	      positions[3*pos+1]=pmt_loc[3*number+1];
 	      positions[3*pos+2]=pmt_loc[3*number+2];
 	      nh2[j]++;
 	    }

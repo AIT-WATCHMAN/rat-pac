@@ -1,28 +1,18 @@
-# Use the base image with geant4 and root prebuilt.
+FROM aitwatchman/ratpac:base
+LABEL maintainer="Morgan Askins <maskins@berkeley.edu>"
 
-FROM aitwatchman/simulation:base
-MAINTAINER Morgan Askins "maskins@berkeley.edu"
+SHELL ["/bin/bash", "-c"]
 
-# Run commands as super user
-USER root
+WORKDIR /wmutils
+RUN ./update.sh
+RUN rm -rf ratpac \
+ && ./watchmanInstaller.sh --only ratpac
 
-# Update rat-pac to latest version
-RUN cd /src/rat-pac \
-  && git pull \
-  && gfortran -c src/fit/bonsai/lfariadne.F -o build/linuxx8664gcc/fit/bonsai/lfariadne.o \
-  #&& CXXFLAGS=-std=c++11 scons \
-  && scons \
-  && cd /src/rat-pac/tools/bonsai \
-  && make
+RUN sed -i '1i#!/bin/bash' env.sh \
+ && echo -e "\nexec \"\$@\"" >> env.sh \
+ && chmod +x env.sh
 
-# Update {other repos here}
-RUN cd /src/watchmakers \
-  && git pull \
-  && git remote -v \ 
-  && mkdir -p /docker_interaction_software \
-  && rsync -avz /src/watchmakers/tools/d* /docker_interaction_software/
+USER watchman
 
-RUN pip install docopt
-
-# Copy dockerfile for record
-COPY Dockerfile Dockerfile
+ENTRYPOINT ["/wmutils/env.sh"]
+CMD [ "/bin/bash" ]
