@@ -12,7 +12,7 @@ inline void fourhitgrid::print_ranges(short int &hit,int &n3comb)
   // loop through each hit that can start a combination
   for(hit=0; hit<nsel-3; hit++)
     {
-      // if this hit starts only one the one `guaranteed' combination 
+      // if this hit starts only one the one `guaranteed' combination
       // print an asterisk in front of this combination
       if (times[end[hit]]-times[hit]>twin)
 	printf("*");
@@ -290,7 +290,7 @@ inline void fourhitgrid::fourcombo(hitsel *event_hits,float tsig,
 						     gstart,gend,tsig,
 						     cyl_radius,cyl_height,
 						     dwallmin,testpoint,gdn);
-		      
+
 		      if (nsol>0)
 			{
 			  add_point(testpoint[0],testpoint[1],testpoint[2]);
@@ -326,7 +326,7 @@ fourhitgrid::fourhitgrid(double r,double z,hitsel *hits):
   float     pos[3],rat;
 
   nsel=hits->nselected();
-  if (nsel<4) 
+  if (nsel<4)
     {
       nsel=0;
       return;
@@ -374,7 +374,7 @@ fourhitgrid::fourhitgrid(double r,double z,hitsel *hits,float tsig,float dwallmi
   float     pos[3],rat;
 
   nsel=hits->nselected();
-  if (nsel<4) 
+  if (nsel<4)
     {
       nsel=0;
       return;
@@ -422,7 +422,7 @@ fourhitgrid::fourhitgrid(void *buffer,double r,double z,hitsel *hits):
   float     pos[3],rat;
 
   nsel=hits->nselected();
-  if (nsel<4) 
+  if (nsel<4)
     {
       nsel=0;
       return;
@@ -468,5 +468,4 @@ fourhitgrid::fourhitgrid(void *buffer,double r,double z,hitsel *hits):
       sparsify(bongrid());
     }
   return;
-};
- 
+}

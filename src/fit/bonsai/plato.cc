@@ -107,13 +107,13 @@ void dodecahedron::interpolate(float *values,float *inter)
   // second column: mulitply second row by azy, subtract it from third row
   azz-=azy*ayz;
   bz-=azy*by;
-  
+
   // third column: first divide whats left from third row with azz
   if (fabs(azz)<=0) return;
   bz/=azz;
   inter[2]=bz;
   // third column: mulitply third row by axz, subtract it from first row
-  inter[0]=bx-axz*bz;  
+  inter[0]=bx-axz*bz;
   // third column: mulitply third row by ayz, subtract it from second row
   inter[1]=by-ayz*bz;
   inter[3]=sqrt(inter[0]*inter[0]+inter[1]*inter[1]+inter[2]*inter[2]);
@@ -142,7 +142,7 @@ icosahedron::icosahedron(void)
   vec=new double[60];
   nvec=20;
   dode.get_vectors(dodevec,                  // rotate dodecahedron
-		   sinthdo*sqrt(con2/3)/con1, 
+		   sinthdo*sqrt(con2/3)/con1,
 		   sinthdo/(sqrt(3)*con1),
 		   sqrt(con2/3));
   // generate icosahedron out of the dodecahedron area vectors

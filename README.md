@@ -1,5 +1,5 @@
-RAT (is an Analysis Tool), Public Edition
------------------------------------------
+# RAT (is an Analysis Tool), Watchman Edition
+
 RAT is a simulation and analysis package built with GEANT4, ROOT, and C++,
 originally developed by S. Seibert for the Braidwood Collaboration. Versions
 of RAT are now being used and developed by several particle physics
@@ -21,3 +21,30 @@ package that works out of the box. Once acquainted with RAT, it is easy to
 customize the geometry elements, physics details, data structure, analysis
 tools, etc., to suit your experiment's needs.
 
+
+## Installation
+
+Installation requires [ROOT](https://root.cern.ch), [Geant4](https://geant4.web.cern.ch/), and [cmake 3.11+](https://cmake.org/)
+
+Install using cmake
+
+    $ git clone https://github.com/AIT-WATCHMAN/rat-pac
+    $ cd rat-pac 
+    $ cmake . -Bbuild
+    $ cmake --build build -- -j$(nproc)
+
+If you want to install the code, just add
+
+    $ cmake --build build . --target install -j$(nproc)
+
+## Docker
+
+We have a docker image with rat pre-installed at
+[aitwatchman/ratpac](hub.docker.com/r/aitwatchman/ratpac)
+
+In this current implementation, any branched merged into the master version of
+the github will automatically be uploaded to the docker image.
+
+The correct work procedure is to fork the repository to your personal
+directory. Make required changes. Make pull request by assigning an approved
+custodian.

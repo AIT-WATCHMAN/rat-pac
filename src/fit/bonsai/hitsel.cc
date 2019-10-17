@@ -430,14 +430,14 @@ short int hitsel::clus_sel(float dlim,         // spatial limit of Mr. Clean
 	{
 	  relp2=relations+(n_gd+2)*column+2;
   /*-------------------------------------------------------------------
-    storing seed */ 
+    storing seed */
 	  clusterp[n_clus]=clus;
 	  *(clus)=row;
 	  clus[1]=column;
 	  clus_size=2;
   /*-------------------------------------------------------------------
     forming a list of candidates by combining the list of relations of
-    both seed hits: a hit is a candidate if related to both seed hits */ 
+    both seed hits: a hit is a candidate if related to both seed hits */
 	  pmt1_index=pmt2_index=0;
 	  while((pmt1_index<relp1[-2]) && (pmt2_index<relp2[-2]))
 	    if ((pmt1=relp1[pmt1_index])==(pmt2=relp2[pmt2_index]))
@@ -464,7 +464,7 @@ short int hitsel::clus_sel(float dlim,         // spatial limit of Mr. Clean
     if the number of relations of the last hit is equal to
     the hits in the cluster so far, there cannot be any
     more hits to the cluster */
-	      relp2=relations+pmt1*(n_gd+2)+2;	      
+	      relp2=relations+pmt1*(n_gd+2)+2;
 	      if (relp2[-2]==new_pmt)
 	        {
 		  clus_size=new_pmt+1;
