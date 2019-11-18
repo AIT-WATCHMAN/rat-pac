@@ -129,6 +129,9 @@ end_idx:  11037, //idx of the last pmt
 start_idx: 0, //idx of the first pmt
 pmt_model: "r3600",
 mu_metal: 0,
+mu_metal_material: "aluminum",
+mu_metal_surface: "aluminum",
+light_cone: 0,
 pmt_detector_type: "idpmt",
 sensitive_detector: "/mydet/pmt/inner",
 efficiency_correction: 0.70000,
