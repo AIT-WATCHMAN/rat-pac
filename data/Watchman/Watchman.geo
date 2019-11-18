@@ -194,6 +194,159 @@ surface: "reflective_tarp",
 */
 
 {
+//Tomi Akindele based on the comments from SAM in Chris's Presentation to SAS subgroup leads
+name:"GEO",
+index: "Top_cap_framework",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+mother: "detector",
+type: "tube",
+r_max:  6700.0,
+size_z: 100.0, //this values is actually 450, but it wont fit without breaking everything
+position: [0.0, 0.0, 6902.5]
+material: "stainless_steel",
+color: [0.8,0.8,0.9,1.0],
+drawstyle: "solid",
+}
+
+{
+//Tomi	Akindele based on the comments from SAM	in Chris's Presentation	to SAS subgroup	leads
+name:"GEO",
+index: "Wall_support_truss_top",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+mother: "detector",
+type: "tube",
+r_max:  6900.0,
+r_min: 6705.0, //these numbers interfere with the top cap framework
+size_z: 100.0, //this values is actually 450, but it wont fit without breaking everything
+position: [0.0, 0.0, 6902.5]
+material: "stainless_steel",
+color: [0.8,0.8,0.9,1.0],
+drawstyle: "solid",
+}
+
+{
+//Tomi Akindele based on the comments from SAM in Chris's Presentation to SAS subgroup leads
+name:"GEO",
+index: "Bottom_cap_framework",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+mother: "detector",
+type: "tube",
+r_max:  6700.0,
+size_z: 100.0, //this values is actually 450, but it wont fit without breaking everything
+position: [0.0, 0.0, -6902.5]
+material: "stainless_steel",
+color: [0.8,0.8,0.9,1.0],
+drawstyle: "solid",
+}
+
+{
+//Tomi Akindele based on the comments from SAM in Chris's Presentation to SAS subgroup leads
+name:"GEO",
+index: "Wall_support_truss_bottom",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+mother: "detector",
+type: "tube",
+r_max:  6900.0,
+r_min: 6705.0, //these numbers interfere with the top cap framework
+size_z: 100.0, //this values is actually 450, but it wont fit without breaking everything
+position: [0.0, 0.0, -6902.5]
+material: "stainless_steel",
+color: [0.8,0.8,0.9,1.0],
+drawstyle: "solid",
+}
+
+{
+//Tomi Akindele based on the comments from SAM in Chris's Presentation to SAS subgroup leads
+name: "GEO",
+index: "Rod_assemblies",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+mother: "detector",
+type: "tube",
+r_max:  7000.0,// Some changes to just make this thing fit
+r_min:  6900.0,
+size_z: 6700.0,
+position: [0.0, 0.0, 0.0],
+material: "stainless_steel",
+color: [0.8,0.8,0.9,1.0],
+drawstyle: "solid",
+}
+{
+//Tomi Akindele based on the comments from SAM in Chris's Presentation to SAS subgroup leads
+name: "GEO",
+index: "Bottom_cap_standoff_frame_0",//center support
+valid_begin: [0, 0],
+valid_end: [0, 0],
+mother: "detector",
+type: "box",
+size: [200.0, 7000.0, 1000.0],//x,y,z
+position: [0.0, 0.0, -8200.0],
+material: "stainless_steel",
+color: [0.8,0.8,0.9,1.0],
+drawstyle: "solid",
+}
+
+{
+//Tomi Akindele based on the comments from SAM in Chris's Presentation to SAS subgroup leads
+name: "GEO",
+index: "Bottom_cap_standoff_frame_1",//one off 
+valid_begin: [0, 0],
+valid_end: [0, 0],
+mother: "detector",
+type: "box",
+size: [200.0, 6800.0, 1000.0],//x,y,z
+position: [3000.0, 0.0, -8200.0],
+material: "stainless_steel",
+color: [0.8,0.8,0.9,1.0],
+drawstyle: "solid",
+}
+{
+//Tomi Akindele based on the comments from SAM in Chris's Presentation to SAS subgroup leads
+name: "GEO",
+index: "Bottom_cap_standoff_frame_2",//one off	
+valid_begin: [0, 0],
+valid_end: [0, 0],
+mother: "detector",
+type: "box",
+size: [200.0, 6800.0, 1000.0],//x,y,z
+position: [-3000.0, 0.0, -8200.0],
+material: "stainless_steel",
+color: [0.8,0.8,0.9,1.0],
+drawstyle: "solid",
+}
+{
+//Tomi Akindele based on the comments from SAM in Chris's Presentation to SAS subgroup leads
+name: "GEO",
+index: "Bottom_cap_standoff_frame_3",//two off	
+valid_begin: [0, 0],
+valid_end: [0, 0],
+mother: "detector",
+type: "box",
+size: [200.0, 4400.0, 1000.0],//x,y,z
+position: [5800.0, 0.0, -8200.0],
+material: "stainless_steel",
+color: [0.8,0.8,0.9,1.0],
+drawstyle: "solid",
+}
+{
+//Tomi Akindele based on the comments from SAM in Chris's Presentation to SAS subgroup leads
+name: "GEO",
+index: "Bottom_cap_standoff_frame_4",//three off
+valid_begin: [0, 0],
+valid_end: [0, 0],
+mother: "detector",
+type: "box",
+size: [200.0, 4400.0, 1000.0],//x,y,z
+position: [-5800.0, 0.0, -8200.0],
+material: "stainless_steel",
+color: [0.8,0.8,0.9,1.0],
+drawstyle: "solid",
+}
+{
 name: "GEO",
 index: "white_sheet_bottom",
 valid_begin: [0, 0],
