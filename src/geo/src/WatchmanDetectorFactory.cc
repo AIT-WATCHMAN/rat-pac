@@ -190,6 +190,52 @@ namespace RAT {
             cable_y[col] = cable_radius*sin(col*2.0*M_PI/cols);
         }
 
+        
+        
+        info << "Update geometry fields related to the reflective and absorptive tarps...\n";
+        // Side tarps
+        db->SetD("GEO","white_sheet_side","r_max",veto_radius);
+        db->SetD("GEO","white_sheet_side","r_min",veto_radius-10.0); // Marc Bergevin: Hardcoding in a 1 cm value for tickness
+        db->SetD("GEO","white_sheet_side","size_z",topbot_veto_offset);
+        db->SetD("GEO","black_sheet_side","r_max",pmt_radius+10.0);
+        db->SetD("GEO","black_sheet_side","r_min",pmt_radius); // Marc Bergevin: Hardcoding in a 1 cm value for tickness
+        db->SetD("GEO","black_sheet_side","size_z",topbot_offset);
+        
+        //Top tarps
+        vector<double> move_white_top;
+        move_white_top.push_back(0.0);
+        move_white_top.push_back(0.0);
+        move_white_top.push_back(topbot_veto_offset);
+        vector<double> move_black_top;
+        move_black_top.push_back(0.0);
+        move_black_top.push_back(0.0);
+        move_black_top.push_back(topbot_offset);
+        
+        db->SetD("GEO","white_sheet_top","r_max",veto_radius);
+        db->SetDArray("GEO","white_sheet_top","position",move_white_top);
+        db->SetD("GEO","black_sheet_top","r_max",pmt_radius);
+        db->SetDArray("GEO","black_sheet_top","position",move_black_top);
+
+        //Bottom tarps
+        vector<double> move_white_bottom;
+        move_white_bottom.push_back(0.0);
+        move_white_bottom.push_back(0.0);
+        move_white_bottom.push_back(-topbot_veto_offset);
+        vector<double> move_black_bottom;
+        move_black_bottom.push_back(0.0);
+        move_black_bottom.push_back(0.0);
+        move_black_bottom.push_back(-topbot_offset);
+        
+        db->SetD("GEO","white_sheet_bottom","r_max",veto_radius);
+        db->SetDArray("GEO","white_sheet_bottom","position",move_white_bottom);
+        db->SetD("GEO","black_sheet_bottom","r_max",pmt_radius);
+        db->SetDArray("GEO","black_sheet_bottom","position",move_black_bottom);
+        
+        
+        
+        
+        
+        
         info << "Override default PMTINFO information...\n";
         db->SetDArray("PMTINFO","x",x);
         db->SetDArray("PMTINFO","y",y);
@@ -199,6 +245,9 @@ namespace RAT {
         db->SetDArray("PMTINFO","dir_z",dir_z);
         db->SetIArray("PMTINFO","type",type);
 
+        info << "Update geometry fields related to the reflective and absorptive tarps...\n";
+        
+        
         info << "Update geometry fields related to veto PMTs...\n";
         db->SetI("GEO","shield","veto_start",num_pmts);
         db->SetI("GEO","shield","veto_len",num_vetos);

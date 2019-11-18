@@ -129,6 +129,39 @@ reverse: 1, //0 only considers photons from a->b, 1 does both directions
 surface: "reflective_tarp",
 }
 
+
+
+{
+name: "GEO",
+index: "white_sheet_top",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+mother: "detector",
+type: "tube",
+r_max:  6710.0,// These are guessed. Need a proper estimate
+size_z: 10.0,// These are guessed. Need a proper estimate
+position: [0.0, 0.0, 6705.0],
+material: "polypropylene",
+color: [0.9,0.9,0.9,0.3],
+drawstyle: "solid",
+}{
+//Bergevin: Set the interface were reflection can occur. Must make sure volume1 and volume2
+//are in the correct order
+name: "GEO",
+index: "midsurface",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+invisible: 0, // omitted for visualization
+mother: "white_sheet_top", //not used but needs to be a valid name, parent of 'a' and 'b' would be best choice
+type: "border",
+volume1: "detector",
+volume2: "white_sheet_top",
+reverse: 1, //0 only considers photons from a->b, 1 does both directions
+surface: "reflective_tarp",
+}
+
+
+/*
 {
 {name: "GEO",
 index: "white_sheet_top",
@@ -158,6 +191,7 @@ volume2: "white_sheet_top",
 reverse: 1, //0 only considers photons from a->b, 1 does both directions
 surface: "reflective_tarp",
 }
+*/
 
 {
 name: "GEO",
