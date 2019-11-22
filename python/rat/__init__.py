@@ -8,7 +8,10 @@ sys.argv = sys.argv[:1]
 
 # Load this shared library before ROOT
 import ctypes
-ctypes.cdll.LoadLibrary(os.path.join(RATROOT, 'lib', 'libSilenceRooFitBanner.so'))
+try:
+    ctypes.cdll.LoadLibrary(os.path.join(RATROOT, 'lib', 'libSilenceRooFitBanner.so'))
+except OSError:
+    ctypes.cdll.LoadLibrary(os.path.join(RATROOT, 'lib', 'libSilenceRooFitBanner.dylib'))
 
 import ROOT
 from ROOT import gROOT, TH1F
