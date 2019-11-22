@@ -24,7 +24,14 @@ file(COPY include/ DESTINATION ${RATPAC_INCDIR})
 
 #### Target: Shared library to make RooFit stop printing that stupid banner
 add_library(SilenceRooFitBanner SHARED src/SilenceRooFitBanner.cc)
+
 target_link_libraries(SilenceRooFitBanner PUBLIC ${ROOT_LIBRARIES})
+
+set_target_properties( SilenceRooFitBanner
+  PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib
+    LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
+
 install(TARGETS SilenceRooFitBanner
-        ARCHIVE DESTINATION lib
-        LIBRARY DESTINATION lib)
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib)

@@ -12,7 +12,7 @@ from ROOT import gROOT, gSystem, TFile, TH1, TCanvas, kRed, kBlue, kDashed
 sys.argv = _argv
 
 gROOT.SetBatch(True)
-gROOT.ProcessLine(".x "+os.path.join(os.environ['RATROOT'], 'rootinit.C'))
+gROOT.ProcessLine(".x "+os.path.join(os.environ['RATROOT'], 'src/rootinit.C'))
 TH1.SetDefaultSumw2()
 
 ### Other modules ###

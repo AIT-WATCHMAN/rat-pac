@@ -8,13 +8,16 @@ sys.argv = sys.argv[:1]
 
 # Load this shared library before ROOT
 import ctypes
-ctypes.cdll.LoadLibrary(os.path.join(RATROOT, 'lib', 'libSilenceRooFitBanner.so'))
+try:
+    ctypes.cdll.LoadLibrary(os.path.join(RATROOT, 'lib', 'libSilenceRooFitBanner.so'))
+except OSError:
+    ctypes.cdll.LoadLibrary(os.path.join(RATROOT, 'lib', 'libSilenceRooFitBanner.dylib'))
 
 import ROOT
 from ROOT import gROOT, TH1F
 # Detect if we already loaded the dictionary, for example inside RAT already
 if ROOT.TClassTable.GetID("RAT::DS::Root") == -1:
-    gROOT.ProcessLine(".x "+os.path.join(RATROOT, "rootinit.C"))
+    gROOT.ProcessLine(".x "+os.path.join(RATROOT, "src/rootinit.C"))
 from ROOT import RAT
 
 # Unhide command line options from $!$#! ROOT
