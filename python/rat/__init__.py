@@ -14,7 +14,7 @@ import ROOT
 from ROOT import gROOT, TH1F
 # Detect if we already loaded the dictionary, for example inside RAT already
 if ROOT.TClassTable.GetID("RAT::DS::Root") == -1:
-    gROOT.ProcessLine(".x "+os.path.join(RATROOT, "rootinit.C"))
+    gROOT.ProcessLine(".x "+os.path.join(RATROOT, "src/rootinit.C"))
 from ROOT import RAT
 
 # Unhide command line options from $!$#! ROOT
