@@ -138,43 +138,53 @@ int main(int argc, char **argv) {
     }
 
     // interactive or batch according to command-line args
-    if (RAT::optind - argc == 0) {
+    bool isInteractive = false;
+    G4UIExecutive *theSession = new G4UIExecutive(argc, argv);
+
+    if (RAT::optind - argc == 0) 
+    {
       // Interactive mode
+      isInteractive = true;
 
       // G4UIterminal is a (dumb) terminal.
       // ..but it can be made smart by adding a "shell" to it
-      G4UIExecutive *theSession = new G4UIExecutive(argc, argv);
       theUI->ApplyCommand("/control/execute prerun.mac");
-      theSession->SessionStart();
-      delete theSession;
-    } else {
+    } 
+    else 
+    {
       // Batch mode, with optional user interaction
 
       G4String command = "/control/execute ";
-      for (int iarg = RAT::optind; iarg < argc; iarg++) {
+      for (int iarg = RAT::optind; iarg < argc; iarg++) 
+      {
         // process list of macro files; "-" means interactive user session
         G4String fileName = argv[iarg];
-        if (fileName == "-") {
+        if (fileName == "-") 
+        {
           // interactive session requested
-          G4UIExecutive *theSession = new G4UIExecutive(argc, argv);
-          theSession->SessionStart();
-          delete theSession;
-        } else {
-          if (options.save_macro) {
+          isInteractive = true;
+        } 
+        else 
+        {
+          if (options.save_macro) 
+          {
             // Read file contents and log them
             ifstream macro(fileName);
             string macroline;
-            while (macro.good()) {
+            while (macro.good()) 
+            {
               getline(macro, macroline);
               Log::AddMacro(macroline + "\n");
             }
           }
-
           // execute given file
           theUI->ApplyCommand(command + fileName);
         }
       }
     }
+    if (isInteractive)
+      theSession->SessionStart();
+    delete theSession;
 
     // User exit or macros finished, clean up
 
