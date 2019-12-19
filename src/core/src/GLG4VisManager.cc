@@ -174,13 +174,17 @@ void GLG4VisManager::RegisterModelFactories()
    // Custom model
    G4TrajectoryDrawByParticleID* mymodel = new G4TrajectoryDrawByParticleID("watchmodel");
 
+   G4Colour pink(1.0, 0.2, 0.8);
+   G4Colour alpha(0.0, 1.0, 0.8);
+
    mymodel->SetDefault("white");
-   mymodel->Set("opticalphoton", G4Colour(0.30, 0.65, 1.0, 0.2)); 
+   mymodel->Set("opticalphoton", G4Colour(0.30, 0.65, 1.0, 0.03)); 
    mymodel->Set("gamma", "green");
-   mymodel->Set("nu_e","yellow");
-   mymodel->Set("nu_mu","yellow");
-   mymodel->Set("anti_nu_e","yellow");
-   mymodel->Set("anti_nu_mu","yellow");
+   mymodel->Set("alpha", alpha);
+   mymodel->Set("nu_e",pink);
+   mymodel->Set("nu_mu",pink);
+   mymodel->Set("anti_nu_e",pink);
+   mymodel->Set("anti_nu_mu",pink);
    mymodel->Set("e-","yellow");
    mymodel->Set("mu-","red");
    mymodel->Set("e+","red");
