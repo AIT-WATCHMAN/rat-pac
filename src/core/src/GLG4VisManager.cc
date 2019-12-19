@@ -8,7 +8,8 @@
 //
 // Author:  Glenn Horton-Smith, Jan 28, 2000
 //
-//Changed by Franco Giuliani, July 2009
+// Changed by Franco Giuliani, July 2009
+// Additional Trajectory Model added. Morgan Askins, Dec 2019
 
 #ifdef G4VIS_USE
 #include "RAT/GLG4VisManager.hh"
@@ -30,6 +31,7 @@
 #include "G4HitFilterFactories.hh"
 #include "G4TrajectoryFilterFactories.hh"
 #include "G4TrajectoryModelFactories.hh"
+#include "G4TrajectoryDrawByParticleID.hh"
 #include "G4VRML1File.hh"
 #include "G4VRML2File.hh"
 
@@ -81,8 +83,6 @@
 #include "G4VRML1.hh"
 #include "G4VRML2.hh"
 #endif
-
-
 
 GLG4VisManager::GLG4VisManager () {
   new GLG4VisMessenger(this);
@@ -170,6 +170,26 @@ void GLG4VisManager::RegisterModelFactories()
 
    // Hit filter models
    RegisterModelFactory(new G4HitAttributeFilterFactory());
+
+   // Custom model
+   G4TrajectoryDrawByParticleID* mymodel = new G4TrajectoryDrawByParticleID("watchmodel");
+
+   mymodel->SetDefault("white");
+   mymodel->Set("opticalphoton", G4Colour(0.30, 0.65, 1.0, 0.2)); 
+   mymodel->Set("gamma", "green");
+   mymodel->Set("nu_e","yellow");
+   mymodel->Set("nu_mu","yellow");
+   mymodel->Set("anti_nu_e","yellow");
+   mymodel->Set("anti_nu_mu","yellow");
+   mymodel->Set("e-","yellow");
+   mymodel->Set("mu-","red");
+   mymodel->Set("e+","red");
+   mymodel->Set("mu+",G4Colour(0.78, 0.78, 0.78));  //to distinguish mu+ from mu- on black background.
+   mymodel->Set("proton","magenta");
+   mymodel->Set("neutron","orange");
+   RegisterModel(mymodel);
+
+   SelectTrajectoryModel(mymodel->Name());
 }
 
 #endif
