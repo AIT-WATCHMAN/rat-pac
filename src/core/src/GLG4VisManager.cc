@@ -186,7 +186,7 @@ void GLG4VisManager::RegisterModelFactories()
    mymodel->Set("e+","red");
    mymodel->Set("mu+",G4Colour(0.78, 0.78, 0.78));  //to distinguish mu+ from mu- on black background.
    mymodel->Set("proton","magenta");
-   mymodel->Set("neutron","orange");
+   mymodel->Set("neutron", G4Colour(1.0, 0.6, 0.0, 1.0));
    RegisterModel(mymodel);
 
    SelectTrajectoryModel(mymodel->Name());
