@@ -107,7 +107,7 @@ G4VPhysicalVolume* GeoCherenkovSourceFactory::Construct(DBLinkPtr table) {
     const vector<double> &canColor = table->GetDArray("can_vis_color");
 
     //PMT stuff
-    const string pmtType = table->GetS("pmt_type");
+    const string pmtType = table->GetS("pmt_model");
     const vector<double> &pmtColor = table->GetDArray("pmt_vis_color");
     const double pmtRadius = table->GetD("pmt_radius");
     const double pmtHeight = table->GetD("pmt_height");
