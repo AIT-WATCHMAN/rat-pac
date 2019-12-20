@@ -21,14 +21,12 @@ src/core/Config.hh
 
 # Personal addition
 rootfiles
-watchman_supernova.root
 *.log
 *.root
 .DS_Store
 *.gif
 *.jpg
 *.jpeg
-*.mac
 *.eps
 tools/*.py
 tools/bonsai/bonsai
