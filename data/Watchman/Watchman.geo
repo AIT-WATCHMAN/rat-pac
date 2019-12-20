@@ -362,7 +362,7 @@ r_max:  7100.0,// These are guessed. Need a proper estimate
 size_z: 10.0,// These are guessed. Need a proper estimate
 position: [0.0, 0.0, -7100.0],
 material: "polypropylene",
-color: [0.9,0.9,0.9,0.3],
+color: [0.9,0.9,0.9,0.1],
 drawstyle: "solid",
 }
 {
@@ -397,7 +397,7 @@ r_min:  9960.0,//
 size_z: 9970.0,// These are guessed. Need a proper estimate
 position: [0.0, 0.0, 0.0],
 material: "polypropylene",
-color: [0.9,0.9,0.2,1.0],
+color: [0.9,0.9,0.2,0.1],
 drawstyle: "solid",
 }
 {
@@ -425,7 +425,7 @@ r_max:  9965.0,// These are guessed. Need a proper estimate
 size_z: 10.0,// These are guessed. Need a proper estimate
 position: [0.0, 0.0, 9970.0],
 material: "polypropylene",
-color: [0.9,0.9,0.2,1.0],
+color: [0.9,0.9,0.2,0.1],
 drawstyle: "solid",
 }
 {
@@ -454,7 +454,7 @@ r_max:  9965.0,// These are guessed. Need a proper estimate
 size_z: 10.0,// These are guessed. Need a proper estimate
 position: [0.0, 0.0, -9970.0],
 material: "polypropylene",
-color: [0.9,0.9,0.2,1.0],
+color: [0.9,0.9,0.2,0.1],
 drawstyle: "solid",
 }
 {
