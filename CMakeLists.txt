@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.11...3.14)
-project(ratpac VERSION 1.0.0
+project(ratpac VERSION 1.0.1
                 DESCRIPTION "Watchman RAT-PAC"
                 LANGUAGES C CXX Fortran)
 

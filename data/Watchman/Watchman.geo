@@ -25,6 +25,8 @@ size_z: 13750.00,
 position: [0.0, 0.0, 0.0], //this will allow for the concrete layer on the floor and not on the ceiling
 material: "rock",
 invisible: 1,
+//color: [1.0,0.6,0.0,1.0],
+//drawstyle: "solid"
 }
 
 
@@ -41,6 +43,8 @@ size_z: 12751.0, // the extraneous mm ensures that the cavern volume is enclosed
 position: [0.0, 0.0, -250.0], // this will give a concrete layer on the floor and not on the ceiling
 material: "concrete", // changed from "gunite" (L. Kneale)
 invisible: 1,
+//color: [0.8,0.8,0.8,0.8],
+//drawstyle: "solid"
 }
 
 
@@ -75,7 +79,7 @@ r_max: 10000.0,
 size_z: 10000.0,
 position: [0.0, 0.0, 0.0],
 material: "stainless_steel",
-color: [0.8,0.8,0.9,0.01],
+color: [0.6,0.6,0.9,0.01],
 drawstyle: "solid"
 }
 
@@ -129,6 +133,39 @@ reverse: 1, //0 only considers photons from a->b, 1 does both directions
 surface: "reflective_tarp",
 }
 
+
+
+{
+name: "GEO",
+index: "white_sheet_top",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+mother: "detector",
+type: "tube",
+r_max:  6710.0,// These are guessed. Need a proper estimate
+size_z: 10.0,// These are guessed. Need a proper estimate
+position: [0.0, 0.0, 6705.0],
+material: "polypropylene",
+color: [0.9,0.9,0.9,0.3],
+drawstyle: "solid",
+}{
+//Bergevin: Set the interface were reflection can occur. Must make sure volume1 and volume2
+//are in the correct order
+name: "GEO",
+index: "midsurface",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+invisible: 0, // omitted for visualization
+mother: "white_sheet_top", //not used but needs to be a valid name, parent of 'a' and 'b' would be best choice
+type: "border",
+volume1: "detector",
+volume2: "white_sheet_top",
+reverse: 1, //0 only considers photons from a->b, 1 does both directions
+surface: "reflective_tarp",
+}
+
+
+/*
 {
 {name: "GEO",
 index: "white_sheet_top",
@@ -158,6 +195,7 @@ volume2: "white_sheet_top",
 reverse: 1, //0 only considers photons from a->b, 1 does both directions
 surface: "reflective_tarp",
 }
+*/
 
 {
 //Tomi Akindele based on the comments from SAM in Chris's Presentation to SAS subgroup leads
@@ -171,7 +209,7 @@ r_max:  6700.0,
 size_z: 100.0, //this values is actually 450, but it wont fit without breaking everything
 position: [0.0, 0.0, 6902.5]
 material: "stainless_steel",
-color: [0.8,0.8,0.9,0.1.],
+color: [0.6,0.6,0.9,0.1],
 drawstyle: "solid",
 }
 
@@ -188,7 +226,7 @@ r_min: 6705.0, //these numbers interfere with the top cap framework
 size_z: 100.0, //this values is actually 450, but it wont fit without breaking everything
 position: [0.0, 0.0, 6902.5]
 material: "stainless_steel",
-color: [0.8,0.8,0.9,0.1],
+color: [1.0,0.64,0.,0.1],
 drawstyle: "solid",
 }
 
@@ -204,7 +242,7 @@ r_max:  6700.0,
 size_z: 100.0, //this values is actually 450, but it wont fit without breaking everything
 position: [0.0, 0.0, -6902.5]
 material: "stainless_steel",
-color: [0.8,0.8,0.9,0.1],
+color: [0.6,0.6,0.9,0.1],
 drawstyle: "solid",
 }
 
@@ -221,7 +259,7 @@ r_min: 6705.0, //these numbers interfere with the top cap framework
 size_z: 100.0, //this values is actually 450, but it wont fit without breaking everything
 position: [0.0, 0.0, -6902.5]
 material: "stainless_steel",
-color: [0.8,0.8,0.9,0.1],
+color: [1.0,0.64,0.,0.1],
 drawstyle: "solid",
 }
 
@@ -238,21 +276,22 @@ r_min:  6900.0,
 size_z: 6700.0,
 position: [0.0, 0.0, 0.0],
 material: "stainless_steel",
-color: [0.8,0.8,0.9,0.1],
+color: [0.6,0.6,0.9,0.1],
 drawstyle: "solid",
 }
 {
 //Tomi Akindele based on the comments from SAM in Chris's Presentation to SAS subgroup leads
+// Bergevin: Switch x and y for presentation purposes
 name: "GEO",
 index: "Bottom_cap_standoff_frame_0",//center support
 valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "detector",
 type: "box",
-size: [200.0, 7000.0, 1000.0],//x,y,z
+size: [7000.0, 200.0,  1000.0],//x,y,z
 position: [0.0, 0.0, -8200.0],
 material: "stainless_steel",
-color: [0.8,0.8,0.9,0.1],
+color: [0.6,0.6,0.9,0.1],
 drawstyle: "solid",
 }
 
@@ -264,10 +303,10 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "detector",
 type: "box",
-size: [200.0, 6800.0, 1000.0],//x,y,z
-position: [3000.0, 0.0, -8200.0],
+size: [6800.0,200.0,  1000.0],//x,y,z
+position: [ 0.0,3000.0, -8200.0],
 material: "stainless_steel",
-color: [0.8,0.8,0.9,0.1],
+color: [0.6,0.6,0.9,0.1],
 drawstyle: "solid",
 }
 {
@@ -278,10 +317,10 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "detector",
 type: "box",
-size: [200.0, 6800.0, 1000.0],//x,y,z
-position: [-3000.0, 0.0, -8200.0],
+size: [6800.0,200.0,  1000.0],//x,y,z
+position: [0.0,-3000.0,  -8200.0],
 material: "stainless_steel",
-color: [0.8,0.8,0.9,0.1],
+color: [0.6,0.6,0.9,0.1],
 drawstyle: "solid",
 }
 {
@@ -292,10 +331,10 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "detector",
 type: "box",
-size: [200.0, 4400.0, 1000.0],//x,y,z
-position: [5800.0, 0.0, -8200.0],
+size: [4400.0,200.0,  1000.0],//x,y,z
+position: [ 0.0,5800.0, -8200.0],
 material: "stainless_steel",
-color: [0.8,0.8,0.9,0.1],
+color: [0.6,0.6,0.9,0.1],
 drawstyle: "solid",
 }
 {
@@ -306,10 +345,10 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "detector",
 type: "box",
-size: [200.0, 4400.0, 1000.0],//x,y,z
-position: [-5800.0, 0.0, -8200.0],
+size: [4400.0,200.0,  1000.0],//x,y,z
+position: [0.0,-5800.0,  -8200.0],
 material: "stainless_steel",
-color: [0.8,0.8,0.9,0.1],
+color: [0.6,0.6,0.9,0.1],
 drawstyle: "solid",
 }
 {
@@ -358,7 +397,7 @@ r_min:  9960.0,//
 size_z: 9970.0,// These are guessed. Need a proper estimate
 position: [0.0, 0.0, 0.0],
 material: "polypropylene",
-color: [0.9,0.9,0.9,0.3],
+color: [0.9,0.9,0.2,1.0],
 drawstyle: "solid",
 }
 {
@@ -386,7 +425,7 @@ r_max:  9965.0,// These are guessed. Need a proper estimate
 size_z: 10.0,// These are guessed. Need a proper estimate
 position: [0.0, 0.0, 9970.0],
 material: "polypropylene",
-color: [0.9,0.9,0.9,0.3],
+color: [0.9,0.9,0.2,1.0],
 drawstyle: "solid",
 }
 {
@@ -415,7 +454,7 @@ r_max:  9965.0,// These are guessed. Need a proper estimate
 size_z: 10.0,// These are guessed. Need a proper estimate
 position: [0.0, 0.0, -9970.0],
 material: "polypropylene",
-color: [0.9,0.9,0.9,0.3],
+color: [0.9,0.9,0.2,1.0],
 drawstyle: "solid",
 }
 {
