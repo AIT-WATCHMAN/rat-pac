@@ -9,6 +9,16 @@
 /rat/db/load Watchman/CherenkovSource.geo
 
 /run/initialize
+/tracking/storeTrajectory 1
+
+# BEGIN EVENT LOOP
+/rat/proc lesssimpledaq
+/rat/proc count
+/rat/procset update 10
+
+# Use IO.default_output_filename
+/rat/proclast outroot
+#END EVENT LOOP
 
 /generator/add combo isotope:fill:poisson
 /generator/vtx/set GenericIon 1 0 0
@@ -18,4 +28,4 @@
 /generator/pos/set 0 0 0
 /generator/rate/set 1.0
 
-/run/beamOn 10000
+/run/beamOn 1000
