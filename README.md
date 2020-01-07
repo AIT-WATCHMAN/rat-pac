@@ -1,6 +1,6 @@
 # RAT (is an Analysis Tool), Watchman Edition
 [![Documentation Status](https://readthedocs.org/projects/ratpac-watchman/badge/?version=latest)](https://ratpac-watchman.readthedocs.io/en/latest/?badge=latest)
-![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/aitwatchman/ratpac)
+[![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/aitwatchman/ratpac)](https://hub.docker.com/r/aitwatchman/ratpac)
 
 RAT is a simulation and analysis package built with GEANT4, ROOT, and C++,
 originally developed by S. Seibert for the Braidwood Collaboration. Versions
@@ -42,7 +42,7 @@ If you want to install the code, just add
 ## Docker
 
 We have a docker image with rat pre-installed at
-[aitwatchman/ratpac](hub.docker.com/r/aitwatchman/ratpac)
+[aitwatchman/ratpac](https://hub.docker.com/r/aitwatchman/ratpac)
 
 In this current implementation, any branched merged into the master version of
 the github will automatically be uploaded to the docker image.
