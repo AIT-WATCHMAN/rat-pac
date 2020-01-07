@@ -1,4 +1,6 @@
 # RAT (is an Analysis Tool), Watchman Edition
+[![Documentation Status](https://readthedocs.org/projects/ratpac-watchman/badge/?version=latest)](https://ratpac-watchman.readthedocs.io/en/latest/?badge=latest)
+
 
 RAT is a simulation and analysis package built with GEANT4, ROOT, and C++,
 originally developed by S. Seibert for the Braidwood Collaboration. Versions
