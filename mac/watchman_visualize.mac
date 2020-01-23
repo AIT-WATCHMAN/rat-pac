@@ -5,8 +5,21 @@
 #second test comment
 /rat/db/set DETECTOR experiment "Watchman"
 /rat/db/set GEO[inner_pmts] mu_metal 0
+/rat/db/set GEO[inner_pmts] light_cone 1
+#/rat/db/set GEO[inner_pmts] mu_metal_surface "mirror"
+/rat/db/set GEO[inner_pmts] orientation "manual"
+#/rat/db/set GEO[inner_pmts] orientation "point"
+/rat/db/set GEO[inner_pmts] light_cone_material "mirror"
+/rat/db/set GEO[inner_pmts] light_cone_surface "mirror"
+
+#light cone dimensional parameters
+/rat/db/set GEO[inner_pmts] light_cone_length 1000.0
+/rat/db/set GEO[inner_pmts] light_cone_innerradius 100.0
+/rat/db/set GEO[inner_pmts] light_cone_outerradius 500.0
+
+#/rat/db/set DETECTOR geo_file "Watchman/Watchman.geo"
 /rat/db/set DETECTOR detector_factory "Watchman"
-/rat/db/set WATCHMAN_PARAMS photocathode_coverage 0.25
+/rat/db/set WATCHMAN_PARAMS photocathode_coverage 0.01
 
 # Visualize the calibration source
 #/rat/db/load Watchman/DecayChamber.geo
