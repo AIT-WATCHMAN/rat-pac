@@ -9,8 +9,8 @@
 #/rat/db/set GEO[inner_pmts] mu_metal_surface "mirror"
 /rat/db/set GEO[inner_pmts] orientation "manual"
 #/rat/db/set GEO[inner_pmts] orientation "point"
-/rat/db/set GEO[inner_pmts] light_cone_material "mirror"
-/rat/db/set GEO[inner_pmts] light_cone_surface "mirror"
+#/rat/db/set GEO[inner_pmts] light_cone_material "mirror"
+#/rat/db/set GEO[inner_pmts] light_cone_surface "mirror"
 
 #light cone dimensional parameters
 /rat/db/set GEO[inner_pmts] light_cone_length 1000.0
