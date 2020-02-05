@@ -33,7 +33,8 @@
 
 //Branching ratio array and Q value array (end point energy)
 double qArrLi[5]  = {1.7965, 2.3235, 5.67,  10.8265, 11.1771}; //MeV
-double brArrLi[5] = {0.027 , 0.011 , 0.015, 0.158  , 0.297  }; //branching ratio
+//double brArrLi[5] = {0.027 , 0.011 , 0.015, 0.158  , 0.297  }; //branching ratio
+double brArrLi[5] = {0.00675 , 0.00264 , 0.003, 0.1185  , 0.289575  }; //branching ratio taking into account decay to produce neutrons
 double cdfLi[5]   = {0.,0.,0.,0.,0.}; //will be filled later based on branching ratio
 
 namespace RAT {

@@ -33,6 +33,7 @@
 //Branching ratio array and Q value array (end point energy)
 G4double qArrHe[2]  = {5.264, 7.454}; //MeV
 G4double brArrHe[2] = {0.08,  0.08 }; //branching ratio
+G4double brArrHe[2] = {0.04,  0.04 }; //branching ratio, taking into account the branching to produce neutron
 G4double cdfHe[2]   = {0.,0.}; //will be filled later based on branching ratio
 
 namespace RAT {
