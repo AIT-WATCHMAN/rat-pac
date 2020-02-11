@@ -5,8 +5,9 @@ SHELL ["/bin/bash", "-c"]
 
 RUN apt-get -q update \
  && DEBIAN_FRONTEND=noninteractive apt-get -qy install --no-install-recommends \
-    git curl build-essential vim libx11-dev libxpm-dev emacs \
+    git curl build-essential vim libx11-dev libxpm-dev \
     xserver-xorg-video-intel libxft-dev libxext-dev libqt4-dev libqt4-opengl-dev \
+    libxkbcommon-x11-dev \
     libcurl4-gnutls-dev gfortran ca-certificates libssl-dev libffi-dev \
  && apt-get autoclean \
  && apt-get clean

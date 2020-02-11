@@ -50,3 +50,11 @@ the github will automatically be uploaded to the docker image.
 The correct work procedure is to fork the repository to your personal
 directory. Make required changes. Make pull request by assigning an approved
 custodian.
+
+Running docker on linux
+```bash
+docker run --rm -it \
+  -v /tmp/.X11-unix:/tmp/.X11-unix \
+  -e DISPLAY
+  aitwatchman/ratpac:latest
+```
