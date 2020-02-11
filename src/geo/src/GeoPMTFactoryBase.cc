@@ -121,11 +121,11 @@ namespace RAT {
         bool   lightcones = false;
         if( light_cone == 1 ){ lightcones = true; G4cout << "Light cones are added!! \n "; }
         //material properties
-        G4Material* light_cone_material = G4Material::GetMaterial("TiO2");
+        G4Material* light_cone_material = G4Material::GetMaterial("aluminum");
 	try { light_cone_material = G4Material::GetMaterial( table->GetS("light_cone_material") ); }
 	catch (DBNotFoundError &e) { }
         //surface properties
-        G4SurfaceProperty* light_cone_surface = Materials::optical_surface["TiO2"];
+        G4SurfaceProperty* light_cone_surface = Materials::optical_surface["aluminum"];
 	try { light_cone_surface = Materials::optical_surface[ table->GetS("light_cone_surface") ]; }
 	catch (DBNotFoundError &e) { }
 	G4cout << "Light cone is added!! \n ";
