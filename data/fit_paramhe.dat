@@ -2,8 +2,8 @@ BONSAI and Clusfit Shared Parameters
 -------------------------------------------------------
 PMT time resolution:                           1.00 ns
 PMT coincidence time difference:               1.00 ns
-PMT pair maximal distance fraction:            0.1785
-PMT pair maximal time difference fraction:     0.1079
+PMT pair maximal distance fraction:            0.05
+PMT pair maximal time difference fraction:     0.03
 Maximum # of hits to do all 4-hit combin.:    15
 Initial grid constant:                        40.00 cm
 Minimum wall distance for 4-hit vertices:   -100.00 cm
