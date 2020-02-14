@@ -141,15 +141,28 @@ namespace RAT {
         double light_cone_outerradius = 20.94;
 	try { light_cone_outerradius = table->GetD("light_cone_outerradius"); }
 	catch (DBNotFoundError &e) { }
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
+	//light cone parameter: thickness
+	double light_cone_thickness = 0.2;
+	try { light_cone_thickness = table->GetD("light_cone_thickness"); }
+	catch (DBNotFoundError &e) { }	
+
+        // Add Light cone geometry from Sheffield
+        G4Paraboloid* lightcone_outer = new G4Paraboloid("lightcone_outer",
+                                                        light_cone_length*CLHEP::cm,
+                                                        light_cone_innerradius*CLHEP::cm,
+                                                        light_cone_outerradius*CLHEP::cm);
+        G4Paraboloid* lightcone_inner = new G4Paraboloid("lightcone_inner",
+                                                        (light_cone_length+light_cone_thickness)*CLHEP::cm,
+                                                        (light_cone_innerradius-light_cone_thickness)*CLHEP::cm,
+                                                        (light_cone_outerradius-light_cone_thickness)*CLHEP::cm);
+        G4SubtractionSolid* lightcone_solid = new G4SubtractionSolid("lightcone_solid",
+                                                                    lightcone_outer,
+                                                                    lightcone_inner);
+
+        G4LogicalVolume* lightcone_log=new G4LogicalVolume(lightcone_solid, light_cone_material, "lightcone_log");
+	G4LogicalSkinSurface* lightcone_skin =new G4LogicalSkinSurface("lightcone_surface", lightcone_log, light_cone_surface);
+
+
 
         PMTConstructionParams pmtParam;
         pmtParam.faceGap = 0.1 * CLHEP::mm;
@@ -275,24 +288,6 @@ namespace RAT {
         G4LogicalVolume *logiWg = 0;
         G4ThreeVector offsetWg;
 
-
-
-
-	// Add Light cone geometry from Sheffield
-        G4Paraboloid* lightcone_outer = new G4Paraboloid("lightcone_outer",
-                                                        light_cone_length*CLHEP::cm,
-                                                        light_cone_innerradius*CLHEP::cm,
-                                                        light_cone_outerradius*CLHEP::cm);
-        G4Paraboloid* lightcone_inner = new G4Paraboloid("lightcone_inner",
-                                                        (light_cone_length+2)*CLHEP::cm,
-                                                        (light_cone_innerradius-2)*CLHEP::cm,
-                                                        (light_cone_outerradius-2)*CLHEP::cm);
-        G4SubtractionSolid* lightcone_solid = new G4SubtractionSolid("lightcone_solid",
-                                                                    lightcone_outer,
-                                                                    lightcone_inner);
-
-        G4LogicalVolume *lightcone_log=new G4LogicalVolume(lightcone_solid, light_cone_material, "lightcone_log");
-	G4LogicalSkinSurface* lightcone_skin =new G4LogicalSkinSurface("lightcone_surface", lightcone_log, light_cone_surface);
 
 
 

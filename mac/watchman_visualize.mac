@@ -16,6 +16,7 @@
 /rat/db/set GEO[inner_pmts] light_cone_length 1000.0
 /rat/db/set GEO[inner_pmts] light_cone_innerradius 100.0
 /rat/db/set GEO[inner_pmts] light_cone_outerradius 500.0
+/rat/db/set GEO[inner_pmts] light_cone_thickness 0.2
 
 #/rat/db/set DETECTOR geo_file "Watchman/Watchman.geo"
 /rat/db/set DETECTOR detector_factory "Watchman"
