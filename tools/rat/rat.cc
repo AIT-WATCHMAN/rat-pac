@@ -139,13 +139,17 @@ int main(int argc, char **argv) {
 
     // interactive or batch according to command-line args
     bool isInteractive = false;
-    G4UIExecutive *theSession = new G4UIExecutive(argc, argv);
+    G4UIExecutive *theSession = NULL;
+    std::vector<std::string> arguments(argv+1, argv+argc);
+    if( std::find(arguments.begin(), arguments.end(), "-") != arguments.end() ||
+        RAT::optind - argc == 0 )
+    {
+      isInteractive = true;
+      theSession = new G4UIExecutive(argc, argv);
+    }
 
     if (RAT::optind - argc == 0) 
     {
-      // Interactive mode
-      isInteractive = true;
-
       // G4UIterminal is a (dumb) terminal.
       // ..but it can be made smart by adding a "shell" to it
       theUI->ApplyCommand("/control/execute prerun.mac");
@@ -159,12 +163,7 @@ int main(int argc, char **argv) {
       {
         // process list of macro files; "-" means interactive user session
         G4String fileName = argv[iarg];
-        if (fileName == "-") 
-        {
-          // interactive session requested
-          isInteractive = true;
-        } 
-        else 
+        if (fileName != "-")
         {
           if (options.save_macro) 
           {
