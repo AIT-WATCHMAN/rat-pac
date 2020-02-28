@@ -197,9 +197,9 @@ namespace RAT {
         db->SetD("GEO","white_sheet_side","r_max",veto_radius);
         db->SetD("GEO","white_sheet_side","r_min",veto_radius-10.0); // Marc Bergevin: Hardcoding in a 1 cm value for tickness
         db->SetD("GEO","white_sheet_side","size_z",topbot_veto_offset);
-        db->SetD("GEO","black_sheet_side","r_max",pmt_radius+10.0);
-        db->SetD("GEO","black_sheet_side","r_min",pmt_radius); // Marc Bergevin: Hardcoding in a 1 cm value for tickness
-        db->SetD("GEO","black_sheet_side","size_z",topbot_offset);
+        db->SetD("GEO","black_sheet_side","r_max",pmt_radius+300.0+10.0); //paige kunkle: enlarging black tarp to prevent shadowing
+        db->SetD("GEO","black_sheet_side","r_min",pmt_radius+300.0); // Marc Bergevin: Hardcoding in a 1 cm value for tickness \\paige kunkle: enlarging black tarp to prevent shadowing
+        db->SetD("GEO","black_sheet_side","size_z",topbot_offset+300.0); //paige kunkle: enlarging black tarp to prevent shadowing
         
         db->SetD("GEO","Rod_assemblies","r_max",(pmt_radius+300.)); // Based on Geofile thickness values of 10 cm
         db->SetD("GEO","Rod_assemblies","r_min",(pmt_radius+200.));
@@ -218,7 +218,7 @@ namespace RAT {
         vector<double> move_black_top;
         move_black_top.push_back(0.0);
         move_black_top.push_back(0.0);
-        move_black_top.push_back(topbot_offset);
+        move_black_top.push_back(topbot_offset+300.0);//paige kunkle: enlarging black tarp to prevent shadowing
         vector<double> move_topcap;
         move_topcap.push_back(0.0);
         move_topcap.push_back(0.0);
@@ -240,8 +240,8 @@ namespace RAT {
         
         db->SetD("GEO","white_sheet_top","r_max",veto_radius);
         db->SetDArray("GEO","white_sheet_top","position",move_white_top);
-        db->SetD("GEO","black_sheet_top","r_max",pmt_radius);
-        db->SetDArray("GEO","black_sheet_top","position",move_black_top);
+        db->SetD("GEO","black_sheet_top","r_max",pmt_radius+300.0); //paige kunkle: enlarging black tarp to prevent shadowing
+        db->SetDArray("GEO","black_sheet_top","position",move_black_top); 
         db->SetD("GEO","Top_cap_framework","r_max",pmt_radius);
         db->SetDArray("GEO","Top_cap_framework","position",move_topcap);
         db->SetD("GEO","Wall_support_truss_top","r_min",pmt_radius+5.0);  // Bergevin: Values based
@@ -262,7 +262,7 @@ namespace RAT {
         vector<double> move_black_bottom;
         move_black_bottom.push_back(0.0);
         move_black_bottom.push_back(0.0);
-        move_black_bottom.push_back(-topbot_offset);
+        move_black_bottom.push_back(-topbot_offset-300.0);//paige kunkle: enlarging black tarp to prevent shadowing
         vector<double> move_bottomcap;
         move_bottomcap.push_back(0.0);
         move_bottomcap.push_back(0.0);
@@ -281,7 +281,7 @@ namespace RAT {
         
         db->SetD("GEO","white_sheet_bottom","r_max",veto_radius);
         db->SetDArray("GEO","white_sheet_bottom","position",move_white_bottom);
-        db->SetD("GEO","black_sheet_bottom","r_max",pmt_radius);
+        db->SetD("GEO","black_sheet_bottom","r_max",pmt_radius+300.0);//paige kunkle: enlarging black tarp to prevent shadowing
         db->SetDArray("GEO","black_sheet_bottom","position",move_black_bottom);
         db->SetD("GEO","Bottom_cap_framework","r_max",pmt_radius);
         db->SetDArray("GEO","Bottom_cap_framework","position",move_bottomcap);

@@ -152,7 +152,7 @@ namespace RAT {
                                                         light_cone_innerradius*CLHEP::cm,
                                                         light_cone_outerradius*CLHEP::cm);
         G4Paraboloid* lightcone_inner = new G4Paraboloid("lightcone_inner",
-                                                        (light_cone_length+light_cone_thickness)*CLHEP::cm,
+                                                        (light_cone_length+0.2)*CLHEP::cm,
                                                         (light_cone_innerradius-light_cone_thickness)*CLHEP::cm,
                                                         (light_cone_outerradius-light_cone_thickness)*CLHEP::cm);
         G4SubtractionSolid* lightcone_solid = new G4SubtractionSolid("lightcone_solid",

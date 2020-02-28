@@ -7,15 +7,15 @@
 /rat/db/set GEO[inner_pmts] mu_metal 0
 /rat/db/set GEO[inner_pmts] light_cone 1
 #/rat/db/set GEO[inner_pmts] mu_metal_surface "mirror"
-/rat/db/set GEO[inner_pmts] orientation "manual"
-#/rat/db/set GEO[inner_pmts] orientation "point"
+#/rat/db/set GEO[inner_pmts] orientation "manual"
+/rat/db/set GEO[inner_pmts] orientation "point"
 #/rat/db/set GEO[inner_pmts] light_cone_material "mirror"
 #/rat/db/set GEO[inner_pmts] light_cone_surface "mirror"
 
 #light cone dimensional parameters
-/rat/db/set GEO[inner_pmts] light_cone_length 1000.0
-/rat/db/set GEO[inner_pmts] light_cone_innerradius 100.0
-/rat/db/set GEO[inner_pmts] light_cone_outerradius 500.0
+/rat/db/set GEO[inner_pmts] light_cone_length 17.363
+/rat/db/set GEO[inner_pmts] light_cone_innerradius 12.65
+/rat/db/set GEO[inner_pmts] light_cone_outerradius 20.94
 /rat/db/set GEO[inner_pmts] light_cone_thickness 0.2
 
 #/rat/db/set DETECTOR geo_file "Watchman/Watchman.geo"
