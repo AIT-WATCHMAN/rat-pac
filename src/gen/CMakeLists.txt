@@ -19,6 +19,8 @@ add_library(gen OBJECT
         src/GLG4TimeGen.cc
         src/GLG4VertexGen.cc
         src/GdGen.cc
+        src/HeGen.cc
+        src/LiGen.cc
         src/Gen_LED.cc
         src/Gen_RandomTrigger.cc
         src/IBDgen.cc
