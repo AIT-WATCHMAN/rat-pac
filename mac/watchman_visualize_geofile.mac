@@ -3,6 +3,10 @@
 
 /rat/db/set DETECTOR experiment "Watchman"
 /rat/db/set GEO[inner_pmts] mu_metal 0
+/rat/db/set GEO[inner_pmts] light_cone 1
+#/rat/db/set GEO[inner_pmts] mu_metal_surface "mirror"
+/rat/db/set GEO[inner_pmts] orientation "point"
+#/rat/db/set DETECTOR detector_factory "Watchman"
 /rat/db/set DETECTOR geo_file "Watchman/Watchman.geo"
 
 # Visualize the calibration source
