@@ -4,9 +4,12 @@
 
 /rat/db/set DETECTOR experiment "Watchman"
 # Turn on mu metal, change surface and material
-/rat/db/set GEO[inner_pmts] mu_metal 1
-#/rat/db/set GEO[inner_pmts] mu_metal_material "aluminum"
-#/rat/db/set GEO[inner_pmts] mu_metal_surface "mirror"
+/rat/db/set GEO[inner_pmts] light_cone 1
+/rat/db/set GEO[inner_pmts] light_cone_material "mirror"
+/rat/db/set GEO[inner_pmts] light_cone_surface "mirror"
+
+#normal configuration pmts ("manual") or pointed towards center ("point")
+/rat/db/set GEO[inner_pmts] orientation "manual"
 /rat/db/set DETECTOR detector_factory "Watchman"
 /rat/db/set WATCHMAN_PARAMS photocathode_coverage 0.25
 
@@ -27,7 +30,7 @@
 #END EVENT LOOP
 
 /generator/add combo pbomb:point
-/generator/vtx/set 1000 400
-/generator/pos/set 0 0 4000
+/generator/vtx/set 100 400
+/generator/pos/set 0 0 0
 
-/run/beamOn 1
+/run/beamOn 10
