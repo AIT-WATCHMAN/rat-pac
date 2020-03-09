@@ -33,14 +33,14 @@
 /////////////////////////////////////////////////////////////////
 
 //Branching ratio array and Q value array (end point energy)
-double qArrN[5]  = {2.741,3.301,3.595,4.126}; //MeV
-double brArrN[5] = {0.0735,0.499,0.0057,0.375}; //branching ratio taking into account decay to produce neutrons
-double cdfN[5]   = {0.,0.,0.,0.,0.}; //will be filled later based on branching ratio
+double qArrN[4]  = {2.741,3.301,3.595,4.126}; //MeV
+double brArrN[4] = {0.0735,0.499,0.0057,0.375}; //branching ratio taking into account decay to produce neutrons
+double cdfN[4]   = {0.,0.,0.,0.}; //will be filled later based on branching ratio
 
 namespace RAT {
 
 NGen::NGen() :
-stateStr(""), isotope(9), posGen(0)
+stateStr(""), isotope(17), posGen(0)
 {
     // As in the combo generator, use a default time generator if the
     // user does not supply one.
@@ -226,7 +226,7 @@ void NGen::SetState(G4String state)
             // present, only N17is supported.
             isotope = util_to_int( parts[0] );
             
-            if ( isotope != 9 )
+            if ( isotope != 17 )
             {
                 G4cerr << "RAT::NGen::SetState: Only N 17 is supported"
                 << G4endl;
