@@ -26,6 +26,7 @@
 #include <RAT/EventInfo.hh>
 #include <RAT/GdGen.hh>
 #include <RAT/LiGen.hh>
+#include <RAT/NGen.hh>
 #include <RAT/HeGen.hh>
 #include <RAT/Gen_LED.hh>
 #include <RAT/PrimaryVertexInformation.hh>
@@ -135,6 +136,7 @@ void Gsim::Init() {
     GlobalFactory<GLG4Gen>::Register("ambe", new Alloc<GLG4Gen, AmBeGen>);
     GlobalFactory<GLG4Gen>::Register("gd", new Alloc<GLG4Gen, GdGen>);
     GlobalFactory<GLG4Gen>::Register("li", new Alloc<GLG4Gen, LiGen>);
+    GlobalFactory<GLG4Gen>::Register("n", new Alloc<GLG4Gen, NGen>);
     GlobalFactory<GLG4Gen>::Register("he", new Alloc<GLG4Gen, HeGen>);
     GlobalFactory<GLG4Gen>::Register("led", new Alloc<GLG4Gen, Gen_LED>);
     GlobalFactory<GLG4Gen>::Register("coincidence",
