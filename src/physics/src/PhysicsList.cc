@@ -10,6 +10,7 @@
 #include <G4Cerenkov.hh>
 #include <G4OpBoundaryProcess.hh>
 #include <G4RunManager.hh>
+#include <RAT/OpRayleigh.hh>
 #include <RAT/GLG4OpAttenuation.hh>
 #include <RAT/GLG4Scint.hh>
 #include <RAT/GLG4SteppingAction.hh>
@@ -84,6 +85,8 @@ void PhysicsList::ConstructOpticalProcesses() {
 
   // Optical boundary processes: default G4
   G4OpBoundaryProcess* opBoundaryProcess = new G4OpBoundaryProcess();
+  // Rayleigh Scattering
+  OpRayleigh* opRayleigh = new OpRayleigh();
 
   // Wavelength shifting: User-selectable via PhysicsListMessenger
   if (this->wlsModel) {
@@ -120,6 +123,7 @@ void PhysicsList::ConstructOpticalProcesses() {
     if (particleName == "opticalphoton") {
       pmanager->AddDiscreteProcess(attenuationProcess);
       pmanager->AddDiscreteProcess(opBoundaryProcess);
+      pmanager->AddDiscreteProcess(opRayleigh);
     }
   }
 }
