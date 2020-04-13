@@ -5,3 +5,15 @@ valid_end: [0, 0],
 channel_efficiency: 1.0,
 }
 
+{
+name: "SplitEVDAQ",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+
+pulse_width: 100.0,
+trigger_threshold: 4.0,
+trigger_window: 400.0,
+pmt_lockout: 400.0,
+trigger_lockout: 0.0,
+trigger_resolution: 1.0,
+}
