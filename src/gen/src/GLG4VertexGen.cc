@@ -918,9 +918,13 @@ GeneratePrimaryVertex(G4Event *argEvent, G4ThreeVector &dx, G4double dt)
 				 PHEP3*energy_unit );
     }
     if (PHEP5 != req_novalue)
-      particle->SetMass( PHEP5*energy_unit );
+      particle->SetMass( PHEP5*energy_unit ); //this is not working and I don't know why (F.Sutanto, Apr 2020)
     if (polx != 0.0 || poly != 0.0 || polz != 0.0)
       particle->SetPolarization(polx, poly, polz);
+      
+      //I will just set the mass here (F. Sutanto, Apr 2020)
+      G4ParticleDefinition * myPar = G4ParticleTable::GetParticleTable()->FindParticle(  IDHEP );
+      particle->SetMass( myPar->GetPDGMass() );
 
     // create G4HEPEvtParticle object
     G4HEPEvtParticle* hepParticle
