@@ -16,4 +16,5 @@ trigger_window: 400.0,
 pmt_lockout: 400.0,
 trigger_lockout: 0.0,
 trigger_resolution: 1.0,
+lookback: 400.0,
 }

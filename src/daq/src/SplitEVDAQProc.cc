@@ -28,6 +28,7 @@ Processor::Result SplitEVDAQProc::DSEvent(DS::Root *ds) {
   const double pmtLockout        = ldaq->GetD("pmt_lockout");
   const double triggerLockout    = ldaq->GetD("trigger_lockout");
   const double triggerResolution = ldaq->GetD("trigger_resolution");
+  const double lookback          = ldaq->GetD("lookback");
   // Not included yet
   // - Noise on the trigger pulse height, rise-time, etc
   // - Disciminator on charge (all hits assumed to trigger)
@@ -133,7 +134,7 @@ Processor::Result SplitEVDAQProc::DSEvent(DS::Root *ds) {
         {
           DS::MCPhoton* photon = mcpmt->GetMCPhoton(pidx);
           double time = photon->GetFrontEndTime();
-          if ( ( time > (tt - pulseWidth) ) && ( time < (tt + triggerWindow) ) )
+          if ( ( time > (tt - lookback) ) && ( time < (tt + triggerWindow) ) )
           {
             pmtInEvent = true;
             hitTimes.push_back(time);
