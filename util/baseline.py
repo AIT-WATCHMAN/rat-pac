@@ -101,7 +101,7 @@ def sidePMTs(radius,collums,nRings,_type,inv = 1.0,spacing = 500.,delta = 250.):
             dx.append(-math.cos(_theta)*inv)
             dy.append(-math.sin(_theta)*inv)
             dz.append(0.0)
-            type.append(1)
+            type.append(_type)
             x.append(radius * math.cos(_theta))
             y.append(radius * math.sin(_theta))
             z.append(-_z)
