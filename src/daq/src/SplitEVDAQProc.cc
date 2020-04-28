@@ -150,7 +150,9 @@ Processor::Result SplitEVDAQProc::DSEvent(DS::Root *ds) {
       {
         DS::PMT* pmt = ev->AddNewPMT();
         pmt->SetID(pmtID);
-        pmt->SetTime( *std::min_element( hitTimes.begin(), hitTimes.end() ) );
+        double true_hit_time = *std::min_element( hitTimes.begin(), hitTimes.end() );
+        // PMT Hit time relative to the trigger
+        pmt->SetTime( true_hit_time - tt );
         pmt->SetCharge( integratedCharge );
         if( mcpmt->GetType() == pmtType ) totalEVCharge += integratedCharge;
       }
