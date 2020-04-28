@@ -17,4 +17,6 @@ pmt_lockout: 400.0,
 trigger_lockout: 0.0,
 trigger_resolution: 1.0,
 lookback: 400.0,
+max_hit_time: 1000000.0,
+pmt_type: 1
 }

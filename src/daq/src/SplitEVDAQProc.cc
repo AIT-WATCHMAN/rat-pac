@@ -29,6 +29,8 @@ Processor::Result SplitEVDAQProc::DSEvent(DS::Root *ds) {
   const double triggerLockout    = ldaq->GetD("trigger_lockout");
   const double triggerResolution = ldaq->GetD("trigger_resolution");
   const double lookback          = ldaq->GetD("lookback");
+  const double maxHitTime        = ldaq->GetD("max_hit_time");
+  const int pmtType              = ldaq->GetI("pmt_type");
   // Not included yet
   // - Noise on the trigger pulse height, rise-time, etc
   // - Disciminator on charge (all hits assumed to trigger)
@@ -42,11 +44,13 @@ Processor::Result SplitEVDAQProc::DSEvent(DS::Root *ds) {
   for (int imcpmt=0; imcpmt < mc->GetMCPMTCount(); imcpmt++)
   {
     DS::MCPMT *mcpmt = mc->GetMCPMT(imcpmt);
+    if( mcpmt->GetType() != pmtType ) continue;
     double lastTrigger = -100000.0;
     for(int pidx=0; pidx < mcpmt->GetMCPhotonCount(); pidx++)
     {
       DS::MCPhoton* photon = mcpmt->GetMCPhoton(pidx);
       double time = photon->GetFrontEndTime();
+      if (time > maxHitTime) continue;
       if (time > (lastTrigger + pmtLockout))
       {
         trigPulses.push_back(time);
@@ -66,8 +70,8 @@ Processor::Result SplitEVDAQProc::DSEvent(DS::Root *ds) {
   //        _
   //   _   | |    _
   // _| |__| |___| |___
-  int nbins = floor( (end - start) / triggerResolution ) ;
-  double bw = (end-start)/nbins;
+  int nbins = floor( (end - start) / triggerResolution )+1;
+  double bw = triggerResolution;
   vector<double> triggerTrain( nbins );
   for( auto v : trigPulses )
   {
@@ -148,7 +152,7 @@ Processor::Result SplitEVDAQProc::DSEvent(DS::Root *ds) {
         pmt->SetID(pmtID);
         pmt->SetTime( *std::min_element( hitTimes.begin(), hitTimes.end() ) );
         pmt->SetCharge( integratedCharge );
-        totalEVCharge += integratedCharge;
+        if( mcpmt->GetType() == pmtType ) totalEVCharge += integratedCharge;
       }
     } // Done looping over PMTs
     ev->SetTotalCharge( totalEVCharge );
