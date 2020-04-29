@@ -7,6 +7,7 @@ add_library(daq OBJECT
         src/PDFPMTCharge.cc
         src/LessSimpleDAQ2Proc.cc
         src/PDFPMTTime.cc
+        src/NoiseProc.cc
         src/SimpleDAQProc.cc)
 
 # Set our include directories
