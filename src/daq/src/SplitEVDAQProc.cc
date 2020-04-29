@@ -14,23 +14,23 @@ using namespace std;
 namespace RAT {
 
 SplitEVDAQProc::SplitEVDAQProc() : Processor("splitevdaq") {
-  ldaq = DB::Get()->GetLink("SplitEVDAQ");
-  fEventCounter = 0;
+  ldaq               = DB::Get()->GetLink("SplitEVDAQ");
+  fEventCounter      = 0;
+  fPulseWidth        = ldaq->GetD("pulse_width");
+  fTriggerThreshold  = ldaq->GetD("trigger_threshold");
+  fTriggerWindow     = ldaq->GetD("trigger_window");
+  fPmtLockout        = ldaq->GetD("pmt_lockout");
+  fTriggerLockout    = ldaq->GetD("trigger_lockout");
+  fTriggerResolution = ldaq->GetD("trigger_resolution");
+  fLookback          = ldaq->GetD("lookback");
+  fMaxHitTime        = ldaq->GetD("max_hit_time");
+  fPmtType           = ldaq->GetI("pmt_type");
 }
 
 Processor::Result SplitEVDAQProc::DSEvent(DS::Root *ds) {
   // This DAQ will convert hits on PMTs through time into trigger pulses
   // which can fire a global event trigger. Each trigger will correspond
   // to a single sub-event in the datastructure. 
-  const double pulseWidth        = ldaq->GetD("pulse_width");
-  const double triggerThreshold  = ldaq->GetD("trigger_threshold");
-  const double triggerWindow     = ldaq->GetD("trigger_window");
-  const double pmtLockout        = ldaq->GetD("pmt_lockout");
-  const double triggerLockout    = ldaq->GetD("trigger_lockout");
-  const double triggerResolution = ldaq->GetD("trigger_resolution");
-  const double lookback          = ldaq->GetD("lookback");
-  const double maxHitTime        = ldaq->GetD("max_hit_time");
-  const int pmtType              = ldaq->GetI("pmt_type");
   // Not included yet
   // - Noise on the trigger pulse height, rise-time, etc
   // - Disciminator on charge (all hits assumed to trigger)
@@ -44,14 +44,14 @@ Processor::Result SplitEVDAQProc::DSEvent(DS::Root *ds) {
   for (int imcpmt=0; imcpmt < mc->GetMCPMTCount(); imcpmt++)
   {
     DS::MCPMT *mcpmt = mc->GetMCPMT(imcpmt);
-    if( mcpmt->GetType() != pmtType ) continue;
+    if( mcpmt->GetType() != fPmtType ) continue;
     double lastTrigger = -100000.0;
     for(int pidx=0; pidx < mcpmt->GetMCPhotonCount(); pidx++)
     {
       DS::MCPhoton* photon = mcpmt->GetMCPhoton(pidx);
       double time = photon->GetFrontEndTime();
-      if (time > maxHitTime) continue;
-      if (time > (lastTrigger + pmtLockout))
+      if (time > fMaxHitTime) continue;
+      if (time > (lastTrigger + fPmtLockout))
       {
         trigPulses.push_back(time);
         lastTrigger = time;
@@ -61,17 +61,17 @@ Processor::Result SplitEVDAQProc::DSEvent(DS::Root *ds) {
   if( trigPulses.size() < 1 ) return Processor::OK; // We're done, no triggers
 
   double start = *std::min_element(trigPulses.begin(), trigPulses.end());
-  start = floor(start / triggerResolution) * triggerResolution;
+  start = floor(start / fTriggerResolution) * fTriggerResolution;
   double end = *std::max_element(trigPulses.begin(), trigPulses.end());
-  end = (floor(end / triggerResolution)+1) * triggerResolution;
+  end = (floor(end / fTriggerResolution)+1) * fTriggerResolution;
   std::sort(trigPulses.begin(), trigPulses.end());
 
   // Turns hits into a histogram of trigger pulse leading edges
   //        _
   //   _   | |    _
   // _| |__| |___| |___
-  int nbins = floor( (end - start) / triggerResolution )+1;
-  double bw = triggerResolution;
+  int nbins = floor( (end - start) / fTriggerResolution )+1;
+  double bw = fTriggerResolution;
   vector<double> triggerTrain( nbins );
   for( auto v : trigPulses )
   {
@@ -92,7 +92,7 @@ Processor::Result SplitEVDAQProc::DSEvent(DS::Root *ds) {
     double x = triggerTrain[i];
     if( x > 0 )
     {
-      for( int j=i; j<i+pulseWidth; j++ )
+      for( int j=i; j<i+fPulseWidth; j++ )
       {
         if( j >= nbins )
           break;
@@ -101,15 +101,15 @@ Processor::Result SplitEVDAQProc::DSEvent(DS::Root *ds) {
     }
   }
 
-  // Trigger the detector based on triggerThreshold
+  // Trigger the detector based on fTriggerThreshold
   double lastTrigger = -100000.0;
   vector<double> triggerTimes;
   for(int i=0; i<nbins; i++)
   {
     double v = triggerHistogram[i];
-    if( v >= triggerThreshold ) // check for trigger
+    if( v >= fTriggerThreshold ) // check for trigger
     {
-      if( (i*bw)+start > (lastTrigger + triggerWindow + triggerLockout) )
+      if( (i*bw)+start > (lastTrigger + fTriggerWindow + fTriggerLockout) )
       {
         lastTrigger = (i*bw)+start;
         triggerTimes.push_back(lastTrigger);
@@ -138,7 +138,7 @@ Processor::Result SplitEVDAQProc::DSEvent(DS::Root *ds) {
         {
           DS::MCPhoton* photon = mcpmt->GetMCPhoton(pidx);
           double time = photon->GetFrontEndTime();
-          if ( ( time > (tt - lookback) ) && ( time < (tt + triggerWindow) ) )
+          if ( ( time > (tt - fLookback) ) && ( time < (tt + fTriggerWindow) ) )
           {
             pmtInEvent = true;
             hitTimes.push_back(time);
@@ -154,13 +154,44 @@ Processor::Result SplitEVDAQProc::DSEvent(DS::Root *ds) {
         // PMT Hit time relative to the trigger
         pmt->SetTime( true_hit_time - tt );
         pmt->SetCharge( integratedCharge );
-        if( mcpmt->GetType() == pmtType ) totalEVCharge += integratedCharge;
+        if( mcpmt->GetType() == fPmtType ) totalEVCharge += integratedCharge;
       }
     } // Done looping over PMTs
     ev->SetTotalCharge( totalEVCharge );
   }
   
   return Processor::OK;
+}
+
+void SplitEVDAQProc::SetD(std::string param, double value)
+{
+  if( param == "pulse_width" )
+    fPulseWidth = value;
+  else if( param == "trigger_threshold" )
+    fTriggerThreshold = value;
+  else if( param == "trigger_window" )
+    fTriggerWindow = value;
+  else if( param == "pmt_lockout" )
+    fPmtLockout = value;
+  else if( param == "trigger_lockout" )
+    fTriggerLockout = value;
+  else if( param == "trigger_resolution" )
+    fTriggerResolution = value;
+  else if( param == "lookback" )
+    fLookback = value;
+  else if( param == "max_hit_time" )
+    fMaxHitTime = value;
+  else
+    throw ParamUnknown(param);
+}
+
+void SplitEVDAQProc::SetI(std::string param, int value)
+{
+  fPmtType              = ldaq->GetI("pmt_type");
+  if( param == "pulse_type" )
+    fPmtType = value;
+  else
+    throw ParamUnknown(param);
 }
 
 } // namespace RAT
