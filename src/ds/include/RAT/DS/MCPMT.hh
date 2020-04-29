@@ -41,6 +41,7 @@ public:
     photon.resize(photon.size() + 1);
     return &photon.back();
   }
+  void RemoveMCPhoton(Int_t i){ photon.erase(photon.begin() + i); }
   void PruneMCPhoton() { photon.resize(0); }
  
   ClassDef(MCPMT, 1)

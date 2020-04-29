@@ -12,7 +12,6 @@ public:
   virtual ~NoiseProc() { };
   virtual Processor::Result DSEvent(DS::Root *ds);
 
-  void PruneNoise(DS::MC*);
   void AddNoiseHit(DS::MCPMT*, double); 
   void SetD(std::string, double);
 

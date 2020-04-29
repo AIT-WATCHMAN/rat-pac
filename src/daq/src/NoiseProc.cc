@@ -30,7 +30,6 @@ Processor::Result NoiseProc::DSEvent(DS::Root* ds) {
 
   // Write over MC
   DS::MC* mc = ds->GetMC();
-  PruneNoise(mc);
   // Loop through current hits to get a full window and hit pmts
   double firsthittime = std::numeric_limits<double>::max();
   double lasthittime  = std::numeric_limits<double>::min();
@@ -45,9 +44,14 @@ Processor::Result NoiseProc::DSEvent(DS::Root* ds) {
     for(int pidx=0; pidx < mcpmt->GetMCPhotonCount(); pidx++)
     {
       DS::MCPhoton* photon = mcpmt->GetMCPhoton(pidx);
-      double hittime = photon->GetHitTime();
-      if( hittime < firsthittime ) firsthittime = hittime;
-      if( hittime > lasthittime  ) lasthittime  = hittime;
+      if( photon->IsDarkHit() ) 
+        mcpmt->RemoveMCPhoton(pidx);
+      else
+      {
+        double hittime = photon->GetHitTime();
+        if( hittime < firsthittime ) firsthittime = hittime;
+        if( hittime > lasthittime  ) lasthittime  = hittime;
+      }
     }
   }
   // Cap how far forward to look in cast of weird geant-4 lifetimes
@@ -78,12 +82,6 @@ Processor::Result NoiseProc::DSEvent(DS::Root* ds) {
   }
 
   return Processor::OK;
-}
-
-void NoiseProc::PruneNoise(DS::MC* mc)
-{
-  // Remove hits already flagged as noise hits so we do not double count.
-  return;
 }
 
 void NoiseProc::AddNoiseHit( DS::MCPMT* mcpmt, double hittime )
