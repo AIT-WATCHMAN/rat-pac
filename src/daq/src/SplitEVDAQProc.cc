@@ -25,6 +25,7 @@ SplitEVDAQProc::SplitEVDAQProc() : Processor("splitevdaq") {
   fLookback          = ldaq->GetD("lookback");
   fMaxHitTime        = ldaq->GetD("max_hit_time");
   fPmtType           = ldaq->GetI("pmt_type");
+  fTriggerOnNoise    = ldaq->GetI("trigger_on_noise");
 }
 
 Processor::Result SplitEVDAQProc::DSEvent(DS::Root *ds) {
@@ -49,6 +50,8 @@ Processor::Result SplitEVDAQProc::DSEvent(DS::Root *ds) {
     for(int pidx=0; pidx < mcpmt->GetMCPhotonCount(); pidx++)
     {
       DS::MCPhoton* photon = mcpmt->GetMCPhoton(pidx);
+      // Do we want to trigger on noise hits?
+      if( !fTriggerOnNoise && photon->IsDarkHit() ) continue;
       double time = photon->GetFrontEndTime();
       if (time > fMaxHitTime) continue;
       if (time > (lastTrigger + fPmtLockout))
@@ -187,9 +190,10 @@ void SplitEVDAQProc::SetD(std::string param, double value)
 
 void SplitEVDAQProc::SetI(std::string param, int value)
 {
-  fPmtType              = ldaq->GetI("pmt_type");
   if( param == "pulse_type" )
     fPmtType = value;
+  else if( param == "trigger_on_noise" )
+    fTriggerOnNoise = value;
   else
     throw ParamUnknown(param);
 }

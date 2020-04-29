@@ -26,6 +26,7 @@ protected:
   double fLookback;
   double fMaxHitTime;
   int fPmtType;
+  int fTriggerOnNoise;
   std::vector<double> fSPECharge;
   DBLinkPtr ldaq;
 };
