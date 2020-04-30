@@ -121,11 +121,14 @@ Processor::Result SplitEVDAQProc::DSEvent(DS::Root *ds) {
   }
 
   // Place the correct hits, charges, etc into the right trigger windows
+  lastTrigger = 0;
   for( auto tt : triggerTimes )
   {
     DS::EV *ev = ds->AddNewEV();
     ev->SetID(fEventCounter++);
     ev->SetCalibratedTriggerTime( tt );
+    ev->SetDeltaT( tt - lastTrigger );
+    lastTrigger = tt;
     double totalEVCharge = 0; // What does total charge get used for?
     for( int imcpmt=0; imcpmt < mc->GetMCPMTCount(); imcpmt++)
     {
