@@ -6,6 +6,9 @@
 #include <RAT/DS/RunStore.hh>
 #include <RAT/DetectorConstruction.hh>
 #include <RAT/Log.hh>
+#include <RAT/PDFPMTTime.hh>
+#include <RAT/PDFPMTCharge.hh>
+#include <RAT/MiniCleanPMTCharge.hh>
 
 using namespace std;
 
@@ -27,6 +30,10 @@ Processor::Result NoiseProc::DSEvent(DS::Root* ds) {
   // Run Information
   DS::Run* run         = DS::RunStore::Get()->GetRun(ds);
   DS::PMTInfo* pmtinfo = run->GetPMTInfo();
+
+  // By the way, this is a cheat. Once we have BeginOfRunActions
+  // in processors, this gets moved there.
+  UpdatePMTModels(pmtinfo);
 
   // Write over MC
   DS::MC* mc = ds->GetMC();
@@ -54,13 +61,20 @@ Processor::Result NoiseProc::DSEvent(DS::Root* ds) {
       }
     }
   }
-  // Cap how far forward to look in cast of weird geant-4 lifetimes
+  // Cap how far forward to look in case of weird geant-4 lifetimes
   if( lasthittime > fMaxTime ) lasthittime = fMaxTime;
   // And really just in case
   if( firsthittime < -fMaxTime ) firsthittime = -fMaxTime;
-  
   double noiseBegin       = firsthittime - fLookback;
   double noiseEnd         = lasthittime + fLookforward;
+  GenerateNoiseInWindow(mc, noiseBegin, noiseEnd, pmtinfo, mcpmtObjects);
+
+  return Processor::OK;
+}
+
+void NoiseProc::GenerateNoiseInWindow( DS::MC* mc, double noiseBegin, 
+    double noiseEnd, DS::PMTInfo* pmtinfo, std::map<int, int> mcpmtObjects )
+{
   double noiseWindowWidth = noiseEnd - noiseBegin;
   size_t pmtCount         = pmtinfo->GetPMTCount();
   double darkCount        = fNoiseRate * noiseWindowWidth * pmtCount * 1e-9;
@@ -78,13 +92,13 @@ Processor::Result NoiseProc::DSEvent(DS::Root* ds) {
     }
     DS::MCPMT* mcpmt = mc->GetMCPMT( mcpmtObjects[pmtid] );
     double hittime = noiseBegin + G4UniformRand()*noiseWindowWidth;
-    AddNoiseHit( mcpmt, hittime );
+    AddNoiseHit( mcpmt, pmtinfo, hittime );
   }
-
-  return Processor::OK;
+  return;
 }
 
-void NoiseProc::AddNoiseHit( DS::MCPMT* mcpmt, double hittime )
+void NoiseProc::AddNoiseHit( DS::MCPMT* mcpmt, DS::PMTInfo* pmtinfo, 
+    double hittime )
 {
     DS::MCPhoton* photon = mcpmt->AddNewMCPhoton();
     photon->SetDarkHit(true);
@@ -95,9 +109,43 @@ void NoiseProc::AddNoiseHit( DS::MCPMT* mcpmt, double hittime )
     photon->SetTrackID(-1);
     photon->SetHitTime( hittime );
     // Modify these to check the pmt time and charge model
-    photon->SetFrontEndTime( hittime );
-    photon->SetCharge( 1 );
+
+    photon->SetFrontEndTime(
+        fPMTTime[ pmtinfo->GetModel(mcpmt->GetID()) ]->PickTime( hittime )
+        );
+    photon->SetCharge(
+        fPMTCharge[ pmtinfo->GetModel(mcpmt->GetID()) ]->PickCharge()
+        );
+
     return;
+}
+
+void NoiseProc::UpdatePMTModels( DS::PMTInfo* pmtinfo )
+{
+  // This is a bit hacky, but we don't want to keep
+  // running this every event, so after the first time it
+  // is skipped.
+  if( fPMTTime.size() > 0 ) return;
+  const size_t numModels = pmtinfo->GetModelCount();
+  fPMTTime.resize(numModels);
+  fPMTCharge.resize(numModels);
+  for(size_t i=0; i<numModels; i++)
+  {
+    const std::string modelName = pmtinfo->GetModelName(i);
+    try{
+      fPMTTime[i] = new RAT::PDFPMTTime(modelName);
+    }
+    catch (DBNotFoundError& e){
+      fPMTTime[i] = new RAT::PDFPMTTime();
+    }
+    try{
+      fPMTCharge[i] = new RAT::PDFPMTCharge(modelName);
+    }
+    catch (DBNotFoundError& e){
+      fPMTCharge[i] = new RAT::MiniCleanPMTCharge();
+    }
+  }
+  return;
 }
 
 void NoiseProc::SetD(std::string param, double value)
