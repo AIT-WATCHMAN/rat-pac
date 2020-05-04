@@ -5,9 +5,11 @@
 #include <CLHEP/Random/Randomize.h>
 #include <G4ThreeVector.hh>
 #include <G4LorentzVector.hh>
+#include <G4String.hh>
 
 namespace RAT {
 
+class IBDgenMessenger;
 // Generate inverse beta decay event
 class IBDgen {
 public:
@@ -38,12 +40,21 @@ public:
   // Flux as a function of energy.  Interpolated from table in IBD RATDB table
   double Flux(float E) const { return rmpflux(E); };
 
+  // Spectrum index for ratdb
+  G4String GetSpectrumIndex() { return SpectrumIndex;};
+  void SetSpectrumIndex(G4String _specIndex);
+
+  void UpdateFromDatabaseIndex();
+
 protected:
   LinearInterp<double> rmpflux;
   double Emax;
   double Emin;
   double XCmax;
   double FluxMax;
+
+  IBDgenMessenger* messenger;
+  G4String SpectrumIndex;
 };
 
 

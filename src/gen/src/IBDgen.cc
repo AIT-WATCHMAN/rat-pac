@@ -1,5 +1,6 @@
 #include <CLHEP/Units/PhysicalConstants.h>
 #include <RAT/IBDgen.hh>
+#include <RAT/IBDgenMessenger.hh>
 #include <RAT/DB.hh>
 
 using namespace CLHEP;
@@ -13,19 +14,29 @@ const double GFERMI = 1.16639e-11 / MeV / MeV;
  
 IBDgen::IBDgen()
 {
-  // Get parameters from database
-  DBLinkPtr libd = DB::Get()->GetLink("IBD");
+  messenger = new IBDgenMessenger(this);
+  SpectrumIndex = "default";
+  UpdateFromDatabaseIndex();
+}
+
+void IBDgen::UpdateFromDatabaseIndex()
+{
+  DBLinkPtr libd = DB::Get()->GetLink("IBD", SpectrumIndex);
 
   Emin = libd->GetD("emin");
   Emax = libd->GetD("emax");
   // Flux function
   rmpflux.Set(libd->GetDArray("spec_e"), libd->GetDArray("spec_flux"));
-  
   // Other useful numbers
   XCmax = CrossSection(Emax,-1);
   FluxMax = rmpflux(Emin);
-}
+} 
 
+void IBDgen::SetSpectrumIndex(G4String _specIndex)
+{
+  SpectrumIndex = _specIndex;
+  UpdateFromDatabaseIndex();
+}
   
 void IBDgen::GenEvent(const Hep3Vector &nu_dir,
 		      HepLorentzVector &neutrino,
