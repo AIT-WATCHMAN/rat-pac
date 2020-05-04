@@ -1,0 +1,309 @@
+------------------------------------------------------
+ Guide to rat-pac macros
+ 4th May 2020
+ gary.smith@.ed.ac.uk
+------------------------------------------------------
+----------
+How to Run
+----------
+Batch mode
+$ rat macro_name.mac
+
+Interactive (e.g. visualisation)
+$ rat - vis_macro_name.mac 
+in which the '-' is used to start the GUI
+
+
+------------------------------------------------------
+---------
+Bi214.mac
+---------
+
+Status	
+	functional 
+
+Purpose
+	generate example inner pmt background using single isotope
+	
+Output
+	watchman_214Bi_lesssimpledaq.root
+
+Content
+	geometry   - Watchman.geo
+	processors - standard, user output file name
+	generator  - decaychain 214Bi:regexfill:poisson
+
+------------------------------------------------------
+----------------------------	     
+ReacIBDgen_Demo_Watchman.mac
+----------------------------	     
+
+Status	
+	functional 
+
+Purpose
+	generate example reactor Inverse Beta Decay (IBD) spectrum  
+	
+Output
+	output.root 
+
+Content
+	geometry   - Watchman.geo
+	processors - standard
+	generator  - combo reacibd:point 
+
+------------------------------------------------------
+---------
+Rn222.mac
+---------
+
+Status	
+	functional 
+
+Purpose
+	generate example background from Rn222
+	
+Output
+	watchman_222Rn_lesssimpledaq.root
+
+Content
+	geometry   - Watchman.geo
+	processors - standard, user output file name
+	generator  - decaychain 222Rn:fill:poisson
+
+------------------------------------------------------
+---------
+U235.mac
+---------
+
+Status	
+	functional 
+
+Purpose
+	generate example inner pmt background using single isotope
+	
+Output
+	watchman_238U_lesssimpledaq.root
+
+Content
+	geometry   - Watchman.geo
+	processors - standard, user output file name
+	generator  - decaychain 238U:regexfill:poisson
+
+------------------------------------------------------
+----------
+boulby.mac
+----------
+
+Status	
+	functional 
+
+Purpose
+	demonstrate Boulby positron spectrum  
+	
+Output
+	watchman_boulby_lesssimpledaq.root
+
+Content
+	geometry   - Watchman.geo
+	processors - standard, user output file name
+	generator  - combo spectrum:fill
+		     e+ boulby
+
+------------------------------------------------------
+-------------------
+cherenkovsource.mac
+-------------------
+
+Status	
+	functional 
+
+Purpose
+	demonstrate emission from Lithuim 8 from a calibration source module
+	
+Output
+	output.root
+
+Content
+	geometry   - DETECTOR detector_factory "Watchman"
+		     CherenkovSource.geo
+	tracking   - store trajectories 
+	processors - minimal
+	generator  - isotope:fill:poisson
+		     GenericIon 1 0 0
+
+------------------------------------------------------
+--------------------------
+electron_demo_watchman.mac
+--------------------------
+
+Status	
+	functional 
+
+Purpose
+	demonstrate basic simulation using detector_factory
+	
+Output
+	watchman.root
+
+Content
+	geometry   - DETECTOR detector_factory "Watchman"
+	processors - minimal, user defined output file name
+	generator  - combo gun2:point
+
+------------------------------------------------------
+--------------------------
+geonu.mac
+--------------------------
+
+Status	
+	functional 
+
+Purpose
+	demonstrate positron source with geonu spectrum
+	
+Output
+	watchman_geonu_lesssimpledaq.root
+
+Content
+	geometry   - Watchman.geo
+	processors - standard, user defined output file name
+	generator  - spectrum:fill
+
+------------------------------------------------------
+--------------------------
+isotope.mac
+--------------------------
+
+Status	
+	functional 
+
+Purpose
+	demonstrate Lithium 9 source 
+	
+Output
+	watchman_geonu_lesssimpledaq.root
+
+Content
+	geometry   - Watchman.geo
+	tracking   - store trajectories, option to prune optical photons
+	processors - standard, user defined output file name
+	generator  - spectrum:fill
+
+------------------------------------------------------
+-----------------------------
+visualize_cherenkovsource.mac
+-----------------------------
+
+Status	
+	functional 
+
+Purpose
+	demonstrate visualisation with calibration source geometry
+	(visualisation version of cherenkovsource.mac)
+	
+Output
+	no
+
+Content
+	geometry   - detector_factory "Watchman"
+		     WATCHMAN_PARAMS photocathode_coverage 0.01
+		     CherenkovSource.geo
+	visualise  - scene items added 
+	generator  - isotope:fill:poisson Lithium 8
+
+------------------------------------------------------
+-----------------------------
+watchman.mac
+-----------------------------
+
+Status	
+	functional 
+
+Purpose
+	demonstrate basic watchman example 
+	
+Output
+	output.root
+
+Content
+	geometry   - detector_factory "Watchman"
+		     WATCHMAN_PARAMS photocathode_coverage 0.25
+		     mu metal shields added to PMTs
+	process    - standard
+	generator  - pbomb:point
+
+------------------------------------------------------
+----------------------------------
+./old_and_broken
+	calibration.mac
+	client.mac
+	electron_demo_cylinder.mac
+	electron_demo_sno.mac
+	electron_demo_sphere.mac
+	electron_demo_watchboy.mac	
+	ntuple.mac
+	python.mac
+	raytrace.mac
+	visualize_watchboy.mac
+----------------------------------
+
+Status	
+	non-functional 
+	'DB: Field GEO[sourcepmt].light_cone lookup failure.  Does not exist or has wrong type.'
+
+------------------------------------------------------
+----------------------------------
+./old_and_broken
+	server.mac
+----------------------------------
+
+Status	
+	non-functional
+	DB: Cannot open demo/cylinder.mac.
+
+------------------------------------------------------
+---------------------------
+./old_and_broken
+	supernova.mac
+	supernovaCUSTOM.mac
+	supernovaLivermore.mac
+---------------------------
+
+Status	
+	semi-functional (Warnings)
+	'You have chosen an isotropic configuration, for supernovae this does not make sense.'
+	Warning in <ROOT::Math::ROOT::Math::GausIntegrator>: Failed to reach the desired tolerance ; maxtol = 1e-09
+
+---------------------------
+./old_and_broken
+	supernovaIBD.mac
+---------------------------
+
+Status	
+	DB: Field SPECTRUM[livermore_ibd].spec_e lookup failure.  Does not exist or has wrong type.
+
+
+------------------------------------------------------
+-------------
+General Notes
+-------------
+
+'Error' / Warning messages in functioning code
+       
+       'Error in <TCling::RegisterModule>: cannot find dictionary module libRATDict_rdict.
+       - This message has been reported with no issues identified.
+
+       'G4Material::GetMaterial() WARNING: The material: lab does not exist in the table.'
+       'G4Material::GetMaterial() WARNING: The material: water does not exist in the table.'
+       'G4Material::GetMaterial() WARNING: The material: mineral_oil does not exist in the table.'
+       'G4Material::GetMaterial() WARNING: The material: polypropylene does not exist in the table.'
+       'G4Material::GetMaterial() WARNING: The material: doped_water does not exist in the table.'
+       - Legacy code for redundant materials?
+
+       'Warning! Found a scintillator without Re-emission spectrum (probably a scintillator without WLS)'
+       'Warning! Found a scintillator without LIGHT_YIELD parameter.'
+       - TBD
+
+       'Could not read property REEMISSION_PROB of Gd_wbls_10pct'
+       - TBD

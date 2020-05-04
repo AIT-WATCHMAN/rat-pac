@@ -1,0 +1,26 @@
+/glg4debug/glg4param omit_muon_processes  1.0
+/glg4debug/glg4param omit_hadronic_processes  1.0
+
+/rat/db/set DETECTOR experiment "sphere"
+/rat/db/set DETECTOR geo_file "sphere/sphere.geo"
+
+/run/initialize
+
+# BEGIN EVENT LOOP
+/rat/proc simpledaq
+/rat/proc count
+/rat/procset update 10
+/rat/proc fitcentroid
+
+/rat/proclast outroot
+/rat/procset file "sphere_betas.root"
+#END EVENT LOOP
+
+#/tracking/storeTrajectory 1
+
+/generator/add combo gun:fill:poisson
+/generator/vtx/set e- 0 0 0 10.0
+/generator/pos/set 0 0 0
+
+/run/beamOn 100
+
