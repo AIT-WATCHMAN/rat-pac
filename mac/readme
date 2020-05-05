@@ -234,6 +234,89 @@ Content
 	generator  - pbomb:point
 
 ------------------------------------------------------
+-----------------------------
+watchman_LessSimpleDAQ.mac
+-----------------------------
+
+Status	
+	functional 
+
+Purpose
+	demonstrate lesssimpledaq  
+	
+Output
+	watchman.root
+
+Content
+	geometry   - Watchman.geo
+	process    - lesssimpledaq
+		     fitting
+	generator  - combo gun2:fill
+
+------------------------------------------------------
+-----------------------------
+watchman_factory_test.mac
+-----------------------------
+
+Status	
+	functional 
+
+Purpose
+	for visualising detector factory settings  
+	
+Output
+	none
+
+Content
+	geometry   - detector_factory "Watchman"
+		     several GEO settings
+	visualise  - viewer settings
+	process    - none
+	generator  - none
+
+------------------------------------------------------
+-----------------------------
+watchman_visualise.mac
+-----------------------------
+
+Status	
+	functional 
+
+Purpose
+	visualising watchman with detector factory
+	
+Output
+	none
+
+Content
+	geometry   - detector_factory "Watchman"
+		     no veto PMTs
+	visualise  - viewer settings
+	process    - none
+	generator  - none
+
+------------------------------------------------------
+-----------------------------
+watchman_visualise_geofile.mac
+-----------------------------
+
+Status	
+	functional 
+
+Purpose
+	for visualising watchman detector with geofile  
+	
+Output
+	none
+
+Content
+	geometry   - Watchman.geo
+		     contains veto PMTs
+		     	visualise  - viewer settings
+	process    - none
+	generator  - none
+
+------------------------------------------------------
 ----------------------------------
 ./old_and_broken
 	calibration.mac
@@ -246,6 +329,7 @@ Content
 	python.mac
 	raytrace.mac
 	visualize_watchboy.mac
+	tutorials/tutorial_001/watchboy_movie.mac
 ----------------------------------
 
 Status	
