@@ -10,7 +10,6 @@
 /generator/add combo isotope:fill:poisson
 
 # construct Li 8 
-# TBD -  set momentum to (1,0,0) MeV ?
 /generator/vtx/set GenericIon 1 0 0
 /generator/isotope/A 8.0
 /generator/isotope/Z 3.0

@@ -48,6 +48,7 @@
 /tracking/FillPointCont 1
 /vis/scene/add/volume
 /vis/scene/add/hits
+/vis/scene/add/trajectories
 /vis/sceneHandler/attach
 
 /vis/viewer/set/upVector 0.0 0.0 1.0
@@ -62,14 +63,20 @@
 
 ###
 # generator options 
-# comment out or run in the interactive session
+# comment out or execute in the interactive session
 # 
 #/control/execute gen_Li8.mac		    
 #/control/execute gen_electron_gun_point.mac
 #/control/execute gen_gamma_point_Y_1_MeV.mac
 #/control/execute gen_promptPositron.mac
-#/control/execute gen_muon_gun_point.mac
+#/control/execute gen_muon_point_Y_1_MeV.mac
 #/control/execute gen_pbomb.mac	
 #/control/execute gen_promptPositron.mac
 #
 ###
+
+###
+# running
+# comment out or execute in the interactive session
+# 
+# /run/beamOn 1

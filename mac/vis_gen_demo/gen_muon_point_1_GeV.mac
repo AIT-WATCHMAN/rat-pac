@@ -1,4 +1,3 @@
-
 # clear any previous generator definition
 /generator/clear
 
@@ -6,16 +5,12 @@
 # 'position' point
 /generator/add combo gun:point
 
+# upgoing 1 GeV muon   px py px E(MeV) 
+# including optional energy means momentum is direction only
+/generator/vtx/set mu+ 0 0 1 1000
+
+# in veto top region (positions in mm)
+/generator/pos/set 0 0 8000
+
 # in veto side region
 #/generator/pos/set 0 8550 0 # mm
-
-# px py px E(MeV)
-# including optional energy means momentum is direction only
-# /generator/vtx/set mu+ 0 1 0 10
-
-# upgoing muon in veto top region
-/generator/vtx/set mu+ 0 0 1 1000
-# positions in mm
-/generator/pos/set 0 0 -7000
-
-/run/beamOn 1

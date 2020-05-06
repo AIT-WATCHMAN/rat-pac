@@ -1,5 +1,0 @@
-
-/generator/add combo gun:point
-/generator/vtx/set mu+ 0 0 1 7 # pname dir_x dir_y dir_z energy 
-#/generator/pos/set 0 0 0 # x y z
-/generator/pos/set 0 8500 0 # pos_x pos_y pos_z (in mm)
