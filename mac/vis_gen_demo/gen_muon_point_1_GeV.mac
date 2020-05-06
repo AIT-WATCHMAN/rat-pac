@@ -14,3 +14,5 @@
 
 # in veto side region
 #/generator/pos/set 0 8550 0 # mm
+
+/run/beamOn 1
