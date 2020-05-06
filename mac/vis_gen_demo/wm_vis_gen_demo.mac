@@ -67,9 +67,8 @@
 # 
 #/control/execute gen_Li8.mac		    
 #/control/execute gen_electron_gun_point.mac
-#/control/execute gen_gamma_point_Y_1_MeV.mac
+#/control/execute gen_muon_point_1_GeV.mac 
 #/control/execute gen_promptPositron.mac
-#/control/execute gen_muon_point_Y_1_MeV.mac
 #/control/execute gen_pbomb.mac	
 #/control/execute gen_promptPositron.mac
 #
