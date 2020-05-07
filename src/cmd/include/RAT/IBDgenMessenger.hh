@@ -5,6 +5,7 @@
 #include "G4UImessenger.hh"
 #include "G4String.hh"
 #include "G4UIcmdWithAString.hh"
+#include "G4UIcmdWithABool.hh"
 
 //Forward declarations
 class G4UIcommand;
@@ -28,6 +29,8 @@ namespace RAT {
     IBDgen* ibdgen;
 
     G4UIcmdWithAString* SpectrumUseCmd;
+    G4UIcmdWithABool* NeutronUseCmd;
+    G4UIcmdWithABool* PositronUseCmd;
   };
 
 } // namespace RAT

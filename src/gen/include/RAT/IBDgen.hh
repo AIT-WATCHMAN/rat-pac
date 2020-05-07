@@ -43,6 +43,12 @@ public:
   // Spectrum index for ratdb
   G4String GetSpectrumIndex() { return SpectrumIndex;};
   void SetSpectrumIndex(G4String _specIndex);
+  // Enable neutrons
+  bool GetNeutronState() { return NeutronState; };
+  void SetNeutronState(bool _state) { NeutronState = _state; };
+  // Enable positrons
+  bool GetPositronState() { return PositronState; };
+  void SetPositronState(bool _state) { PositronState = _state; };
 
   void UpdateFromDatabaseIndex();
 
@@ -52,6 +58,9 @@ protected:
   double Emin;
   double XCmax;
   double FluxMax;
+
+  bool NeutronState;
+  bool PositronState;
 
   IBDgenMessenger* messenger;
   G4String SpectrumIndex;
