@@ -922,9 +922,9 @@ GeneratePrimaryVertex(G4Event *argEvent, G4ThreeVector &dx, G4double dt)
     if (polx != 0.0 || poly != 0.0 || polz != 0.0)
       particle->SetPolarization(polx, poly, polz);
       
-      //I will just set the mass here (F. Sutanto, Apr 2020)
-      G4ParticleDefinition * myPar = G4ParticleTable::GetParticleTable()->FindParticle(  IDHEP );
-      particle->SetMass( myPar->GetPDGMass() );
+    //I will just set the mass here (F. Sutanto, Apr 2020)
+    G4ParticleDefinition * myPar = G4ParticleTable::GetParticleTable()->FindParticle(  IDHEP );
+    particle->SetMass( myPar->GetPDGMass() );
 
     // create G4HEPEvtParticle object
     G4HEPEvtParticle* hepParticle
