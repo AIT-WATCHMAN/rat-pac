@@ -531,8 +531,30 @@ GLG4Scint::PostPostStepDoIt(const G4Track& aTrack, const G4Step& aStep) {
              pPostStepPoint->GetVelocity()) / 2.));
       }
 
-      // Delay for scintillation time
-      if (WaveformIntegral) {
+      // Delay for scintillation time and apply rise time
+      G4double ScintillationRiseTime=physicsEntry->rise_time;
+
+      // Rise time implementation similar to G4Scintillation
+      if (WaveformIntegral && ScintillationRiseTime!=0.0) {
+        bool delayTimeAccepted = false;
+        while (!delayTimeAccepted){
+          // Generate random time according to decay exponential
+          G4double WFvalue = G4UniformRand()*WaveformIntegral->GetMaxValue();
+
+          // Energy here is actually production time
+          G4double sampledDelayTime = WaveformIntegral->GetEnergy(WFvalue);
+
+          // Apply rise time probability to sampled time
+          G4double delayTimeUniformRand = G4UniformRand();
+          if (delayTimeUniformRand <= (1. - std::exp(-sampledDelayTime/ScintillationRiseTime))){
+            deltaTime += sampledDelayTime;
+            delayTimeAccepted = true;
+          }
+        }
+      }
+
+      // If there is no rise time only apply decay time
+      else if (WaveformIntegral) {
         G4double WFvalue = G4UniformRand()*WaveformIntegral->GetMaxValue();
         G4double sampledDelayTime = WaveformIntegral->GetEnergy(WFvalue);
         deltaTime += sampledDelayTime;
@@ -782,6 +804,7 @@ void GLG4Scint::MyPhysicsTable::Entry::Build(
   birksConstant = ref_dE_dx = 0.0;
   light_yield = 0.0;
   QuenchingArray = NULL;
+  rise_time = 0.0;
 
   // Exit, leaving default values, if no material properties
   if (!aMaterialPropertiesTable) {
@@ -907,6 +930,12 @@ void GLG4Scint::MyPhysicsTable::Entry::Build(
     timeIntegral = MyPhysicsTable::GetDefault()->GetEntry(i)->timeIntegral;
     I_own_timeIntegral = false;
 
+  }
+
+  // Retrieve the rise time for the material from the
+  // material's optical properties table ("SCINT_RISE_TIME")
+  if (aMaterialPropertiesTable->ConstPropertyExists("SCINT_RISE_TIME")){
+    rise_time=aMaterialPropertiesTable->GetConstProperty("SCINT_RISE_TIME");
   }
 
   // Retrieve vector of scintillation "modifications"
