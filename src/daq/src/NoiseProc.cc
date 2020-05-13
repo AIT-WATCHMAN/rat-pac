@@ -1,4 +1,5 @@
 #include <vector>
+#include <algorithm>
 #include <map>
 #include <Randomize.hh>
 #include <RAT/NoiseProc.hh>
@@ -21,6 +22,7 @@ NoiseProc::NoiseProc() : Processor("noise") {
   fLookback    = lnoise->GetD("noise_lookback");
   fLookforward = lnoise->GetD("noise_lookforward");
   fMaxTime     = lnoise->GetD("noise_maxtime");
+  fNearHits    = lnoise->GetI("noise_nearhits");
 }
 
 Processor::Result NoiseProc::DSEvent(DS::Root* ds) {
@@ -44,6 +46,9 @@ Processor::Result NoiseProc::DSEvent(DS::Root* ds) {
   // <pmtid, mcpmtlocation>
   std::map<int, int> mcpmtObjects;
 
+  // <pmt hit times>
+  std::vector<double> realHitTimes;
+
   for(int imcpmt=0; imcpmt < mc->GetMCPMTCount(); imcpmt++)
   {
     DS::MCPMT* mcpmt = mc->GetMCPMT(imcpmt);
@@ -58,21 +63,41 @@ Processor::Result NoiseProc::DSEvent(DS::Root* ds) {
         double hittime = photon->GetHitTime();
         if( hittime < firsthittime ) firsthittime = hittime;
         if( hittime > lasthittime  ) lasthittime  = hittime;
+        realHitTimes.push_back(hittime);
       }
     }
   }
+
   // Cap how far forward to look in case of weird geant-4 lifetimes
   if( lasthittime > fMaxTime ) lasthittime = fMaxTime;
   // And really just in case
   if( firsthittime < -fMaxTime ) firsthittime = -fMaxTime;
   double noiseBegin       = firsthittime - fLookback;
   double noiseEnd         = lasthittime + fLookforward;
-  GenerateNoiseInWindow(mc, noiseBegin, noiseEnd, pmtinfo, mcpmtObjects);
+
+  // Look around real hits or everywhere?
+  int totalNoiseHits = 0;
+  if( fNearHits )
+  {
+    std::map<double, double> windowMap = FindWindows(realHitTimes, max(abs(fLookback), abs(fLookforward)));
+    if( !windowMap.empty() )
+    {
+      for( auto m : windowMap )
+      {
+        totalNoiseHits += GenerateNoiseInWindow(mc, m.first - fLookback, m.second + fLookforward, pmtinfo, mcpmtObjects);
+      }
+    }
+  }
+  else
+  {
+    totalNoiseHits += GenerateNoiseInWindow(mc, noiseBegin, noiseEnd, pmtinfo, mcpmtObjects);
+  }
+  mc->SetNumDark( totalNoiseHits );
 
   return Processor::OK;
 }
 
-void NoiseProc::GenerateNoiseInWindow( DS::MC* mc, double noiseBegin, 
+int NoiseProc::GenerateNoiseInWindow( DS::MC* mc, double noiseBegin, 
     double noiseEnd, DS::PMTInfo* pmtinfo, std::map<int, int> mcpmtObjects )
 {
   double noiseWindowWidth = noiseEnd - noiseBegin;
@@ -94,7 +119,7 @@ void NoiseProc::GenerateNoiseInWindow( DS::MC* mc, double noiseBegin,
     double hittime = noiseBegin + G4UniformRand()*noiseWindowWidth;
     AddNoiseHit( mcpmt, pmtinfo, hittime );
   }
-  return;
+  return noiseHits;
 }
 
 void NoiseProc::AddNoiseHit( DS::MCPMT* mcpmt, DS::PMTInfo* pmtinfo, 
@@ -148,6 +173,41 @@ void NoiseProc::UpdatePMTModels( DS::PMTInfo* pmtinfo )
   return;
 }
 
+std::map<double, double> NoiseProc::FindWindows(std::vector<double> &times, double window)
+{
+  // Sort the hit times
+  std::sort(times.begin(), times.end());
+  // Find the time differences along the times array
+  std::map<double, double> startStop;
+  // If there are too few hits, generate noise near trigger??
+  if( times.size() < 2 )
+  {
+    if( times.size() == 0 )
+      return startStop;
+    else
+      startStop[times[0]] = times[0];
+    return startStop;
+  }
+  vector<double>::iterator back = times.begin();
+  double start = *back;
+  double stop = 0;
+  for( vector<double>::iterator forward = next(times.begin());
+       forward < times.end(); ++forward )
+  {
+    if( (*forward - *back) > window )
+    {
+      stop = *back;
+      startStop[start] = stop;
+      start = *forward;
+    }
+    ++back;
+  }
+  // Grab last hit window
+  stop = *back;
+  startStop[start] = stop;
+  return startStop;
+}
+
 void NoiseProc::SetD(std::string param, double value)
 {
   if (param == "rate")
@@ -155,6 +215,14 @@ void NoiseProc::SetD(std::string param, double value)
       fNoiseRate = value;
     else
       throw ParamInvalid(param, "Noise rate must be positive");
+  else
+    throw ParamUnknown(param);
+}
+
+void NoiseProc::SetI(std::string param, int value)
+{
+  if (param == "nearhits")
+    fNearHits = value;
   else
     throw ParamUnknown(param);
 }

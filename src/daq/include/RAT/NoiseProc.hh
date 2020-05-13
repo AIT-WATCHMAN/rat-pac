@@ -16,16 +16,20 @@ public:
   virtual Processor::Result DSEvent(DS::Root *ds);
 
   void AddNoiseHit(DS::MCPMT*, DS::PMTInfo*, double); 
-  void GenerateNoiseInWindow( DS::MC*, double, 
+  int GenerateNoiseInWindow( DS::MC*, double, 
       double, DS::PMTInfo*, std::map<int, int> );
   void UpdatePMTModels( DS::PMTInfo* );
+  std::map<double, double> FindWindows(std::vector<double> &times, 
+      double window);
   void SetD(std::string, double);
+  void SetI(std::string param, int value);
 
 protected:
   double fNoiseRate;
   double fLookback;
   double fLookforward;
   double fMaxTime;
+  bool fNearHits;
   std::vector<RAT::PMTTime*> fPMTTime;
   std::vector<RAT::PMTCharge*> fPMTCharge;
 };
