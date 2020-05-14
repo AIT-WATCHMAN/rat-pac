@@ -531,33 +531,12 @@ GLG4Scint::PostPostStepDoIt(const G4Track& aTrack, const G4Step& aStep) {
              pPostStepPoint->GetVelocity()) / 2.));
       }
 
-      // Delay for scintillation time and apply rise time
-      G4double ScintillationRiseTime=physicsEntry->rise_time;
-
-      // Rise time implementation similar to G4Scintillation
-      if (WaveformIntegral && ScintillationRiseTime!=0.0) {
-        bool delayTimeAccepted = false;
-        while (!delayTimeAccepted){
-          // Generate random time according to decay exponential
-          G4double WFvalue = G4UniformRand()*WaveformIntegral->GetMaxValue();
-
-          // Energy here is actually production time
-          G4double sampledDelayTime = WaveformIntegral->GetEnergy(WFvalue);
-
-          // Apply rise time probability to sampled time
-          G4double delayTimeUniformRand = G4UniformRand();
-          if (delayTimeUniformRand <= (1. - std::exp(-sampledDelayTime/ScintillationRiseTime))){
-            deltaTime += sampledDelayTime;
-            delayTimeAccepted = true;
-          }
-        }
-      }
-
       // If there is no rise time only apply decay time
-      else if (WaveformIntegral) {
+      if (WaveformIntegral) {
         G4double WFvalue = G4UniformRand()*WaveformIntegral->GetMaxValue();
         G4double sampledDelayTime = WaveformIntegral->GetEnergy(WFvalue);
         deltaTime += sampledDelayTime;
+        G4cout << "SRT:" << sampledDelayTime << "\n";
       }
 
       // Set secondary time
@@ -860,6 +839,12 @@ void GLG4Scint::MyPhysicsTable::Entry::Build(
     I_own_spectrumIntegral = false;
   }
 
+  // Retrieve the rise time for the material from the
+  // material's optical properties table ("SCINT_RISE_TIME")
+  if (aMaterialPropertiesTable->ConstPropertyExists("SCINT_RISE_TIME")){
+    rise_time=aMaterialPropertiesTable->GetConstProperty("SCINT_RISE_TIME");
+  }
+
   // Retrieve vector of scintillation time profile
   // for the material from the material's optical
   // properties table ("SCINTWAVEFORM")
@@ -905,7 +890,15 @@ void GLG4Scint::MyPhysicsTable::Entry::Build(
         G4double decy = theWaveForm->Energy(j);
         {
           for (int ii=0; ii<nbins; ii++) {
-            ival[ii] += ampl * (1.0 - exp(tval[ii] / decy));
+            if(rise_time == 0.0){
+              ival[ii] += ampl * (1.0 - exp(tval[ii] / decy));
+            }
+            else{
+              ival[ii] += ampl * (decy + rise_time
+                                  - decy * exp(tval[ii] / decy)
+                                  - rise_time * exp(-tval[ii] / rise_time))
+                          / (decy + rise_time);
+            }
           }
         }
       }
@@ -930,12 +923,6 @@ void GLG4Scint::MyPhysicsTable::Entry::Build(
     timeIntegral = MyPhysicsTable::GetDefault()->GetEntry(i)->timeIntegral;
     I_own_timeIntegral = false;
 
-  }
-
-  // Retrieve the rise time for the material from the
-  // material's optical properties table ("SCINT_RISE_TIME")
-  if (aMaterialPropertiesTable->ConstPropertyExists("SCINT_RISE_TIME")){
-    rise_time=aMaterialPropertiesTable->GetConstProperty("SCINT_RISE_TIME");
   }
 
   // Retrieve vector of scintillation "modifications"
