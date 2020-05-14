@@ -536,7 +536,6 @@ GLG4Scint::PostPostStepDoIt(const G4Track& aTrack, const G4Step& aStep) {
         G4double WFvalue = G4UniformRand()*WaveformIntegral->GetMaxValue();
         G4double sampledDelayTime = WaveformIntegral->GetEnergy(WFvalue);
         deltaTime += sampledDelayTime;
-        G4cout << "SRT:" << sampledDelayTime << "\n";
       }
 
       // Set secondary time
