@@ -889,15 +889,10 @@ void GLG4Scint::MyPhysicsTable::Entry::Build(
         G4double decy = theWaveForm->Energy(j);
         {
           for (int ii=0; ii<nbins; ii++) {
-            if(rise_time == 0.0){
-              ival[ii] += ampl * (1.0 - exp(tval[ii] / decy));
-            }
-            else{
-              ival[ii] += ampl * (decy + rise_time
-                                  - decy * exp(tval[ii] / decy)
-                                  - rise_time * exp(-tval[ii] / rise_time))
-                          / (decy + rise_time);
-            }
+            ival[ii] += ampl * (decy + rise_time
+                                - decy * exp(tval[ii] / decy)
+                                - rise_time * exp(-tval[ii] / rise_time))
+                        / (decy + rise_time);
           }
         }
       }
