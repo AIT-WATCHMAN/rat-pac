@@ -889,7 +889,7 @@ void GLG4Scint::MyPhysicsTable::Entry::Build(
         G4double decy = theWaveForm->Energy(j);
         if ( decy == -rise_time ){
           G4cout << "\nWarning! Scintillator decay time equal to rise time.";
-          G4cout << "\nThis will give undefined scintillation production times due to divide by zero error.";
+          G4cout << "\nThis will give undefined scintillation production times due to divide by zero error.\n";
         }
         {
           for (int ii=0; ii<nbins; ii++) {
