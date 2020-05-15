@@ -261,6 +261,7 @@ nmaterials: 0,
 elements: ["Bismuth" "Germanium", "Oxygen"],
 elemprop: [0.671, 0.175, 0.154],
 }
+
 {
 name: "MATERIAL",
 index: "wbls_1pct_WM_0420",
@@ -329,5 +330,3 @@ nmaterials: 4,
 materials: ["lab", "ppo", "water","gadolinium"],
 matprop: [0.029901, 6.9e-05, 0.96903, 0.001]
 }
-
-
