@@ -121,7 +121,7 @@ drawstyle: "solid",
 //Bergevin: Set the interface were reflection can occur. Must make sure volume1 and volume2
 //are in the correct order
 name: "GEO",
-index: "midsurface",
+index: "midsurface_white_sheet_side",
 valid_begin: [0, 0],
 valid_end: [0, 0],
 invisible: 0, // omitted for visualization
@@ -152,7 +152,7 @@ drawstyle: "solid",
 //Bergevin: Set the interface were reflection can occur. Must make sure volume1 and volume2
 //are in the correct order
 name: "GEO",
-index: "midsurface",
+index: "midsurface_white_sheet_top",
 valid_begin: [0, 0],
 valid_end: [0, 0],
 invisible: 0, // omitted for visualization
@@ -184,7 +184,7 @@ drawstyle: "solid",
 //Bergevin: Set the interface were reflection can occur. Must make sure volume1 and volume2
 //are in the correct order
 name: "GEO",
-index: "midsurface",
+index: "midsurface_white_sheet_top",
 valid_begin: [0, 0],
 valid_end: [0, 0],
 invisible: 0, // omitted for visualization
@@ -369,7 +369,7 @@ drawstyle: "solid",
 //Bergevin: Set the interface were reflection can occur. Must make sure volume1 and volume2
 //are in the correct order
 name: "GEO",
-index: "midsurface",
+index: "midsurface_white_sheet_bottom",
 valid_begin: [0, 0],
 valid_end: [0, 0],
 invisible: 0, // omitted for visualization
@@ -404,7 +404,7 @@ drawstyle: "solid",
 //Bergevin: Set the interface were reflection can occur. Must make sure volume1 and volume2
 //are in the correct order
 name: "GEO",
-index: "midsurface",
+index: "midsurface_white_sheet_tank_side",
 valid_begin: [0, 0],
 valid_end: [0, 0],
 invisible: 0, // omitted for visualization
@@ -432,7 +432,7 @@ drawstyle: "solid",
 //Bergevin: Set the interface were reflection can occur. Must make sure volume1 and volume2
 //are in the correct order
 name: "GEO",
-index: "midsurface",
+index: "midsurface_white_sheet_tank_top",
 valid_begin: [0, 0],
 valid_end: [0, 0],
 invisible: 0, // omitted for visualization
@@ -461,7 +461,7 @@ drawstyle: "solid",
 //Bergevin: Set the interface were reflection can occur. Must make sure volume1 and volume2
 //are in the correct order
 name: "GEO",
-index: "midsurface",
+index: "midsurface_white_sheet_tank_bottom",
 valid_begin: [0, 0],
 valid_end: [0, 0],
 invisible: 0, // omitted for visualization
@@ -493,7 +493,7 @@ drawstyle: "solid",
 //Bergevin: Set the interface were reflection can occur. Must make sure volume1 and volume2
 //are in the correct order
 name: "GEO",
-index: "midsurface",
+index: "midsurface_black_sheet_side",
 valid_begin: [0, 0],
 valid_end: [0, 0],
 invisible: 0, // omitted for visualization
@@ -521,7 +521,7 @@ drawstyle: "solid",
 //Bergevin: Set the interface were reflection can occur. Must make sure volume1 and volume2
 //are in the correct order
 name: "GEO",
-index: "midsurface",
+index: "midsurface_black_sheet_top",
 valid_begin: [0, 0],
 valid_end: [0, 0],
 invisible: 0, // omitted for visualization
@@ -550,7 +550,7 @@ drawstyle: "solid",
 //Bergevin: Set the interface were reflection can occur. Must make sure volume1 and volume2
 //are in the correct order
 name: "GEO",
-index: "midsurface",
+index: "midsurface_black_sheet_bottom",
 valid_begin: [0, 0],
 valid_end: [0, 0],
 invisible: 0, // omitted for visualization

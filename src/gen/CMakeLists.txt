@@ -21,6 +21,7 @@ add_library(gen OBJECT
         src/GdGen.cc
         src/HeGen.cc
         src/LiGen.cc
+        src/NGen.cc
         src/Gen_LED.cc
         src/Gen_RandomTrigger.cc
         src/IBDgen.cc

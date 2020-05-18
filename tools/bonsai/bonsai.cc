@@ -106,11 +106,11 @@ int main(int argc, char **argv) {
   printf("(5) minT \t%20.1f\n", minT);
   printf("(6) maxT  \t%20.1f\n\n", maxT);
 
-  Int_t gtid = 0, mcid = 0, tot_nhit = 0, nhits = 0, veto_hit = 0,
-        particleCountMC = 0;
-  Int_t timestamp_ns = 0, timestamp_s = 0, code = 0, old_t_s, old_t_ns,
-        dt1_s = 0;
-  Int_t dt1_ns = 0, totVHIT = 0, inner_hit = 0;
+  Int_t    gtid = 0, mcid = 0, tot_nhit = 0, nhits = 0, veto_hit = 0,
+           particleCountMC = 0;
+  Int_t    timestamp_ns = 0, timestamp_s = 0, code = 0;
+  Int_t    totVHIT = 0, inner_hit = 0;
+  Int_t    sub_event_tally[20] = {};
   Double_t totPE = 0., n9 = 0., bonsai_goodness = 0., dir_goodness = 0.;
   Double_t x = 0., y = 0., z = 0., tim = 0., u = 0., v = 0., w = 0.;
   Double_t mc_x = 0., mc_y = 0., mc_z = 0., mc_tim = 0., mc_u = 0., mc_v = 0.,
@@ -118,8 +118,8 @@ int main(int argc, char **argv) {
   Double_t closestPMT = 0., mc_energy = 0.;
   Double_t dxx = 0., dyy = 0., dzz = 0., dxmcx = 0., dymcy = 0., dzmcz = 0.,
            dt1 = 0., dt0 = 0.;
-  Double_t prev_x = -1e9, prev_y = -1e9, prev_z = -1e9, old_t, p2W, p2ToB;
-  Int_t sub_event_tally[20] = {};
+  Double_t prev_x = -1e9, prev_y = -1e9, prev_z = -1e9, p2W, p2ToB;
+  Double_t timestamp=0., old_t=0., dt_us=0.;
   Double_t pmtBoundR = 0., pmtBoundZ = 0.;
 
   // dark noise stuff
@@ -227,9 +227,8 @@ int main(int argc, char **argv) {
   data->Branch("dxmcx", &dxmcx, "dxmcx/D");
   data->Branch("dymcy", &dymcy, "dymcy/D");
   data->Branch("dzmcz", &dzmcz, "dzmcz/D");
-  data->Branch("dt", &dt1, "dt/D");
-  data->Branch("dt_s", &dt1_s, "dt_s/I");
-  data->Branch("dt_ns", &dt1_ns, "dt_ns/I");
+  data->Branch("dt_ev", &dt1, "dt_ev/D"); //time from start of event / us
+  data->Branch("dt_prev", &dt_us, "dt_prev/D"); //global time between consecutive (sub)events / us
   data->Branch("dt0", &dt0, "dt0/D");
 
   run_summary = new TTree("runSummary", "mc run summary");
@@ -311,9 +310,6 @@ int main(int argc, char **argv) {
 
       ev = ds->GetEV(sub_event);
       totPE = ev->GetTotalCharge();
-      // something is fishy with this time
-      timestamp_s = ev->GetUTC().GetSec();
-      timestamp_ns = ev->GetUTC().GetNanoSec();
 
       TVector3 temp;
 
@@ -326,6 +322,10 @@ int main(int argc, char **argv) {
       mc_z = temp.Z();
       mc_tim = prim->GetTime();                    // 200 offset
       mc_tim = prim->GetTime() - ev->GetDeltaT();  // 200 offset
+      timestamp_s = ev->GetUTC().GetSec();
+      timestamp_ns = ev->GetUTC().GetNanoSec();
+
+      timestamp = 1e6*mc->GetUTC().GetSec()+1e-3*mc->GetUTC().GetNanoSec() + 1e-3*ev->GetDeltaT();    
 
       nhit = ev->GetPMTCount();
       // loop over all PMT hits for each subevent
@@ -456,22 +456,23 @@ int main(int argc, char **argv) {
       dxmcx = x - mc_x;
       dymcy = y - mc_y;
       dzmcz = z - mc_z;
-      dt1_s = timestamp_s - old_t_s;
-      dt1_ns = timestamp_ns - old_t_ns;
+
+      // get the time between consecutive triggers
+      // this will be zero for sub_event==0
+      if (old_t!=0.)
+        dt_us = timestamp - old_t;
 
       // calculate smallest distance to any pmt
       p2W = pmtBoundR - sqrt(x * x + y * y);
       p2ToB = pmtBoundZ - sqrt(z * z);
       closestPMT = TMath::Min(p2W, p2ToB);
 
-      dt1 = ev->GetCalibratedTriggerTime();
+      dt1 = ev->GetCalibratedTriggerTime()*1e-3;
       dt0 = bslike->get_zero() - offsetT;
       prev_x = x;
       prev_y = y;
       prev_z = z;
-      old_t = double(timestamp_s) + double(timestamp_ns) / 1e9;
-      old_t_s = timestamp_s;
-      old_t_ns = timestamp_ns;
+      old_t = timestamp;
 
       // do direction fit
       bonsai_goodness = goodn[0];

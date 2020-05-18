@@ -531,7 +531,7 @@ GLG4Scint::PostPostStepDoIt(const G4Track& aTrack, const G4Step& aStep) {
              pPostStepPoint->GetVelocity()) / 2.));
       }
 
-      // Delay for scintillation time
+      // If there is no rise time only apply decay time
       if (WaveformIntegral) {
         G4double WFvalue = G4UniformRand()*WaveformIntegral->GetMaxValue();
         G4double sampledDelayTime = WaveformIntegral->GetEnergy(WFvalue);
@@ -782,6 +782,7 @@ void GLG4Scint::MyPhysicsTable::Entry::Build(
   birksConstant = ref_dE_dx = 0.0;
   light_yield = 0.0;
   QuenchingArray = NULL;
+  rise_time = 0.0;
 
   // Exit, leaving default values, if no material properties
   if (!aMaterialPropertiesTable) {
@@ -837,6 +838,12 @@ void GLG4Scint::MyPhysicsTable::Entry::Build(
     I_own_spectrumIntegral = false;
   }
 
+  // Retrieve the rise time for the material from the
+  // material's optical properties table ("SCINT_RISE_TIME")
+  if (aMaterialPropertiesTable->ConstPropertyExists("SCINT_RISE_TIME")){
+    rise_time=aMaterialPropertiesTable->GetConstProperty("SCINT_RISE_TIME");
+  }
+
   // Retrieve vector of scintillation time profile
   // for the material from the material's optical
   // properties table ("SCINTWAVEFORM")
@@ -880,9 +887,16 @@ void GLG4Scint::MyPhysicsTable::Entry::Build(
       for (unsigned int j=0; j < theWaveForm->GetVectorLength(); j++) {
         G4double ampl = (*theWaveForm)[j];
         G4double decy = theWaveForm->Energy(j);
+        if ( decy == -rise_time ){
+          G4cout << "\nWarning! Scintillator decay time equal to rise time.";
+          G4cout << "\nThis will give undefined scintillation production times due to divide by zero error.\n";
+        }
         {
           for (int ii=0; ii<nbins; ii++) {
-            ival[ii] += ampl * (1.0 - exp(tval[ii] / decy));
+            ival[ii] += ampl * (decy + rise_time
+                                - decy * exp(tval[ii] / decy)
+                                - rise_time * exp(-tval[ii] / rise_time))
+                        / (decy + rise_time);
           }
         }
       }
