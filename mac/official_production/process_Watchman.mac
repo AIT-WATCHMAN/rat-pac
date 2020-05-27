@@ -1,0 +1,11 @@
+# BEGIN EVENT LOOP
+/rat/proc lesssimpledaq
+# /rat/proc fitbonsai
+/rat/proc fitcentroid
+/rat/proc fitpath
+/rat/proc count
+/rat/procset update 200
+
+# Use IO.default_output_filename
+/rat/proclast outroot
+#END EVENT LOOP
