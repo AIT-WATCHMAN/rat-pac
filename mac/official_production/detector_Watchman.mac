@@ -4,6 +4,14 @@
 
 /rat/db/set DETECTOR experiment "Watchman"
 /rat/db/set DETECTOR geo_file "Watchman/Watchman.geo"
+#/rat/db/set DETECTOR detector_factory "Watchman"
+
+/rat/db/set GEO[detector] material "doped_water"
+#/rat/db/set GEO[detector] material "wbls_1pct_gd_01pct_WM_0420"
+#/rat/db/set GEO[detector] material "wbls_1pct_WM_0420"
+#/rat/db/set GEO[detector] material "wbls_3pct_WM_0420"
+#/rat/db/set GEO[detector] material "wbls_5pct_WM_0420"
+
 
 
 /run/initialize
