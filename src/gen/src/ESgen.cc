@@ -11,6 +11,10 @@
 // event, while this class deals with the physics of the
 // cross-section.  Some of the code (the flux in particular) is copied
 // from IBDgen.
+ 
+// Changed to read in Boulby spectrum by default and to allow 
+// user to set spectrum from macro via /generator/es/spec specname
+// Liz Kneale (Feb 2020)
 
 #include <RAT/ESgen.hh>
 #include <RAT/ESgenMessenger.hh>
@@ -24,6 +28,7 @@
 #include <CLHEP/Units/SystemOfUnits.h>
 
 #include <cmath>
+#define G4std  std
 
 namespace RAT {
 
@@ -35,28 +40,25 @@ namespace RAT {
   // WGS: We have to start from some value of sin2theta; use the stanard-model value:
   const double ESgen::WEAKANGLE = 0.2227;
   const int    ESgen::NTRIAL    = 10000;
- 
+  const std::string ESgen::SPEC = "boulby";
+
   ESgen::ESgen()
   {
     // Initialize everything.
     Reset();
-
     // Create a messenger to allow the user to change some ES parameters.
     messenger = new ESgenMessenger(this);
 
-    // Get parameters from database. Note that we get the flux from the
-    // IBD values; we assume that the flux for ES is the same as the
-    // flux for IBD.
-    DBLinkPtr libd = DB::Get()->GetLink("IBD");
-
-    Emin = libd->GetD("emin");
-    Emax = libd->GetD("emax");
+    // Initialise the spectrum.
+    G4String spec = "boulby";
+    DBLinkPtr _lspec    = DB::Get()->GetLink("SPECTRUM", spec);  // default to Boulby spectrum
+    std::vector<double> spec_E = _lspec->GetDArray("spec_e");
+    Emin = 0.;
+    Emax = 0.;
     // Flux function
-    rmpflux.Set(libd->GetDArray("spec_e"), libd->GetDArray("spec_flux"));
-  
+    rmpflux.Set(_lspec->GetDArray("spec_e"), _lspec->GetDArray("spec_mag"));
     // Other useful numbers
-    FluxMax = rmpflux(Emin);
-
+    FluxMax = 0.;
     // Get the electron mass.
     G4ParticleDefinition* electron = G4ParticleTable::GetParticleTable()->FindParticle("e-");  
     massElectron = electron->GetPDGMass();
@@ -76,6 +78,20 @@ namespace RAT {
 
   CLHEP::HepLorentzVector ESgen::GenerateEvent(const G4ThreeVector& theNeutrino)
   {
+    // Get the spectrum from user input; defaults to boulby.
+    G4String spec = GetSpectrum();
+    DBLinkPtr _lspec    = DB::Get()->GetLink("SPECTRUM", spec);  // default to Boulby spectrum
+    // Get parameters from database.
+    // Read in the energy values from the spectrum.
+    std::vector<double> spec_E = _lspec->GetDArray("spec_e");
+    Emin = spec_E.front();
+    Emax = spec_E.back();
+
+    // Create the flux function from the spectrum.
+    rmpflux.Set(_lspec->GetDArray("spec_e"), _lspec->GetDArray("spec_mag"));
+    // Find the maximum flux from the spectrum.
+    std::vector<double> spec_F = _lspec->GetDArray("spec_mag");
+    FluxMax = *max_element(spec_F.begin(),spec_F.end());
     //
     //  Check if the maximum throwing number has been set.
     //
@@ -87,11 +103,13 @@ namespace RAT {
     double E, Nu;
 
     while(!passed){
-      // Pick a random E and Nu.
+      // Pick a random E in the spectral energy range and Nu.
       E = GetRandomNumber(Emin, Emax);
+      // Pick a randon Nu energy between 0 and the electron energy.
       Nu = GetRandomNumber(0., E);
       
       // Decided whether to draw again based on relative cross-section.
+      // Check that the 
       float XCtest = XSecNorm * FluxMax * GetRandomNumber(0.,1.);
       double XCWeight = GetXSec(E, Nu);
       double FluxWeight = rmpflux(E);
@@ -140,6 +158,7 @@ namespace RAT {
     SetNormFlag(false);
     SetMixingAngle(WEAKANGLE);
     SetNeutrinoMoment(0.0);
+    SetSpectrum(SPEC);
   }
 
   void ESgen::Show()
@@ -147,7 +166,20 @@ namespace RAT {
     G4cout << "Elastic Scatteing Settings:" << G4endl;
     G4cout << "Weak Mixing Angle (sinsq(ThetaW)):" << GetMixingAngle() << G4endl;
     G4cout << "Neutrino Magnetic Moment: " << GetMagneticMoment() << G4endl;
+    G4cout << "Spectrum: " << GetSpectrum() << G4endl;
   }
+
+
+  void ESgen::SetSpectrum(G4String spec)
+  {
+    Spectrum = spec;
+  }
+
+  G4String ESgen::GetSpectrum()
+  {
+    return Spectrum;
+  } 
+
 
   void ESgen::SetMixingAngle(double sin2thw)
   {
@@ -168,7 +200,7 @@ namespace RAT {
       }
     MagneticMoment = vMu;
   }
-
+  
   double ESgen::GetXSec(double Enu, double T){
 
     double XC = 0.;

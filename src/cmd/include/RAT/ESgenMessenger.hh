@@ -13,6 +13,7 @@
 // Forward declarations
 class G4UIcommand;
 class G4UIcmdWithADouble;
+class G4UIcmdWithAString;
 
 namespace RAT {
 
@@ -30,9 +31,9 @@ namespace RAT {
     
   private:
     ESgen* esgen;
-    
     G4UIcmdWithADouble* wmaCmd;
     G4UIcmdWithADouble* vmuCmd;
+    G4UIcmdWithAString* specCmd;
   };
 
 } // namespace RAT

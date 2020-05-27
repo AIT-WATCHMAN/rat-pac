@@ -10,6 +10,7 @@
 #include <G4UIcommand.hh>
 #include <G4UIdirectory.hh>
 #include <G4UIcmdWithADouble.hh>
+#include <G4UIcmdWithAString.hh>
 #include <G4String.hh>
 
 namespace RAT {
@@ -30,6 +31,10 @@ namespace RAT {
     vmuCmd->SetGuidance("Sets the value of the neutrino magnetic moment (units of Bohr magnetons)");
     vmuCmd->SetParameterName("vmu",false);
     vmuCmd->SetDefaultValue( esgen->GetMagneticMoment() );
+
+    specCmd = new G4UIcmdWithAString("/generator/es/spec", this);
+    specCmd->SetGuidance("Sets the name of the spectrum");
+    specCmd->SetParameterName("spec",false);
   }
 
   ESgenMessenger::~ESgenMessenger() {;}
@@ -40,16 +45,16 @@ namespace RAT {
       {
 	G4double wma = wmaCmd->GetNewDoubleValue( newValue );
 	esgen->SetMixingAngle( wma );
-      }
-    else if ( command == vmuCmd )
+      }else if ( command == vmuCmd )
       {
 	G4double vmu = vmuCmd->GetNewDoubleValue( newValue );
 	esgen->SetNeutrinoMoment( vmu );
-      }
-    else
+      }else if ( command == specCmd )
       {
-	G4cerr << "Error: Invalid ESgenMessenger \"set\" command" << G4endl;
+	esgen->SetSpectrum(newValue);
       }
+      else {
+    G4cerr << "ESGen error: invalid parameter" << G4endl;}
   }
 
   G4String ESgenMessenger::GetCurrentValue(G4UIcommand* command)
