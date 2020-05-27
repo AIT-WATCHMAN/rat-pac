@@ -1,0 +1,5 @@
+/control/execute detector_Watchman.mac
+/control/execute process_Watchman.mac
+/control/execute phys_IBDPositron.mac
+/control/execute geo_LIQUID.mac
+/control/execute rates_Watchman_IBDNeutron_LIQUID_ibd_n.mac
