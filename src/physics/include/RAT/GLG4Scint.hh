@@ -143,6 +143,7 @@ public:
         G4double DMsConstant; //for Dongming et al. QF
         G4double ref_dE_dx;
         G4double light_yield;
+        G4double rise_time;
         G4MaterialPropertyVector* QuenchingArray;
     };
 

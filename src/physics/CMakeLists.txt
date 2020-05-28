@@ -10,6 +10,7 @@ add_library(physics OBJECT
         src/GLG4OpAttenuation.cc
         src/GLG4PMTOpticalModel.cc
         src/GLG4Scint.cc
+        src/OpRayleigh.cc
         src/PhotonThinning.cc
         src/PhysicsList.cc)
 
