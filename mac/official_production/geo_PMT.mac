@@ -1,0 +1,2 @@
+/generator/pos/set inner_pmts[0-9]+
+#/generator/rate/set 1.0
