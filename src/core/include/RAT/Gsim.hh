@@ -72,7 +72,7 @@ public:
 protected:
   void Init(); // the real constructor
   void AddMCPhoton(DS::MCPMT* rat_mcpmt, const GLG4HitPhoton* photon,
-                   bool isDarkHit=false, EventInfo* exinfo=NULL);
+                   bool isDarkHit=false, EventInfo* exinfo=NULL, std::string process="unknown");
   
     /* Storing optical creation track ID and step */
   void PhotonRecurse(std::vector<int> &PhotonIDs, int trackID, int &parentID, int &firstCreatedID);
@@ -101,6 +101,8 @@ protected:
   double fNnoise;
   double noiseRate;
   double channelEfficiency;
+
+  std::map<int, std::string> trackProcessMap;
 
   bool fInitialStoreTrajectoryState;
 
