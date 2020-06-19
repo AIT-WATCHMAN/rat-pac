@@ -75,7 +75,7 @@ public:
   virtual std::string GetProcess() const { return process; }
   virtual void SetProcess(const std::string &_process) { process = _process; }
 
-  ClassDef(MCPhoton, 1) 
+  ClassDef(MCPhoton, 2) 
 
 protected:
   Double_t hitTime;
