@@ -12,7 +12,6 @@ add_library(cmd OBJECT
         src/IsotopeMessenger.cc
         src/PhysicsListMessenger.cc
         src/ProcBlockManager.cc
-        src/IBDgenMessenger.cc
         src/ReacIBDgenMessenger.cc
         src/SNgenMessenger.cc
         src/TrackingMessenger.cc)

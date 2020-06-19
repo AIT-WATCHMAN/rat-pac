@@ -1,0 +1,23 @@
+/glg4debug/glg4param omit_muon_processes 1.0
+/glg4debug/glg4param omit_hadronic_processes 1.0
+
+/rat/db/set DETECTOR experiment "Watchman_WLSP"
+/rat/db/set DETECTOR detector_factory "WatchmanWLSP"
+
+/rat/db/set GEO[inner_pmts] mu_metal 0
+/rat/db/set WATCHMAN_PARAMS photocathode_coverage 0.140000
+
+/run/initialize
+/tracking/storeTrajectory 0
+/rat/proc lesssimpledaq
+/rat/proc count
+/rat/procset update 10
+
+/rat/proclast outroot
+/rat/procset file "WLSP_0.14_pccibd.root"
+
+/generator/add combo spectrum:fill
+/generator/vtx/set e+ promptPositron
+/generator/pos/set 0 0 4000.0
+
+/run/beamOn 10000

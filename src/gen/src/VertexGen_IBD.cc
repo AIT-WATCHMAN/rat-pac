@@ -52,32 +52,24 @@ GeneratePrimaryVertex(G4Event *argEvent,
   ibd.GenEvent(ev_nu_dir, mom_nu, mom_eplus, mom_n);
 
   // -- Create particles
-  // FIXME: Should I also add the neutrino and make these daughters of it? Yes.
-  // would be useful for applying offline oscillations. But add as parent.
-
+  // FIXME: Should I also add the neutrino and make these daughters of it?
   // positron
-  if( ibd.GetPositronState() )
-  {
-    G4PrimaryParticle* eplus_particle =
-      new G4PrimaryParticle(eplus,                // particle code
-          		  mom_eplus.px(),         // x component of momentum
-          		  mom_eplus.py(),         // y component of momentum
-          		  mom_eplus.pz());        // z component of momentum
-    eplus_particle->SetMass(eplus->GetPDGMass()); // Geant4 is silly.
-    vertex->SetPrimary( eplus_particle );  
-  }
+  G4PrimaryParticle* eplus_particle =
+    new G4PrimaryParticle(eplus,              // particle code
+			  mom_eplus.px(),     // x component of momentum
+			  mom_eplus.py(),     // y component of momentum
+			  mom_eplus.pz());    // z component of momentum
+  eplus_particle->SetMass(eplus->GetPDGMass()); // Geant4 is silly.
+  vertex->SetPrimary( eplus_particle );  
 
   // neutron
-  if( ibd.GetNeutronState() )
-  {
-    G4PrimaryParticle* n_particle =
-      new G4PrimaryParticle(n,                    // particle code
-          		  mom_n.px(),             // x component of momentum
-          		  mom_n.py(),             // y component of momentum
-          		  mom_n.pz());            // z component of momentum
-    n_particle->SetMass(n->GetPDGMass());         // Geant4 is silly.
-    vertex->SetPrimary( n_particle );
-  }
+  G4PrimaryParticle* n_particle =
+    new G4PrimaryParticle(n,                  // particle code
+			  mom_n.px(),         // x component of momentum
+			  mom_n.py(),         // y component of momentum
+			  mom_n.pz());        // z component of momentum
+  n_particle->SetMass(n->GetPDGMass()); // Geant4 is silly.
+  vertex->SetPrimary( n_particle );
 
   argEvent->AddPrimaryVertex(vertex);
 }

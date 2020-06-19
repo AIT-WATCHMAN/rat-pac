@@ -31,7 +31,7 @@ G4VPhysicalVolume *GeoSurfaceFactory::Construct(DBLinkPtr table) {
   };
   RAT::DBLinkPtr table1=DB::Get()->GetLink("GEO",volume1_name);
   string type1 = table1->GetS("type");
-  if (type1.find("array") !=string::npos) isArray1=true;
+  if (type1.find("array") !=string::npos || type1.find("wlsp") !=string::npos) isArray1=true;
   
   try {
     volume2_name = table->GetS("volume2");
@@ -40,14 +40,13 @@ G4VPhysicalVolume *GeoSurfaceFactory::Construct(DBLinkPtr table) {
   };
   DBLinkPtr table2=DB::Get()->GetLink("GEO",volume2_name);
   string type2 = table2->GetS("type");
-  if (type2.find("array") !=string::npos) isArray2=true;
+  if (type2.find("array") !=string::npos || type1.find("wlsp") !=string::npos) isArray2=true;
 
   G4VPhysicalVolume* Phys1, *Phys2;
   G4int counter =0;
   do {
     Phys1=NULL;
     Phys2=NULL;
-    
     
     /// looking for the first volume (FindPhysMother is misnamed)
   Phys1 = FindPhysMother(volume1_name + ((isArray1)? "_"+ConvertIntToString(counter) : "") );
