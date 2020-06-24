@@ -130,7 +130,8 @@ namespace RAT {
                 
                 time = pmtARRAY[pmtIndex][0];
                 
-                if (fabs(time-clusterTime[kk]) <400) {
+                //if (fabs(time-clusterTime[kk]) <400) {
+                if ( time-clusterTime[kk]<timeWindow && time-clusterTime[kk]>=0.0 ){
                     
                     /*if (pmtARRAY[pmtIndex][2] != oldID){
                      timeTmp = time;
