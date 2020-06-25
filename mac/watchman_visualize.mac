@@ -1,26 +1,13 @@
 /glg4debug/glg4param omit_muon_processes 1.0
 /glg4debug/glg4param omit_hadronic_processes 1.0
 
-#test comment
-#second test comment
 /rat/db/set DETECTOR experiment "Watchman"
-/rat/db/set GEO[inner_pmts] mu_metal 0
-/rat/db/set GEO[inner_pmts] light_cone 1
-#/rat/db/set GEO[inner_pmts] mu_metal_surface "mirror"
-#/rat/db/set GEO[inner_pmts] orientation "manual"
-/rat/db/set GEO[inner_pmts] orientation "point"
-#/rat/db/set GEO[inner_pmts] light_cone_material "mirror"
-#/rat/db/set GEO[inner_pmts] light_cone_surface "mirror"
+/rat/db/set GEO[inner_pmts] orientation "manual" #can change to "point" to have PMTs pointed towards center
 
-#light cone dimensional parameters
-/rat/db/set GEO[inner_pmts] light_cone_length 17.363
-/rat/db/set GEO[inner_pmts] light_cone_innerradius 12.65
-/rat/db/set GEO[inner_pmts] light_cone_outerradius 20.94
-/rat/db/set GEO[inner_pmts] light_cone_thickness 0.2
 
 #/rat/db/set DETECTOR geo_file "Watchman/Watchman.geo"
 /rat/db/set DETECTOR detector_factory "Watchman"
-/rat/db/set WATCHMAN_PARAMS photocathode_coverage 0.01
+/rat/db/set WATCHMAN_PARAMS photocathode_coverage 0.20
 
 # Visualize the calibration source
 #/rat/db/load Watchman/DecayChamber.geo

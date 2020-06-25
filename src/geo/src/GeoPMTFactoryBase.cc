@@ -130,7 +130,7 @@ namespace RAT {
 	catch (DBNotFoundError &e) { }
 	G4cout << "Light cone is added!! \n ";
         //light cone parameter: dz
-        double light_cone_length = 17.363;
+        double light_cone_length = 14;
 	try { light_cone_length = table->GetD("light_cone_length"); }
 	catch (DBNotFoundError &e) { }
         //light cone parameter: inner radius
@@ -138,7 +138,7 @@ namespace RAT {
 	try { light_cone_innerradius = table->GetD("light_cone_innerradius"); }
 	catch (DBNotFoundError &e) { }
         //light cone parameter: outer radius
-        double light_cone_outerradius = 20.94;
+        double light_cone_outerradius = 23;
 	try { light_cone_outerradius = table->GetD("light_cone_outerradius"); }
 	catch (DBNotFoundError &e) { }
 	//light cone parameter: thickness

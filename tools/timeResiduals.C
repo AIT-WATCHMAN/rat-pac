@@ -9,12 +9,12 @@
 #include <TFile.h>
 #include <TTree.h>
 #include <vector>
-#include <TH1D>
+#include <TH1D.h>
 
 
 void timeResiduals(const char *file) {
     
-    TH1D *timeRes = new TH1D("timeRes","time residuals",5000,-20,230);
+    TH1D *timeRes = new TH1D("timeRes","time residuals",550,-20,230);
     timeRes->SetXTitle("time [ns]");
     
     RAT::DS::Root *rds = new RAT::DS::Root();
@@ -29,7 +29,7 @@ void timeResiduals(const char *file) {
     // t_ : trigger
     // x,y,z,t : 3d position,time
     
-    TTree *posTree = (TTree*) f->Get("runT");
+    TTree *runT = (TTree*) f->Get("runT");
     //Giving up doing it properly and cheating
     runT->Draw("pmtinfo.pos.X():pmtinfo.pos.Y():pmtinfo.pos.Z():pmtinfo.type","Entry$>-1","goff");
     
@@ -38,7 +38,7 @@ void timeResiduals(const char *file) {
     Double_t *z = runT->GetV3();
     Double_t *typ = runT->GetV4();
     
-    for (int i = 0; i < T->GetEntries(); i++) {
+    for (int i = 0; i < tree->GetEntries(); i++) {
 
         tree->GetEntry(i);
         RAT::DS::MC *mc = rds->GetMC();
@@ -55,14 +55,15 @@ void timeResiduals(const char *file) {
             RAT::DS::EV *ev = rds->GetEV(k);
 
             for (int j = 0; j<ev->GetPMTCount();j++) {
-                RAT::DS::PMT *pmt = ev->GetPMT(j);
+                if(ev->GetPMTCount() < 4) continue; 
+		RAT::DS::PMT *pmt = ev->GetPMT(j);
                 t_t = ev->GetCalibratedTriggerTime();
                 
                 p_x = x[pmt->GetID()];
                 p_y = y[pmt->GetID()];
                 p_z = z[pmt->GetID()];
                 
-                v_t = sqrt(pow(p_x-v_x,2)+pow(p_y-v_y,2)+pow(p_z-v_z,2)) / (0.2998* 1000. * 0.7519); //c (m/ns * mm/m *index refraction)
+                v_t = sqrt(pow(p_x-v_x,2)+pow(p_y-v_y,2)+pow(p_z-v_z,2)) / (21.8*10); //c (m/ns * mm/m *index refraction)
                 p_t = pmt->GetTime() + t_t;
 //                printf("%f %f\n",v_t,p_t);
                 if(typ[pmt->GetID()]==1){ // Only ID PMTs
@@ -74,6 +75,6 @@ void timeResiduals(const char *file) {
         }
         
     }
-    timeRes->SaveAs("timeRes.C");
+    timeRes->SaveAs("timeRes.root");
     timeRes->Delete();
 }
