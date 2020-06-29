@@ -13,6 +13,7 @@ namespace RAT {
         DB *db = DB::Get();
         DBLinkPtr params = db->GetLink("WATCHMAN_PARAMS");
         const double photocathode_coverage = params->GetD("photocathode_coverage");
+        const int    constant_plate = params->GetD("constant_size_plates");
         const double veto_coverage = params->GetD("veto_coverage");
         const double veto_offset = 700;
         const std::string geo_template = "Watchman_WLSP/Watchman_WLSP.geo";
@@ -36,7 +37,7 @@ namespace RAT {
         const double steel_thickness  = shield->GetD("steel_thickness");
         const double veto_thickness_r = shield->GetD("veto_thickness_r");//Distance between TANK and Inner PMT
         const double detector_size_d  = shield->GetD("detector_size_d");
-	    const double veto_thickness_z = shield->GetD("veto_thickness_z");//Distance between TANK and Inner PMT
+	      const double veto_thickness_z = shield->GetD("veto_thickness_z");//Distance between TANK and Inner PMT
         const double detector_size_z  = shield->GetD("detector_size_z");
 
         const double cable_radius = detector_size_d/2.0 - veto_thickness_r + 4.0*steel_thickness;
@@ -471,7 +472,8 @@ namespace RAT {
           db->SetDArray("cable_pos","dir_y",vector<double>(cols,0.0));
           db->SetDArray("cable_pos","dir_z",vector<double>(cols,1.0));
 
-          db->SetDArray("GEO","WLS_Plates","size",{(pmt_space/2.0)-10.0,(pmt_space/2.0)-10.0,wlsp->GetDArray("z")[1]});
+          if (not constant_plate) db->SetDArray("GEO","WLS_Plates","size",{(pmt_space/2.0)-10.0,(pmt_space/2.0)-10.0,wlsp->GetDArray("z")[1]});
+          else db->SetDArray("GEO","WLS_Plates","size",{240.0,240.0,wlsp->GetDArray("z")[1]});
           db->SetDArray("GEO","WLS_Plates","r_max",{rho_edge[1]+5.0,rho_edge[1]-15.0});
           db->SetDArray("GEO","WLS_Plates","r_min",{0.0,0.0});
           db->SetDArray("GEO","WLS_Plates","z",{-wlsp->GetDArray("z")[1]-1.0,wlsp->GetDArray("z")[1]+1.0});

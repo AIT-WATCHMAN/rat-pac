@@ -5,7 +5,8 @@
 #/rat/db/set DETECTOR geo_file "Watchman_WLSP/Watchman_WLSP.geo"
 #/rat/db/set DETECTOR detector_factory "WatchmanWLSP"
 /rat/db/set DETECTOR detector_factory "WatchmanWLSPSquare"
-/rat/db/set WATCHMAN_PARAMS photocathode_coverage 0.0
+/rat/db/set WATCHMAN_PARAMS photocathode_coverage 0.15
+/rat/db/set WATCHMAN_PARAMS constant_size_plates 1
 
 /run/initialize
 
