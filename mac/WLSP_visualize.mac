@@ -6,7 +6,7 @@
 #/rat/db/set DETECTOR detector_factory "WatchmanWLSP"
 /rat/db/set DETECTOR detector_factory "WatchmanWLSPSquare"
 /rat/db/set WATCHMAN_PARAMS photocathode_coverage 0.15
-/rat/db/set WATCHMAN_PARAMS constant_size_plates 1
+/rat/db/set WATCHMAN_PARAMS constant_size_plates 1.0
 
 /run/initialize
 

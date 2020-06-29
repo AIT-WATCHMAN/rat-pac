@@ -9,6 +9,6 @@ valid_end: [0, 0],
 
 photocathode_coverage: 0.00,
 veto_coverage: 0.00,
-constant_size_plates: 1,
+constant_size_plates: 1.0,
 
 }

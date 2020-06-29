@@ -477,12 +477,19 @@ namespace RAT {
           db->SetDArray("GEO","WLS_Plates","r_max",{rho_edge[1]+5.0,rho_edge[1]-15.0});
           db->SetDArray("GEO","WLS_Plates","r_min",{0.0,0.0});
           db->SetDArray("GEO","WLS_Plates","z",{-wlsp->GetDArray("z")[1]-1.0,wlsp->GetDArray("z")[1]+1.0});
-          db->SetDArray("GEO","WLSP_reflector_back","size",{(pmt_space/2.0)-10.0,(pmt_space/2.0)-10.0,wlspcover->GetDArray("z")[1]});
+          if (not constant_plate) db->SetDArray("GEO","WLSP_reflector_back","size",{(pmt_space/2.0)-10.0,(pmt_space/2.0)-10.0,wlspcover->GetDArray("z")[1]});
+          else db->SetDArray("GEO","WLSP_reflector_back","size",{240.0,240.0,wlspcover->GetDArray("z")[1]});
           db->SetDArray("GEO","WLSP_reflector_back","r_max",{rho_edge[1]+5.0,rho_edge[1]+5.0});
           db->SetDArray("GEO","WLSP_reflector_back","r_min",{0.0,0.0});
           db->SetDArray("GEO","WLSP_reflector_back","z",{-wlspcover->GetDArray("z")[1]-1.0,wlspcover->GetDArray("z")[1]+1.0});
-          db->SetDArray("GEO","WLSP_reflector","inner_size",{(pmt_space/2.0)-10.0,(pmt_space/2.0)-10.0,wlsp->GetDArray("z")[1]+2.0});
-          db->SetDArray("GEO","WLSP_reflector","outer_size",{(pmt_space/2.0)-10.0+2.0,(pmt_space/2.0)-10.0+2.0,wlsp->GetDArray("z")[1]});
+          if (not constant_plate) {
+            db->SetDArray("GEO","WLSP_reflector","inner_size",{(pmt_space/2.0)-10.0,(pmt_space/2.0)-10.0,wlsp->GetDArray("z")[1]+2.0});
+            db->SetDArray("GEO","WLSP_reflector","outer_size",{(pmt_space/2.0)-10.0+2.0,(pmt_space/2.0)-10.0+2.0,wlsp->GetDArray("z")[1]});
+          }
+          else {
+            db->SetDArray("GEO","WLSP_reflector","inner_size",{240.0,240.0,wlsp->GetDArray("z")[1]+2.0});
+            db->SetDArray("GEO","WLSP_reflector","outer_size",{242.0,242.0,wlsp->GetDArray("z")[1]});
+          }
         }
         else {
           db->SetDArray("GEO","WLS_Plates","size",{240.0,240.0,wlsp->GetDArray("z")[1]});
