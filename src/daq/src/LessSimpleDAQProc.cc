@@ -189,7 +189,6 @@ namespace RAT {
                 
                 if (time-clusterTime[kk] <postTriggerWindow && time-clusterTime[kk] >=preTriggerWindow) {
  
-                    
                     /*if (pmtARRAY[pmtIndex][2] != oldID){
                      timeTmp = time;
                      pmt = ev->AddNewPMT();
