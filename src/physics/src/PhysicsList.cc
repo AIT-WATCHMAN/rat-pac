@@ -67,7 +67,7 @@ void PhysicsList::ConstructOpticalProcesses() {
   // originating particle step.  Otherwise, we get too many secondaries!
   G4Cerenkov* cerenkovProcess = new G4Cerenkov();
   cerenkovProcess->SetTrackSecondariesFirst(true);
-  cerenkovProcess->SetMaxNumPhotonsPerStep(4);
+  cerenkovProcess->SetMaxNumPhotonsPerStep(1);
 
   // Attenuation: RAT's GLG4OpAttenuation
   //
