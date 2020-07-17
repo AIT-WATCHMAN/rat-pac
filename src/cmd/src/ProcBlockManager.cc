@@ -18,6 +18,7 @@
 #include <RAT/FitBonsaiProc.hh>
 #include <RAT/FitPathProc.hh>
 #include <RAT/SimpleDAQProc.hh>
+#include <RAT/SplitEVDAQProc.hh>
 #include <RAT/LessSimpleDAQProc.hh>
 #include <RAT/LessSimpleDAQ2Proc.hh>
 
@@ -69,6 +70,7 @@ ProcBlockManager::ProcBlockManager(ProcBlock *theMainBlock)
 
   // DAQ
   procAllocators["simpledaq"]= new ProcAllocatorTmpl<SimpleDAQProc>;
+  procAllocators["splitevdaq"]= new ProcAllocatorTmpl<SplitEVDAQProc>;
   procAllocators["lesssimpledaq"]= new ProcAllocatorTmpl<LessSimpleDAQProc>;
   procAllocators["lesssimpledaq2"]= new ProcAllocatorTmpl<LessSimpleDAQ2Proc>;
 
