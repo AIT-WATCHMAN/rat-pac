@@ -493,7 +493,7 @@ Materials::BuildMaterialPropertiesTable(G4Material* material, DBLinkPtr table) {
         *i == "WLSSCINTILLATIONYIELD" || *i == "SCINTILLATIONYIELD"   ||
         *i == "LAMBERTIAN_REFLECTION" || *i == "LAMBERTIAN_FORWARD"   ||
         *i == "LAMBERTIAN_BACKWARD"   || *i == "ELECTRICFIELD"        ||
-        *i == "TOTALNUM_INT_SITES") {
+        *i == "TOTALNUM_INT_SITES"    || *i == "SCINT_RISE_TIME") {
       mpt->AddConstProperty(i->c_str(), table->GetD(*i));
       continue;
     }
