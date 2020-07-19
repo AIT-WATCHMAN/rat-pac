@@ -22,6 +22,17 @@
 
 # BEGIN EVENT LOOP
 /rat/proc lesssimpledaq
+## Use the SplitEVDAQ
+#/rat/proc splitevdaq
+#/rat/procset trigger_on_noise 1
+#/rat/procset trigger_threshold 6.0
+#/rat/procset trigger_window 600.0
+#/rat/procset lookback 200.0
+#/rat/procset pmt_lockout 400.0
+#/rat/procset trigger_resolution 1.0
+#/rat/procset max_hit_time 1000000.0
+#/rat/procset pulse_width 100
+
 /rat/proc count
 /rat/procset update 1
 
