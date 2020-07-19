@@ -6,9 +6,9 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 
 // default spectrum is flat
-spec_e:     [ 1.00d, 1.50d, 2.00d, 2.50d, 3.00d, 3.50d, 4.00d, 4.50d, 5.00d], // (MeV)
+spec_e:     [ 0.00d, 0.50d, 1.00d, 1.50d, 2.00d, 2.50d, 3.00d, 3.50d, 4.00d, 4.50d, 5.00d, 5.50d, 6.00d, 6.50d, 7.00d], // (MeV)
 // (Note that first point is minimum of spectrumd, last is maximum)
-spec_mag:   [ 1.00d, 1.00d, 1.00d, 1.00d, 1.00d, 1.00d, 1.00d, 1.00d, 0.00d], // don't worry about normalisation
+spec_mag:   [ 1.00d, 1.00d, 1.00d, 1.00d, 1.00d, 1.00d, 1.00d, 1.00d, 1.00d, 1.00d, 1.00d, 1.00d, 1.00d, 1.00d, 1.00d], // don't worry about normalisation
 }
 
 {
