@@ -19,6 +19,7 @@
 #include <RAT/FitPathProc.hh>
 #include <RAT/SimpleDAQProc.hh>
 #include <RAT/NoiseProc.hh>
+#include <RAT/SplitEVDAQProc.hh>
 #include <RAT/LessSimpleDAQProc.hh>
 #include <RAT/LessSimpleDAQ2Proc.hh>
 
@@ -71,6 +72,7 @@ ProcBlockManager::ProcBlockManager(ProcBlock *theMainBlock)
   // DAQ
   procAllocators["noise"]= new ProcAllocatorTmpl<NoiseProc>;
   procAllocators["simpledaq"]= new ProcAllocatorTmpl<SimpleDAQProc>;
+  procAllocators["splitevdaq"]= new ProcAllocatorTmpl<SplitEVDAQProc>;
   procAllocators["lesssimpledaq"]= new ProcAllocatorTmpl<LessSimpleDAQProc>;
   procAllocators["lesssimpledaq2"]= new ProcAllocatorTmpl<LessSimpleDAQ2Proc>;
 

@@ -3,6 +3,7 @@
 
 add_library(daq OBJECT
         src/LessSimpleDAQProc.cc
+        src/SplitEVDAQProc.cc
         src/MiniCleanPMTCharge.cc
         src/PDFPMTCharge.cc
         src/LessSimpleDAQ2Proc.cc
