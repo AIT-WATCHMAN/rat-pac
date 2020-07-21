@@ -695,6 +695,8 @@ light_cone_length: 17.5,
 light_cone_innerradius: 12.65,
 light_cone_outerradius: 21,
 light_cone_thickness: 0.2,
+black_sheet_offset: 300.0, //30 cm default black tarp offset
+black_sheet_thickness: 10.0, //1 cm default black tarp thickness 
 pmt_detector_type: "idpmt",
 sensitive_detector: "/mydet/pmt/inner",
 efficiency_correction: 0.90000,

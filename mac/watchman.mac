@@ -4,9 +4,17 @@
 
 /rat/db/set DETECTOR experiment "Watchman"
 # Turn on mu metal, change surface and material
-/rat/db/set GEO[inner_pmts] light_cone 1
-/rat/db/set GEO[inner_pmts] light_cone_material "mirror"
-/rat/db/set GEO[inner_pmts] light_cone_surface "mirror"
+/rat/db/set GEO[inner_pmts] light_cone 0
+rat/db/set GEO[inner_pmts] light_cone_material "aluminum"
+/rat/db/set GEO[inner_pmts] light_cone_surface "aluminum"
+/rat/db/set GEO[inner_pmts] light_cone_length 11.5
+/rat/db/set GEO[inner_pmts] light_cone_innerradius 12.65
+/rat/db/set GEO[inner_pmts] light_cone_outerradius 26.0
+/rat/db/set GEO[inner_pmts] light_cone_thickness 0.2
+
+#can change black tarp offset and thickness
+/rat/db/set GEO[inner_pmts] black_sheet_offset 300.0 #cm 
+/rat/db/set GEO[inner_pmts] black_sheet_thickness 10.0 #default is 1cm
 
 #normal configuration pmts ("manual") or pointed towards center ("point")
 /rat/db/set GEO[inner_pmts] orientation "manual"
