@@ -116,13 +116,59 @@ namespace RAT {
             mu_metal_surface); //Surface Property
 
 
+
+
+
+
         //add light cone
         int    light_cone       = table->GetI("light_cone");
         bool   lightcones = false;
         if( light_cone == 1 ){ lightcones = true; G4cout << "Light cones are added!! \n "; }
-        //
-        //
-        //
+        //material properties
+        G4Material* light_cone_material = G4Material::GetMaterial("aluminum");
+	try { light_cone_material = G4Material::GetMaterial( table->GetS("light_cone_material") ); }
+	catch (DBNotFoundError &e) { }
+        //surface properties
+        G4SurfaceProperty* light_cone_surface = Materials::optical_surface["aluminum"];
+	try { light_cone_surface = Materials::optical_surface[ table->GetS("light_cone_surface") ]; }
+	catch (DBNotFoundError &e) { }
+	G4cout << "Light cone is added!! \n ";
+        //light cone parameter: dz
+        double light_cone_length = 17.5;
+	try { light_cone_length = table->GetD("light_cone_length"); }
+	catch (DBNotFoundError &e) { }
+        //light cone parameter: inner radius
+        double light_cone_innerradius = 12.65;
+	try { light_cone_innerradius = table->GetD("light_cone_innerradius"); }
+	catch (DBNotFoundError &e) { }
+        //light cone parameter: outer radius
+        double light_cone_outerradius = 21;
+	try { light_cone_outerradius = table->GetD("light_cone_outerradius"); }
+	catch (DBNotFoundError &e) { }
+	//light cone parameter: thickness
+	double light_cone_thickness = 0.2;
+	try { light_cone_thickness = table->GetD("light_cone_thickness"); }
+	catch (DBNotFoundError &e) { }	
+
+        // Add Light cone geometry from Sheffield
+        G4Paraboloid* lightcone_outer = new G4Paraboloid("lightcone_outer",
+                                                        light_cone_length*CLHEP::cm,
+                                                        light_cone_innerradius*CLHEP::cm,
+                                                        light_cone_outerradius*CLHEP::cm);
+        G4Paraboloid* lightcone_inner = new G4Paraboloid("lightcone_inner",
+                                                        (light_cone_length+0.2)*CLHEP::cm,
+                                                        (light_cone_innerradius-light_cone_thickness)*CLHEP::cm,
+                                                        (light_cone_outerradius-light_cone_thickness)*CLHEP::cm);
+        G4SubtractionSolid* lightcone_solid = new G4SubtractionSolid("lightcone_solid",
+                                                                    lightcone_outer,
+                                                                    lightcone_inner);
+
+        G4LogicalVolume* lightcone_log=new G4LogicalVolume(lightcone_solid, light_cone_material, "lightcone_log");
+	G4LogicalSkinSurface* lightcone_skin =new G4LogicalSkinSurface("lightcone_surface", lightcone_log, light_cone_surface);
+
+
+
+
 
         PMTConstructionParams pmtParam;
         pmtParam.faceGap = 0.1 * CLHEP::mm;
@@ -138,6 +184,7 @@ namespace RAT {
             pmtParam.prepulseProb = lpmt->GetD("prepulse_prob");
         }
         catch (DBNotFoundError& e) {}
+
 
         // Materials
         pmtParam.exterior = mother->GetMaterial();
@@ -247,24 +294,6 @@ namespace RAT {
         G4LogicalVolume *logiPMT = pmtConstruct.NewPMT(volume_name, vis_simple);
         G4LogicalVolume *logiWg = 0;
         G4ThreeVector offsetWg;
-
-
-
-
-	// Add Light cone geometry from Sheffield
-        G4Paraboloid* lightcone_outer = new G4Paraboloid("lightcone_outer",
-                                                        17.163*CLHEP::cm,
-                                                        0.5*25.5*CLHEP::cm,
-                                                        0.5*42.081*CLHEP::cm);
-        G4Paraboloid* lightcone_inner = new G4Paraboloid("lightcone_inner",
-                                                        17.363*CLHEP::cm,
-                                                        0.5*25.3*CLHEP::cm,
-                                                        0.5*41.881*CLHEP::cm);
-        G4SubtractionSolid* lightcone_solid = new G4SubtractionSolid("lightcone_solid",
-                                                                    lightcone_outer,
-                                                                    lightcone_inner);
-
-        G4LogicalVolume *lightcone_log=new G4LogicalVolume(lightcone_solid, G4Material::GetMaterial("TiO2"), "lightcone_log");
 
 
 
