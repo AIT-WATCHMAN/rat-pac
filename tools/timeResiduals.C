@@ -17,12 +17,8 @@
 
 void timeResiduals(const char *file) {
     
-<<<<<<< HEAD
-    TH1D *timeRes = new TH1D("timeRes","time residuals",550,-20,230);
-=======
     Double_t light_vel = 21.8; // [cm/ns] this velocity was calulated for gd-water, and 20x20m tank size, might need adjustment 
     TH1D *timeRes = new TH1D("timeRes","time residuals",1625,-50,600); // 0.4 ns bins
->>>>>>> 3d334653775ac026959bb9b7050f860931ca1db4
     timeRes->SetXTitle("time [ns]");
     
     RAT::DS::Root *rds = new RAT::DS::Root();
@@ -46,7 +42,7 @@ void timeResiduals(const char *file) {
     Double_t *z = runT->GetV3();
     Double_t *typ = runT->GetV4();
     
-    for (int i = 0; i < tree->GetEntries(); i++) {
+    for (int i = 0; i < T->GetEntries(); i++) {
 
         T->GetEntry(i);
         RAT::DS::MC *mc = rds->GetMC();
@@ -63,25 +59,15 @@ void timeResiduals(const char *file) {
             RAT::DS::EV *ev = rds->GetEV(k);
             if(ev->GetPMTCount() < 4) continue;  // suggested by Michael Smy
 
-<<<<<<< HEAD
-            for (int j = 0; j<ev->GetPMTCount();j++) {
-                if(ev->GetPMTCount() < 4) continue; 
-		RAT::DS::PMT *pmt = ev->GetPMT(j);
-=======
 	    for (int j = 0; j<ev->GetPMTCount();j++) {
                 RAT::DS::PMT *pmt = ev->GetPMT(j);
->>>>>>> 3d334653775ac026959bb9b7050f860931ca1db4
                 t_t = ev->GetCalibratedTriggerTime();
                 
                 p_x = x[pmt->GetID()];
                 p_y = y[pmt->GetID()];
                 p_z = z[pmt->GetID()];
                 
-<<<<<<< HEAD
-                v_t = sqrt(pow(p_x-v_x,2)+pow(p_y-v_y,2)+pow(p_z-v_z,2)) / (21.8*10); //c (m/ns * mm/m *index refraction)
-=======
                 v_t = sqrt(pow(p_x-v_x,2)+pow(p_y-v_y,2)+pow(p_z-v_z,2)) / (light_vel*10.); // cm -> mm, light velocity might need adjustment for medium diffrent than gd-water, or size different then baseline design (20x20m)
->>>>>>> 3d334653775ac026959bb9b7050f860931ca1db4
                 p_t = pmt->GetTime() + t_t;
 //                printf("%f %f\n",v_t,p_t);
                 if(typ[pmt->GetID()]==1)  timeRes->Fill(p_t-v_t); // only ID PMTs
@@ -92,11 +78,8 @@ void timeResiduals(const char *file) {
         }
         
     }
-<<<<<<< HEAD
-=======
     Double_t scal = timeRes->GetMaximum();
     timeRes->Scale(1./scal);
->>>>>>> 3d334653775ac026959bb9b7050f860931ca1db4
     timeRes->SaveAs("timeRes.root");
     timeRes->Delete();
 }
