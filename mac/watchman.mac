@@ -39,7 +39,7 @@ rat/db/set GEO[inner_pmts] light_cone_material "aluminum"
 #/rat/procset pmt_lockout 400.0
 #/rat/procset trigger_resolution 1.0
 #/rat/procset max_hit_time 1000000.0
-#/rat/procset pulse_width 100
+#/rat/procset pulse_width 100.0
 
 /rat/proc count
 /rat/procset update 1
