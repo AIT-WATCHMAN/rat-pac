@@ -148,10 +148,11 @@ Processor::Result SplitEVDAQProc::DSEvent(DS::Root *ds) {
           {
             pmtInEvent = true;
             hitTimes.push_back(time);
-            integratedCharge += mcpmt->GetCharge();
+            integratedCharge += photon->GetCharge();
           }
         }
       }
+      std::sort(hitTimes.begin(), hitTimes.end());
       if( pmtInEvent )
       {
         DS::PMT* pmt = ev->AddNewPMT();
