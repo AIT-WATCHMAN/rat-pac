@@ -30,11 +30,10 @@ namespace RAT {
         double time,timeTmp;
         int nSubEvents = 0;
         int oldGroup;
-        double postTriggerWindow  = 700.; //ns 
-        double preTriggerWindow = -100.; //ns
-        double triggerWindow = 100.; //ns
+        double postTriggerWindow  = 600.; //ns 
+        double preTriggerWindow = -200.; //ns
+        double triggerWindow = 200.; //ns
         unsigned long triggerThreshold = 6;
-        int triggerOnNoise=1;
         unsigned long hits = 0;
 
         
@@ -58,8 +57,6 @@ namespace RAT {
                     pmtARRAY.push_back(timeAndChargeAndID);
                     timeAndChargeAndID.resize(0);
                     
-                    //printf("%4.3e\n",mcpmt->GetMCPhoton(i)->GetFrontEndTime()-mcpmt->GetMCPhoton(i)->GetHitTime());
-                    //cout << "(time,charge,id): ("<<mcpmt->GetMCPhoton(i)->GetFrontEndTime()<<","<<mcpmt->GetMCPhoton(i)->GetCharge()<<","<<mcpmt->GetID()<<")"<<endl;
                 }
             }
         }
@@ -77,86 +74,46 @@ namespace RAT {
 
         for (unsigned long pmtIndex = 0; pmtIndex < pmtARRAY.size(); pmtIndex++) {
             
-            info << "(time,charge,id, dark hit): ("<<pmtARRAY[pmtIndex][0]<<","<< pmtARRAY[pmtIndex][1]<< "," << pmtARRAY[pmtIndex][2]<< ","<<pmtARRAY[pmtIndex][6]<<")" << endl;
 
             time     = pmtARRAY[pmtIndex][0];
             oldGroup = 0;
             timeTmp  = 0;
             
-            // trigger on all hits
-            if (triggerOnNoise==1) {
+            // create a sliding window over the hits and trigger an event 
+            // when the number of hits in the trigger window is 
+            // equal to or greater than the trigger threshold
+            hits++;
+            // check that the event has passed the trigger threshold
+            if (hits<triggerThreshold) continue;
+            // check that n hits (where n is the trigger threshold) 
+            // occurred within the trigger window
+            double dt = pmtARRAY[pmtIndex][0]-pmtARRAY[hits-triggerThreshold][0];
+            if (dt>triggerWindow) continue;
+            // assign the sixth hit in a cluster of length triggerWindow as the trigger 
+            // (clusterTime is the the time of the 6th hit)
+            for (unsigned long jj = 0; jj< clusterTime.size();jj++){
+                //window of 800ns
                 
-                // create a sliding window over the hits and trigger an event 
-                // when the number of hits in the trigger window is 
-                // equal to or greater than the trigger threshold
-                hits++;
-                // check that the event has passed the trigger threshold
-                if (hits<triggerThreshold) continue;
-                // check that n hits (where n is the trigger threshold) 
-                // occurred within the trigger window
-                double dt = pmtARRAY[pmtIndex][0]-pmtARRAY[hits-triggerThreshold][0];
-                if (dt>triggerWindow) continue;
-                // assign the sixth hit in a cluster of length triggerWindow as the trigger 
-                // (clusterTime is the the time of the 6th hit)
-                for (unsigned long jj = 0; jj< clusterTime.size();jj++){
-                    //window of 800ns
-                
-                    if(fabs(time-clusterTime[jj]) < postTriggerWindow){  
-                        oldGroup+=1;
-                        //This part get called only on second run through
-                        if (time < clusterTime[jj]) {
-                            clusterTime[jj] = time;
-                        }
-                    }else{
-                        timeTmp = time;
+                if(fabs(time-clusterTime[jj]) < postTriggerWindow){  
+                    oldGroup+=1;
+                    //This part get called only on second run through
+                    if (time < clusterTime[jj]) {
+                        clusterTime[jj] = time;
                     }
-                }
-                if (oldGroup==0) {
-                    if(nSubEvents ==0){
-                        clusterTime.pop_back();// Remove unrealistic time and provide better alternative
-                        clusterTime.push_back(timeTmp);
-                    }else{
-                        clusterTime.push_back(timeTmp);
-                    }
-                    //                h2->Fill(timeTmp/1e3);
-                    //                printf("%lu %f %f %d %lu %3.1f\n",pmtIndex,time, timeTmp,nSubEvents,clusterTime.size(),clusterTime[nSubEvents]);
-                    nSubEvents+=1;
+                }else{
+                    timeTmp = time;
                 }
             }
-            // only trigger on 'real' hits
-            else if (triggerOnNoise==0 && pmtARRAY[pmtIndex][6]==0){
-                hits++;
-
-                // check that the event passes the trigger threshold
-                if (hits<triggerThreshold) continue;
-                
-                // assign the sixth hit in a cluster as the trigger 
-                // (clusterTime is the the time of the 6th hit)
-                for (unsigned long jj = 0; jj< clusterTime.size();jj++){
-                    //window of 800ns
-                
-                    if(fabs(time-clusterTime[jj]) < postTriggerWindow){  
-                        oldGroup+=1;
-                        //This part get called only on second run through
-                        if (time < clusterTime[jj]) {
-                            clusterTime[jj] = time;
-                        }
-                    }else{
-                        timeTmp = time;
-                    }
+            if (oldGroup==0) {
+                if(nSubEvents ==0){
+                    clusterTime.pop_back();// Remove unrealistic time and provide better alternative
+                    clusterTime.push_back(timeTmp);
+                }else{
+                    clusterTime.push_back(timeTmp);
                 }
-                if (oldGroup==0) {
-                    if(nSubEvents ==0){
-                        clusterTime.pop_back();// Remove unrealistic time and provide better alternative
-                        clusterTime.push_back(timeTmp);
-                    }else{
-                        clusterTime.push_back(timeTmp);
-                    }
-                    //                h2->Fill(timeTmp/1e3);
-                    //                printf("%lu %f %f %d %lu %3.1f\n",pmtIndex,time, timeTmp,nSubEvents,clusterTime.size(),clusterTime[nSubEvents]);
-                    nSubEvents+=1;
-                }
+                nSubEvents+=1;
             }
+            
         }
         // std::sort(clusterTime.begin(), clusterTime.end());
         
@@ -236,7 +193,6 @@ namespace RAT {
                 pmt->SetID    (  idGroup[dd]   );
                 pmt->SetTime  (  tGroup [dd]   );
                 pmt->SetCharge(  qGroup [dd]   );
-                info << "time " << tGroup[dd] << ", is dark hit " << isDarkHit[dd] << endl; 
             }
            
             //resize all vectors for the next subevent
