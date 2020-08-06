@@ -29,9 +29,12 @@ void IBDgen::UpdateFromDatabaseIndex()
   Emax = libd->GetD("emax");
   // Flux function
   rmpflux.Set(libd->GetDArray("spec_e"), libd->GetDArray("spec_flux"));
+  std::vector<double> flux = libd->GetDArray("spec_flux");
+  FluxMax = 1.1 * (*max_element(flux.begin(), flux.end()));
   // Other useful numbers
   XCmax = CrossSection(Emax,-1);
-  FluxMax = rmpflux(Emin);
+  // Do we use the cross section or is it included?
+  ApplyCrossSection = libd->GetI("apply_xs");
 } 
 
 void IBDgen::SetSpectrumIndex(G4String _specIndex)
@@ -92,12 +95,21 @@ void IBDgen::GenInteraction(float &E, float &CosThetaLab)
     // Pick E and cos(theta) uniformly
     E = Emin+(Emax-Emin)*HepUniformRand();
     CosThetaLab = -1.0+2.0*HepUniformRand();
-    
-    // Decided whether to draw again based on relative cross-section.
-    float XCtest = XCmax * FluxMax * HepUniformRand();
-    double XCWeight = CrossSection(E, CosThetaLab);
-    double FluxWeight = rmpflux(E);
-    passed = XCWeight * FluxWeight > XCtest;
+
+    if( ApplyCrossSection )
+    {
+      // Decided whether to draw again based on relative cross-section.
+      float XCtest = XCmax * FluxMax * HepUniformRand();
+      double XCWeight = CrossSection(E, CosThetaLab);
+      double FluxWeight = rmpflux(E);
+      passed = XCWeight * FluxWeight > XCtest;
+    }
+    else
+    {
+      float XCtest = FluxMax * HepUniformRand();
+      double FluxWeight = rmpflux(E);
+      passed = FluxWeight > XCtest;
+    }
   }
 }
 

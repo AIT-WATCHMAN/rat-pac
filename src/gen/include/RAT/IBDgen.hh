@@ -61,6 +61,7 @@ protected:
 
   bool NeutronState;
   bool PositronState;
+  bool ApplyCrossSection;
 
   IBDgenMessenger* messenger;
   G4String SpectrumIndex;
