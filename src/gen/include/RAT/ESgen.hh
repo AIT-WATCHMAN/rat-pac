@@ -56,9 +56,6 @@ namespace RAT {
     inline double GetMagneticMoment(){return MagneticMoment;} ;
     inline double GetXSecMax() {return XSecMax;} ;
 
-    void SetSpectrum(G4String spec );
-    inline G4String GetSpectrum();
-
   protected:
     LinearInterp<double> rmpflux;
     double Emax;
@@ -70,12 +67,11 @@ namespace RAT {
     double SinSqThetaW;
     double MagneticMoment;
     double XSecMax;
-    G4String Spectrum;
 
     double massElectron;
     static const double WEAKANGLE;
     static const int NTRIAL;
-    static const std::string SPEC;
+
     // Allows the user to change parameters via the command line.
     ESgenMessenger* messenger;
   };
