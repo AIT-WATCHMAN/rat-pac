@@ -4,6 +4,7 @@
 #include <G4ThreeVector.hh>
 #include <RAT/DetectorConstruction.hh>
 #include <iostream>
+#include "RAT/Log.hh"
 using namespace std;
 
 namespace RAT {
@@ -20,16 +21,22 @@ namespace RAT {
         // The time of the PMT hit is that of the first photon.
         
         DS::MC *mc = ds->GetMC();
-        if(ds->ExistEV()) {  // there is already a EV branch present
+        if(ds->ExistEV()) {    // there is already a EV branch present
             ds->PruneEV();     // remove it, otherwise we'll have multiple detector events
             // in this physics event ** we really should warn the user what is taking place
         }
         
         double totalQ = 0.0;
-        double pmtQ = 0.0;
         double time,timeTmp;
         int nSubEvents = 0;
-        double timeWindow  = 800., oldGroup;
+        int oldGroup;
+        double postTriggerWindow  = 700.; //ns 
+        double preTriggerWindow = -100.; //ns
+        double triggerWindow = 100.; //ns
+        unsigned long triggerThreshold = 6;
+        int triggerOnNoise=1;
+        unsigned long hits = 0;
+
         
         //cout <<"New Event====================================" << endl;
         // First part is to load into vector PMT information for full event
@@ -46,6 +53,7 @@ namespace RAT {
                     timeAndChargeAndID.push_back(i);
                     timeAndChargeAndID.push_back(mcpmt->GetMCPhotonCount());
                     timeAndChargeAndID.push_back(mcpmt->GetMCPhoton(i)->GetHitTime());
+                    timeAndChargeAndID.push_back(mcpmt->GetMCPhoton(i)->IsDarkHit());
                     
                     pmtARRAY.push_back(timeAndChargeAndID);
                     timeAndChargeAndID.resize(0);
@@ -55,8 +63,9 @@ namespace RAT {
                 }
             }
         }
-        sort(pmtARRAY.begin(),pmtARRAY.end());
-        // Second part is to find cluster times. This is importan for IBD/ neutron capture
+        sort(pmtARRAY.begin(),pmtARRAY.end());//pmt hits sorted as a function of time
+    
+        // Second part is to find cluster times. This is important for IBD/ neutron capture
         vector <Double_t> clusterTime;
         // Give an unrealistic time to compare to
         clusterTime.push_back(1000000000000000000);
@@ -64,34 +73,89 @@ namespace RAT {
         //get the number odd subevent
         //and tally the cluster time of each subevent
         //cout <<"oooooooooooooooo sorted oooooooooooo" << endl;
+        
+
         for (unsigned long pmtIndex = 0; pmtIndex < pmtARRAY.size(); pmtIndex++) {
             
-            //cout << "(time,charge,id): ("<<pmtARRAY[pmtIndex][0]<<","<< pmtARRAY[pmtIndex][1]<< "," << pmtARRAY[pmtIndex][2]<<")"<<endl;
-            
-            time = pmtARRAY[pmtIndex][0];
+            info << "(time,charge,id, dark hit): ("<<pmtARRAY[pmtIndex][0]<<","<< pmtARRAY[pmtIndex][1]<< "," << pmtARRAY[pmtIndex][2]<< ","<<pmtARRAY[pmtIndex][6]<<")" << endl;
+
+            time     = pmtARRAY[pmtIndex][0];
             oldGroup = 0;
-            timeTmp = 0 ;
-            for (unsigned long jj = 0; jj< clusterTime.size();jj++){
-                if(fabs(time-clusterTime[jj]) < timeWindow){
-                    oldGroup+=1;
-                    //This part get called only on second run through
-                    if (time < clusterTime[jj]) {
-                        clusterTime[jj] = time;
+            timeTmp  = 0;
+            
+            // trigger on all hits
+            if (triggerOnNoise==1) {
+                
+                // create a sliding window over the hits and trigger an event 
+                // when the number of hits in the trigger window is 
+                // equal to or greater than the trigger threshold
+                hits++;
+                // check that the event has passed the trigger threshold
+                if (hits<triggerThreshold) continue;
+                // check that n hits (where n is the trigger threshold) 
+                // occurred within the trigger window
+                double dt = pmtARRAY[pmtIndex][0]-pmtARRAY[hits-triggerThreshold][0];
+                if (dt>triggerWindow) continue;
+                // assign the sixth hit in a cluster of length triggerWindow as the trigger 
+                // (clusterTime is the the time of the 6th hit)
+                for (unsigned long jj = 0; jj< clusterTime.size();jj++){
+                    //window of 800ns
+                
+                    if(fabs(time-clusterTime[jj]) < postTriggerWindow){  
+                        oldGroup+=1;
+                        //This part get called only on second run through
+                        if (time < clusterTime[jj]) {
+                            clusterTime[jj] = time;
+                        }
+                    }else{
+                        timeTmp = time;
                     }
-                }else{
-                    timeTmp = time;
+                }
+                if (oldGroup==0) {
+                    if(nSubEvents ==0){
+                        clusterTime.pop_back();// Remove unrealistic time and provide better alternative
+                        clusterTime.push_back(timeTmp);
+                    }else{
+                        clusterTime.push_back(timeTmp);
+                    }
+                    //                h2->Fill(timeTmp/1e3);
+                    //                printf("%lu %f %f %d %lu %3.1f\n",pmtIndex,time, timeTmp,nSubEvents,clusterTime.size(),clusterTime[nSubEvents]);
+                    nSubEvents+=1;
                 }
             }
-            if (oldGroup==0) {
-                if(nSubEvents ==0){
-                    clusterTime.pop_back();// Remove unrealistic time and provide better alternative
-                    clusterTime.push_back(timeTmp);
-                }else{
-                    clusterTime.push_back(timeTmp);
+            // only trigger on 'real' hits
+            else if (triggerOnNoise==0 && pmtARRAY[pmtIndex][6]==0){
+                hits++;
+
+                // check that the event passes the trigger threshold
+                if (hits<triggerThreshold) continue;
+                
+                // assign the sixth hit in a cluster as the trigger 
+                // (clusterTime is the the time of the 6th hit)
+                for (unsigned long jj = 0; jj< clusterTime.size();jj++){
+                    //window of 800ns
+                
+                    if(fabs(time-clusterTime[jj]) < postTriggerWindow){  
+                        oldGroup+=1;
+                        //This part get called only on second run through
+                        if (time < clusterTime[jj]) {
+                            clusterTime[jj] = time;
+                        }
+                    }else{
+                        timeTmp = time;
+                    }
                 }
-                //                h2->Fill(timeTmp/1e3);
-                //                printf("%lu %f %f %d %lu %3.1f\n",pmtIndex,time, timeTmp,nSubEvents,clusterTime.size(),clusterTime[nSubEvents]);
-                nSubEvents+=1;
+                if (oldGroup==0) {
+                    if(nSubEvents ==0){
+                        clusterTime.pop_back();// Remove unrealistic time and provide better alternative
+                        clusterTime.push_back(timeTmp);
+                    }else{
+                        clusterTime.push_back(timeTmp);
+                    }
+                    //                h2->Fill(timeTmp/1e3);
+                    //                printf("%lu %f %f %d %lu %3.1f\n",pmtIndex,time, timeTmp,nSubEvents,clusterTime.size(),clusterTime[nSubEvents]);
+                    nSubEvents+=1;
+                }
             }
         }
         // std::sort(clusterTime.begin(), clusterTime.end());
@@ -99,9 +163,8 @@ namespace RAT {
         
         
         timeTmp = 0.;
-        int oldID = -1;
         
-        vector <double> idGroup, tGroup, qGroup;
+        vector <double> idGroup, tGroup, qGroup, isDarkHit;
         bool itsThere;
         int goHere;
         
@@ -113,25 +176,19 @@ namespace RAT {
             if( kk == 0 ){ ev->SetDeltaT(clusterTime[kk]); }
             else{ ev->SetDeltaT(clusterTime[kk]-clusterTime[kk-1]); }
             
-            /*
-             if(kk>0){
-             ev->SetDeltaT(clusterTime[kk]-clusterTime[kk-1]);
-             }
-             */
-            
             ev->SetCalibratedTriggerTime((clusterTime[kk]));
             ev->SetID(kk);//fEventCounter
             //            ev->SetUniqueID(fEventCounter);
             
             fEventCounter+=1;
-            oldID = -1, totalQ = 0.0, pmtQ = 0.0;
+            totalQ = 0.0;
             
             for (unsigned long pmtIndex = 0; pmtIndex < pmtARRAY.size(); pmtIndex++) {
                 
                 time = pmtARRAY[pmtIndex][0];
                 
-                if (fabs(time-clusterTime[kk]) <400) {
-                    
+                if (time-clusterTime[kk] <postTriggerWindow && time-clusterTime[kk] >=preTriggerWindow) {
+ 
                     /*if (pmtARRAY[pmtIndex][2] != oldID){
                      timeTmp = time;
                      pmt = ev->AddNewPMT();
@@ -165,6 +222,7 @@ namespace RAT {
                         idGroup.push_back( pmtARRAY[pmtIndex][2] );
                         tGroup.push_back ( pmtARRAY[pmtIndex][0] - clusterTime[kk] );
                         qGroup.push_back ( pmtARRAY[pmtIndex][1] );
+                        isDarkHit.push_back(pmtARRAY[pmtIndex][6]); //is it a dark hit?
                     }
                     
                     //accumulate total q within one subevent
@@ -178,8 +236,9 @@ namespace RAT {
                 pmt->SetID    (  idGroup[dd]   );
                 pmt->SetTime  (  tGroup [dd]   );
                 pmt->SetCharge(  qGroup [dd]   );
+                info << "time " << tGroup[dd] << ", is dark hit " << isDarkHit[dd] << endl; 
             }
-            
+           
             //resize all vectors for the next subevent
             idGroup.resize(0); tGroup.resize(0); qGroup.resize(0);
             

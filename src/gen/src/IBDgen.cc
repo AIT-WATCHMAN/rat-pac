@@ -14,6 +14,8 @@ const double GFERMI = 1.16639e-11 / MeV / MeV;
  
 IBDgen::IBDgen()
 {
+  SetPositronState( true );
+  SetNeutronState( true );
   messenger = new IBDgenMessenger(this);
   SpectrumIndex = "default";
   UpdateFromDatabaseIndex();
