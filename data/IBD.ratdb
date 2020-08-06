@@ -4,6 +4,8 @@ name: "IBD",
 index: "default",
 run_range: [0, 0],
 
+apply_xs: 1,
+
 emin: 1.85, // Minimum generated neutrino energy (MeV)
 emax: 8.15, // Maximum generated neutrino energy (MeV)
 
@@ -25,6 +27,8 @@ name: "IBD",
 index: "boulby_geo",
 run_range: [0, 0],
 
+apply_xs: 0,
+
 emin: 1.805,
 emax: 9.995,
 
@@ -38,6 +42,8 @@ spec_flux: [1.79042535e-03,7.97450386e-03,1.14623250e-02,1.42691109e-02,1.675112
 name: "IBD",
 index: "big_hartlepool",
 run_range: [0, 0],
+
+apply_xs: 0,
 
 emin: 1.805,
 emax: 9.995,
@@ -53,6 +59,8 @@ name: "IBD",
 index: "small_hartlepool",
 run_range: [0, 0],
 
+apply_xs: 0,
+
 emin: 1.805,
 emax: 9.995,
 
@@ -66,6 +74,8 @@ spec_flux: [4.67237700e-04,1.83174302e-03,2.49959586e-03,3.01934434e-03,3.522860
 name: "IBD",
 index: "boulby_world",
 run_range: [0, 0],
+
+apply_xs: 0,
 
 emin: 1.805,
 emax: 9.995,
