@@ -9,7 +9,7 @@
 using namespace std;
 
 namespace RAT {
-
+//A simple geometry factory that creates a hollow box (or square ring) by subtracting one G4Box from another
 G4VPhysicalVolume *WLSPCoverFactory::Construct(DBLinkPtr table)
 {
   string volume_name        = table->GetIndex();

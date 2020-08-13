@@ -62,15 +62,16 @@ PROPERTY_LIST: ["EFFICIENCY", "RINDEX", "KINDEX", "THICKNESS", ]
 }
 
 //WIP by Austin Mullen
+//Based on values provided by Eljen
 {
 name: "OPTICS",
 index: "eljen_WLSP",
 valid_begin : [0, 0],
 valid_end : [0, 0],
 surface: 1,
-finish: "ground",
+finish: "polished",
 model: "unified",
-alpha_sigma: 0.9,
+polish: 0.9,
 LIGHT_YIELD: 0.0, //Does not scintillate!
 RINDEX_option: "wavelength",
 RINDEX_value1: [430.0, 455.0, 480.0, 510.0, 545.0, 589.26, ],
@@ -88,7 +89,7 @@ SCINTILLATION_WLS_value1: [360.0,365.0,370.0,375.0,380.0,385.0,390.0,395.0,400.0
 525.0,530.0 ],
 SCINTILLATION_WLS_value2: [0.0089,0.04,0.1082,0.38,0.6702,0.8,0.74,0.7118,0.8559,0.99,0.98,0.8,0.6667,0.645,0.623,0.57,0.4956,
 0.4,0.3289,0.28,0.2388,0.21,0.1848,0.15,0.1125,0.09,0.0721,0.06,0.0496,0.038,0.027,0.021,0.0181,
-0.01,0.0089 ],
+0.01,0.0089 ], //Repeated from the SCINTILLATION field
 ABSLENGTH_option: "wavelength",
 ABSLENGTH_value1: [280.0,285.0,290.0,295.0,300.0,305.0,310.0,315.0,320.0,325.0,330.0,
 335.0,340.0,345.0,350.0,355.0,360.0,365.0,370.0,375.0,380.0,385.0,390.0,395.0,400.0,405.0,410.0,
@@ -103,9 +104,9 @@ SCINTWAVEFORM_value2: [1.0],
 SCINT_RISE_TIME: 0.1,
 REEMISSION_PROB_option: "wavelength",
 REEMISSION_PROB_value1: [280.0,530.0 ],
-REEMISSION_PROB_value2: [0.92,0.92],
+REEMISSION_PROB_value2: [0.92,0.92], //Constant quantum efficiency used
 SCINTMOD_value1: [1.0, ],
-SCINTMOD_value2: [0.0, ], //This should work because it does not scintillate
+SCINTMOD_value2: [0.0, ], //Not necessarily needed because it does not scintillate
 PROPERTY_LIST: ["LIGHT_YIELD", "RINDEX", "SCINTILLATION", "SCINTILLATION_WLS", "ABSLENGTH", "SCINT_RISE_TIME", "SCINTWAVEFORM", "REEMISSION_PROB","SCINTMOD"]
 }
 

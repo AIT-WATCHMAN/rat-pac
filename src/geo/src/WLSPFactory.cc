@@ -10,7 +10,7 @@
 using namespace std;
 
 namespace RAT {
-
+//Creates the WLS Plate by taking a G4Box and subtracting out a G4 rotation (Polycone) to make a hole for the PMT
 G4VPhysicalVolume *WLSPFactory::Construct(DBLinkPtr table)
 {
   string volume_name        = table->GetIndex();

@@ -65,7 +65,7 @@ namespace RAT {
         vector<double> cable_x(cols), cable_y(cols);
         vector<pair<int,int> > topbot;
         vector<pair<int,int> > topbot_veto;
-        if (photocathode_coverage != 0.00) { //Setting photocathode_coverage to 0 will use the blessed baseline design
+        if (photocathode_coverage != 0.00) { //Setting photocathode_coverage to 0 will use the baseline design -- YOU SHOULD STILL USE THIS FACTORY TO PROPERLY GENERATE WLS PLATES AND THEIR REFLECTORS
           info << "Generating new PMT positions for:\n";
           info << "\tdesired photocathode coverage " << photocathode_coverage << '\n';
           info << "\ttotal area " << surface_area << '\n';
@@ -126,6 +126,7 @@ namespace RAT {
         vector<double> xp(total_pmts), yp(total_pmts), zp(total_pmts);
         vector<int> type(total_pmts);
         
+        //WLS Plate positions are generated alongside the PMT positions here
         if (photocathode_coverage == 0.00) {
           
           for (size_t i = 0; i < total_pmts; i++) {
@@ -443,6 +444,7 @@ namespace RAT {
           db->SetDArray("cable_pos","dir_y",vector<double>(cols,0.0));
           db->SetDArray("cable_pos","dir_z",vector<double>(cols,1.0));
 
+          //This generates the geometry values for the WLS plates and their reflectors
           db->SetDArray("GEO","WLS_Plates","size",{(pmt_space/2.0)-10.0,(pmt_space/2.0)-10.0,wlsp->GetDArray("z")[1]});
           db->SetDArray("GEO","WLS_Plates","r_max",{rho_edge[1]+5.0,rho_edge[1]-15.0});
           db->SetDArray("GEO","WLS_Plates","r_min",{0.0,0.0});
@@ -451,6 +453,7 @@ namespace RAT {
           db->SetDArray("GEO","WLSP_reflector","outer_size",{(pmt_space/2.0)-10.0+2.0,(pmt_space/2.0)-10.0+2.0,wlsp->GetDArray("z")[1]});
         }
         else {
+          //If the baseline detector configuration is used, more constant values are used.  I still do this here rather than in the geo file because it reads in the PMT dimensions
           db->SetDArray("GEO","WLS_Plates","size",{240.0,240.0,wlsp->GetDArray("z")[1]});
           db->SetDArray("GEO","WLS_Plates","r_max",{rho_edge[1]+5.0,rho_edge[1]-15.0});
           db->SetDArray("GEO","WLS_Plates","r_min",{0.0,0.0});

@@ -3,7 +3,10 @@
 
 /rat/db/set DETECTOR experiment "Watchman_WLSP"
 /rat/db/set DETECTOR detector_factory "WatchmanWLSPSquare"
-/rat/db/set WATCHMAN_PARAMS photocathode_coverage 0.15
+#Set photocathode_coverage to any desired coverage (generally keep less than 0.25)
+#/rat/db/set WATCHMAN_PARAMS photocathode_coverage 0.15 
+#If photocathode_coverage is set to 0, the baseline geo file is used for PMT positions and other geometries.  ***Still use the factory, as it generates the WLSP positions and dimensions!***
+/rat/db/set WATCHMAN_PARAMS photocathode_coverage 0.0
 
 /run/initialize
 

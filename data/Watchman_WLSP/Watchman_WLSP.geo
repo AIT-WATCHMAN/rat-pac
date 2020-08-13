@@ -657,20 +657,23 @@ position: [0.0, 0.0, 0.0],
 color: [0.1, 0.8, 0.1, 0.01],
 }
 
+//Wavelength Shifting Plates Implemented Below:
+//Please run using the WatchmanWLSPSquareDetectorFactory to ensure proper geometry is implemented!
 {
 name: "GEO",
-index: "WLS_Plates",
+index: "WLS_Plates", //Field must be named "WLS_Plates" to be read by the WatchmanWLSPSquareDetectorFactory
 enable: 1,
 valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "detector",
-type: "wlsp",
+type: "wlsp", //WLS Plates are created using their own geometry factory, called wlsp (WLSPFactory)
 
 pos_table: "WLSPINFO",
-size: [245.0,245.0,12.7],
-z: [-12.8,12.8],
-r_min: [0.0,0.0],
-r_max: [126.5,126.5],
+//These values will be modified by the WatchmanWLSPSquareDetectorFactory -- Changes you make here will not be used if you use the detector factory (except for the z dimension)!
+size: [245.0,245.0,12.7], //Half dimensions of the WLS box (in mm)
+z: [-12.8,12.8], //Half dimension of the z extent of the PMT hole ***MUST be slightly larger than the z dimension of the plate!!!***
+r_min: [0.0,0.0], //Should always be 0.0 (it is the minimum extent of the rotational solid used to subtract out the hole for the PMT)
+r_max: [126.5,126.5], //The outer radius used for the subtracting the hole for the PMT
 
 material: "eljen_WLSP",
 orientation: "manual",
@@ -682,16 +685,17 @@ color: [0.8, 0.1, 0.1, 1.0],
 
 {
 name: "GEO",
-index: "WLSP_reflector",
+index: "WLSP_reflector", //Again, field must be named "WLSP_reflector" to be read in
 enable: 1,
 valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "detector",
-type: "wlsp_cover",
+type: "wlsp_cover", //Reflector is built using WLSPCoverFactory
 
 pos_table: "WLSPINFO",
-outer_size: [246.0,246.0,12.7],
-inner_size: [245.0,245.0,13.7],
+//These values are also modified by the WatchmanWLSPSquareDetectorFactory -- Make changes there if you want them to register!
+outer_size: [246.0,246.0,12.7], //Outer dimensions of the reflector "box"
+inner_size: [245.0,245.0,13.7], //Inner dimensions of the box -- since z is larger than outer dimensions, the box is a square ring around the WLS Plates
 material: "polypropylene",
 orientation: "manual",
 
@@ -711,7 +715,7 @@ type: "border",
 volume1: "WLS_Plates",
 volume2: "WLSP_reflector",
 reverse: 1, //0 only considers photons from a->b, 1 does both directions
-surface: "specular_tarp",
+surface: "specular_tarp", //Reflector treated as ideally specular tarp at the moment
 }
 
 /* Will not work with WATCHMAKERS as it is now
