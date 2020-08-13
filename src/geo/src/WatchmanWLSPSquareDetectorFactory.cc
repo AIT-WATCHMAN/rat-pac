@@ -13,7 +13,6 @@ namespace RAT {
         DB *db = DB::Get();
         DBLinkPtr params = db->GetLink("WATCHMAN_PARAMS");
         const double photocathode_coverage = params->GetD("photocathode_coverage");
-        const int    constant_plate = params->GetD("constant_size_plates");
         const double veto_coverage = params->GetD("veto_coverage");
         const double veto_offset = 700;
         const std::string geo_template = "Watchman_WLSP/Watchman_WLSP.geo";
@@ -109,8 +108,6 @@ namespace RAT {
 
         
         DBLinkPtr wlsp                = db->GetLink("GEO","WLS_Plates");
-        DBLinkPtr wlspcover           = db->GetLink("GEO","WLSP_reflector_back");
-        double wlspz                  = (wlsp->GetDArray("z")[1]+wlspcover->GetDArray("z")[1]);
         vector <double> pmtinfox;
         vector <double> pmtinfoy;
         vector <double> pmtinfoz;
@@ -127,9 +124,8 @@ namespace RAT {
         if (photocathode_coverage == 0.00) total_pmts = pmtinfox.size();
         vector<double> x(total_pmts), y(total_pmts), z(total_pmts), dir_x(total_pmts), dir_y(total_pmts), dir_z(total_pmts);
         vector<double> xp(total_pmts), yp(total_pmts), zp(total_pmts);
-        vector<double> xbp(total_pmts), ybp(total_pmts), zbp(total_pmts);
         vector<int> type(total_pmts);
-
+        
         if (photocathode_coverage == 0.00) {
           
           for (size_t i = 0; i < total_pmts; i++) {
@@ -146,10 +142,6 @@ namespace RAT {
             zp[i] = z[i]+(dir_z[i]*z_edge[1]);
                 
                 
-            xbp[i] = xp[i]-(dir_x[i]*wlspz);
-            ybp[i] = yp[i]-(dir_y[i]*wlspz);
-            zbp[i] = zp[i]-(dir_z[i]*wlspz);
-
             type[i] = 1;
           }
         }
@@ -173,10 +165,6 @@ namespace RAT {
                   yp[idx] = y[idx]+(dir_y[idx]*z_edge[1]);
                   zp[idx] = z[idx]+(dir_z[idx]*z_edge[1]);
                 
-                  xbp[idx] = xp[idx]-(dir_x[idx]*wlspz);
-                  ybp[idx] = yp[idx]-(dir_y[idx]*wlspz);
-                  zbp[idx] = zp[idx]-(dir_z[idx]*wlspz);
-
                   type[idx] = 1;
               }
           }
@@ -199,10 +187,6 @@ namespace RAT {
               yp[idx] = y[idx]+(dir_y[idx]*z_edge[1]);
               zp[idx] = z[idx]+(dir_z[idx]*z_edge[1]);
             
-              xbp[idx] = xp[idx]-(dir_x[idx]*wlspz);
-              ybp[idx] = yp[idx]-(dir_y[idx]*wlspz);
-              zbp[idx] = zp[idx]-(dir_z[idx]*wlspz);
-
               //bot = idx+1
               x[idx+1] = pmt_space*topbot[i].first;
               y[idx+1] = pmt_space*topbot[i].second;
@@ -215,10 +199,6 @@ namespace RAT {
               yp[idx+1] = y[idx+1]+(dir_y[idx+1]*z_edge[1]);
               zp[idx+1] = z[idx+1]+(dir_z[idx+1]*z_edge[1]);
             
-              xbp[idx+1] = xp[idx+1]-(dir_x[idx+1]*wlspz);
-              ybp[idx+1] = yp[idx+1]-(dir_y[idx+1]*wlspz);
-              zbp[idx+1] = zp[idx+1]-(dir_z[idx+1]*wlspz);
-
               type[idx+1] = 1;
           }
 
@@ -437,15 +417,6 @@ namespace RAT {
         db->SetDArray("WLSPINFO","dir_z",dir_z);
         db->SetIArray("WLSPINFO","type",type);
         
-        db->SetDArray("WLSPBACKINFO","x",xbp);
-        db->SetDArray("WLSPBACKINFO","y",ybp);
-        db->SetDArray("WLSPBACKINFO","z",zbp);
-        db->SetDArray("WLSPBACKINFO","dir_x",dir_x);
-        db->SetDArray("WLSPBACKINFO","dir_y",dir_y);
-        db->SetDArray("WLSPBACKINFO","dir_z",dir_z);
-        db->SetIArray("WLSPBACKINFO","type",type);
-
-
         if (photocathode_coverage != 0.00) {
           info << "Update geometry fields related to the reflective and absorptive tarps...\n";
         
@@ -472,34 +443,18 @@ namespace RAT {
           db->SetDArray("cable_pos","dir_y",vector<double>(cols,0.0));
           db->SetDArray("cable_pos","dir_z",vector<double>(cols,1.0));
 
-          if (not constant_plate) db->SetDArray("GEO","WLS_Plates","size",{(pmt_space/2.0)-10.0,(pmt_space/2.0)-10.0,wlsp->GetDArray("z")[1]});
-          else db->SetDArray("GEO","WLS_Plates","size",{240.0,240.0,wlsp->GetDArray("z")[1]});
+          db->SetDArray("GEO","WLS_Plates","size",{(pmt_space/2.0)-10.0,(pmt_space/2.0)-10.0,wlsp->GetDArray("z")[1]});
           db->SetDArray("GEO","WLS_Plates","r_max",{rho_edge[1]+5.0,rho_edge[1]-15.0});
           db->SetDArray("GEO","WLS_Plates","r_min",{0.0,0.0});
           db->SetDArray("GEO","WLS_Plates","z",{-wlsp->GetDArray("z")[1]-1.0,wlsp->GetDArray("z")[1]+1.0});
-          if (not constant_plate) db->SetDArray("GEO","WLSP_reflector_back","size",{(pmt_space/2.0)-10.0,(pmt_space/2.0)-10.0,wlspcover->GetDArray("z")[1]});
-          else db->SetDArray("GEO","WLSP_reflector_back","size",{240.0,240.0,wlspcover->GetDArray("z")[1]});
-          db->SetDArray("GEO","WLSP_reflector_back","r_max",{rho_edge[1]+5.0,rho_edge[1]+5.0});
-          db->SetDArray("GEO","WLSP_reflector_back","r_min",{0.0,0.0});
-          db->SetDArray("GEO","WLSP_reflector_back","z",{-wlspcover->GetDArray("z")[1]-1.0,wlspcover->GetDArray("z")[1]+1.0});
-          if (not constant_plate) {
-            db->SetDArray("GEO","WLSP_reflector","inner_size",{(pmt_space/2.0)-10.0,(pmt_space/2.0)-10.0,wlsp->GetDArray("z")[1]+2.0});
-            db->SetDArray("GEO","WLSP_reflector","outer_size",{(pmt_space/2.0)-10.0+2.0,(pmt_space/2.0)-10.0+2.0,wlsp->GetDArray("z")[1]});
-          }
-          else {
-            db->SetDArray("GEO","WLSP_reflector","inner_size",{240.0,240.0,wlsp->GetDArray("z")[1]+2.0});
-            db->SetDArray("GEO","WLSP_reflector","outer_size",{242.0,242.0,wlsp->GetDArray("z")[1]});
-          }
+          db->SetDArray("GEO","WLSP_reflector","inner_size",{(pmt_space/2.0)-10.0,(pmt_space/2.0)-10.0,wlsp->GetDArray("z")[1]+2.0});
+          db->SetDArray("GEO","WLSP_reflector","outer_size",{(pmt_space/2.0)-10.0+2.0,(pmt_space/2.0)-10.0+2.0,wlsp->GetDArray("z")[1]});
         }
         else {
           db->SetDArray("GEO","WLS_Plates","size",{240.0,240.0,wlsp->GetDArray("z")[1]});
           db->SetDArray("GEO","WLS_Plates","r_max",{rho_edge[1]+5.0,rho_edge[1]-15.0});
           db->SetDArray("GEO","WLS_Plates","r_min",{0.0,0.0});
           db->SetDArray("GEO","WLS_Plates","z",{-wlsp->GetDArray("z")[1]-1.0,wlsp->GetDArray("z")[1]+1.0});
-          db->SetDArray("GEO","WLSP_reflector_back","size",{240.0,240.0,wlspcover->GetDArray("z")[1]});
-          db->SetDArray("GEO","WLSP_reflector_back","r_max",{rho_edge[1]+5.0,rho_edge[1]+5.0});
-          db->SetDArray("GEO","WLSP_reflector_back","r_min",{0.0,0.0});
-          db->SetDArray("GEO","WLSP_reflector_back","z",{-wlspcover->GetDArray("z")[1]-1.0,wlspcover->GetDArray("z")[1]+1.0});
           db->SetDArray("GEO","WLSP_reflector","inner_size",{240.0,240.0,wlsp->GetDArray("z")[1]+2.0});
           db->SetDArray("GEO","WLSP_reflector","outer_size",{242.0,242.0,wlsp->GetDArray("z")[1]});
         }
@@ -539,6 +494,7 @@ namespace RAT {
           db->SetDArray("GEO","tank","position",minshift);
           // db->SetDArray("GEO","detector","position",minshift);
         }
+        
     }
 
 }
