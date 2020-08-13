@@ -11,7 +11,7 @@
 #include <RAT/DS/PMTInfo.hh>
 #include <TObject.h>
 #include <vector>
-#include <time.h>
+#include <TTimeStamp.h>
 
 namespace RAT {
   namespace DS {
@@ -30,8 +30,8 @@ public:
   virtual void SetType(ULong64_t _type) { type = _type; }
 
   /** Run start time */
-  virtual time_t GetStartTime() const { return startTime; }
-  virtual void SetStartTime(time_t _startTime) { startTime = _startTime; }
+  virtual TTimeStamp GetStartTime() const { return startTime; }
+  virtual void SetStartTime(const TTimeStamp& _startTime) { startTime = _startTime; }
 
   /** PMT information */
   virtual PMTInfo* GetPMTInfo() {
@@ -54,7 +54,7 @@ public:
 protected:
   Int_t id;
   ULong64_t type;
-  time_t startTime;
+  TTimeStamp startTime;
   std::vector<PMTInfo> pmtinfo;
 };
 

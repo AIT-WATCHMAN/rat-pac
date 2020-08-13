@@ -88,7 +88,7 @@ protected:
 
   int runID;
   TTimeStamp utc;
-  TTimeStamp runutc;
+  TTimeStamp startTime;
   int maxpe;
   int nabort;
 

@@ -53,10 +53,6 @@ public:
   virtual TTimeStamp GetUTC() const { return utc; }
   virtual void SetUTC(const TTimeStamp& _utc) { utc = _utc; }
   
-  /** Absolute time of start of run. */
-  virtual TTimeStamp GetRunUTC() const { return runutc; }
-  virtual void SetRunUTC(const TTimeStamp& _runutc) { runutc = _runutc; }
-    
   /** Initial particles in event */
   virtual MCParticle* GetMCParticle(Int_t i) { return &particle[i]; }
   virtual int GetMCParticleCount() const { return particle.size(); }
@@ -131,7 +127,6 @@ protected:
   int numPE;
   int numDarkHits;
   TTimeStamp utc;
-  TTimeStamp runutc;
   std::vector<MCSummary> summary;
   std::vector<MCParticle> particle;
   std::vector<MCParticle> parent;
