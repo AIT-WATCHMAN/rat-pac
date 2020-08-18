@@ -17,7 +17,6 @@
 #include <RAT/DetectorFactory.hh>
 #include <RAT/WatchmanDetectorFactory.hh>
 #include <RAT/TheiaDetectorFactory.hh>
-#include <RAT/WatchmanWLSPDetectorFactory.hh>
 #include <RAT/WatchmanWLSPSquareDetectorFactory.hh>
 
 using namespace std;
