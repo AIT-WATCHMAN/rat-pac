@@ -550,7 +550,9 @@ void Gsim::MakeEvent(const G4Event* g4ev, DS::Root* ds) {
     double avgX = 0., avgY = 0., avgZ = 0.,
     avgCnt = 0.;  // Might need to do a weighted average
     // int avgCnt = 0;
-    for (unsigned long aIndex = 0; aIndex < a.size(); aIndex++) {
+    //
+    // remove mfb
+    /*for (unsigned long aIndex = 0; aIndex < a.size(); aIndex++) {
         if ((a[aIndex][0] - old_time) > timeWindow) {
             triggers += 1;
             // G4cout << "Found a new trigger "<< triggers << "; previous trigger
@@ -589,7 +591,7 @@ void Gsim::MakeEvent(const G4Event* g4ev, DS::Root* ds) {
         << " " << old_time - start_time << " " << rollingEnergy << " "
         << avgX / avgCnt << " " << avgY / avgCnt << " " << avgZ / avgCnt
         << G4endl;
-    }
+    }*/
     
     std::vector<G4double> rollingZero;                 // mfb
     std::vector<std::vector<double> > rollingPhotons;  // mfb
