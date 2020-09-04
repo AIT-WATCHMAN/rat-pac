@@ -254,7 +254,7 @@ GLG4PMTOpticalModel::DoIt(const G4FastTrack& fastTrack, G4FastStep& fastStep)
     int ipmt= -1;
 
     // find which pmt we are in
-    ipmt=fastTrack.GetEnvelopePhysicalVolume()->GetCopyNo();
+    ipmt = GetPMTID(fastTrack);
 
     // get position and direction in local coordinates
     pos=  fastTrack.GetPrimaryTrackLocalPosition();
@@ -833,4 +833,23 @@ GLG4PMTOpticalModel::GetCurrentValue(G4UIcommand * command)
     else {
         return (commandName+" is not a valid PMTOpticalModel command");
     }
+}
+
+// Taken from unmerged PR 41 in standard rat-pac
+// Using an envelope prevents the PMT ID from being retrieved from the physical volume
+// of the fast track, so some G4 volume heirarchy gymnastics are required
+int
+GLG4PMTOpticalModel::GetPMTID( const G4FastTrack& fastTrack )
+{
+  int iDepth;
+  for( iDepth = 0; iDepth < fastTrack.GetPrimaryTrack()->GetTouchableHandle()->GetHistoryDepth(); iDepth++ )
+    {
+      const std::string volName = fastTrack.GetPrimaryTrack()->GetTouchableHandle()->GetVolume( iDepth )->GetName();
+      const size_t envelopeHistory = volName.find( "_pmtenv_" );
+      if( envelopeHistory != std::string::npos )
+        return fastTrack.GetPrimaryTrack()->GetTouchableHandle()->GetCopyNumber( iDepth );
+    }
+  // Should never get here
+  RAT::Log::Die( "GLG4OpticalModel::GetPMTID: Cannot decode PMT ID." );
+  return -1;
 }

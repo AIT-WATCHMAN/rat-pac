@@ -144,7 +144,7 @@ namespace RAT {
       fParam.detector = 0;
 
 
-    fParam.useEnvelope = false; // disable the use of envelope volume for now
+    fParam.useEnvelope = true; // enable the use of envelope volume for now
     fConstruction = new PMTConstruction(fParam);
   }
 

@@ -288,7 +288,7 @@ namespace RAT {
         } catch (DBNotFoundError &e) { }
 
         // Build PMT
-        pmtParam.useEnvelope = false; // disable the use of envelope volume for now
+        pmtParam.useEnvelope = true; // enable the use of envelope volume for now (not used in standard rat-pac)
         PMTConstruction pmtConstruct(pmtParam);
 
         G4LogicalVolume *logiPMT = pmtConstruct.NewPMT(volume_name, vis_simple);
@@ -488,7 +488,7 @@ namespace RAT {
         // id - the nth pmt that GeoPMTFactoryBase has built
         for (int idx = start_idx, id = pmtinfo.GetPMTCount(); idx <= end_idx; idx++, id++) {
 
-            string pmtname = volume_name + ::to_string(id); //internally PMTs are represented by the nth pmt built, not pmtid
+            string pmtname = volume_name + "_pmtenv_" + ::to_string(id); //internally PMTs are represented by the nth pmt built, not pmtid
 
             // position
             G4ThreeVector pmtpos(pmt_x[idx], pmt_y[idx], pmt_z[idx]);
