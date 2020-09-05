@@ -69,7 +69,13 @@ public:
   virtual void SetTrackID(Int_t _trackID){ trackID = _trackID;}
   virtual Int_t GetTrackID() const { return trackID; }
 
-  ClassDef(MCPhoton, 1) 
+  /** Name of physics process acting at endpoint of the MCTrackStep
+   * that created this photon hit. 
+   */
+  virtual std::string GetProcess() const { return process; }
+  virtual void SetProcess(const std::string &_process) { process = _process; }
+
+  ClassDef(MCPhoton, 2) 
 
 protected:
   Double_t hitTime;
@@ -82,6 +88,7 @@ protected:
   Float_t charge;
   Bool_t isDarkHit;
   Int_t trackID;
+  std::string process;
 };
 
   } // namespace DS

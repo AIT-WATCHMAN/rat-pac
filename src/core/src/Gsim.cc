@@ -349,12 +349,14 @@ void Gsim::PreUserTrackingAction(const G4Track* aTrack) {
             eventInfo->timePhotonID.push_back(1.);
             eventInfo->timePhotonMatrix.push_back(eventInfo->timePhotonID);
             eventInfo->timePhotonID.resize(0);
+            trackProcessMap[aTrack->GetTrackID()] = creatorProcessName;
         } else if (creatorProcessName == "Reemission") {
             eventInfo->numReemitPhoton++;
             eventInfo->timePhotonID.push_back(aTrack->GetGlobalTime());
             eventInfo->timePhotonID.push_back(2.);
             eventInfo->timePhotonMatrix.push_back(eventInfo->timePhotonID);
             eventInfo->timePhotonID.resize(0);
+            trackProcessMap[aTrack->GetTrackID()] = creatorProcessName;
             
         } else if (creatorProcessName == "Cerenkov") {
             eventInfo->numCerenkovPhoton++;
@@ -362,6 +364,7 @@ void Gsim::PreUserTrackingAction(const G4Track* aTrack) {
             eventInfo->timePhotonID.push_back(3.);
             eventInfo->timePhotonMatrix.push_back(eventInfo->timePhotonID);
             eventInfo->timePhotonID.resize(0);
+            trackProcessMap[aTrack->GetTrackID()] = creatorProcessName;
         }
     }
 }
@@ -676,10 +679,15 @@ void Gsim::MakeEvent(const G4Event* g4ev, DS::Root* ds) {
         
         /** Add "real" hits from actual simulated photons */
         for (int i = 0; i < a_pmt->GetEntries(); i++) {
+            // Find the optical process responsible
+            std::string process = "unknown";
+            if(trackProcessMap.find(a_pmt->GetPhoton(i)->GetTrackID()) != trackProcessMap.end()) {
+              process = trackProcessMap[a_pmt->GetPhoton(i)->GetTrackID()];
+            }
             if (StoreOpticalTrackID) {
-                AddMCPhoton(rat_mcpmt, a_pmt->GetPhoton(i), false, exinfo);
+                AddMCPhoton(rat_mcpmt, a_pmt->GetPhoton(i), false, exinfo, process);
             } else {
-                AddMCPhoton(rat_mcpmt, a_pmt->GetPhoton(i), false, NULL);
+                AddMCPhoton(rat_mcpmt, a_pmt->GetPhoton(i), false, NULL, process);
             }
             
             /** Update event start and end time */
@@ -727,12 +735,12 @@ void Gsim::MakeEvent(const G4Event* g4ev, DS::Root* ds) {
             rat_mcpmt->SetType(fPMTInfo->GetType(pmtid));
         }
         AddMCPhoton(mc->GetMCPMT(mcpmtObjects[pmtid]), hit, true,
-                    (StoreOpticalTrackID ? exinfo : NULL));
+                    (StoreOpticalTrackID ? exinfo : NULL), "noise");
     }
 }
 
 void Gsim::AddMCPhoton(DS::MCPMT* rat_mcpmt, const GLG4HitPhoton* photon,
-                       bool isDarkHit, EventInfo* /*exinfo*/) {
+                       bool isDarkHit, EventInfo* /*exinfo*/, std::string process) {
     DS::MCPhoton* rat_mcphoton = rat_mcpmt->AddNewMCPhoton();
     rat_mcphoton->SetDarkHit(isDarkHit);
     
@@ -761,6 +769,7 @@ void Gsim::AddMCPhoton(DS::MCPMT* rat_mcpmt, const GLG4HitPhoton* photon,
                                                                                              photon->GetTime()));
     rat_mcphoton->SetCharge(
                             fPMTCharge[fPMTInfo->GetModel(rat_mcpmt->GetID())]->PickCharge());
+    rat_mcphoton->SetProcess(process);
 }
 
 void Gsim::SetStoreParticleTraj(const G4String& particleName,
