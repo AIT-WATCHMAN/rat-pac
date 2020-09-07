@@ -474,7 +474,6 @@ void Gsim::MakeEvent(const G4Event* g4ev, DS::Root* ds) {
     mc->SetUTC(exinfo->utc);
     
     // Vertex Info
-    G4TrajectoryContainer* traj_list = g4ev->GetTrajectoryContainer();
     for (int ivert = 0; ivert < g4ev->GetNumberOfPrimaryVertex(); ivert++) {
         G4PrimaryVertex* pv = g4ev->GetPrimaryVertex(ivert);
         
@@ -542,6 +541,7 @@ void Gsim::MakeEvent(const G4Event* g4ev, DS::Root* ds) {
     }
     
     // Trajectory Info
+    G4TrajectoryContainer* traj_list = g4ev->GetTrajectoryContainer();
     if (traj_list) {
         for (size_t itraj = 0; itraj < traj_list->size(); itraj++) {
             Trajectory* traj = dynamic_cast<Trajectory*>((*traj_list)[itraj]);
