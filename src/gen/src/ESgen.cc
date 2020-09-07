@@ -40,7 +40,7 @@ namespace RAT {
   // WGS: We have to start from some value of sin2theta; use the stanard-model value:
   const double ESgen::WEAKANGLE = 0.2227;
   const int    ESgen::NTRIAL    = 10000;
-  const std::string ESgen::SPEC = "boulby";
+  const std::string ESgen::SPEC = "closest_boulby";
 
   ESgen::ESgen()
   {
@@ -50,8 +50,8 @@ namespace RAT {
     messenger = new ESgenMessenger(this);
 
     // Initialise the spectrum.
-    G4String spec = "boulby";
-    DBLinkPtr _lspec    = DB::Get()->GetLink("SPECTRUM", spec);  // default to Boulby spectrum
+    G4String spec = "closest_boulby";
+    DBLinkPtr _lspec    = DB::Get()->GetLink("ES", spec);  // default to Boulby spectrum
     std::vector<double> spec_E = _lspec->GetDArray("spec_e");
     Emin = 0.;
     Emax = 0.;
@@ -62,6 +62,8 @@ namespace RAT {
     // Get the electron mass.
     G4ParticleDefinition* electron = G4ParticleTable::GetParticleTable()->FindParticle("e-");  
     massElectron = electron->GetPDGMass();
+    // Do we use the cross section or is it included?
+    ApplyCrossSection = _lspec->GetI("apply_xs");
   }
 
 
@@ -78,9 +80,9 @@ namespace RAT {
 
   CLHEP::HepLorentzVector ESgen::GenerateEvent(const G4ThreeVector& theNeutrino)
   {
-    // Get the spectrum from user input; defaults to boulby.
+    // Get the spectrum from user input; defaults to closest_boulby.
     G4String spec = GetSpectrum();
-    DBLinkPtr _lspec    = DB::Get()->GetLink("SPECTRUM", spec);  // default to Boulby spectrum
+    DBLinkPtr _lspec    = DB::Get()->GetLink("ES", spec);
     // Get parameters from database.
     // Read in the energy values from the spectrum.
     std::vector<double> spec_E = _lspec->GetDArray("spec_e");
@@ -107,13 +109,22 @@ namespace RAT {
       E = GetRandomNumber(Emin, Emax);
       // Pick a randon Nu energy between 0 and the electron energy.
       Nu = GetRandomNumber(0., E);
-      
-      // Decided whether to draw again based on relative cross-section.
-      // Check that the 
-      float XCtest = XSecNorm * FluxMax * GetRandomNumber(0.,1.);
-      double XCWeight = GetXSec(E, Nu);
-      double FluxWeight = rmpflux(E);
-      passed = XCWeight * FluxWeight > XCtest;
+      if (ApplyCrossSection)
+      { 
+        // Decided whether to draw again based on relative cross-section.
+        // Check that the 
+        float XCtest = XSecNorm * FluxMax * GetRandomNumber(0.,1.);
+        double XCWeight = GetXSec(E, Nu);
+        double FluxWeight = rmpflux(E);
+        passed = XCWeight * FluxWeight > XCtest;
+      }
+      else
+      {
+        float XCtest = XSecNorm * FluxMax * GetRandomNumber(0.,1.);
+        double FluxWeight = rmpflux(E);
+        passed = FluxWeight > XCtest;
+      }
+
     }
 
     //

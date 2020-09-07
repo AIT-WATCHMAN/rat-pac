@@ -66,6 +66,7 @@ namespace RAT {
     double FluxMax;
 
     bool   FlagNorm;
+    bool   ApplyCrossSection;
 
     double SinSqThetaW;
     double MagneticMoment;
