@@ -184,7 +184,7 @@ void Gsim::BeginOfRunAction(const G4Run* /*aRun*/) {
     DBLinkPtr lmc = DB::Get()->GetLink("MC");
     runID = DB::Get()->GetDefaultRun();
     utc = TTimeStamp();  // default to now
-    
+
     info << "Gsim: Simulating run " << runID << newline;
     info << "Gsim: Run start at " << utc.AsString() << newline;
     
@@ -458,7 +458,7 @@ void Gsim::MakeRun(int _runID) {
     
     run->SetID(_runID);
     run->SetType((unsigned)lrun->GetI("runtype"));
-    
+    run->SetStartTime(utc); 
     run->SetPMTInfo(&GeoPMTFactoryBase::GetPMTInfo());
     
     DS::RunStore::AddNewRun(run);
@@ -472,7 +472,7 @@ void Gsim::MakeEvent(const G4Event* g4ev, DS::Root* ds) {
     ds->SetRunID(theRunManager->GetCurrentRun()->GetRunID());
     mc->SetID(g4ev->GetEventID());
     mc->SetUTC(exinfo->utc);
-    
+ 
     // Vertex Info
     for (int ivert = 0; ivert < g4ev->GetNumberOfPrimaryVertex(); ivert++) {
         G4PrimaryVertex* pv = g4ev->GetPrimaryVertex(ivert);
