@@ -184,7 +184,6 @@ void Gsim::BeginOfRunAction(const G4Run* /*aRun*/) {
     DBLinkPtr lmc = DB::Get()->GetLink("MC");
     runID = DB::Get()->GetDefaultRun();
     utc = TTimeStamp();  // default to now
-    startTime = TTimeStamp(); 
 
     info << "Gsim: Simulating run " << runID << newline;
     info << "Gsim: Run start at " << utc.AsString() << newline;
@@ -448,7 +447,7 @@ void Gsim::MakeRun(int _runID) {
     
     run->SetID(_runID);
     run->SetType((unsigned)lrun->GetI("runtype"));
-    run->SetStartTime(startTime); 
+    run->SetStartTime(utc); 
     run->SetPMTInfo(&GeoPMTFactoryBase::GetPMTInfo());
     
     DS::RunStore::AddNewRun(run);
