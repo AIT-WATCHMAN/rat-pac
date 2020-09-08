@@ -49,7 +49,7 @@ public:
   virtual bool ExistPMTInfo() { return !pmtinfo.empty(); }
   virtual void PrunePMTInfo() { pmtinfo.resize(0); }
 
-  ClassDef(Run, 1)
+  ClassDef(Run, 2)
 
 protected:
   Int_t id;
