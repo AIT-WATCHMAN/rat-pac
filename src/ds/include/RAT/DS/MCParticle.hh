@@ -53,11 +53,27 @@ public:
   virtual TVector3 GetMomentum() const { return mom; }
   virtual void SetMomentum(const TVector3 &_mom) { mom = _mom; }
 
+  /** End time of particle (ns). */
+  virtual Double_t GetEndTime() const { return end_t; }
+  virtual void SetEndTime(Double_t _t) { end_t = _t; }
+
+  /** End location of particle (mm). */
+  virtual TVector3 GetEndPosition() const { return end_pos; }
+  virtual void SetEndPosition(const TVector3 &_pos) { end_pos = _pos; }
+
+  /** End kinetic energy of particle (MeV). */
+  virtual Float_t GetEndKE() const { return end_ke; }
+  virtual void SetEndKE(Float_t _ke) { end_ke = _ke; }
+
+  /** End momentum of particle (MeV/c) */
+  virtual TVector3 GetEndMomentum() const { return end_mom; }
+  virtual void SetEndMomentum(const TVector3 &_mom) { end_mom = _mom; }
+
   /** Polarization vector */
   virtual TVector3 GetPolarization() const { return pol; }
   virtual void SetPolarization(const TVector3 &_pol) { pol = _pol; }
 
-  ClassDef(MCParticle, 1)
+  ClassDef(MCParticle, 2)
 
 protected:
   Int_t pdgcode;
@@ -65,6 +81,10 @@ protected:
   Float_t ke; 
   TVector3 pos;
   TVector3 mom;  
+  Double_t end_t;
+  Float_t end_ke; 
+  TVector3 end_pos;
+  TVector3 end_mom;  
   TVector3 pol;
   std::string particleName;
 };

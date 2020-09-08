@@ -439,6 +439,17 @@ void Gsim::PostUserTrackingAction(const G4Track* aTrack) {
             SetOpticalPhotonIDs(particle_name, TrackID, ParentID);
         }
     }
+
+    if (aTrack->GetDefinition()->GetParticleName() != "opticalphoton"){
+        trackEndMap[TrackID] = {aTrack->GetStep()->GetPostStepPoint()->GetPosition().x(),
+                                aTrack->GetStep()->GetPostStepPoint()->GetPosition().y(),
+                                aTrack->GetStep()->GetPostStepPoint()->GetPosition().z(),
+                                aTrack->GetStep()->GetPostStepPoint()->GetGlobalTime(),
+                                aTrack->GetStep()->GetPostStepPoint()->GetMomentum().x(),
+                                aTrack->GetStep()->GetPostStepPoint()->GetMomentum().y(),
+                                aTrack->GetStep()->GetPostStepPoint()->GetMomentum().z(),
+                                aTrack->GetStep()->GetPostStepPoint()->GetKineticEnergy()};
+    }
 }
 
 void Gsim::MakeRun(int _runID) {
@@ -487,6 +498,15 @@ void Gsim::MakeEvent(const G4Event* g4ev, DS::Root* ds) {
             rat_mcpart->SetPosition(pos);
             rat_mcpart->SetPolarization(
                                         TVector3(p->GetPolX(), p->GetPolY(), p->GetPolZ()));
+            // Track end point info
+            int track_id = p->GetTrackID();
+            if(trackEndMap.find(track_id) == trackEndMap.end()) continue;
+            std::vector<double> end_info = trackEndMap[track_id];
+            rat_mcpart->SetEndPosition(TVector3(end_info[0], end_info[1], end_info[2]));
+            rat_mcpart->SetEndTime(end_info[3]);
+            rat_mcpart->SetEndMomentum(TVector3(end_info[4], end_info[5], end_info[6]));
+            rat_mcpart->SetEndKE(end_info[7]);
+
         }
         
         PrimaryVertexInformation* ratpvi =

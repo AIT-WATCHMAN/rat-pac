@@ -103,6 +103,7 @@ protected:
   double channelEfficiency;
 
   std::map<int, std::string> trackProcessMap;
+  std::map<int, std::vector<double>> trackEndMap;
 
   bool fInitialStoreTrajectoryState;
 
