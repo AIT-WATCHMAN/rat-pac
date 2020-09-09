@@ -45,11 +45,12 @@ using namespace RAT;
 class CmdOptions {
  public:
   CmdOptions() : seed(-1), save_macro(true), input_filename(""),
-                 output_filename(""), run(0) {}
+                 output_filename(""), vector_filename(""), run(0) {}
   long seed;
   bool save_macro;
   std::string input_filename;
   std::string output_filename;
+  std::string vector_filename;
   std::vector<std::string> python_processors;
   int run;
 };
@@ -108,6 +109,11 @@ int main(int argc, char **argv) {
     if (options.output_filename != "") {
       rdb->SetS("IO", "", "default_output_filename", options.output_filename);
       info << "Setting default output file to " << options.output_filename << "\n";
+    }
+    // Set the file to read when using vector data files
+    if (options.vector_filename != "") {
+      rdb->SetS("IO", "", "default_vector_filename", options.vector_filename);
+      info << "Setting vector file to " << options.vector_filename << "\n";
     }
 
     // Main analysis block -- will contain user-constructed analysis sequence
@@ -236,10 +242,11 @@ CmdOptions parse_command_line(int argc, char **argv) {
                                  {"run", 1, NULL, 'r'},
                                  {"input", 1, NULL, 'i'},
                                  {"output", 1, NULL, 'o'},
+                                 {"vector", 1, NULL, 'x'},
                                  {"python", 1, NULL, 'p'},
                                  {"no-save-macro", 0, NULL, OPT_NO_SAVE_MACRO},
                                  {0, 0, 0, 0}};
-  std::string short_options("qhdvVl:n:r:s:b:o:i:p:");
+  std::string short_options("qhdvVl:n:r:s:b:o:i:x:p:");
 
   CmdOptions options;
   int display_level = Log::INFO;
@@ -286,6 +293,8 @@ CmdOptions parse_command_line(int argc, char **argv) {
         break;
       case 'o': options.output_filename = RAT::optarg;
         break;
+      case 'x': options.vector_filename = RAT::optarg;
+        break;
       case 'p': options.python_processors.push_back(RAT::optarg);
         break;
       case OPT_NO_SAVE_MACRO: options.save_macro = false;
@@ -320,6 +329,7 @@ void help() {
           "                 XOR of clock time and process id.\n";
   cout << " -i, --input     Set default input filename.  (Does not override filename in macro!\n";
   cout << " -o, --output    Set default output filename.  (Does not override filename in macro!\n";
+  cout << " -x, --vector    Set default vector filename.  (Does not override filename in macro!\n";
   cout << " -p, --python=class Append python processor to event loop\n";
   cout << " --no-save-macro Do not save macro into output ROOT file.\n";
 }

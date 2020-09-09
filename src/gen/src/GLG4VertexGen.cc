@@ -17,6 +17,7 @@
 #include "G4OpticalPhoton.hh"
 #include "G4Event.hh"
 #include "G4Track.hh"
+#include "G4RunManager.hh"
 #include "G4HEPEvtParticle.hh"
 #include "RAT/GLG4VertexGen.hh"
 #include "Randomize.hh"
@@ -650,6 +651,8 @@ GetDataLine(char *buffer, size_t size)
       // try from beginning of file on failure
       G4cerr << (feof(_file) ? "End-of_file reached" : "Failure")
 	     << " on " << _filename << " at " << ftell(_file);
+      G4cerr << " Executive decision to end at end of file, soft closing." << G4endl;
+      G4RunManager::GetRunManager()->AbortRun(true);
       if (rewind_count == 0) {
 	if (_isPipe == false) {
 	  G4cerr << ", rewinding." << G4endl;
@@ -716,6 +719,14 @@ GetDataLine(char *buffer, size_t size)
     G4cerr << "Warning, ignoring garbage line in " << _filename << G4endl
 	   << buffer;
   }
+  // Peak at next word
+  long posnot = ftell(_file);
+  char buff2[400];
+  if ( fgets(buff2, sizeof(buff2), _file) != buff2 ) {
+    G4cerr << " Executive decision to end at end of file, soft closing." << G4endl;
+    G4RunManager::GetRunManager()->AbortRun(true);
+  }
+  fseek(_file, posnot, SEEK_SET);
 }
 
 
