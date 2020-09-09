@@ -52,7 +52,7 @@ public:
   /** Absolute time of event. */
   virtual TTimeStamp GetUTC() const { return utc; }
   virtual void SetUTC(const TTimeStamp& _utc) { utc = _utc; }
-      
+  
   /** Initial particles in event */
   virtual MCParticle* GetMCParticle(Int_t i) { return &particle[i]; }
   virtual int GetMCParticleCount() const { return particle.size(); }

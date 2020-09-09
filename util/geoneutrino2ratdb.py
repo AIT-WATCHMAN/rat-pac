@@ -13,12 +13,25 @@ def getargs():
     parser.add_argument('--comment', type=str)
     parser.add_argument('--index', type=str, default='default')
     parser.add_argument('--plot', action='store_true')
+    parser.add_argument('--subtract', type=str, default=None)
     return parser.parse_args()
 
 def main():
     args = getargs()
     total, iaea, close, user, geo_u, geo_th = \
         np.loadtxt( args.incsv, skiprows=1, delimiter=',', unpack=True )
+
+    # Option to subtract off background
+    if args.subtract is not None:
+        total_sub, iaea_sub, close_sub, user_sub, geo_u_sub, geo_th_sub = \
+            np.loadtxt( args.subtract, skiprows=1, delimiter=',', unpack=True )
+        total = np.subtract(total, total_sub)
+        iaea = np.subtract(iaea, iaea_sub)
+        close = np.subtract(close, close_sub)
+        user = np.subtract(user, user_sub)
+        geo_u = np.subtract(geo_u, geo_u_sub)
+        geo_th = np.subtract(geo_th, geo_th_sub)
+
     ## From geonu docs, bin centers from 1.805 to 9.995
     energy = np.linspace(1.805, 9.995, 820)
     flux = total
