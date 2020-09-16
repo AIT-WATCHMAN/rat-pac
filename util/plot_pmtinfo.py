@@ -5,7 +5,8 @@ import numpy as np
 
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-i", default="PMTINFO.ratdb")
+    parser.add_argument("-i", default="PMTINFO.ratdb",
+            help="PMTInfo file")
     parser.add_argument("--style", default="quiver")
     return parser.parse_args()
 
