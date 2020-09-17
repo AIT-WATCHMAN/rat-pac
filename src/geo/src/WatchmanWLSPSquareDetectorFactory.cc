@@ -123,7 +123,8 @@ namespace RAT {
         pmtinfodirz = pmtinfo->GetDArray("dir_z");
         if (photocathode_coverage == 0.00) total_pmts = pmtinfox.size();
         vector<double> x(total_pmts), y(total_pmts), z(total_pmts), dir_x(total_pmts), dir_y(total_pmts), dir_z(total_pmts);
-        vector<double> xp(total_pmts), yp(total_pmts), zp(total_pmts);
+        vector<double> xp, yp, zp;
+        vector<double> dir_xp, dir_yp, dir_zp;
         vector<int> type(total_pmts);
         
         //WLS Plate positions are generated alongside the PMT positions here
@@ -138,10 +139,12 @@ namespace RAT {
             dir_y[i] = pmtinfodiry[i];
             dir_z[i] = pmtinfodirz[i];
                 
-            xp[i] = x[i]+(dir_x[i]*z_edge[1]);
-            yp[i] = y[i]+(dir_y[i]*z_edge[1]);
-            zp[i] = z[i]+(dir_z[i]*z_edge[1]);
-                
+            xp.push_back(x[i]+(dir_x[i]*z_edge[1]));
+            yp.push_back(y[i]+(dir_y[i]*z_edge[1]));
+            zp.push_back(z[i]+(dir_z[i]*z_edge[1]));
+            dir_xp.push_back(pmtinfodirx[i]);
+            dir_yp.push_back(pmtinfodiry[i]);
+            dir_zp.push_back(pmtinfodirz[i]);
                 
             type[i] = 1;
           }
@@ -162,9 +165,12 @@ namespace RAT {
                   dir_y[idx] = -sin(phi);
                   dir_z[idx] = 0.0;
                 
-                  xp[idx] = x[idx]+(dir_x[idx]*z_edge[1]);
-                  yp[idx] = y[idx]+(dir_y[idx]*z_edge[1]);
-                  zp[idx] = z[idx]+(dir_z[idx]*z_edge[1]);
+                  xp.push_back(x[idx]+(dir_x[idx]*z_edge[1]));
+                  yp.push_back(y[idx]+(dir_y[idx]*z_edge[1]));
+                  zp.push_back(z[idx]+(dir_z[idx]*z_edge[1]));
+                  dir_xp.push_back(dir_x[idx]);
+                  dir_yp.push_back(dir_y[idx]);
+                  dir_zp.push_back(dir_z[idx]);
                 
                   type[idx] = 1;
               }
@@ -184,9 +190,12 @@ namespace RAT {
 
               type[idx] = 1;
   
-              xp[idx] = x[idx]+(dir_x[idx]*z_edge[1]);
-              yp[idx] = y[idx]+(dir_y[idx]*z_edge[1]);
-              zp[idx] = z[idx]+(dir_z[idx]*z_edge[1]);
+              xp.push_back(x[idx]+(dir_x[idx]*z_edge[1]));
+              yp.push_back(y[idx]+(dir_y[idx]*z_edge[1]));
+              zp.push_back(z[idx]+(dir_z[idx]*z_edge[1]));
+              dir_xp.push_back(dir_x[idx]);
+              dir_yp.push_back(dir_y[idx]);
+              dir_zp.push_back(dir_z[idx]);
             
               //bot = idx+1
               x[idx+1] = pmt_space*topbot[i].first;
@@ -196,11 +205,32 @@ namespace RAT {
               dir_x[idx+1] = dir_y[idx] = 0.0;
               dir_z[idx+1] = 1.0;
             
-              xp[idx+1] = x[idx+1]+(dir_x[idx+1]*z_edge[1]);
-              yp[idx+1] = y[idx+1]+(dir_y[idx+1]*z_edge[1]);
-              zp[idx+1] = z[idx+1]+(dir_z[idx+1]*z_edge[1]);
+              xp.push_back(x[idx+1]+(dir_x[idx+1]*z_edge[1]));
+              yp.push_back(y[idx+1]+(dir_y[idx+1]*z_edge[1]));
+              zp.push_back(z[idx+1]+(dir_z[idx+1]*z_edge[1]));
+              dir_xp.push_back(dir_x[idx+1]);
+              dir_yp.push_back(dir_y[idx+1]);
+              dir_zp.push_back(dir_z[idx+1]);
             
               type[idx+1] = 1;
+          }
+
+          //generate cylinder Veto positions
+          for (size_t col = 0; col < veto_cols; col++) {
+            for (size_t row = 0; row < veto_rows; row++) {
+                const size_t idx = num_pmts + row + col*veto_rows;
+                const double phi = 2.0*M_PI*col/veto_cols;
+
+                x[idx] = veto_radius*cos(phi);
+                y[idx] = veto_radius*sin(phi);
+                z[idx] = row*2.0*topbot_offset/veto_rows + veto_space/2 - topbot_offset;
+
+                dir_x[idx] = cos(phi);
+                dir_y[idx] = sin(phi);
+                dir_z[idx] = 0.0;
+
+                type[idx] = 2;
+            }
           }
 
           //generate topbot Veto positions
@@ -413,9 +443,9 @@ namespace RAT {
         db->SetDArray("WLSPINFO","x",xp);
         db->SetDArray("WLSPINFO","y",yp);
         db->SetDArray("WLSPINFO","z",zp);
-        db->SetDArray("WLSPINFO","dir_x",dir_x);
-        db->SetDArray("WLSPINFO","dir_y",dir_y);
-        db->SetDArray("WLSPINFO","dir_z",dir_z);
+        db->SetDArray("WLSPINFO","dir_x",dir_xp);
+        db->SetDArray("WLSPINFO","dir_y",dir_yp);
+        db->SetDArray("WLSPINFO","dir_z",dir_zp);
         db->SetIArray("WLSPINFO","type",type);
         
         if (photocathode_coverage != 0.00) {
