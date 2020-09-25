@@ -161,13 +161,16 @@ namespace RAT {
         this->SetDBName(params[0]);
         this->SetFlux(params[1]);
         this->SetNuFlavor(params[2]);
+        fESgen->LoadGenerator();
         break;
       case 2:
         this->SetFlux(params[0]);
         this->SetNuFlavor(params[1]);
+        fESgen->LoadGenerator();
         break;
       case 1:
         this->SetDBName(params[0]);
+        fESgen->LoadGenerator();
       default:
         G4cout << "VertexGen_ES : Detected only " << params.size() << " neutrino state terms (1,2, or 3 expected).\n";
         return;

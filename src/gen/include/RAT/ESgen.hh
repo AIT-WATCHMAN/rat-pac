@@ -130,11 +130,17 @@ namespace RAT {
     void SetDBName(const G4String name);
 
 
+	/** Private member for load the database and cross-section data. */
+	void LoadGenerator();
+
+		/** Private method to check if generator is loaded. */
+	inline G4bool GetGenLoaded() {return fGenLoaded;};
+
 
 	private:
 
-		/** Private member for load the database and cross-section data. */
-		void LoadGenerator();
+//		/** Private member for load the database and cross-section data. */
+//		void LoadGenerator();
 
 		/** Generate the interaction given the neutrino energy and the recoil angle.*/
 		void GenInteraction(double &Enu, double &CosThetaLab);
@@ -153,8 +159,6 @@ namespace RAT {
 
 	protected:
 
-		/** Private method to check if generator is loaded. */
-		inline G4bool GetGenLoaded() {return fGenLoaded;};
 
 
 		/** Generator type */

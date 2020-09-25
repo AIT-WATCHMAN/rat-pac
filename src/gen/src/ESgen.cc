@@ -12,6 +12,12 @@
 // cross-section.  Some of the code (the flux in particular) is copied
 // from IBDgen.
 
+// Moved call to LoadGenerator() after setting state to VertexGen_Es 
+// Will not scale flux to cross section if using interaction spectra
+// (requires additional apply_xs parameter in db)
+// Does not get fTotalFlux from db (does not appear to be used)
+// L Kneale - 25/09/2020
+
 #include <RAT/ESgen.hh>
 #include <RAT/ESCrossSec.hh>
 #include <RAT/DB.hh>
@@ -57,7 +63,7 @@ namespace RAT {
     DBLinkPtr linkdb;
 
     linkdb = DB::Get()->GetLink(fDBName,fNuType);
-    fTotalFlux = linkdb->GetD("flux");
+    //fTotalFlux = linkdb->GetD("flux");
     fEnuMin = linkdb->GetD("emin");
     fEnuMax = linkdb->GetD("emax");
     fEnuTbl = linkdb->GetDArray("spec_e");
@@ -81,8 +87,8 @@ namespace RAT {
     {
       // To sample neutrino energy need to scale flux by total
       // cross section at that neutrino energy
-      for (size_t i=0;i<csScaledFluxTbl.size();i++){
-        csScaledFluxTbl[i] = fFluxTbl[i] * fXS->Sigma(fEnuTbl[i]);
+    for (size_t i=0;i<csScaledFluxTbl.size();i++){
+      csScaledFluxTbl[i] = fFluxTbl[i] * fXS->Sigma(fEnuTbl[i]);
       }
     }
     else
@@ -231,7 +237,6 @@ namespace RAT {
     if (fGenType != nutype ) {
       fNuType = nutype;
       fGenLoaded = false;
-      LoadGenerator();
     }
   }
 
@@ -243,7 +248,6 @@ namespace RAT {
     if (fNuFlavor != nuflavor ) {
       fNuFlavor = nuflavor;
       fGenLoaded = false;
-      LoadGenerator();
     }
   }
 
@@ -251,7 +255,6 @@ namespace RAT {
     if (fDBName != name) {
       fDBName = name;
       fGenLoaded = false;
-      LoadGenerator();
     }
   }
 
