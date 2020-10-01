@@ -184,7 +184,7 @@ void Gsim::BeginOfRunAction(const G4Run* /*aRun*/) {
     DBLinkPtr lmc = DB::Get()->GetLink("MC");
     runID = DB::Get()->GetDefaultRun();
     utc = TTimeStamp();  // default to now
-    
+
     info << "Gsim: Simulating run " << runID << newline;
     info << "Gsim: Run start at " << utc.AsString() << newline;
     
@@ -439,6 +439,17 @@ void Gsim::PostUserTrackingAction(const G4Track* aTrack) {
             SetOpticalPhotonIDs(particle_name, TrackID, ParentID);
         }
     }
+
+    if (aTrack->GetDefinition()->GetParticleName() != "opticalphoton"){
+        trackEndMap[TrackID] = {aTrack->GetStep()->GetPostStepPoint()->GetPosition().x(),
+                                aTrack->GetStep()->GetPostStepPoint()->GetPosition().y(),
+                                aTrack->GetStep()->GetPostStepPoint()->GetPosition().z(),
+                                aTrack->GetStep()->GetPostStepPoint()->GetGlobalTime(),
+                                aTrack->GetStep()->GetPostStepPoint()->GetMomentum().x(),
+                                aTrack->GetStep()->GetPostStepPoint()->GetMomentum().y(),
+                                aTrack->GetStep()->GetPostStepPoint()->GetMomentum().z(),
+                                aTrack->GetStep()->GetPostStepPoint()->GetKineticEnergy()};
+    }
 }
 
 void Gsim::MakeRun(int _runID) {
@@ -447,7 +458,7 @@ void Gsim::MakeRun(int _runID) {
     
     run->SetID(_runID);
     run->SetType((unsigned)lrun->GetI("runtype"));
-    
+    run->SetStartTime(utc); 
     run->SetPMTInfo(&GeoPMTFactoryBase::GetPMTInfo());
     
     DS::RunStore::AddNewRun(run);
@@ -461,7 +472,7 @@ void Gsim::MakeEvent(const G4Event* g4ev, DS::Root* ds) {
     ds->SetRunID(theRunManager->GetCurrentRun()->GetRunID());
     mc->SetID(g4ev->GetEventID());
     mc->SetUTC(exinfo->utc);
-    
+ 
     // Vertex Info
     for (int ivert = 0; ivert < g4ev->GetNumberOfPrimaryVertex(); ivert++) {
         G4PrimaryVertex* pv = g4ev->GetPrimaryVertex(ivert);
@@ -487,6 +498,15 @@ void Gsim::MakeEvent(const G4Event* g4ev, DS::Root* ds) {
             rat_mcpart->SetPosition(pos);
             rat_mcpart->SetPolarization(
                                         TVector3(p->GetPolX(), p->GetPolY(), p->GetPolZ()));
+            // Track end point info
+            int track_id = p->GetTrackID();
+            if(trackEndMap.find(track_id) == trackEndMap.end()) continue;
+            std::vector<double> end_info = trackEndMap[track_id];
+            rat_mcpart->SetEndPosition(TVector3(end_info[0], end_info[1], end_info[2]));
+            rat_mcpart->SetEndTime(end_info[3]);
+            rat_mcpart->SetEndMomentum(TVector3(end_info[4], end_info[5], end_info[6]));
+            rat_mcpart->SetEndKE(end_info[7]);
+
         }
         
         PrimaryVertexInformation* ratpvi =
@@ -550,7 +570,9 @@ void Gsim::MakeEvent(const G4Event* g4ev, DS::Root* ds) {
     double avgX = 0., avgY = 0., avgZ = 0.,
     avgCnt = 0.;  // Might need to do a weighted average
     // int avgCnt = 0;
-    for (unsigned long aIndex = 0; aIndex < a.size(); aIndex++) {
+    //
+    // remove mfb
+    /*for (unsigned long aIndex = 0; aIndex < a.size(); aIndex++) {
         if ((a[aIndex][0] - old_time) > timeWindow) {
             triggers += 1;
             // G4cout << "Found a new trigger "<< triggers << "; previous trigger
@@ -589,7 +611,7 @@ void Gsim::MakeEvent(const G4Event* g4ev, DS::Root* ds) {
         << " " << old_time - start_time << " " << rollingEnergy << " "
         << avgX / avgCnt << " " << avgY / avgCnt << " " << avgZ / avgCnt
         << G4endl;
-    }
+    }*/
     
     std::vector<G4double> rollingZero;                 // mfb
     std::vector<std::vector<double> > rollingPhotons;  // mfb

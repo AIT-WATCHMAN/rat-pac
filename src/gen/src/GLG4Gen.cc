@@ -5,6 +5,7 @@
 #include "RAT/GLG4StringUtil.hh"
 
 #include <RAT/Factory.hh>
+#include <RAT/DB.hh>
 
 #include <G4Event.hh>
 #include <G4Track.hh>
@@ -207,19 +208,39 @@ void GLG4Gen_External::SetState(G4String state)
   try {
     switch (parts.size()) {
     case 3:
-      delete timeGen; timeGen = 0; // In case of exception in next line
-      timeGen = RAT::GlobalFactory<GLG4TimeGen>::New(parts[1]);
-      delete vertexGen; vertexGen = 0;
-      vertexGen = RAT::GlobalFactory<GLG4VertexGen>::New("HEPEvt");
-      vertexGen->SetState(parts[2]);
-      delete posGen; posGen = 0;
-      if(parts[0].compare("external")==0) {
-	dynamic_cast<GLG4VertexGen_HEPEvt*>(vertexGen)->SetUseExternalPos(true);
-      } else {
-	posGen = RAT::GlobalFactory<GLG4PosGen>::New(parts[0]);
-	dynamic_cast<GLG4VertexGen_HEPEvt*>(vertexGen)->SetUseExternalPos(false);
+      {
+        delete timeGen; timeGen = 0; // In case of exception in next line
+        timeGen = RAT::GlobalFactory<GLG4TimeGen>::New(parts[1]);
+        delete vertexGen; vertexGen = 0;
+        vertexGen = RAT::GlobalFactory<GLG4VertexGen>::New("HEPEvt");
+        vertexGen->SetState(parts[2]);
+        delete posGen; posGen = 0;
+        if(parts[0].compare("external")==0) {
+          dynamic_cast<GLG4VertexGen_HEPEvt*>(vertexGen)->SetUseExternalPos(true);
+        } else {
+          posGen = RAT::GlobalFactory<GLG4PosGen>::New(parts[0]);
+          dynamic_cast<GLG4VertexGen_HEPEvt*>(vertexGen)->SetUseExternalPos(false);
+        }
+        break;
       }
-      break;
+    case 2:
+      {
+        delete timeGen; timeGen = 0;
+        timeGen = RAT::GlobalFactory<GLG4TimeGen>::New(parts[1]);
+        delete vertexGen; vertexGen = 0;
+        vertexGen = RAT::GlobalFactory<GLG4VertexGen>::New("HEPEvt");
+        RAT::DBLinkPtr lIO = RAT::DB::Get()->GetLink("IO");
+        G4String filename = lIO->GetS("default_vector_filename");
+        vertexGen->SetState( filename.c_str() );
+        delete posGen; posGen = 0;
+        if(parts[0].compare("external")==0) {
+          dynamic_cast<GLG4VertexGen_HEPEvt*>(vertexGen)->SetUseExternalPos(true);
+        } else {
+          posGen = RAT::GlobalFactory<GLG4PosGen>::New(parts[0]);
+          dynamic_cast<GLG4VertexGen_HEPEvt*>(vertexGen)->SetUseExternalPos(false);
+        }
+        break;
+      }
     default:
       G4Exception(__FILE__, "Invalid Parameter", FatalException, ("External generator syntax error: "+state).c_str());
       break;
