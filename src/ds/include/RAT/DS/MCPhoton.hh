@@ -79,7 +79,7 @@ public:
   bool operator < (const MCPhoton& mcp) const { return (frontEndTime < mcp.frontEndTime); }
   bool operator > (const MCPhoton& mcp) const { return (frontEndTime > mcp.frontEndTime); }
 
-  ClassDef(MCPhoton, 2) 
+  ClassDef(MCPhoton, 3)
 
 protected:
   Double_t hitTime;

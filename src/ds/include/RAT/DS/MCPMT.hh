@@ -45,7 +45,7 @@ public:
   void PruneMCPhoton() { photon.resize(0); }
   void SortMCPhotons() { std::sort(photon.begin(), photon.end()); }
  
-  ClassDef(MCPMT, 1)
+  ClassDef(MCPMT, 2)
     
 protected:
   Int_t id;
