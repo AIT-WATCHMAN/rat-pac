@@ -43,6 +43,7 @@ public:
   }
   void RemoveMCPhoton(Int_t i){ photon.erase(photon.begin() + i); }
   void PruneMCPhoton() { photon.resize(0); }
+  void SortMCPhotons() { std::sort(photon.begin(), photon.end()); }
  
   ClassDef(MCPMT, 1)
     
