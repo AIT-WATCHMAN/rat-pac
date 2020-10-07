@@ -153,12 +153,11 @@ Processor::Result SplitEVDAQProc::DSEvent(DS::Root *ds) {
           }
         }
       }
-      std::sort(hitTimes.begin(), hitTimes.end());
       if( pmtInEvent )
       {
         DS::PMT* pmt = ev->AddNewPMT();
         pmt->SetID(pmtID);
-        double true_hit_time = *std::min_element( hitTimes.begin(), hitTimes.end() );
+        double true_hit_time = hitTimes[0];
         // PMT Hit time relative to the trigger
         pmt->SetTime( true_hit_time - tt );
         pmt->SetCharge( integratedCharge );
