@@ -16,7 +16,6 @@
 #include <RAT/PMTConstruction.hh>
 #include <RAT/WaveguideFactory.hh>
 #include <RAT/Factory.hh>
-#include <RAT/GeoSurfaceFactory.hh>
 #include <vector>
 #include <algorithm>
 
