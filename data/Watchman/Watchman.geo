@@ -481,8 +481,8 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "detector",
 type: "tube",
-r_max:  6710.0,// These are guessed. Need a proper estimate
-r_min:  6700.0,//
+r_max:  6770.0,// These are guessed. Need a proper estimate
+r_min:  6760.0,//
 size_z: 6700.0,// These are guessed. Need a proper estimate
 position: [0.0, 0.0, 0.0],
 material: "polypropylene",
@@ -695,6 +695,11 @@ light_cone_length: 17.5,
 light_cone_innerradius: 12.65,
 light_cone_outerradius: 21,
 light_cone_thickness: 0.2,
+wls_plates: 1,
+wls_size: [245.0,245.0,12.7],
+wls_radius: [116.0,96.0],
+wls_material: "eljen_WLSP",
+ref_surface: "nonreflective_tarp"
 black_sheet_offset: 300.0, //30 cm default black tarp offset
 black_sheet_thickness: 10.0, //1 cm default black tarp thickness 
 pmt_detector_type: "idpmt",
@@ -719,6 +724,7 @@ start_idx: 3258, //idx of the first pmt
 pmt_model: "r7081pe",
 mu_metal: 0,
 light_cone: 0,
+wls_plates: 0,
 pmt_detector_type: "idpmt",
 sensitive_detector: "/mydet/pmt/veto",
 efficiency_correction: 0.90000,
