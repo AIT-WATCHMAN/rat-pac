@@ -699,7 +699,7 @@ wls_plates: 0,
 wls_size: [245.0,245.0,12.7],
 wls_radius: [116.0,96.0],
 wls_material: "eljen_WLSP",
-ref_surface: "nonreflective_tarp"
+ref_surface: "reflective_tarp"
 black_sheet_offset: 300.0, //30 cm default black tarp offset
 black_sheet_thickness: 10.0, //1 cm default black tarp thickness 
 pmt_detector_type: "idpmt",
