@@ -174,6 +174,9 @@ namespace RAT {
         if( wls_plates == 1 ){ wlsp = true; G4cout << "WLS Plates are Added!! \n "; }
         //material properties
         G4Material* wls_material = G4Material::GetMaterial("eljen_WLSP");
+  double wls_offset = 30.0;
+  try { wls_offset = table->GetD("wls_offset");; }
+	catch (DBNotFoundError &e) { }
 	try { wls_material = G4Material::GetMaterial( table->GetS("wls_material") ); }
 	catch (DBNotFoundError &e) { }
         //surface properties
@@ -183,7 +186,7 @@ namespace RAT {
 	G4cout << "WLS plate is added!! \n ";
         //wls parameter: size
         vector<double> wls_size = {245.0,245.0,12.7};
-	try { wls_size = table->GetDArray("wls_size");; }
+	try { wls_size = table->GetDArray("wls_size"); }
 	catch (DBNotFoundError &e) { }
 	      double zz = wls_size[2];
         //wls parameter: inner radius
@@ -731,7 +734,7 @@ namespace RAT {
             G4RotationMatrix* wlsrot = new G4RotationMatrix();
             wlsrot->rotateY(angle_y);
             wlsrot->rotateX(angle_x);
-            G4ThreeVector offsetwls = /*G4ThreeVector(0.0, 0.0, 10.0*CLHEP::cm)*/ pmtdir * 20.0*CLHEP::mm;
+            G4ThreeVector offsetwls = /*G4ThreeVector(0.0, 0.0, 10.0*CLHEP::cm)*/ pmtdir * wls_offset*CLHEP::mm;
             G4ThreeVector wlspos = pmtpos + offsetwls;
             if (wlsp) {
               new G4PVPlacement

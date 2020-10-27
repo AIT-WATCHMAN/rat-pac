@@ -695,9 +695,10 @@ light_cone_length: 17.5,
 light_cone_innerradius: 12.65,
 light_cone_outerradius: 21,
 light_cone_thickness: 0.2,
-wls_plates: 0,
+wls_plates: 1,
 wls_size: [245.0,245.0,12.7],
-wls_radius: [116.0,96.0],
+wls_radius: [127.0,108.0],
+wls_offset: 30.0,
 wls_material: "eljen_WLSP",
 ref_surface: "reflective_tarp"
 black_sheet_offset: 300.0, //30 cm default black tarp offset
