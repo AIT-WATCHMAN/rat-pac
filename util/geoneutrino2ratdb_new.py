@@ -55,7 +55,7 @@ def main():
         ff.write(f'index: "{args.index}",\n')
         ff.write('run_range: [0, 0],\n\n')
         ff.write('apply_xs: 0,\n\n')
-        ff.write('emin: 1.805,\n')
+        ff.write('emin: 0.005,\n')
         ff.write('emax: 9.995,\n\n')
         ff.write(f'spec_e: {np.array2string(energy, max_line_width=1000000, separator=",")},\n')
         ff.write(f'spec_flux: {np.array2string(flux, max_line_width=1000000, separator=",")},\n')
