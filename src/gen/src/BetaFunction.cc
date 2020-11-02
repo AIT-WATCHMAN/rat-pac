@@ -6,7 +6,7 @@
 #include <cstring>
 #include <iostream>
 #include <G4ExceptionSeverity.hh>
-#include <G4Exception.hh>
+#include <globals.hh>
 
 namespace RAT {
 
