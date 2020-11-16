@@ -33,6 +33,8 @@
 #include <G4SubtractionSolid.hh>
 #include <G4VisAttributes.hh>
 #include <G4Sphere.hh>
+#include <G4Box.hh>
+#include <G4SubtractionSolid.hh>
 
 
 using namespace std;
@@ -133,12 +135,12 @@ namespace RAT {
         G4cout << "PMT encapsulation is added!! \n "; 
 
         //acrylic has 0.635cm thickness //the whole PMT height with base is 318mm, the encapsulation is: 36cm
-        G4VSolid* encapsulation_solid = new G4Sphere("encapsulation_solid",
-                                           17.5*CLHEP::cm, // rmin   //acrylic has 0.635cm thickness                                    
+        G4Sphere* encapsulation_solid = new G4Sphere("encapsulation_solid",
+					   17.5*CLHEP::cm, // rmin   //acrylic has 0.635cm thickness                                    
                                            18.135*CLHEP::cm, // rmax //PMT diameter is 254mm r:127mm
                                            0., CLHEP::twopi, //phi
-                                           0., CLHEP::pi ); //theta
-        	
+                                           0., CLHEP::pi); //theta
+
         G4LogicalVolume * encapsulation_log=new G4LogicalVolume(
             encapsulation_solid,                     // G4VSolid
             encapsulation_material,                 // G4Material
@@ -149,39 +151,54 @@ namespace RAT {
             encapsulation_log,       //Logical Volume
             encapsulation_surface); //Surface Property
 
-        //----- add gel and nitrogen inside the encapsulation: 
+         //----- add gel and nitrogen inside the encapsulation: 
+	 //Note: [0.,CLHEP::pi/2.] is the upper hemisphere & [CLHEP::pi/2., CLHEP::pi] is the lower hemisphere of the sphere
          //____ optical grease ______ //V-788 Optical Grease from Rhodia Silicones, 
          G4Material* encapsulation_innermaterial1 = G4Material::GetMaterial("optical_grease");
          try { encapsulation_innermaterial1 = G4Material::GetMaterial( table->GetS("encapsulation_innermaterial1") ); }
          catch (DBNotFoundError &e) { }
+	 G4SurfaceProperty* encapsulation_surface1 = Materials::optical_surface["optical_grease"];
+         try { encapsulation_surface1 = Materials::optical_surface[ table->GetS("encapsulation_surface1") ]; }
+         catch (DBNotFoundError &e) { }
          
          G4VSolid* encapsulation_innersolid1 = new G4Sphere("encapsulation_innersolid1",
-                                           0.*CLHEP::cm, // rmin                                      
+                                           12.65*CLHEP::cm, // rmin                                      
                                            17.5*CLHEP::cm, // rmax 
                                            0., CLHEP::twopi, //phi
-                                           CLHEP::pi/2., CLHEP::pi ); //theta
+				           0., CLHEP::pi/2.); //theta
 
          G4LogicalVolume * encapsulation_innerlog1=new G4LogicalVolume(
              encapsulation_innersolid1,                   // G4VSolid
              encapsulation_innermaterial1,                 // G4Material
              "encapsulation_innerlog1");
+         G4LogicalSkinSurface* encapsulation_skin1 = new G4LogicalSkinSurface(
+             "encapsulation_surface1",
+             encapsulation_innerlog1, //Logical Volume
+             encapsulation_surface1); //Surface Property
 
 	//_____ nitrogen _____
- 	 G4Material* encapsulation_innermaterial2 = G4Material::GetMaterial("Nitrogen");
+ 	 G4Material* encapsulation_innermaterial2 = G4Material::GetMaterial("air"); //("Nitrogen");
          try { encapsulation_innermaterial2 = G4Material::GetMaterial( table->GetS("encapsulation_innermaterial2") ); }
          catch (DBNotFoundError &e) { }
-         
+	 G4SurfaceProperty* encapsulation_surface2 = Materials::optical_surface["air"];
+         try { encapsulation_surface2 = Materials::optical_surface[ table->GetS("encapsulation_surface2") ]; }
+         catch (DBNotFoundError &e) { }
+      
          G4VSolid* encapsulation_innersolid2 = new G4Sphere("encapsulation_innersolid2",
                                            0.*CLHEP::cm, // rmin                                      
                                            17.5*CLHEP::cm, // rmax 
                                            0., CLHEP::twopi, //phi
-                                           0., CLHEP::pi/2. ); //theta
+                                           CLHEP::pi/2., CLHEP::pi); //theta
 
          G4LogicalVolume * encapsulation_innerlog2=new G4LogicalVolume(
              encapsulation_innersolid2,                   // G4VSolid
              encapsulation_innermaterial2,                 // G4Material
              "encapsulation_innerlog2");
-
+         G4LogicalSkinSurface* encapsulation_skin2 = new G4LogicalSkinSurface(
+             "encapsulation_surface2",
+             encapsulation_innerlog2, //Logical Volume
+             encapsulation_surface2); //Surface Property
+    
        //----------------------------------------------------
 
         //add light cone
@@ -699,8 +716,8 @@ namespace RAT {
             //place the encapsulation:
             G4ThreeVector offsetencapsulation = G4ThreeVector(0.0, 0.0, 0.0*CLHEP::cm);
             //G4cout << "pmtpos is " << pmtpos << "\n";
-            //G4ThreeVector offsetencapsulation_rot = pmtrot->inverse()(offsetencapsulation);
-            G4ThreeVector encapsulationpos = pmtpos; // + offsetencapsulation_rot;
+            G4ThreeVector offsetencapsulation_rot = pmtrot->inverse()(offsetencapsulation);
+            G4ThreeVector encapsulationpos = pmtpos + offsetencapsulation_rot;
             if (encapsulation) {
                 new G4PVPlacement
                 ( pmtrot,
@@ -714,7 +731,7 @@ namespace RAT {
 		new G4PVPlacement
                 ( pmtrot,
                   encapsulationpos,
-                  "encapsulation_phys1",
+                  "encapsulation_phys",
                   encapsulation_innerlog1,
                   phys_mother,
                   false,
@@ -723,12 +740,13 @@ namespace RAT {
 		new G4PVPlacement
                 ( pmtrot,
                   encapsulationpos,
-                  "encapsulation_phys2",
+                  "encapsulation_phys",
                   encapsulation_innerlog2,
                   phys_mother,
                   false,
                   id);
-            }
+            
+	    }
 
             G4RotationMatrix* lightconerot = new G4RotationMatrix();
             lightconerot->rotateY(angle_y);
