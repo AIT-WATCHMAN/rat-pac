@@ -25,6 +25,7 @@ protected:
   double fTriggerResolution;
   double fLookback;
   double fMaxHitTime;
+  double fDiscriminator;
   int fPmtType;
   int fTriggerOnNoise;
   std::vector<double> fSPECharge;
