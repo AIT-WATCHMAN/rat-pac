@@ -163,6 +163,10 @@ Processor::Result SplitEVDAQProc::DSEvent(DS::Root *ds) {
           }
         }
       }
+      // If the integrated charge in the trigger window is below discriminator
+      // threshold do not record the event.
+      if ( integratedCharge < fDiscriminator )
+        pmtInEvent = false;
       std::sort(hitTimes.begin(), hitTimes.end());
       if( pmtInEvent )
       {
