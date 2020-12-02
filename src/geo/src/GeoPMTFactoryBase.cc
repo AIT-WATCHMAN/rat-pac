@@ -162,7 +162,7 @@ namespace RAT {
          catch (DBNotFoundError &e) { }
          
          G4VSolid* encapsulation_innersolid1 = new G4Sphere("encapsulation_innersolid1",
-                                           12.65*CLHEP::cm, // rmin                                      
+                                           13.0*CLHEP::cm, // rmin                                      
                                            17.5*CLHEP::cm, // rmax 
                                            0., CLHEP::twopi, //phi
 				           0., CLHEP::pi/2.); //theta
