@@ -130,11 +130,17 @@ namespace RAT {
         try { encapsulation_surface = Materials::optical_surface[ table->GetS("encapsulation_surface") ]; }
         catch (DBNotFoundError &e) { }
         G4cout << "PMT encapsulation is added!! \n "; 
+        double enc_radius = 17.5; // default radius
+        try { enc_radius = table->GetD("enc_radius"); }
+        catch (DBNotFoundError &e) { }
+        double enc_thickness = 0.635; //default encapsulation thickness
+        try { enc_thickness = table->GetD("enc_thickness"); }
+        catch (DBNotFoundError &e) { } 
 
-        //acrylic has 0.635cm thickness //the whole PMT height with base is 318mm, the encapsulation is: 36cm
+        //acrylic has 0.635cm thickness //the whole PMT height with base is 318mm, the default encapsulation diameter is: 35cm
          G4Sphere* encapsulation_solid = new G4Sphere("encapsulation_solid",
-					     17.5*CLHEP::cm, // rmin //acrylic has 0.635cm thickness
-			                     18.135*CLHEP::cm, // rmax //PMT diameter is 254mm r:127mm
+					     (enc_radius-enc_thickness)*CLHEP::cm, // rmin
+			                     enc_radius*CLHEP::cm, // rmax: 17.5cm //PMT diameter is 254mm r:127mm
 			                     0., CLHEP::twopi, //phi
                                              0., CLHEP::pi); //theta
         
@@ -159,7 +165,7 @@ namespace RAT {
          
          G4VSolid* encapsulation_innersolid1 = new G4Sphere("encapsulation_innersolid1",
                                            13.0*CLHEP::cm, // rmin                                      
-                                           17.5*CLHEP::cm, // rmax 
+                                           (enc_radius-enc_thickness)*CLHEP::cm, // rmax 
                                            0., CLHEP::twopi, //phi
 				           0., CLHEP::pi/2.); //theta
 
@@ -182,7 +188,7 @@ namespace RAT {
       
          G4VSolid* encapsulation_innersolid2 = new G4Sphere("encapsulation_innersolid2",
                                            0.*CLHEP::cm, // rmin                                      
-                                           17.5*CLHEP::cm, // rmax 
+                                           (enc_radius-enc_thickness)*CLHEP::cm, // rmax 
                                            0., CLHEP::twopi, //phi
                                            CLHEP::pi/2., CLHEP::pi); //theta
 
