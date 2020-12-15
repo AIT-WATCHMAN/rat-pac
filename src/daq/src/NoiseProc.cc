@@ -141,6 +141,7 @@ void NoiseProc::AddNoiseHit( DS::MCPMT* mcpmt, DS::PMTInfo* pmtinfo,
     photon->SetCharge(
         fPMTCharge[ pmtinfo->GetModel(mcpmt->GetID()) ]->PickCharge()
         );
+    mcpmt->SortMCPhotons();
 
     return;
 }

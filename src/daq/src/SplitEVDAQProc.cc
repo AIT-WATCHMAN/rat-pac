@@ -53,6 +53,7 @@ Processor::Result SplitEVDAQProc::DSEvent(DS::Root *ds) {
   for (int imcpmt=0; imcpmt < mc->GetMCPMTCount(); imcpmt++)
   {
     DS::MCPMT *mcpmt = mc->GetMCPMT(imcpmt);
+    mcpmt->SortMCPhotons();
     if( mcpmt->GetType() != fPmtType ) continue;
     double lastTrigger = -100000.0;
     for(int pidx=0; pidx < mcpmt->GetMCPhotonCount(); pidx++)
@@ -172,7 +173,7 @@ Processor::Result SplitEVDAQProc::DSEvent(DS::Root *ds) {
       {
         DS::PMT* pmt = ev->AddNewPMT();
         pmt->SetID(pmtID);
-        double true_hit_time = *std::min_element( hitTimes.begin(), hitTimes.end() );
+        double true_hit_time = hitTimes[0];
         // PMT Hit time relative to the trigger
         pmt->SetTime( true_hit_time - tt );
         pmt->SetCharge( integratedCharge );
