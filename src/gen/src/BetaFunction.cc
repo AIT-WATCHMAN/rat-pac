@@ -5,6 +5,8 @@
 
 #include <cstring>
 #include <iostream>
+#include <G4ExceptionSeverity.hh>
+#include <globals.hh>
 
 namespace RAT {
 
@@ -471,16 +473,17 @@ namespace RAT {
 
 	  bool iScan = true;
 	  while (iScan) {
-	    fscanf(inputFile, "%f %d %f %d", &iBr, &iSpin, &W0, &nP);
+	    bool parseSuccess = fscanf(inputFile, "%f %d %f %d", &iBr, &iSpin, &W0, &nP) == 4;
 	    SetBranches((double) iBr, iSpin, (double) W0);
 	    for (int j = 0; j < nReadGamma; j++) {
-	      fscanf(inputFile, "%f", &eP[j]);
+            parseSuccess &= fscanf(inputFile, "%f", &eP[j]) == 1;
 	      if (eP[j] > 0.)
 		SetGammas((double) eP[j]);
 	    }
-	    fscanf(inputFile, "%f %f %f", &aC[0], &aC[1], &aC[2]);
+	    parseSuccess &= fscanf(inputFile, "%f %f %f", &aC[0], &aC[1], &aC[2]) == 3;
 	    if (iBr >= 1.)
-	      iScan = false;
+        { iScan = false; }
+	    if(!parseSuccess) { ThrowParsingException(inputFileName, dName); }
 	  }
 	} else if (iString == eProbe) {
 	  iRead = false;
@@ -503,6 +506,16 @@ namespace RAT {
   void BetaFunction::ErrorLog(int iFlag)
   {
     printf("Error detected: %d \n", iFlag);
+  }
+
+  void BetaFunction::ThrowParsingException(std::string filename, std::string decayName) {
+      G4Exception(__FILE__,
+                  "BetaFunction Parser Error", FatalException,
+                  ("failed to parse "
+                  + decayName
+                  + " in "
+                  + filename).c_str()
+                  );
   }
 
 } // namespace RAT
