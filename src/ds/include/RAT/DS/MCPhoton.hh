@@ -75,7 +75,11 @@ public:
   virtual std::string GetProcess() const { return process; }
   virtual void SetProcess(const std::string &_process) { process = _process; }
 
-  ClassDef(MCPhoton, 2) 
+  /** Operator overload **/
+  bool operator < (const MCPhoton& mcp) const { return (frontEndTime < mcp.frontEndTime); }
+  bool operator > (const MCPhoton& mcp) const { return (frontEndTime > mcp.frontEndTime); }
+
+  ClassDef(MCPhoton, 3)
 
 protected:
   Double_t hitTime;
