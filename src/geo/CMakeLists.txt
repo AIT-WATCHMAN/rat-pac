@@ -51,6 +51,7 @@ add_library(geo OBJECT
         src/TubeFacetSolid.cc
         src/UnionSolidArray.cc
         src/WatchmanDetectorFactory.cc
+        src/LetterboxFactory.cc
         src/WatchmanWLSPSquareDetectorFactory.cc
         src/WaterBoxConstruction.cc
         src/WLSPFactory.cc
