@@ -6,7 +6,7 @@ import numpy as np
 import math
 
 
-def square(_x=23498.125, _y=3498.125, _z=3498.125, photocoverage=0.205, pmtRad = 126.5):
+def square(_x=3498.125, _y=3498.125, _z=23498.125, photocoverage=0.205, pmtRad = 126.5):
     pmtArea = 3.14159265359*pmtRad*pmtRad
     length = np.sqrt(pmtArea/photocoverage)
    

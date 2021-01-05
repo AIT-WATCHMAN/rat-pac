@@ -5,7 +5,7 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "", // world volume has no mother
 type: "box",
-size: [300000.0, 10000.0, 10000.0], // mm, half-length
+size: [10000.0, 10000.0, 300000.0], // mm, half-length
 material: "air", //rock?
 invisible: 1,
 }
@@ -20,7 +20,7 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "world", // world volume has no mother
 type: "box",
-size: [27000.0, 7000.0, 7000.0], // mm, half-length
+size: [7000.0, 7000.0, 27000.0], // mm, half-length
 position: [0.0, 0.0, 0.0], //this will allow for the concrete layer on the floor and not on the ceiling
 material: "rock",
 invisible: 1,
@@ -37,7 +37,7 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "rock_1",
 type: "box",
-size: [25500.0, 5500.0, 5500.0], // mm, half-length
+size: [5500.0, 5500.0, 25500.0], // mm, half-length
 position: [0.0, 0.0, 0.0], // this will give a concrete layer on the floor and not on the ceiling
 material: "concrete", // changed from "gunite" (L. Kneale)
 invisible: 1,
@@ -54,7 +54,7 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "concrete",
 type: "box",
-size: [25000.0, 5000.0, 5000.0], // mm, half-length
+size: [5000.0, 5000.0,25000.0], // mm, half-length
 position: [0.0, 0.0, 0.0],
 material: "air",
 invisible: 1,
@@ -69,7 +69,7 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "cavern",
 type: "box",
-size: [24500.0, 4500.0, 4500.0], // mm, half-length
+size: [4500.0, 4500.0, 24500.0], // mm, half-length
 position: [0.0, 0.0, 0.0],
 material: "stainless_steel",
 color: [0.6,0.6,0.9,0.01],
@@ -83,7 +83,7 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "tank",
 type: "box",
-size: [24498.125, 4498.125, 4498.125], // mm, half-length
+size: [4498.125, 4498.125, 24498.125], // mm, half-length
 position: [0.0, 0.0, 0.0],
 material: "doped_water",
 color: [0.2,0.2,0.9,0.2],
@@ -97,7 +97,7 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "detector_veto",
 type: "box",
-size: [23508.125, 3508.125, 3508.125], // mm, half-length
+size: [3508.125, 3508.125, 23508.125], // mm, half-length
 position: [0.0, 0.0, 0.0],
 material: "polypropylene",
 color: [0.,0.,0.,1.0],
@@ -110,7 +110,7 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "black_sheet",
 type: "box",
-size: [23498.125, 3498.125, 3498.125], // mm, half-length
+size: [3498.125, 3498.125, 23498.125] // mm, half-length
 position: [0.0, 0.0, 0.0],
 material: "doped_water",
 color: [0.2,0.2,0.9,0.2],
