@@ -19,7 +19,7 @@
 
 /rat/db/set DETECTOR detector_factory "Watchman"
 #/rat/db/set DETECTOR geo_file "Watchman/Watchman.geo"
-/rat/db/set WATCHMAN_PARAMS photocathode_coverage 0.05 #0.25
+/rat/db/set WATCHMAN_PARAMS photocathode_coverage 0.25
 
 #/rat/db/set DETECTOR experiment "Watchman"
 #/rat/db/set DETECTOR detector_factory "Watchman"

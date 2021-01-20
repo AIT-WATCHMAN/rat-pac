@@ -17,6 +17,9 @@
 ## Include noise (Before DAQ!)
 /rat/proc noise
 /rat/procset rate 3000.0
+/rat/procset lookback 1000.0
+/rat/procset lookforward 1000.0
+/rat/procset maxtime 1000000.0
 /rat/procset nearhits 1
 ## Use the SplitEVDAQ
 /rat/proc splitevdaq
@@ -28,9 +31,10 @@
 /rat/procset trigger_resolution 1.0
 /rat/procset max_hit_time 1000000.0
 /rat/procset pulse_width 100.0
+/rat/procset discriminator 0.25
 
 /rat/proc count
-/rat/procset update 10
+/rat/procset update 1000
 
 # Use IO.default_output_filename
 /rat/proclast outroot

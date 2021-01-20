@@ -109,6 +109,8 @@ namespace RAT {
 
   private:
 
+    static void ThrowParsingException(std::string filename, std::string decayName);
+
     bool isVerbose;
     bool isCulmulative;
   

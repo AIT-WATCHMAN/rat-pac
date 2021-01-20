@@ -24,6 +24,7 @@ SplitEVDAQProc::SplitEVDAQProc() : Processor("splitevdaq") {
   fTriggerResolution = ldaq->GetD("trigger_resolution");
   fLookback          = ldaq->GetD("lookback");
   fMaxHitTime        = ldaq->GetD("max_hit_time");
+  fDiscriminator     = ldaq->GetD("discriminator");
   fPmtType           = ldaq->GetI("pmt_type");
   fTriggerOnNoise    = ldaq->GetI("trigger_on_noise");
 }
@@ -35,6 +36,13 @@ Processor::Result SplitEVDAQProc::DSEvent(DS::Root *ds) {
   // Not included yet
   // - Noise on the trigger pulse height, rise-time, etc
   // - Disciminator on charge (all hits assumed to trigger)
+  // Note on the discriminator mk-I. Right now each photon is presumed to
+  // deposit its charge instantaneously and independently, which is faster
+  // for simulations but is less accurate for events with multi-pe since
+  // we aren't summing the hits to create a PMT waveform. We should add this
+  // feature as an option to test the accuracy of this simplified model, noting
+  // that the feature will likely cause a slowdown when used because of its
+  // increased complexity.
 
   DS::MC *mc = ds->GetMC();
   // Prune the previous EV branchs if one exists
@@ -45,6 +53,7 @@ Processor::Result SplitEVDAQProc::DSEvent(DS::Root *ds) {
   for (int imcpmt=0; imcpmt < mc->GetMCPMTCount(); imcpmt++)
   {
     DS::MCPMT *mcpmt = mc->GetMCPMT(imcpmt);
+    mcpmt->SortMCPhotons();
     if( mcpmt->GetType() != fPmtType ) continue;
     double lastTrigger = -100000.0;
     for(int pidx=0; pidx < mcpmt->GetMCPhotonCount(); pidx++)
@@ -53,7 +62,10 @@ Processor::Result SplitEVDAQProc::DSEvent(DS::Root *ds) {
       // Do we want to trigger on noise hits?
       if( !fTriggerOnNoise && photon->IsDarkHit() ) continue;
       double time = photon->GetFrontEndTime();
+      double charge = photon->GetCharge();
       if (time > fMaxHitTime) continue;
+      // Pass discriminator threshold?
+      if (charge < fDiscriminator) continue;
       if (time > (lastTrigger + fPmtLockout))
       {
         trigPulses.push_back(time);
@@ -152,12 +164,16 @@ Processor::Result SplitEVDAQProc::DSEvent(DS::Root *ds) {
           }
         }
       }
+      // If the integrated charge in the trigger window is below discriminator
+      // threshold do not record the event.
+      if ( integratedCharge < fDiscriminator )
+        pmtInEvent = false;
       std::sort(hitTimes.begin(), hitTimes.end());
       if( pmtInEvent )
       {
         DS::PMT* pmt = ev->AddNewPMT();
         pmt->SetID(pmtID);
-        double true_hit_time = *std::min_element( hitTimes.begin(), hitTimes.end() );
+        double true_hit_time = hitTimes[0];
         // PMT Hit time relative to the trigger
         pmt->SetTime( true_hit_time - tt );
         pmt->SetCharge( integratedCharge );
@@ -188,6 +204,8 @@ void SplitEVDAQProc::SetD(std::string param, double value)
     fLookback = value;
   else if( param == "max_hit_time" )
     fMaxHitTime = value;
+  else if( param == "discriminator" )
+    fDiscriminator = value;
   else
     throw ParamUnknown(param);
 }
