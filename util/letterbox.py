@@ -11,7 +11,7 @@ zPMT    = 3065.0
 
 dFIDVol = -1000.0 ## Arbitrary 1m buffer
 tFIDVol = 0.0
-dPSUP   = 100.0      
+dPSUP   = 385    
 tPSUP   = 10.0
 tBSHEET = 5.0
 dTANK   = 935.0  
@@ -125,7 +125,7 @@ drawstyle: "solid"
 }}
 {{
 name: "GEO",
-index: "detector_veto",
+index: "detector_veto1",
 valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "tank",
@@ -139,10 +139,38 @@ drawstyle: "solid"
 }}
 {{
 name: "GEO",
+index: "psup",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+mother: "detector_veto1",
+type: "box",
+//size: [4498.125, 24498.125, 4498.125], // mm, half-length
+size: [{xPMT+dPSUP+tPSUP}, {yPMT+dPSUP+tPSUP}, {zPMT+dPSUP+tPSUP}],
+position: [0.0, 0.0, 0.0],
+material: "stainless_steel",
+color: [0.2,0.2,0.9,0.2],
+drawstyle: "solid"
+}}
+{{
+name: "GEO",
+index: "detector_veto2",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+mother: "psup",
+type: "box",
+//size: [4498.125, 24498.125, 4498.125], // mm, half-length
+size: [{xPMT+dPSUP}, {yPMT+dPSUP}, {zPMT+dPSUP}],
+position: [0.0, 0.0, 0.0],
+material: "doped_water",
+color: [0.2,0.2,0.9,0.2],
+drawstyle: "solid"
+}}
+{{
+name: "GEO",
 index: "black_sheet",
 valid_begin: [0, 0],
 valid_end: [0, 0],
-mother: "detector_veto",
+mother: "detector_veto2",
 type: "box",
 //size: [3508.125, 23508.125, 3508.125], // mm, half-length
 size: [{xPMT+tBSHEET},{yPMT+tBSHEET},{zPMT+tBSHEET}],
