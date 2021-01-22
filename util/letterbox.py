@@ -2,34 +2,34 @@
 Must be run from the util folder. Will create a files in the data folder.
 '''
 
-### Values to change ratdb geometry files
+### Default values to change ratdb geometry files
 
-xPMT = 3065.
-yPMT = 24065.0
-zPMT = 3065.
-dFIDVol = -1000.0    
+xPMT    = 3065.0
+yPMT    = 24065.0 ## 50-m tank
+yPMT    = 39065.0 ## 80-m tank
+zPMT    = 3065.0
+
+dFIDVol = -1000.0 ## Arbitrary 1m buffer
 tFIDVol = 0.0
 dPSUP   = 100.0      
 tPSUP   = 10.0
+tBSHEET = 5.0
 dTANK   = 935.0  
 tTANK   = 400.0
 dAIR    = 1000.0 
 dCONC   = 500.0
-tCONC  = 25000.0
+tCONC   = 25000.0
 dROCK   = 2000.0  
 
 
 ## Values to change for PMT arrangement. (PMTINFO)
-photocoverage=0.205
-pmtRad = 126.5
+photocoverage = 0.105
+photocoverage = 0.155
+photocoverage = 0.205
+pmtRad        = 126.5
 
 import numpy as np
 import math
-
-
-
-
-
 
 
 def geoFile(xPMT = 3498.125,  yPMT = 23498.125, zPMT = 3498.125,\
@@ -37,6 +37,7 @@ dFIDVol = -1000.0,\
 tFIDVol = 0.0,\
 dPSUP   = 100.0,\
 tPSUP   = 10.0,\
+tBSHEET = 5.0,\
 dTANK   = 501.875,    
 tTANK   = 500.0,\
 dAIR    = 1000.0 ,\
@@ -67,7 +68,7 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "world", // world volume has no mother
 type: "box",
-//size: [7000.0, 7000.0, 27000.0], // mm, half-length
+//size: [7000.0, 27000.0, 7000.0], // mm, half-length
 size: [{xPMT+dTANK+dAIR+dROCK}, {yPMT+dTANK+dAIR+dROCK}, {zPMT+dTANK+dAIR+dROCK}],
 position: [0.0, 0.0, 0.0], //this will allow for the concrete layer on the floor and not on the ceiling
 material: "rock",
@@ -85,7 +86,7 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "rock_1",
 type: "box",
-//size: [5500.0, 5500.0, 25500.0], // mm, half-length
+//size: [5500.0, 26500.0, 5500.0], // mm, half-length
 size: [{xPMT+dTANK+dAIR+dCONC}, {yPMT+dTANK+dAIR+dCONC}, {zPMT+dTANK+dAIR+dCONC}], 
 position: [0.0, 0.0, 0.0], // this will give a concrete layer on the floor and not on the ceiling
 material: "concrete", // changed from "gunite" (L. Kneale)
@@ -101,7 +102,7 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "concrete",
 type: "box",
-//size: [5000.0, 5000.0,25000.0], // mm, half-length
+//size: [5000.0, 26000.0, 5000.0], // mm, half-length
 size: [{xPMT+dTANK+dAIR}, {yPMT+dTANK+dAIR}, {zPMT+dTANK+dAIR}], 
 position: [0.0, 0.0, 0.0],
 material: "air",
@@ -115,7 +116,7 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "cavern",
 type: "box",
-//size: [4500.0, 4500.0, 24500.0], // mm, half-length
+//size: [4500.0, 24500.0, 4500.0], // mm, half-length
 size: [{xPMT+dTANK}, {yPMT+dTANK}, {zPMT+dTANK}], 
 position: [0.0, 0.0, 0.0],
 material: "stainless_steel",
@@ -129,7 +130,7 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "tank",
 type: "box",
-//size: [4498.125, 4498.125, 24498.125], // mm, half-length
+//size: [4498.125, 24498.125, 4498.125], // mm, half-length
 size: [{xPMT+dTANK-tTANK}, {yPMT+dTANK-tTANK}, {zPMT+dTANK-tTANK}],
 position: [0.0, 0.0, 0.0],
 material: "doped_water",
@@ -143,7 +144,8 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "detector_veto",
 type: "box",
-size: [3508.125, 3508.125, 23508.125], // mm, half-length
+//size: [3508.125, 23508.125, 3508.125], // mm, half-length
+size: [{xPMT+tBSHEET},{yPMT+tBSHEET},{zPMT+tBSHEET}],
 position: [0.0, 0.0, 0.0],
 material: "polypropylene",
 color: [0.,0.,0.,1.0],
@@ -156,7 +158,22 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "black_sheet",
 type: "box",
-size: [3498.125, 3498.125, 23498.125] // mm, half-length
+//size: [3498.125, 23498.125, 3498.125] // mm, half-length
+size: [{xPMT},{yPMT},{zPMT}],
+position: [0.0, 0.0, 0.0],
+material: "doped_water",
+color: [0.2,0.2,0.9,0.2],
+drawstyle: "solid"
+}}
+{{
+name: "GEO",
+index: "detector_fidvol",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+mother: "detector_target",
+type: "box",
+//size: [3498.125, 23498.125, 3498.125] // mm, half-length
+size: [{xPMT+dFIDVol},{yPMT+dFIDVol},{zPMT+dFIDVol}],
 position: [0.0, 0.0, 0.0],
 material: "doped_water",
 color: [0.2,0.2,0.9,0.2],
@@ -341,7 +358,7 @@ _pmtinfo,cnt = square(_x=xPMT, _y=yPMT, _z=zPMT,\
 photocoverage=photocoverage, pmtRad = pmtRad)
 
 _geoFile = geoFile(xPMT = xPMT,  yPMT = yPMT, zPMT = zPMT,dFIDVol = dFIDVol,tFIDVol = tFIDVol,dPSUP   = dPSUP,tPSUP = tPSUP,\
-dTANK = dTANK,tTANK = tTANK,dAIR = dAIR ,dCONC = dCONC,tCONC = tCONC, dROCK = dROCK )
+tBSHEET = tBSHEET, dTANK = dTANK,tTANK = tTANK,dAIR = dAIR ,dCONC = dCONC,tCONC = tCONC, dROCK = dROCK )
 
 #print(_geoFile)
 #print()
