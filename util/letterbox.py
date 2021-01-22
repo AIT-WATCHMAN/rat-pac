@@ -6,7 +6,7 @@ Must be run from the util folder. Will create a files in the data folder.
 
 xPMT    = 3065.0
 yPMT    = 24065.0 ## 50-m tank
-yPMT    = 39065.0 ## 80-m tank
+#yPMT    = 39065.0 ## 80-m tank
 zPMT    = 3065.0
 
 dFIDVol = -1000.0 ## Arbitrary 1m buffer
@@ -24,8 +24,8 @@ dROCK   = 2000.0
 
 ## Values to change for PMT arrangement. (PMTINFO)
 photocoverage = 0.105
-photocoverage = 0.155
-photocoverage = 0.205
+#photocoverage = 0.155
+#photocoverage = 0.205
 pmtRad        = 126.5
 
 import numpy as np
