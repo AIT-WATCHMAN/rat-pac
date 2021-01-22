@@ -6,7 +6,7 @@ Must be run from the util folder. Will create a files in the data folder.
 
 xPMT    = 3065.0
 yPMT    = 24065.0 ## 50-m tank
-#yPMT    = 39065.0 ## 80-m tank
+yPMT    = 39065.0 ## 80-m tank
 zPMT    = 3065.0
 
 dFIDVol = -1000.0 ## Arbitrary 1m buffer
@@ -24,8 +24,8 @@ dROCK   = 2000.0
 
 ## Values to change for PMT arrangement. (PMTINFO)
 photocoverage = 0.105
-#photocoverage = 0.155
-#photocoverage = 0.205
+photocoverage = 0.155
+photocoverage = 0.205
 pmtRad        = 126.5
 
 import numpy as np
@@ -42,8 +42,9 @@ dTANK   = 501.875,
 tTANK   = 500.0,\
 dAIR    = 1000.0 ,\
 dCONC   = 500.0,\
-tCONC  = 25000.0,\
-dROCK   = 2000.0   ):                            
+tCONC   = 25000.0,\
+dROCK   = 2000.0,\
+pmtCnt  =  4000.0   ):                            
 ## dtank With respect to PMTs
 
     return  f"""{{
@@ -231,7 +232,7 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "detector_target",
 type: "pmtarray",
-end_idx: 4751, //idx of the last pmt
+end_idx: {int(pmtCnt-1)}, //idx of the last pmt
 start_idx: 0, //idx of the first pmt
 pmt_model: "r7081pe",
 mu_metal: 0,
@@ -257,7 +258,7 @@ color: [0.3,0.5, 0.0, 0.2],
 """
 
 
-def square(_x=3498.125, _y=3498.125, _z=23498.125, photocoverage=0.205, pmtRad = 126.5):
+def square(_x=3498.125, _y=23498.125, _z=3498.125, photocoverage=0.205, pmtRad = 126.5):
     pmtArea = 3.14159265359*pmtRad*pmtRad
     length = np.sqrt(pmtArea/photocoverage)
    
@@ -367,13 +368,13 @@ def square(_x=3498.125, _y=3498.125, _z=23498.125, photocoverage=0.205, pmtRad =
     pmt_info += f"\"name\": \"PMTINFO\",\n"
     pmt_info += f"\"valid_begin\": [0, 0],\n"
     pmt_info += f"\"valid_end\": [0, 0],\n"
-    pmt_info += f"\"x\":    {x},\n"
-    pmt_info += f"\"y\":   {y},\n"
-    pmt_info += f"\"z\":    {z},\n"
+    pmt_info += f"\"x\":     {x},\n"
+    pmt_info += f"\"y\":     {y},\n"
+    pmt_info += f"\"z\":     {z},\n"
     pmt_info += f"\"dir_x\": {dx},\n"
     pmt_info += f"\"dir_y\": {dy},\n"
     pmt_info += f"\"dir_z\": {dz},\n"
-    pmt_info += f"\"type\": {type},\n"
+    pmt_info += f"\"type\":  {type},\n"
     pmt_info += "}"
     
     return pmt_info,cnt
@@ -386,7 +387,7 @@ _pmtinfo,cnt = square(_x=xPMT, _y=yPMT, _z=zPMT,\
 photocoverage=photocoverage, pmtRad = pmtRad)
 
 _geoFile = geoFile(xPMT = xPMT,  yPMT = yPMT, zPMT = zPMT,dFIDVol = dFIDVol,tFIDVol = tFIDVol,dPSUP   = dPSUP,tPSUP = tPSUP,\
-tBSHEET = tBSHEET, dTANK = dTANK,tTANK = tTANK,dAIR = dAIR ,dCONC = dCONC,tCONC = tCONC, dROCK = dROCK )
+tBSHEET = tBSHEET, dTANK = dTANK,tTANK = tTANK,dAIR = dAIR ,dCONC = dCONC,tCONC = tCONC, dROCK = dROCK, pmtCnt = cnt )
 
 #print(_geoFile)
 #print()
