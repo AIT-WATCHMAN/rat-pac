@@ -1,6 +1,9 @@
 '''Create a PMTINFO RATDB table with positions of PMTs arranged in a box.
 Must be run from the util folder. Will create a files in the data folder.
 '''
+import numpy as np
+import math
+import os
 
 ### Default values to change ratdb geometry files
 
@@ -27,9 +30,6 @@ photocoverage = 0.105
 photocoverage = 0.155
 photocoverage = 0.205
 pmtRad        = 126.5
-
-import numpy as np
-import math
 
 
 def geoFile(xPMT = 3498.125,  yPMT = 23498.125, zPMT = 3498.125,\
@@ -393,7 +393,7 @@ tBSHEET = tBSHEET, dTANK = dTANK,tTANK = tTANK,dAIR = dAIR ,dCONC = dCONC,tCONC 
 #print()
 #print(_pmtinfo)
 
-import os
+
 try:
     os.mkdir(f"../data/Watchman_letterbox_{int((xPMT+dTANK)*2.0/1000)}m_{int((yPMT+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct")
     print('Created', f"../data/Watchman_letterbox_{int((xPMT+dTANK)*2.0/1000)}m_{int((yPMT+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct")
