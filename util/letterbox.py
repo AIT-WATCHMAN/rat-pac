@@ -1,5 +1,5 @@
-'''Create a PMTINFO RATDB table with positions of PMTs arranged on a
-cylinder.
+'''Create a PMTINFO RATDB table with positions of PMTs arranged in a box.
+Must be run from the util folder. Will create a files in the data folder.
 '''
 
 ### Values to change ratdb geometry files
@@ -12,7 +12,7 @@ tFIDVol = 0.0
 dPSUP   = 100.0      
 tPSUP   = 10.0
 dTANK   = 935.0  
-tTANK   = 500.0
+tTANK   = 400.0
 dAIR    = 1000.0 
 dCONC   = 500.0
 tCONC  = 25000.0
@@ -347,12 +347,19 @@ dTANK = dTANK,tTANK = tTANK,dAIR = dAIR ,dCONC = dCONC,tCONC = tCONC, dROCK = dR
 #print()
 #print(_pmtinfo)
 
-geofile = open(f"Watchman_letterbox_{int((xPMT+dTANK)*2.0/1000)}m_{int((yPMT+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct.geo","w+")
+import os
+try:
+    os.mkdir(f"../data/Watchman_letterbox_{int((xPMT+dTANK)*2.0/1000)}m_{int((yPMT+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct")
+    print('Created', f"../data/Watchman_letterbox_{int((xPMT+dTANK)*2.0/1000)}m_{int((yPMT+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct")
+except OSError as error:  
+    print(error)   
+
+geofile = open(f"../data/Watchman_letterbox_{int((xPMT+dTANK)*2.0/1000)}m_{int((yPMT+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct/Watchman_letterbox_{int((xPMT+dTANK)*2.0/1000)}m_{int((yPMT+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct.geo","w+")
 geofile.writelines(_geoFile)
 geofile.close
 
-pmtfile = open(f"PMTINFO.ratdb","w+")
-pmtfile.writelines(_geoFile)
+pmtfile = open(f"../data/Watchman_letterbox_{int((xPMT+dTANK)*2.0/1000)}m_{int((yPMT+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct/PMTINFO.ratdb","w+")
+pmtfile.writelines(_pmtinfo)
 pmtfile.close
 
 
@@ -360,5 +367,5 @@ print("//// Total number of inner PMTs : ",cnt)
 print("//// Photocoverage (%) : ",photocoverage*100.)
 print("//// Detector height (m) : ",(xPMT+dTANK)*2.0/1000.)
 print("//// Detector length (m) : ",(yPMT+dTANK)*2.0/1000.)
-
+print("////")
 
