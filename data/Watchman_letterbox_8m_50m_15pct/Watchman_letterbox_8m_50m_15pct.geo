@@ -133,7 +133,7 @@ drawstyle: "solid",
 }
 {
 name: "GEO",
-index: "detector_target",
+index: "detector_target_gb", // gb: gamma buffer
 valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "black_sheet",
@@ -147,13 +147,13 @@ drawstyle: "solid"
 }
 {
 name: "GEO",
-index: "detector_fidvol",
+index: "detector_target_fv",
 valid_begin: [0, 0],
 valid_end: [0, 0],
-mother: "detector_target",
+mother: "detector_target_gb",
 type: "box",
 //size: [3498.125, 23498.125, 3498.125] // mm, half-length
-size: [2065.0,23065.0,2065.0],
+size: [2915.0,23915.0,2915.0],
 position: [0.0, 0.0, 0.0],
 material: "doped_water",
 color: [0.2,0.2,0.9,0.2],
@@ -169,7 +169,7 @@ valid_end: [0, 0],
 invisible: 0, // omitted for visualization
 mother: "black_sheet", //not used but needs to be a valid name, parent of 'a' and 'b' would be best choice
 type: "border",
-volume1: "detector_target",
+volume1: "detector_target_gb",
 volume2: "black_sheet",
 reverse: 1, //0 only considers photons from a->b, 1 does both directions
 surface: "nonreflective_tarp",

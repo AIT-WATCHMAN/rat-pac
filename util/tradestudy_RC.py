@@ -10,17 +10,22 @@ import os
 #rPMT    = 6700.0
 rPMT    = 5065.0
 #rPMT    = 4065.0
+rPMT    = 5465.0
+#rPMT    = 4465.0
 
 #zPMT    = 6700.0
 zPMT    = 5065.0
 #zPMT    = 4065.0
+zPMT    = 5465.0
+#zPMT    = 4465.0
 
-dFIDVol = -1000.0 ## Arbitrary 1m buffer
+dFIDVol = -150.0 ## Arbitrary 1m buffer
 tFIDVol = 0.0
 dPSUP   = 385    
 tPSUP   = 10.0
 tBSHEET = 5.0
-dTANK   = 935.0  
+#dTANK   = 935.0
+dTANK   = 535.0  
 tTANK   = 400.0
 dAIR    = 1000.0 
 dCONC   = 500.0
@@ -30,8 +35,8 @@ dROCK   = 2000.0
 
 ## Values to change for PMT arrangement. (PMTINFO)
 photocoverage = 0.105
-#photocoverage = 0.155
-#photocoverage = 0.205
+photocoverage = 0.155
+photocoverage = 0.205
 pmtRad        = 126.5
 
 
@@ -209,7 +214,7 @@ drawstyle: "solid",
 }}
 {{
 name: "GEO",
-index: "detector_target",
+index: "detector_target_gb",// gb: gamma buffer
 valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "black_sheet",
@@ -226,10 +231,10 @@ drawstyle: "solid"
 }}
 {{
 name: "GEO",
-index: "detector_fidvol",
+index: "detector_target_fv", // fv : fiducial volume
 valid_begin: [0, 0],
 valid_end: [0, 0],
-mother: "detector_target",
+mother: "detector_target_gb", // gb : gamma buffer
 //type: "box",
 //size: [3498.125, 23498.125, 3498.125] // mm, half-length
 //size: [{rPMT+dFIDVol},{+dFIDVol},{zPMT+dFIDVol}],
@@ -251,7 +256,7 @@ valid_end: [0, 0],
 invisible: 0, // omitted for visualization
 mother: "black_sheet", //not used but needs to be a valid name, parent of 'a' and 'b' would be best choice
 type: "border",
-volume1: "detector_target",
+volume1: "detector_target_gb",
 volume2: "black_sheet",
 reverse: 1, //0 only considers photons from a->b, 1 does both directions
 surface: "nonreflective_tarp",
@@ -263,7 +268,7 @@ index: "inner_pmts",
 enable: 1,
 valid_begin: [0, 0],
 valid_end: [0, 0],
-mother: "detector_target",
+mother: "detector_target_gb",
 type: "pmtarray",
 end_idx: {int(pmtCnt-1)}, //idx of the last pmt
 start_idx: 0, //idx of the first pmt

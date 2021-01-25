@@ -12,7 +12,7 @@ yPMT    = 24065.0 ## 50-m tank
 yPMT    = 39065.0 ## 80-m tank
 zPMT    = 3065.0
 
-dFIDVol = -1000.0 ## Arbitrary 1m buffer
+dFIDVol = -150.0 ## Arbitrary 1m buffer
 tFIDVol = 0.0
 dPSUP   = 385    
 tPSUP   = 10.0
@@ -182,7 +182,7 @@ drawstyle: "solid",
 }}
 {{
 name: "GEO",
-index: "detector_target",
+index: "detector_target_gb", // gb: gamma buffer
 valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "black_sheet",
@@ -196,10 +196,10 @@ drawstyle: "solid"
 }}
 {{
 name: "GEO",
-index: "detector_fidvol",
+index: "detector_target_fv",
 valid_begin: [0, 0],
 valid_end: [0, 0],
-mother: "detector_target",
+mother: "detector_target_gb",
 type: "box",
 //size: [3498.125, 23498.125, 3498.125] // mm, half-length
 size: [{xPMT+dFIDVol},{yPMT+dFIDVol},{zPMT+dFIDVol}],
@@ -218,7 +218,7 @@ valid_end: [0, 0],
 invisible: 0, // omitted for visualization
 mother: "black_sheet", //not used but needs to be a valid name, parent of 'a' and 'b' would be best choice
 type: "border",
-volume1: "detector_target",
+volume1: "detector_target_gb",
 volume2: "black_sheet",
 reverse: 1, //0 only considers photons from a->b, 1 does both directions
 surface: "nonreflective_tarp",
