@@ -8,10 +8,10 @@ import os
 ### Default values to change ratdb geometry files
 
 rPMT    = 5065.0
-rPMT    = 4065.0
+#rPMT    = 4065.0
 
 zPMT    = 5065.0
-zPMT    = 4065.0
+#zPMT    = 4065.0
 
 dFIDVol = -1000.0 ## Arbitrary 1m buffer
 tFIDVol = 0.0
@@ -426,7 +426,7 @@ try:
 except OSError as error:  
     print(error)   
 
-geofile = open(f"../data/Watchman_rightcylinder_{int((rPMT+dTANK)*2.0/1000)}m_{int((zPMT+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct/Watchman_rightcylinder_{int((rPMT+dTANK)*2.0/1000)}m_{int((+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct.geo","w+")
+geofile = open(f"../data/Watchman_rightcylinder_{int((rPMT+dTANK)*2.0/1000)}m_{int((zPMT+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct/Watchman_rightcylinder_{int((rPMT+dTANK)*2.0/1000)}m_{int((zPMT+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct.geo","w+")
 geofile.writelines(_geoFile)
 geofile.close
 
