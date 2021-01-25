@@ -8,10 +8,10 @@ import os
 ### Default values to change ratdb geometry files
 
 rPMT    = 5065.0
-#rPMT    = 4065.0
+rPMT    = 4065.0
 
 zPMT    = 5065.0
-#zPMT    = 4065.0
+zPMT    = 4065.0
 
 dFIDVol = -1000.0 ## Arbitrary 1m buffer
 tFIDVol = 0.0
@@ -28,8 +28,8 @@ dROCK   = 2000.0
 
 ## Values to change for PMT arrangement. (PMTINFO)
 photocoverage = 0.105
-#photocoverage = 0.155
-#photocoverage = 0.205
+photocoverage = 0.155
+photocoverage = 0.205
 pmtRad        = 126.5
 
 
@@ -89,7 +89,7 @@ name: "GEO",
 index: "concrete",
 valid_begin: [0, 0],
 valid_end: [0, 0],
-//mother: "rock_1",
+mother: "rock_1",
 //type: "box",
 //size: [5500.0, 26500.0, 5500.0], // mm, half-length
 //size: [{rPMT+dTANK+dAIR+dCONC}, {+dTANK+dAIR+dCONC}, {zPMT+dTANK+dAIR+dCONC}], 
@@ -129,6 +129,9 @@ mother: "cavern",
 //type: "box",
 //size: [4500.0, 24500.0, 4500.0], // mm, half-length
 //size: [{rPMT+dTANK}, {+dTANK}, {zPMT+dTANK}], 
+type: "tube",
+r_max: {rPMT+dTANK}, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
+size_z: {zPMT+dTANK},
 position: [0.0, 0.0, 0.0],
 material: "stainless_steel",
 color: [0.6,0.6,0.9,0.01],
@@ -300,7 +303,7 @@ delta = 250.,tolerance = 200., photocoverage=0.205, pmtRad = 126.5):
     print('Length/spacing: ',length,spacing) 
     spacing = length 
     rangeX = rangeY = int((2.0*rPMT)/spacing)
-    height = int(2.0*zPMT)
+    height = 2.0*zPMT
     radius  = rPMT
     _cntB = 0
     for _i in range(rangeX):

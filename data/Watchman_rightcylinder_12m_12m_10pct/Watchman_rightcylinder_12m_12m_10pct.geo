@@ -39,7 +39,7 @@ name: "GEO",
 index: "concrete",
 valid_begin: [0, 0],
 valid_end: [0, 0],
-//mother: "rock_1",
+mother: "rock_1",
 //type: "box",
 //size: [5500.0, 26500.0, 5500.0], // mm, half-length
 //size: [7500.0, 2435.0, 7500.0], 
@@ -79,6 +79,9 @@ mother: "cavern",
 //type: "box",
 //size: [4500.0, 24500.0, 4500.0], // mm, half-length
 //size: [6000.0, 935.0, 6000.0], 
+type: "tube",
+r_max: 6000.0, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
+size_z: 6000.0,
 position: [0.0, 0.0, 0.0],
 material: "stainless_steel",
 color: [0.6,0.6,0.9,0.01],
