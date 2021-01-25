@@ -7,11 +7,13 @@ import os
 
 ### Default values to change ratdb geometry files
 
+#rPMT    = 6700.0
 rPMT    = 5065.0
-rPMT    = 4065.0
+#rPMT    = 4065.0
 
+#zPMT    = 6700.0
 zPMT    = 5065.0
-zPMT    = 4065.0
+#zPMT    = 4065.0
 
 dFIDVol = -1000.0 ## Arbitrary 1m buffer
 tFIDVol = 0.0
@@ -28,8 +30,8 @@ dROCK   = 2000.0
 
 ## Values to change for PMT arrangement. (PMTINFO)
 photocoverage = 0.105
-photocoverage = 0.155
-photocoverage = 0.205
+#photocoverage = 0.155
+#photocoverage = 0.205
 pmtRad        = 126.5
 
 
@@ -303,7 +305,7 @@ delta = 250.,tolerance = 200., photocoverage=0.205, pmtRad = 126.5):
     print('Length/spacing: ',length,spacing) 
     spacing = length 
     rangeX = rangeY = int((2.0*rPMT)/spacing)
-    height = 2.0*zPMT
+    height =  zPMT
     radius  = rPMT
     _cntB = 0
     for _i in range(rangeX):
@@ -355,7 +357,7 @@ delta = 250.,tolerance = 200., photocoverage=0.205, pmtRad = 126.5):
         type.append(_type)
 
     #side
-    nRings  = int(np.round(( 2.0 * zPMT ) / length))
+    nRings  = int(np.round(( zPMT ) / length))
     collums = int(np.round(( 2.0 * math.pi * rPMT ) / length))
     
     _dTheta = 2.0 * math.pi / collums
