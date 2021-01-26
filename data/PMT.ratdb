@@ -282,9 +282,9 @@ dynode_surface: "stainless_steel",
 dynode_radius: 28.25, // mm
 dynode_top:   -5.9, // mm //????
 wall_thickness: 1.0, // mm
-z_edge: [ 50.d, 15.0d, 0.0d, -15.0d, -40.0d, -59.0d ],//????
-rho_edge: [ 0.0d, 36.0d, 40.d, 36.0d, 25.95d, 25.95d ],
-z_origin: [ -40.0d, 0.0d, 0.0d, 40.0d, -59.0d ],//????
+z_edge: [ 24.d, 10.0d, 0.0d, -10.0d, -21.0d, -58.0d ],
+rho_edge: [ 0.0d, 36.0d, 40.d, 36.0d, 26.d, 26.d ],
+z_origin: [ -10.0d, 0.0d, 0.0d, 10.0d, -58.0d ],
 
 }
 

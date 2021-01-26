@@ -32,7 +32,8 @@
 /rat/procset update 10
 
 /rat/proclast outroot
-/rat/procset file "watchman_positronCentre_3inch_500.root"
+/rat/procset file "watchman_positronCentre_3inch.root"
+#/rat/procset file "watchman_positronCentre_3inch_500.root"
 #END EVENT LOOP
 
 #/generator/add combo gun2:point
@@ -40,5 +41,7 @@
 /generator/vtx/set e+  0 0 0 10
 /generator/pos/set 0 0 0
 
-/run/beamOn 500
+/run/beamOn 10
+#/run/beamOn 500
+
 
