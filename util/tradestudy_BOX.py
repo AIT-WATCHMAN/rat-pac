@@ -9,7 +9,7 @@ import os
 
 xPMT    = 3065.0
 yPMT    = 24065.0 ## 50-m tank
-yPMT    = 39065.0 ## 80-m tank
+#yPMT    = 39065.0 ## 80-m tank
 zPMT    = 3065.0
 
 dFIDVol = -150.0 ## Arbitrary 1m buffer
@@ -27,8 +27,8 @@ dROCK   = 2000.0
 
 ## Values to change for PMT arrangement. (PMTINFO)
 photocoverage = 0.105
-photocoverage = 0.155
-photocoverage = 0.205
+#photocoverage = 0.155
+#photocoverage = 0.205
 pmtRad        = 126.5
 
 
@@ -230,7 +230,7 @@ index: "inner_pmts",
 enable: 1,
 valid_begin: [0, 0],
 valid_end: [0, 0],
-mother: "detector_target",
+mother: "detector_target_gb",
 type: "pmtarray",
 end_idx: {int(pmtCnt-1)}, //idx of the last pmt
 start_idx: 0, //idx of the first pmt

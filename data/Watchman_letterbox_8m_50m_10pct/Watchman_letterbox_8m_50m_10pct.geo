@@ -181,7 +181,7 @@ index: "inner_pmts",
 enable: 1,
 valid_begin: [0, 0],
 valid_end: [0, 0],
-mother: "detector_target",
+mother: "detector_target_gb",
 type: "pmtarray",
 end_idx: 2001, //idx of the last pmt
 start_idx: 0, //idx of the first pmt
