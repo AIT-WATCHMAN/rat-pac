@@ -9,7 +9,7 @@ import os
 
 xPMT    = 3065.0
 yPMT    = 24065.0 ## 50-m tank
-#yPMT    = 39065.0 ## 80-m tank
+yPMT    = 39065.0 ## 80-m tank
 zPMT    = 3065.0
 
 dFIDVol = -150.0 ## Arbitrary 1m buffer
@@ -26,9 +26,9 @@ dROCK   = 2000.0
 
 
 ## Values to change for PMT arrangement. (PMTINFO)
-photocoverage = 0.105
-#photocoverage = 0.155
-#photocoverage = 0.205
+photocoverage = 0.109
+photocoverage = 0.157
+photocoverage = 0.205
 pmtRad        = 126.5
 
 
@@ -262,15 +262,22 @@ def square(_x=3498.125, _y=23498.125, _z=3498.125, photocoverage=0.205, pmtRad =
     pmtArea = 3.14159265359*pmtRad*pmtRad
     length = np.sqrt(pmtArea/photocoverage)
    
+    _xL = 2.0*_x/length
+    _yL = 2.0*_y/length
+    _zL = 2.0*_z/length
+  
+    print('Number of spacing:',_xL,_yL,_zL)
 
-    _nXCorr = 2.0*_x/length/np.round(2.0*_x/length)
-    _nYCorr = 2.0*_y/length/np.round(2.0*_y/length)
-    _nZCorr = 2.0*_z/length/np.round(2.0*_z/length)
+    _nXCorr = 2.0*_x/length/math.floor(2.0*_x/length)
+    _nYCorr = 2.0*_y/length/math.floor(2.0*_y/length)
+    _nZCorr = 2.0*_z/length/math.floor(2.0*_z/length)
 
  
-    nX = int(np.round(2.0*_x/length))
-    nY = int(np.round(2.0*_y/length))
-    nZ = int(np.round(2.0*_z/length)) 
+    nX = int(math.floor(2.0*_x/length))
+    nY = int(math.floor(2.0*_y/length))
+    nZ = int(math.floor(2.0*_z/length)) 
+
+     
     
     cnt = 0
     x,y,z,dx,dy,dz,type = [],[],[],[],[],[],[]
@@ -283,10 +290,10 @@ def square(_x=3498.125, _y=23498.125, _z=3498.125, photocoverage=0.205, pmtRad =
     _lx = -_x + length/2.0*_nXCorr
     _ly = -_y + length/2.0*_nYCorr
     
-    for __x in range(nX-2):
-        _lx += length*_nXCorr
-        _ly = -_y + length/2.0*_nYCorr
-        for __y in range(nY-2):
+    for __x in range(nX):
+        #_lx += length*_nXCorr
+        #_ly = -_y + length/2.0*_nYCorr
+        for __y in range(nY):
             _ly += length*_nYCorr 
             x.append(_lx)
             y.append(_ly)
@@ -305,15 +312,16 @@ def square(_x=3498.125, _y=23498.125, _z=3498.125, photocoverage=0.205, pmtRad =
             cnt+=2
             #print( '(',__x,  __y,'): (',_lx,_ly,_z,')',length) 
             #print( '(',__x,  __y,'): (',_lx,_ly,-_z,')',length)
-
+        _lx += length*_nXCorr
+        _ly = -_y + length/2.0*_nYCorr
 
     _lx = -_x + length/2.0*_nXCorr
     _lz = -_z + length/2.0*_nZCorr
 
-    for __x in range(nX-2):
-        _lx += length*_nXCorr
-        _lz = -_z + length/2.0*_nZCorr
-        for __z in range(nZ-2):
+    for __x in range(nX):
+        ##_lx += length*_nXCorr
+        ##_lz = -_z + length/2.0*_nZCorr
+        for __z in range(nZ):
             _lz += length*_nZCorr
             x.append(_lx)
             y.append(_y)
@@ -332,15 +340,13 @@ def square(_x=3498.125, _y=23498.125, _z=3498.125, photocoverage=0.205, pmtRad =
             cnt+=2
             #print( '(',__x,  __y,'): (',_lx,_ly,_z,')',length) 
             #print( '(',__x,  __y,'): (',_lx,_ly,-_z,')',length)
-    
+        _lx += length*_nXCorr
+        _lz = -_z + length/2.0*_nZCorr
 
     _ly = -_y + length/2.0*_nYCorr
     _lz = -_z + length/2.0*_nZCorr
-
-    for __y in range(nY-2):
-        _ly += length*_nYCorr
-        _lz = -_z + length/2.0*_nZCorr
-        for __z in range(nZ-2):
+    for __y in range(nY):
+        for __z in range(nZ):
             _lz += length*_nZCorr
             x.append(_x)
             y.append(_ly)
@@ -357,9 +363,10 @@ def square(_x=3498.125, _y=23498.125, _z=3498.125, photocoverage=0.205, pmtRad =
             dz.append(0.0)
             type.append(1)
             cnt+=2
-            #print( '(',__x,  __y,'): (',_lx,_ly,_z,')',length) 
-            #print( '(',__x,  __y,'): (',_lx,_ly,-_z,')',length)
-
+#            print( '(',__x,  __y,'): (',_lx,_ly,_z,')',length) 
+#            print( '(',__x,  __y,'): (',_lx,_ly,-_z,')',length)
+        _ly += length*_nYCorr
+        _lz = -_z + length/2.0*_nZCorr
 
 
     pmt_info = "{\n"
@@ -395,23 +402,27 @@ tBSHEET = tBSHEET, dTANK = dTANK,tTANK = tTANK,dAIR = dAIR ,dCONC = dCONC,tCONC 
 
 
 try:
-    os.mkdir(f"../data/Watchman_letterbox_{int((xPMT+dTANK)*2.0/1000)}m_{int((yPMT+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct")
-    print('Created', f"../data/Watchman_letterbox_{int((xPMT+dTANK)*2.0/1000)}m_{int((yPMT+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct")
+    os.mkdir(f"../data/Watchman_letterbox_{int((xPMT+dTANK)*2.0/1000)}m_{int((yPMT+dTANK)*2.0/1000)}m_{int((zPMT+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct")
+    print('Created', f"../data/Watchman_letterbox_{int((xPMT+dTANK)*2.0/1000)}m_{int((yPMT+dTANK)*2.0/1000)}m_{int((zPMT+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct")
 except OSError as error:  
     print(error)   
 
-geofile = open(f"../data/Watchman_letterbox_{int((xPMT+dTANK)*2.0/1000)}m_{int((yPMT+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct/Watchman_letterbox_{int((xPMT+dTANK)*2.0/1000)}m_{int((yPMT+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct.geo","w+")
+geofile = open(f"../data/Watchman_letterbox_{int((xPMT+dTANK)*2.0/1000)}m_{int((yPMT+dTANK)*2.0/1000)}m_{int((zPMT+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct/Watchman_letterbox_{int((xPMT+dTANK)*2.0/1000)}m_{int((yPMT+dTANK)*2.0/1000)}m_{int((zPMT+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct.geo","w+")
 geofile.writelines(_geoFile)
 geofile.close
 
-pmtfile = open(f"../data/Watchman_letterbox_{int((xPMT+dTANK)*2.0/1000)}m_{int((yPMT+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct/PMTINFO.ratdb","w+")
+pmtfile = open(f"../data/Watchman_letterbox_{int((xPMT+dTANK)*2.0/1000)}m_{int((yPMT+dTANK)*2.0/1000)}m_{int((zPMT+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct/PMTINFO.ratdb","w+")
 pmtfile.writelines(_pmtinfo)
 pmtfile.close
 
+surfaceArea =  2.0*(2.*xPMT)*(2*yPMT) + 2.0*(2.*xPMT)*(2.*zPMT) + 2.0*(2.0*yPMT)*(2.*zPMT)
+pmtArea     = float(cnt)*3.14159265359*pmtRad*pmtRad
 
 print("//// Total number of inner PMTs : ",cnt)
 print("//// Photocoverage (%) : ",photocoverage*100.)
+print("//// Actual Photocoverage (%) :", pmtArea/surfaceArea)
 print("//// Detector height (m) : ",(xPMT+dTANK)*2.0/1000.)
 print("//// Detector length (m) : ",(yPMT+dTANK)*2.0/1000.)
+
 print("////")
 
