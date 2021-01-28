@@ -8,7 +8,7 @@ import os
 ### Default values to change ratdb geometry files
 
 xPMT    = 3065.0
-yPMT    = 24065.0 ## 50-m tank
+#yPMT    = 24065.0 ## 50-m tank
 yPMT    = 39065.0 ## 80-m tank
 zPMT    = 3065.0
 
@@ -27,8 +27,8 @@ dROCK   = 2000.0
 
 ## Values to change for PMT arrangement. (PMTINFO)
 photocoverage = 0.109
-photocoverage = 0.157
-photocoverage = 0.205
+#photocoverage = 0.157
+#photocoverage = 0.205
 pmtRad        = 126.5
 
 
@@ -294,7 +294,7 @@ def square(_x=3498.125, _y=23498.125, _z=3498.125, photocoverage=0.205, pmtRad =
         #_lx += length*_nXCorr
         #_ly = -_y + length/2.0*_nYCorr
         for __y in range(nY):
-            _ly += length*_nYCorr 
+            #_ly += length*_nYCorr 
             x.append(_lx)
             y.append(_ly)
             z.append(_z)
@@ -310,6 +310,7 @@ def square(_x=3498.125, _y=23498.125, _z=3498.125, photocoverage=0.205, pmtRad =
             dz.append(1.0)
             type.append(1)
             cnt+=2
+            _ly += length*_nYCorr
             #print( '(',__x,  __y,'): (',_lx,_ly,_z,')',length) 
             #print( '(',__x,  __y,'): (',_lx,_ly,-_z,')',length)
         _lx += length*_nXCorr
@@ -322,7 +323,7 @@ def square(_x=3498.125, _y=23498.125, _z=3498.125, photocoverage=0.205, pmtRad =
         ##_lx += length*_nXCorr
         ##_lz = -_z + length/2.0*_nZCorr
         for __z in range(nZ):
-            _lz += length*_nZCorr
+            #_lz += length*_nZCorr
             x.append(_lx)
             y.append(_y)
             z.append(_lz)
@@ -338,6 +339,7 @@ def square(_x=3498.125, _y=23498.125, _z=3498.125, photocoverage=0.205, pmtRad =
             dz.append(0.0)
             type.append(1)
             cnt+=2
+            _lz += length*_nZCorr
             #print( '(',__x,  __y,'): (',_lx,_ly,_z,')',length) 
             #print( '(',__x,  __y,'): (',_lx,_ly,-_z,')',length)
         _lx += length*_nXCorr
@@ -347,7 +349,7 @@ def square(_x=3498.125, _y=23498.125, _z=3498.125, photocoverage=0.205, pmtRad =
     _lz = -_z + length/2.0*_nZCorr
     for __y in range(nY):
         for __z in range(nZ):
-            _lz += length*_nZCorr
+            #_lz += length*_nZCorr
             x.append(_x)
             y.append(_ly)
             z.append(_lz)
@@ -363,6 +365,7 @@ def square(_x=3498.125, _y=23498.125, _z=3498.125, photocoverage=0.205, pmtRad =
             dz.append(0.0)
             type.append(1)
             cnt+=2
+            _lz += length*_nZCorr
 #            print( '(',__x,  __y,'): (',_lx,_ly,_z,')',length) 
 #            print( '(',__x,  __y,'): (',_lx,_ly,-_z,')',length)
         _ly += length*_nYCorr

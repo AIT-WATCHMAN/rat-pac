@@ -21,9 +21,9 @@ valid_end: [0, 0],
 mother: "world", // world volume has no mother
 //type: "box",
 //size: [7000.0, 27000.0, 7000.0], // mm, half-length
-//size: [9000.0, 3535.0, 9000.0],
+//size: [9235.0, 3535.0, 9000.0],
 type: "tube",
-r_max: 9000.0, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
+r_max: 9235.0, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
 size_z: 9000.0,
 position: [0.0, 0.0, 0.0], //this will allow for the concrete layer on the floor and not on the ceiling
 material: "rock",
@@ -42,9 +42,9 @@ valid_end: [0, 0],
 mother: "rock_1",
 //type: "box",
 //size: [5500.0, 26500.0, 5500.0], // mm, half-length
-//size: [7500.0, 2035.0, 7500.0], 
+//size: [7735.0, 2035.0, 7500.0], 
 type: "tube",
-r_max: 7500.0, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
+r_max: 7735.0, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
 size_z: 7500.0,
 position: [0.0, 0.0, 0.0], // this will give a concrete layer on the floor and not on the ceiling
 material: "concrete", // changed from "gunite" (L. Kneale)
@@ -61,9 +61,9 @@ valid_end: [0, 0],
 mother: "concrete",
 //type: "box",
 //size: [5000.0, 26000.0, 5000.0], // mm, half-length
-//size: [7000.0, 1535.0, 7000.0], 
+//size: [7235.0, 1535.0, 7000.0], 
 type: "tube",
-r_max: 7000.0, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
+r_max: 7235.0, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
 size_z: 7000.0,
 position: [0.0, 0.0, 0.0],
 material: "air",
@@ -78,9 +78,9 @@ valid_end: [0, 0],
 mother: "cavern",
 //type: "box",
 //size: [4500.0, 24500.0, 4500.0], // mm, half-length
-//size: [6000.0, 535.0, 6000.0], 
+//size: [6235.0, 535.0, 6000.0], 
 type: "tube",
-r_max: 6000.0, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
+r_max: 6235.0, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
 size_z: 6000.0,
 position: [0.0, 0.0, 0.0],
 material: "stainless_steel",
@@ -95,9 +95,9 @@ valid_end: [0, 0],
 mother: "tank",
 //type: "box",
 //size: [4498.125, 24498.125, 4498.125], // mm, half-length
-//size: [5600.0, 135.0, 5600.0],
+//size: [5835.0, 135.0, 5600.0],
 type: "tube",
-r_max: 5600.0, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
+r_max: 5835.0, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
 size_z: 5600.0,
 position: [0.0, 0.0, 0.0],
 material: "doped_water",
@@ -112,10 +112,10 @@ valid_end: [0, 0],
 mother: "detector_veto1",
 //type: "box",
 //size: [4498.125, 24498.125, 4498.125], // mm, half-length
-//size: [5860.0, 395.0, 5860.0],
+//size: [6095.5, 395.5, 5860.5],
 type: "tube",
-r_max: 5860.0, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
-size_z: 5860.0,
+r_max: 6095.5, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
+size_z: 5860.5,
 position: [0.0, 0.0, 0.0],
 material: "stainless_steel",
 color: [0.2,0.2,0.9,0.2],
@@ -129,9 +129,9 @@ valid_end: [0, 0],
 mother: "psup",
 //type: "box",
 //size: [4498.125, 24498.125, 4498.125], // mm, half-length
-//size: [5850.0, 385, 5850.0],
+//size: [6085.0, 385, 5850.0],
 type: "tube",
-r_max: 5850.0, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
+r_max: 6085.0, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
 size_z: 5850.0,
 position: [0.0, 0.0, 0.0],
 material: "doped_water",
@@ -146,9 +146,9 @@ valid_end: [0, 0],
 mother: "detector_veto2",
 //type: "box",
 //size: [3508.125, 23508.125, 3508.125], // mm, half-length
-//size: [5470.0,5.0,5470.0],
+//size: [5705.0,5.0,5470.0],
 type: "tube",
-r_max: 5470.0, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
+r_max: 5705.0, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
 size_z: 5470.0,
 position: [0.0, 0.0, 0.0],
 material: "polypropylene",
@@ -163,9 +163,9 @@ valid_end: [0, 0],
 mother: "black_sheet",
 //type: "box",
 //size: [3498.125, 23498.125, 3498.125] // mm, half-length
-//size: [5465.0,5465.0],
+//size: [5700.0,5465.0],
 type: "tube",
-r_max: 5465.0, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
+r_max: 5700.0, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
 size_z: 5465.0,
 position: [0.0, 0.0, 0.0],
 material: "doped_water",
@@ -180,9 +180,9 @@ valid_end: [0, 0],
 mother: "detector_target_gb", // gb : gamma buffer
 //type: "box",
 //size: [3498.125, 23498.125, 3498.125] // mm, half-length
-//size: [5315.0,-150.0,5315.0],
+//size: [5550.0,-150.0,5315.0],
 type: "tube",
-r_max: 5315.0, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
+r_max: 5550.0, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
 size_z: 5315.0,
 position: [0.0, 0.0, 0.0],
 material: "doped_water",
@@ -213,7 +213,7 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "detector_target_gb",
 type: "pmtarray",
-end_idx: 1127, //idx of the last pmt
+end_idx: 1167, //idx of the last pmt
 start_idx: 0, //idx of the first pmt
 pmt_model: "r7081pe",
 mu_metal: 0,

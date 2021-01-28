@@ -8,21 +8,23 @@ import os
 ### Default values to change ratdb geometry files
 
 #rPMT    = 6700.0
-rPMT    = 5065.0
+#rPMT    = 5065.0
 #rPMT    = 4065.0
-rPMT    = 5465.0
-#rPMT    = 4465.0
+#rPMT    = 5465.0
+rPMT    = 4465.0
+#rPMT     = 5700.0
 
 #zPMT    = 6700.0
-zPMT    = 5065.0
+#zPMT    = 5065.0
 #zPMT    = 4065.0
-zPMT    = 5465.0
-#zPMT    = 4465.0
+#zPMT    = 5465.0
+zPMT    = 4465.0
+#zPMT     = 5700.0
 
 dFIDVol = -150.0 ## Arbitrary 1m buffer
 tFIDVol = 0.0
 dPSUP   = 385    
-tPSUP   = 10.0
+tPSUP   = 10.
 tBSHEET = 5.0
 #dTANK   = 935.0
 dTANK   = 535.0  
@@ -34,8 +36,8 @@ dROCK   = 2000.0
 
 
 ## Values to change for PMT arrangement. (PMTINFO)
-photocoverage = 0.105
-photocoverage = 0.155
+photocoverage = 0.10
+photocoverage = 0.1505
 photocoverage = 0.205
 pmtRad        = 126.5
 
@@ -444,9 +446,12 @@ pmtfile = open(f"../data/Watchman_rightcylinder_{int((rPMT+dTANK)*2.0/1000)}m_{i
 pmtfile.writelines(_pmtinfo)
 pmtfile.close
 
+surfaceArea =  (2.*3.14159265359*rPMT)*(2*zPMT) + 2.0*3.14159265359*rPMT*rPMT
+pmtArea     = float(cnt)*3.14159265359*pmtRad*pmtRad
 
 print("//// Total number of inner PMTs : ",cnt)
-print("//// Photocoverage (%) : ",photocoverage*100.)
+print("//// Target Photocoverage (%) : ",photocoverage*100.)
+print("//// Actual Photocoverage (%) : ",pmtArea/surfaceArea*100.)
 print("//// Detector height (m) : ",(zPMT+dTANK)*2.0/1000.)
 print("//// Detector diamter (m) : ",(rPMT+dTANK)*2.0/1000.)
 print("////")
