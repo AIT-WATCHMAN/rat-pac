@@ -10,15 +10,15 @@ import os
 #rPMT    = 6700.0
 #rPMT    = 5065.0
 #rPMT    = 4065.0
-#rPMT    = 5465.0
-rPMT    = 4465.0
+rPMT    = 5465.0
+#rPMT    = 4465.0
 #rPMT     = 5700.0
 
 #zPMT    = 6700.0
 #zPMT    = 5065.0
 #zPMT    = 4065.0
-#zPMT    = 5465.0
-zPMT    = 4465.0
+zPMT    = 5465.0
+#zPMT    = 4465.0
 #zPMT     = 5700.0
 
 dFIDVol = -150.0 ## Arbitrary 1m buffer
@@ -63,8 +63,11 @@ index: "world",
 valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "", // world volume has no mother
-type: "box",
-size: [10000.0, 10000.0, 300000.0], // mm, half-length
+//type: "box",
+//size: [], // mm, half-length
+type: "tube",
+r_max: {rPMT+dTANK+dAIR+dROCK+dAIR}, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
+size_z: {zPMT+dTANK+dAIR+dROCK+dAIR},
 material: "air", //rock?
 invisible: 1,
 }}

@@ -8,8 +8,8 @@ import os
 ### Default values to change ratdb geometry files
 
 xPMT    = 3065.0
-#yPMT    = 24065.0 ## 50-m tank
-yPMT    = 39065.0 ## 80-m tank
+yPMT    = 24065.0 ## 50-m tank
+#yPMT    = 39065.0 ## 80-m tank
 zPMT    = 3065.0
 
 dFIDVol = -150.0 ## Arbitrary 1m buffer
@@ -27,8 +27,8 @@ dROCK   = 2000.0
 
 ## Values to change for PMT arrangement. (PMTINFO)
 photocoverage = 0.109
-#photocoverage = 0.157
-#photocoverage = 0.205
+photocoverage = 0.157
+photocoverage = 0.205
 pmtRad        = 126.5
 
 
@@ -54,7 +54,7 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "", // world volume has no mother
 type: "box",
-size: [10000.0, 10000.0, 300000.0], // mm, half-length
+size: [{xPMT+dTANK+dAIR+dROCK+dAIR}, {yPMT+dTANK+dAIR+dROCK+dAIR}, {zPMT+dTANK+dAIR+dROCK+dAIR}], // mm, half-length
 material: "air", //rock?
 invisible: 1,
 }}

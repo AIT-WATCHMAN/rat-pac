@@ -4,8 +4,11 @@ index: "world",
 valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "", // world volume has no mother
-type: "box",
-size: [10000.0, 10000.0, 300000.0], // mm, half-length
+//type: "box",
+//size: [], // mm, half-length
+type: "tube",
+r_max: 9000.0, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
+size_z: 9000.0,
 material: "air", //rock?
 invisible: 1,
 }
