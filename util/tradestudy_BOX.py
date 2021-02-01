@@ -8,17 +8,18 @@ import os
 ### Default values to change ratdb geometry files
 
 xPMT    = 3065.0
-yPMT    = 24065.0 ## 50-m tank
-#yPMT    = 39065.0 ## 80-m tank
+#yPMT    = 24065.0 ## 50-m tank
+yPMT    = 39065.0 ## 80-m tank
 zPMT    = 3065.0
 
 dFIDVol = -150.0 ## Arbitrary 1m buffer
 tFIDVol = 0.0
 dPSUP   = 385    
-tPSUP   = 10.0
+tPSUP   = 6.0
 tBSHEET = 5.0
-dTANK   = 935.0  
-tTANK   = 400.0
+dTANK   = 535.0  
+tTANK   = 50.0
+oTANK   = 200.
 dAIR    = 1000.0 
 dCONC   = 500.0
 tCONC   = 25000.0
@@ -27,8 +28,8 @@ dROCK   = 2000.0
 
 ## Values to change for PMT arrangement. (PMTINFO)
 photocoverage = 0.109
-photocoverage = 0.157
-photocoverage = 0.205
+#photocoverage = 0.157
+#photocoverage = 0.205
 pmtRad        = 126.5
 
 
@@ -40,6 +41,7 @@ tPSUP   = 10.0,\
 tBSHEET = 5.0,\
 dTANK   = 501.875,    
 tTANK   = 500.0,\
+oTANK   = 200.0,\
 dAIR    = 1000.0 ,\
 dCONC   = 500.0,\
 tCONC   = 25000.0,\
@@ -55,6 +57,7 @@ valid_end: [0, 0],
 mother: "", // world volume has no mother
 type: "box",
 size: [{xPMT+dTANK+dAIR+dROCK+dAIR}, {yPMT+dTANK+dAIR+dROCK+dAIR}, {zPMT+dTANK+dAIR+dROCK+dAIR}], // mm, half-length
+position: [0.0, 0.0, 0.0],
 material: "air", //rock?
 invisible: 1,
 }}
@@ -118,7 +121,7 @@ valid_end: [0, 0],
 mother: "cavern",
 type: "box",
 //size: [4500.0, 24500.0, 4500.0], // mm, half-length
-size: [{xPMT+dTANK}, {yPMT+dTANK}, {zPMT+dTANK}], 
+size: [{xPMT+dTANK+tTANK}, {yPMT+dTANK+tTANK}, {zPMT+dTANK+tTANK+oTANK}], 
 position: [0.0, 0.0, 0.0],
 material: "stainless_steel",
 color: [0.6,0.6,0.9,0.01],
@@ -132,7 +135,7 @@ valid_end: [0, 0],
 mother: "tank",
 type: "box",
 //size: [4498.125, 24498.125, 4498.125], // mm, half-length
-size: [{xPMT+dTANK-tTANK}, {yPMT+dTANK-tTANK}, {zPMT+dTANK-tTANK}],
+size: [{xPMT+dTANK}, {yPMT+dTANK}, {zPMT+dTANK+oTANK}],
 position: [0.0, 0.0, 0.0],
 material: "doped_water",
 color: [0.2,0.2,0.9,0.2],
@@ -297,7 +300,7 @@ def square(_x=3498.125, _y=23498.125, _z=3498.125, photocoverage=0.205, pmtRad =
             #_ly += length*_nYCorr 
             x.append(_lx)
             y.append(_ly)
-            z.append(_z)
+            z.append(_z )
             dx.append(0.0)
             dy.append(0.0)
             dz.append(-1.0)
@@ -343,7 +346,7 @@ def square(_x=3498.125, _y=23498.125, _z=3498.125, photocoverage=0.205, pmtRad =
             #print( '(',__x,  __y,'): (',_lx,_ly,_z,')',length) 
             #print( '(',__x,  __y,'): (',_lx,_ly,-_z,')',length)
         _lx += length*_nXCorr
-        _lz = -_z + length/2.0*_nZCorr
+        _lz = -_z + length/2.0*_nZCorr 
 
     _ly = -_y + length/2.0*_nYCorr
     _lz = -_z + length/2.0*_nZCorr
@@ -369,7 +372,7 @@ def square(_x=3498.125, _y=23498.125, _z=3498.125, photocoverage=0.205, pmtRad =
 #            print( '(',__x,  __y,'): (',_lx,_ly,_z,')',length) 
 #            print( '(',__x,  __y,'): (',_lx,_ly,-_z,')',length)
         _ly += length*_nYCorr
-        _lz = -_z + length/2.0*_nZCorr
+        _lz = -_z + length/2.0*_nZCorr 
 
 
     pmt_info = "{\n"
@@ -397,24 +400,26 @@ _pmtinfo,cnt = square(_x=xPMT, _y=yPMT, _z=zPMT,\
 photocoverage=photocoverage, pmtRad = pmtRad)
 
 _geoFile = geoFile(xPMT = xPMT,  yPMT = yPMT, zPMT = zPMT,dFIDVol = dFIDVol,tFIDVol = tFIDVol,dPSUP   = dPSUP,tPSUP = tPSUP,\
-tBSHEET = tBSHEET, dTANK = dTANK,tTANK = tTANK,dAIR = dAIR ,dCONC = dCONC,tCONC = tCONC, dROCK = dROCK, pmtCnt = cnt )
+tBSHEET = tBSHEET, dTANK = dTANK,tTANK = tTANK, oTANK = oTANK, dAIR = dAIR ,dCONC = dCONC,tCONC = tCONC, dROCK = dROCK, pmtCnt = cnt )
 
 #print(_geoFile)
 #print()
 #print(_pmtinfo)
 
+_str1 = "../data/"
+_str2 = f"Watchman_letterbox_{int(np.ceil((xPMT+dTANK)*2.0/1000))}m_{int(np.ceil((yPMT+dTANK)*2.0/1000))}m_{int(np.ceil((zPMT+dTANK)*2.0/1000))}m_{int(photocoverage*100)}pct"
 
 try:
-    os.mkdir(f"../data/Watchman_letterbox_{int((xPMT+dTANK)*2.0/1000)}m_{int((yPMT+dTANK)*2.0/1000)}m_{int((zPMT+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct")
-    print('Created', f"../data/Watchman_letterbox_{int((xPMT+dTANK)*2.0/1000)}m_{int((yPMT+dTANK)*2.0/1000)}m_{int((zPMT+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct")
+    os.mkdir(f"{_str1}{_str2}")
+    print('Created', f"{_str1}{_str2}")
 except OSError as error:  
     print(error)   
 
-geofile = open(f"../data/Watchman_letterbox_{int((xPMT+dTANK)*2.0/1000)}m_{int((yPMT+dTANK)*2.0/1000)}m_{int((zPMT+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct/Watchman_letterbox_{int((xPMT+dTANK)*2.0/1000)}m_{int((yPMT+dTANK)*2.0/1000)}m_{int((zPMT+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct.geo","w+")
+geofile = open(f"{_str1}{_str2}/{_str2}.geo","w+")
 geofile.writelines(_geoFile)
 geofile.close
 
-pmtfile = open(f"../data/Watchman_letterbox_{int((xPMT+dTANK)*2.0/1000)}m_{int((yPMT+dTANK)*2.0/1000)}m_{int((zPMT+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct/PMTINFO.ratdb","w+")
+pmtfile = open(f"{_str1}{_str2}/PMTINFO.ratdb","w+")
 pmtfile.writelines(_pmtinfo)
 pmtfile.close
 

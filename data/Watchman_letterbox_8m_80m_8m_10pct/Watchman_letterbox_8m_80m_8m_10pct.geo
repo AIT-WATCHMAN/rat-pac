@@ -5,7 +5,8 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "", // world volume has no mother
 type: "box",
-size: [8000.0, 44000.0, 8000.0], // mm, half-length
+size: [7600.0, 43600.0, 7600.0], // mm, half-length
+position: [0.0, 0.0, 0.0],
 material: "air", //rock?
 invisible: 1,
 }
@@ -21,7 +22,7 @@ valid_end: [0, 0],
 mother: "world", // world volume has no mother
 type: "box",
 //size: [7000.0, 27000.0, 7000.0], // mm, half-length
-size: [7000.0, 43000.0, 7000.0],
+size: [6600.0, 42600.0, 6600.0],
 position: [0.0, 0.0, 0.0], //this will allow for the concrete layer on the floor and not on the ceiling
 material: "rock",
 invisible: 1,
@@ -39,7 +40,7 @@ valid_end: [0, 0],
 mother: "rock_1",
 type: "box",
 //size: [5500.0, 26500.0, 5500.0], // mm, half-length
-size: [5500.0, 41500.0, 5500.0], 
+size: [5100.0, 41100.0, 5100.0], 
 position: [0.0, 0.0, 0.0], // this will give a concrete layer on the floor and not on the ceiling
 material: "concrete", // changed from "gunite" (L. Kneale)
 invisible: 1,
@@ -55,7 +56,7 @@ valid_end: [0, 0],
 mother: "concrete",
 type: "box",
 //size: [5000.0, 26000.0, 5000.0], // mm, half-length
-size: [5000.0, 41000.0, 5000.0], 
+size: [4600.0, 40600.0, 4600.0], 
 position: [0.0, 0.0, 0.0],
 material: "air",
 invisible: 1,
@@ -69,7 +70,7 @@ valid_end: [0, 0],
 mother: "cavern",
 type: "box",
 //size: [4500.0, 24500.0, 4500.0], // mm, half-length
-size: [4000.0, 40000.0, 4000.0], 
+size: [3650.0, 39650.0, 3850.0], 
 position: [0.0, 0.0, 0.0],
 material: "stainless_steel",
 color: [0.6,0.6,0.9,0.01],
@@ -83,7 +84,7 @@ valid_end: [0, 0],
 mother: "tank",
 type: "box",
 //size: [4498.125, 24498.125, 4498.125], // mm, half-length
-size: [3600.0, 39600.0, 3600.0],
+size: [3600.0, 39600.0, 3800.0],
 position: [0.0, 0.0, 0.0],
 material: "doped_water",
 color: [0.2,0.2,0.9,0.2],
@@ -97,7 +98,7 @@ valid_end: [0, 0],
 mother: "detector_veto1",
 type: "box",
 //size: [4498.125, 24498.125, 4498.125], // mm, half-length
-size: [3460.0, 39460.0, 3460.0],
+size: [3456.0, 39456.0, 3456.0],
 position: [0.0, 0.0, 0.0],
 material: "stainless_steel",
 color: [0.2,0.2,0.9,0.2],
