@@ -5,7 +5,7 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "", // world volume has no mother
 type: "box",
-size: [7600.0, 28600.0, 7600.0], // mm, half-length
+size: [8400.0, 29400.0, 8400.0], // mm, half-length
 position: [0.0, 0.0, 0.0],
 material: "air", //rock?
 invisible: 1,
@@ -22,7 +22,7 @@ valid_end: [0, 0],
 mother: "world", // world volume has no mother
 type: "box",
 //size: [7000.0, 27000.0, 7000.0], // mm, half-length
-size: [6600.0, 27600.0, 6600.0],
+size: [7000.0, 28000.0, 7000.0],
 position: [0.0, 0.0, 0.0], //this will allow for the concrete layer on the floor and not on the ceiling
 material: "rock",
 invisible: 1,
@@ -34,14 +34,14 @@ invisible: 1,
 //Create a 0.5m concrete layer on the walls and base
 {
 name: "GEO",
-index: "concrete",
+index: "rock_2",
 valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "rock_1",
 type: "box",
 //size: [5500.0, 26500.0, 5500.0], // mm, half-length
 size: [5100.0, 26100.0, 5100.0], 
-position: [0.0, 0.0, 0.0], // this will give a concrete layer on the floor and not on the ceiling
+position: [0.0, 0.0, 1600.0], // this will give a concrete layer on the floor and not on the ceiling
 material: "concrete", // changed from "gunite" (L. Kneale)
 invisible: 1,
 //color: [0.8,0.8,0.8,0.8],
@@ -50,13 +50,40 @@ invisible: 1,
 //Create the cavern space between the tank and concrete
 {
 name: "GEO",
-index: "cavern",
+index: "cavern_1",
 valid_begin: [0, 0],
 valid_end: [0, 0],
-mother: "concrete",
+mother: "rock_2",
 type: "box",
 //size: [5000.0, 26000.0, 5000.0], // mm, half-length
-size: [4600.0, 25600.0, 4600.0], 
+size: [5000.0, 26000.0, 5000.0], 
+position: [0.0, 0.0, 0.0],
+material: "air",
+invisible: 1,
+}
+{
+name: "GEO",
+index: "ibeam",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+mother: "cavern_1",
+type: "box",
+//size: [4500.0, 24500.0, 4500.0], // mm, half-length
+size: [4527.0, 25527.0, 4527.0], 
+position: [0.0, 0.0,0.0],
+material: "stainless_steel",
+color: [0.6,0.6,0.9,0.01],
+drawstyle: "solid"
+}
+{
+name: "GEO",
+index: "cavern_2",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+mother: "ibeam",
+type: "box",
+//size: [5000.0, 26000.0, 5000.0], // mm, half-length
+size: [4500.0, 25500.0, 4500.0], 
 position: [0.0, 0.0, 0.0],
 material: "air",
 invisible: 1,
@@ -67,11 +94,11 @@ name: "GEO",
 index: "tank",
 valid_begin: [0, 0],
 valid_end: [0, 0],
-mother: "cavern",
+mother: "cavern_2",
 type: "box",
 //size: [4500.0, 24500.0, 4500.0], // mm, half-length
 size: [3650.0, 24650.0, 3850.0], 
-position: [0.0, 0.0, 0.0],
+position: [0.0, 0.0, -1400.0],
 material: "stainless_steel",
 color: [0.6,0.6,0.9,0.01],
 drawstyle: "solid"
@@ -99,7 +126,7 @@ mother: "detector_veto1",
 type: "box",
 //size: [4498.125, 24498.125, 4498.125], // mm, half-length
 size: [3456.0, 24456.0, 3456.0],
-position: [0.0, 0.0, 0.0],
+position: [0.0, 0.0, -200.0],
 material: "stainless_steel",
 color: [0.2,0.2,0.9,0.2],
 drawstyle: "solid"
