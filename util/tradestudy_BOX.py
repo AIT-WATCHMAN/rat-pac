@@ -30,8 +30,8 @@ dROCK   = 2000.0
 
 ## Values to change for PMT arrangement. (PMTINFO)
 photocoverage = 0.109
-#photocoverage = 0.157
-#photocoverage = 0.205
+photocoverage = 0.157
+photocoverage = 0.205
 pmtRad        = 126.5
 
 
@@ -60,10 +60,11 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "", // world volume has no mother
 type: "box",
-size: [{xPMT+dTANK+dAIR+dROCK+dAIR}, {yPMT+dTANK+dAIR+dROCK+dAIR}, {zPMT+dTANK+dAIR+dROCK+dAIR}], // mm, half-length
+size: [{xPMT+dTANK+dAIR+dROCK+dAIR+xPMT}, {yPMT+dTANK+dAIR+dROCK+dAIR+xPMT}, {zPMT+dTANK+dAIR+dROCK+dAIR+xPMT}], // mm, half-length
 position: [0.0, 0.0, 0.0],
 material: "air", //rock?
-invisible: 1,
+color: [0.85, 0.72, 1.0, 0.5],
+invisible: 0,
 }}
 
 ///////////////////// Define the rock volumes. Thin slab of rock is assumed ////////////////////////
@@ -78,10 +79,10 @@ mother: "world", // world volume has no mother
 type: "box",
 //size: [7000.0, 27000.0, 7000.0], // mm, half-length
 size: [{xPMT+dTANK+dAIR+dROCK}, {yPMT+dTANK+dAIR+dROCK}, {zPMT+dTANK+dAIR+dROCK}],
-position: [0.0, 0.0, 0.0], //this will allow for the concrete layer on the floor and not on the ceiling
+position: [0.0, 0.0, {dAIR+oTANK+dIBEAM}], //this will allow for the concrete layer on the floor and not on the ceiling
 material: "rock",
-invisible: 1,
-//color: [1.0,0.6,0.0,1.0],
+color: [0.43, 0.27, 0.13, 1.0],
+invisible: 0,
 //drawstyle: "solid"
 }}
 
@@ -96,9 +97,10 @@ mother: "rock_1",
 type: "box",
 //size: [5500.0, 26500.0, 5500.0], // mm, half-length
 size: [{xPMT+dTANK+dAIR+dCONC}, {yPMT+dTANK+dAIR+dCONC}, {zPMT+dTANK+dAIR+dCONC}], 
-position: [0.0, 0.0, {dAIR+oTANK}], // this will give a concrete layer on the floor and not on the ceiling
-material: "concrete", // changed from "gunite" (L. Kneale)
-invisible: 1,
+position: [0.0, 0.0, 0.0], // this will give a concrete layer on the floor and not on the ceiling
+material: "rock", // changed from "gunite" (L. Kneale)
+color: [0.43, 0.27, 0.13, 1.0],
+invisible: 0,
 //color: [0.8,0.8,0.8,0.8],
 //drawstyle: "solid"
 }}
@@ -114,7 +116,8 @@ type: "box",
 size: [{xPMT+dTANK+dAIR}, {yPMT+dTANK+dAIR}, {zPMT+dTANK+dAIR}], 
 position: [0.0, 0.0, 0.0],
 material: "air",
-invisible: 1,
+invisible: 0,
+color: [0.85, 0.72, 1.0, 0.5],
 }}
 {{
 name: "GEO",
@@ -125,9 +128,9 @@ mother: "cavern_1",
 type: "box",
 //size: [4500.0, 24500.0, 4500.0], // mm, half-length
 size: [{xPMT+dTANK+dAIR-dIBEAM+tIBEAM}, {yPMT+dTANK+dAIR-dIBEAM+tIBEAM}, {zPMT+dTANK+dAIR-dIBEAM+tIBEAM}], 
-position: [0.0, 0.0,0.0],
+position: [0.0, 0.0,{-dIBEAM}],
 material: "stainless_steel",
-color: [0.6,0.6,0.9,0.01],
+color: [0.96,0.95,0.27,1.0],
 drawstyle: "solid"
 }}
 {{
@@ -141,7 +144,8 @@ type: "box",
 size: [{xPMT+dTANK+dAIR-dIBEAM}, {yPMT+dTANK+dAIR-dIBEAM}, {zPMT+dTANK+dAIR-dIBEAM}], 
 position: [0.0, 0.0, 0.0],
 material: "air",
-invisible: 1,
+color: [0.85, 0.72, 1.0, 0.5],
+invisible: 0,
 }}
 ////////////////////////////////// Define the rock volumes done.///////////////////////////////////
 {{
@@ -155,7 +159,7 @@ type: "box",
 size: [{xPMT+dTANK+tTANK}, {yPMT+dTANK+tTANK}, {zPMT+dTANK+tTANK+oTANK}], 
 position: [0.0, 0.0, {-dAIR}],
 material: "stainless_steel",
-color: [0.6,0.6,0.9,0.01],
+color: [0.43,0.70,0.90,1.0],
 drawstyle: "solid"
 }}
 {{
@@ -183,7 +187,7 @@ type: "box",
 size: [{xPMT+dPSUP+tPSUP}, {yPMT+dPSUP+tPSUP}, {zPMT+dPSUP+tPSUP}],
 position: [0.0, 0.0, {-oTANK}],
 material: "stainless_steel",
-color: [0.2,0.2,0.9,0.2],
+color: [0.0,0.5,0.18,1.0],
 drawstyle: "solid"
 }}
 {{

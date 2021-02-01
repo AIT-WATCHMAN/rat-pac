@@ -5,10 +5,11 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "", // world volume has no mother
 type: "box",
-size: [8400.0, 44400.0, 8400.0], // mm, half-length
+size: [11465.0, 47465.0, 11465.0], // mm, half-length
 position: [0.0, 0.0, 0.0],
 material: "air", //rock?
-invisible: 1,
+color: [0.85, 0.72, 1.0, 0.5],
+invisible: 0,
 }
 
 ///////////////////// Define the rock volumes. Thin slab of rock is assumed ////////////////////////
@@ -23,10 +24,10 @@ mother: "world", // world volume has no mother
 type: "box",
 //size: [7000.0, 27000.0, 7000.0], // mm, half-length
 size: [7000.0, 43000.0, 7000.0],
-position: [0.0, 0.0, 0.0], //this will allow for the concrete layer on the floor and not on the ceiling
+position: [0.0, 0.0, 2100.0], //this will allow for the concrete layer on the floor and not on the ceiling
 material: "rock",
-invisible: 1,
-//color: [1.0,0.6,0.0,1.0],
+color: [0.43, 0.27, 0.13, 1.0],
+invisible: 0,
 //drawstyle: "solid"
 }
 
@@ -41,9 +42,10 @@ mother: "rock_1",
 type: "box",
 //size: [5500.0, 26500.0, 5500.0], // mm, half-length
 size: [5100.0, 41100.0, 5100.0], 
-position: [0.0, 0.0, 1600.0], // this will give a concrete layer on the floor and not on the ceiling
-material: "concrete", // changed from "gunite" (L. Kneale)
-invisible: 1,
+position: [0.0, 0.0, 0.0], // this will give a concrete layer on the floor and not on the ceiling
+material: "rock", // changed from "gunite" (L. Kneale)
+color: [0.43, 0.27, 0.13, 1.0],
+invisible: 0,
 //color: [0.8,0.8,0.8,0.8],
 //drawstyle: "solid"
 }
@@ -59,7 +61,8 @@ type: "box",
 size: [5000.0, 41000.0, 5000.0], 
 position: [0.0, 0.0, 0.0],
 material: "air",
-invisible: 1,
+invisible: 0,
+color: [0.85, 0.72, 1.0, 0.5],
 }
 {
 name: "GEO",
@@ -70,9 +73,9 @@ mother: "cavern_1",
 type: "box",
 //size: [4500.0, 24500.0, 4500.0], // mm, half-length
 size: [4527.0, 40527.0, 4527.0], 
-position: [0.0, 0.0,0.0],
+position: [0.0, 0.0,-500.0],
 material: "stainless_steel",
-color: [0.6,0.6,0.9,0.01],
+color: [0.96,0.95,0.27,1.0],
 drawstyle: "solid"
 }
 {
@@ -86,7 +89,8 @@ type: "box",
 size: [4500.0, 40500.0, 4500.0], 
 position: [0.0, 0.0, 0.0],
 material: "air",
-invisible: 1,
+color: [0.85, 0.72, 1.0, 0.5],
+invisible: 0,
 }
 ////////////////////////////////// Define the rock volumes done.///////////////////////////////////
 {
@@ -100,7 +104,7 @@ type: "box",
 size: [3650.0, 39650.0, 3850.0], 
 position: [0.0, 0.0, -1400.0],
 material: "stainless_steel",
-color: [0.6,0.6,0.9,0.01],
+color: [0.43,0.70,0.90,1.0],
 drawstyle: "solid"
 }
 {
@@ -128,7 +132,7 @@ type: "box",
 size: [3456.0, 39456.0, 3456.0],
 position: [0.0, 0.0, -200.0],
 material: "stainless_steel",
-color: [0.2,0.2,0.9,0.2],
+color: [0.0,0.5,0.18,1.0],
 drawstyle: "solid"
 }
 {
