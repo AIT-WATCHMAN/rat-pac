@@ -8,7 +8,7 @@ import os
 ### Default values to change ratdb geometry files
 
 xPMT    = 3065.0
-#yPMT    = 24065.0 ## 50-m tank
+yPMT    = 24065.0 ## 50-m tank
 yPMT    = 39065.0 ## 80-m tank
 zPMT    = 3065.0
 
@@ -79,14 +79,12 @@ mother: "world", // world volume has no mother
 type: "box",
 //size: [7000.0, 27000.0, 7000.0], // mm, half-length
 size: [{xPMT+dTANK+dAIR+dROCK}, {yPMT+dTANK+dAIR+dROCK}, {zPMT+dTANK+dAIR+dROCK}],
-position: [0.0, 0.0, {dAIR+oTANK+dIBEAM}], //this will allow for the concrete layer on the floor and not on the ceiling
+position: [0.0, 0.0, {dAIR-tIBEAM-tTANK}], //this will allow for the concrete layer on the floor and not on the ceiling
 material: "rock",
 color: [0.43, 0.27, 0.13, 1.0],
 invisible: 0,
 //drawstyle: "solid"
 }}
-
-
 //Create a 0.5m concrete layer on the walls and base
 {{
 name: "GEO",
@@ -128,7 +126,7 @@ mother: "cavern_1",
 type: "box",
 //size: [4500.0, 24500.0, 4500.0], // mm, half-length
 size: [{xPMT+dTANK+dAIR-dIBEAM+tIBEAM}, {yPMT+dTANK+dAIR-dIBEAM+tIBEAM}, {zPMT+dTANK+dAIR-dIBEAM+tIBEAM}], 
-position: [0.0, 0.0,{-dIBEAM}],
+position: [0.0, 0.0,{-(dIBEAM-tIBEAM)}],
 material: "stainless_steel",
 color: [0.96,0.95,0.27,1.0],
 drawstyle: "solid"
@@ -157,7 +155,7 @@ mother: "cavern_2",
 type: "box",
 //size: [4500.0, 24500.0, 4500.0], // mm, half-length
 size: [{xPMT+dTANK+tTANK}, {yPMT+dTANK+tTANK}, {zPMT+dTANK+tTANK+oTANK}], 
-position: [0.0, 0.0, {-dAIR}],
+position: [0.0, 0.0, {oTANK-dAIR+dIBEAM+tTANK}],
 material: "stainless_steel",
 color: [0.43,0.70,0.90,1.0],
 drawstyle: "solid"

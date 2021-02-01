@@ -24,14 +24,12 @@ mother: "world", // world volume has no mother
 type: "box",
 //size: [7000.0, 27000.0, 7000.0], // mm, half-length
 size: [7000.0, 43000.0, 7000.0],
-position: [0.0, 0.0, 2100.0], //this will allow for the concrete layer on the floor and not on the ceiling
+position: [0.0, 0.0, 1323.0], //this will allow for the concrete layer on the floor and not on the ceiling
 material: "rock",
 color: [0.43, 0.27, 0.13, 1.0],
 invisible: 0,
 //drawstyle: "solid"
 }
-
-
 //Create a 0.5m concrete layer on the walls and base
 {
 name: "GEO",
@@ -73,7 +71,7 @@ mother: "cavern_1",
 type: "box",
 //size: [4500.0, 24500.0, 4500.0], // mm, half-length
 size: [4527.0, 40527.0, 4527.0], 
-position: [0.0, 0.0,-500.0],
+position: [0.0, 0.0,-473.0],
 material: "stainless_steel",
 color: [0.96,0.95,0.27,1.0],
 drawstyle: "solid"
@@ -102,7 +100,7 @@ mother: "cavern_2",
 type: "box",
 //size: [4500.0, 24500.0, 4500.0], // mm, half-length
 size: [3650.0, 39650.0, 3850.0], 
-position: [0.0, 0.0, -1400.0],
+position: [0.0, 0.0, -650.0],
 material: "stainless_steel",
 color: [0.43,0.70,0.90,1.0],
 drawstyle: "solid"
