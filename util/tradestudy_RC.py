@@ -24,13 +24,16 @@ zPMT    = 5465.0
 dFIDVol = -150.0 ## Arbitrary 1m buffer
 tFIDVol = 0.0
 dPSUP   = 385    
-tPSUP   = 10.
+tPSUP   = 6.
 tBSHEET = 5.0
 #dTANK   = 935.0
 dTANK   = 535.0  
-tTANK   = 400.0
-dAIR    = 1000.0 
-dCONC   = 500.0
+tTANK   = 50.0
+oTANK   = 200.
+dIBEAM  = 500.
+tIBEAM  = 27.0
+dAIR    = 1400.0 
+dCONC   = 100.0
 tCONC   = 25000.0
 dROCK   = 2000.0  
 
@@ -50,7 +53,10 @@ tPSUP   = 10.0,\
 tBSHEET = 5.0,\
 dTANK   = 501.875,    
 tTANK   = 500.0,\
+oTANK   = 200.0,\
 dAIR    = 1000.0 ,\
+dIBEAM  = 500.,\
+tIBEAM  = 27.0,\
 dCONC   = 500.0,\
 tCONC   = 25000.0,\
 dROCK   = 2000.0,\
@@ -63,8 +69,6 @@ index: "world",
 valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "", // world volume has no mother
-//type: "box",
-//size: [], // mm, half-length
 type: "tube",
 r_max: {rPMT+dTANK+dAIR+dROCK+dAIR}, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
 size_z: {zPMT+dTANK+dAIR+dROCK+dAIR},
@@ -81,9 +85,6 @@ index: "rock_1",
 valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "world", // world volume has no mother
-//type: "box",
-//size: [7000.0, 27000.0, 7000.0], // mm, half-length
-//size: [{rPMT+dTANK+dAIR+dROCK}, {+dTANK+dAIR+dROCK}, {zPMT+dTANK+dAIR+dROCK}],
 type: "tube",
 r_max: {rPMT+dTANK+dAIR+dROCK}, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
 size_z: {zPMT+dTANK+dAIR+dROCK},
@@ -98,13 +99,10 @@ invisible: 1,
 //Create a 0.5m concrete layer on the walls and base
 {{
 name: "GEO",
-index: "concrete",
+index: "rock_2
 valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "rock_1",
-//type: "box",
-//size: [5500.0, 26500.0, 5500.0], // mm, half-length
-//size: [{rPMT+dTANK+dAIR+dCONC}, {+dTANK+dAIR+dCONC}, {zPMT+dTANK+dAIR+dCONC}], 
 type: "tube",
 r_max: {rPMT+dTANK+dAIR+dCONC}, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
 size_z: {zPMT+dTANK+dAIR+dCONC},
@@ -117,13 +115,10 @@ invisible: 1,
 //Create the cavern space between the tank and concrete
 {{
 name: "GEO",
-index: "cavern",
+index: "cavern_1",
 valid_begin: [0, 0],
 valid_end: [0, 0],
-mother: "concrete",
-//type: "box",
-//size: [5000.0, 26000.0, 5000.0], // mm, half-length
-//size: [{rPMT+dTANK+dAIR}, {+dTANK+dAIR}, {zPMT+dTANK+dAIR}], 
+mother: "rock_2",
 type: "tube",
 r_max: {rPMT+dTANK+dAIR}, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
 size_z: {zPMT+dTANK+dAIR},
@@ -131,22 +126,46 @@ position: [0.0, 0.0, 0.0],
 material: "air",
 invisible: 1,
 }}
+{{name:"GEO",
+index: "ibeam",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+mother: "cavern_1",
+type: "tube",
+r_max: {rPMT+dTANK+dAIR-dIBEAM+tIBEAM},
+size_z: {zPMT+dTANK+dAIR-dIBEAM+tIBEAM},
+position: [0.0, 0.0,{-(dIBEAM-tIBEAM)}],
+material: "stainless_steel",
+color: [0.96,0.95,0.27,1.0],
+drawstyle: "solid"
+}}
+{{
+name: "GEO",
+index: "cavern_2",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+mother: "ibeam",
+type: "tube",
+r_max: {rPMT+dTANK+dAIR-dIBEAM},
+size_z: {zPMT+dTANK+dAIR-dIBEAM}, 
+position: [0.0, 0.0, 0.0],
+material: "air",
+color: [0.85, 0.72, 1.0, 0.5],
+invisible: 0,
+}}
 ////////////////////////////////// Define the rock volumes done.///////////////////////////////////
 {{
 name: "GEO",
 index: "tank",
 valid_begin: [0, 0],
 valid_end: [0, 0],
-mother: "cavern",
-//type: "box",
-//size: [4500.0, 24500.0, 4500.0], // mm, half-length
-//size: [{rPMT+dTANK}, {+dTANK}, {zPMT+dTANK}], 
+mother: "cavern_2",
 type: "tube",
-r_max: {rPMT+dTANK}, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
-size_z: {zPMT+dTANK},
-position: [0.0, 0.0, 0.0],
+r_max: {rPMT+dTANK+tTANK}, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
+size_z: {zPMT+dTANK+tTANK},
+position: [0.0, 0.0, {oTANK-dAIR+dIBEAM+tTANK}],
 material: "stainless_steel",
-color: [0.6,0.6,0.9,0.01],
+color: [0.43,0.70,0.90,1.0],
 drawstyle: "solid"
 }}
 {{
@@ -155,12 +174,9 @@ index: "detector_veto1",
 valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "tank",
-//type: "box",
-//size: [4498.125, 24498.125, 4498.125], // mm, half-length
-//size: [{rPMT+dTANK-tTANK}, {+dTANK-tTANK}, {zPMT+dTANK-tTANK}],
 type: "tube",
-r_max: {rPMT+dTANK-tTANK}, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
-size_z: {zPMT+dTANK-tTANK},
+r_max: {rPMT+dTANK}, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
+size_z: {zPMT+dTANK},
 position: [0.0, 0.0, 0.0],
 material: "doped_water",
 color: [0.2,0.2,0.9,0.2],
@@ -172,15 +188,12 @@ index: "psup",
 valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "detector_veto1",
-//type: "box",
-//size: [4498.125, 24498.125, 4498.125], // mm, half-length
-//size: [{rPMT+dPSUP+tPSUP}, {+dPSUP+tPSUP}, {zPMT+dPSUP+tPSUP}],
 type: "tube",
 r_max: {rPMT+dPSUP+tPSUP}, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
 size_z: {zPMT+dPSUP+tPSUP},
-position: [0.0, 0.0, 0.0],
+position: [0.0, 0.0, {-oTANK}],
 material: "stainless_steel",
-color: [0.2,0.2,0.9,0.2],
+color: [0.0,0.5,0.18,1.0],
 drawstyle: "solid"
 }}
 {{
@@ -189,9 +202,6 @@ index: "detector_veto2",
 valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "psup",
-//type: "box",
-//size: [4498.125, 24498.125, 4498.125], // mm, half-length
-//size: [{rPMT+dPSUP}, {+dPSUP}, {zPMT+dPSUP}],
 type: "tube",
 r_max: {rPMT+dPSUP}, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
 size_z: {zPMT+dPSUP},
@@ -206,9 +216,6 @@ index: "black_sheet",
 valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "detector_veto2",
-//type: "box",
-//size: [3508.125, 23508.125, 3508.125], // mm, half-length
-//size: [{rPMT+tBSHEET},{+tBSHEET},{zPMT+tBSHEET}],
 type: "tube",
 r_max: {rPMT+tBSHEET}, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
 size_z: {zPMT+tBSHEET},
@@ -223,9 +230,6 @@ index: "detector_target_gb",// gb: gamma buffer
 valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "black_sheet",
-//type: "box",
-//size: [3498.125, 23498.125, 3498.125] // mm, half-length
-//size: [{rPMT},{zPMT}],
 type: "tube",
 r_max: {rPMT}, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
 size_z: {zPMT},
@@ -240,9 +244,6 @@ index: "detector_target_fv", // fv : fiducial volume
 valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "detector_target_gb", // gb : gamma buffer
-//type: "box",
-//size: [3498.125, 23498.125, 3498.125] // mm, half-length
-//size: [{rPMT+dFIDVol},{+dFIDVol},{zPMT+dFIDVol}],
 type: "tube",
 r_max: {rPMT+dFIDVol}, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
 size_z: {zPMT+dFIDVol},
