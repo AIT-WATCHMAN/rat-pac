@@ -173,10 +173,10 @@ namespace RAT {
         bool   wlsp = false;
         if( wls_plates == 1 ){ wlsp = true; G4cout << "WLS Plates are Added!! \n "; }
         //material properties
-        G4Material* wls_material = G4Material::GetMaterial("eljen_WLSP");
-  double wls_offset = 30.0;
-  try { wls_offset = table->GetD("wls_offset");; }
+        double wls_offset = 30.0;
+        try { wls_offset = table->GetD("wls_offset");; }
 	catch (DBNotFoundError &e) { }
+        G4Material* wls_material = G4Material::GetMaterial("eljen_WLSP");
 	try { wls_material = G4Material::GetMaterial( table->GetS("wls_material") ); }
 	catch (DBNotFoundError &e) { }
         //surface properties
@@ -189,14 +189,14 @@ namespace RAT {
 	try { wls_size = table->GetDArray("wls_size"); }
 	catch (DBNotFoundError &e) { }
 	      double zz = wls_size[2];
-        //wls parameter: inner radius
+        //wls parameter: hole minimum radius
         vector<double> wls_innerradius = {0.0,0.0};
-        //wls parameter: outer radius
+        //wls parameter: hole maximum radius
         vector<double> wls_outerradius = {116.0,96.0};
-	try { wls_outerradius = table->GetDArray("wls_radius"); }
+        try { wls_outerradius[1] = table->GetD("wls_minimum_hole_radius"); wls_outerradius[0] = table->GetD("wls_maximum_hole_radius");}
 	catch (DBNotFoundError &e) { }
-	      //wls parameter: thickness
-	      vector<double> wls_thickness = {-(zz+0.1),zz+0.1};
+        //wls parameter: thickness
+        vector<double> wls_thickness = {-(zz+0.1),zz+0.1};
 	      
 	G4double* z_array = new G4double[2];
   G4double* r_array = new G4double[2];
@@ -230,7 +230,7 @@ namespace RAT {
 	try { ref_material = G4Material::GetMaterial( table->GetS("ref_material") ); }
 	catch (DBNotFoundError &e) { }
         //surface properties
-  G4SurfaceProperty* ref_surface = Materials::optical_surface["specular_tarp"];
+  G4SurfaceProperty* ref_surface = Materials::optical_surface["tyvek"];
 	try { ref_surface = Materials::optical_surface[ table->GetS("ref_surface") ]; }
 	catch (DBNotFoundError &e) { }
         G4VSolid* refbox = new G4Box("wls_cover_out", 

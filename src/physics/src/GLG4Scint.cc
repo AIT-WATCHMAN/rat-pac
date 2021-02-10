@@ -296,7 +296,12 @@ GLG4Scint::PostPostStepDoIt(const G4Track& aTrack, const G4Step& aStep) {
       G4double p_reemission =
         mpv_scint_reemission->Value(aTrack.GetKineticEnergy());
 
-      numSecondaries = (G4int)(CLHEP::RandPoisson::shoot(p_reemission));
+      if (p_reemission > 0) numSecondaries = (G4int)(CLHEP::RandPoisson::shoot(p_reemission));
+      else {
+        G4double check = CLHEP::RandFlat::shoot(0.0,1.0);
+        if (check <= -p_reemission) numSecondaries = 1;
+        else numSecondaries = 0;
+      }
 
       if (numSecondaries == 0) {
         goto PostStepDoIt_DONE;

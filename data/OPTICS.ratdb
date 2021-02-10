@@ -951,7 +951,7 @@ valid_begin : [0, 0],
 valid_end : [0, 0],
 surface: 1,
 finish: "polished",
-model: "unified",
+model: "glisur",
 polish: 0.9,
 LIGHT_YIELD: 0.0, //Does not scintillate!
 RINDEX_option: "wavelength",
@@ -984,9 +984,7 @@ SCINTWAVEFORM_value1: [-1.1],
 SCINTWAVEFORM_value2: [1.0],
 SCINT_RISE_TIME: 0.1,
 REEMISSION_PROB_option: "wavelength",
-REEMISSION_PROB_value1: [280.0,530.0 ],
-REEMISSION_PROB_value2: [0.92,0.92], //Constant quantum efficiency used
-SCINTMOD_value1: [1.0, ],
-SCINTMOD_value2: [0.0, ], //Not necessarily needed because it does not scintillate
-PROPERTY_LIST: ["LIGHT_YIELD", "RINDEX", "SCINTILLATION", "SCINTILLATION_WLS", "ABSLENGTH", "SCINT_RISE_TIME", "SCINTWAVEFORM", "REEMISSION_PROB","SCINTMOD"]
+REEMISSION_PROB_value1: [280.0,320.0,530.0 ],
+REEMISSION_PROB_value2: [0.92,0.92,0.0], //Constant quantum efficiency used
+PROPERTY_LIST: ["LIGHT_YIELD", "RINDEX", "SCINTILLATION", "SCINTILLATION_WLS", "ABSLENGTH", "SCINT_RISE_TIME", "SCINTWAVEFORM", "REEMISSION_PROB"]
 }
