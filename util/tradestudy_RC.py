@@ -11,14 +11,14 @@ import os
 #rPMT    = 5065.0
 #rPMT    = 4065.0
 rPMT    = 5465.0
-#rPMT    = 4465.0
+rPMT    = 4465.0
 #rPMT     = 5700.0
 
 #zPMT    = 6700.0
 #zPMT    = 5065.0
 #zPMT    = 4065.0
 zPMT    = 5465.0
-#zPMT    = 4465.0
+zPMT    = 4465.0
 #zPMT     = 5700.0
 
 dFIDVol = -150.0 ## Arbitrary 1m buffer
@@ -40,8 +40,8 @@ dROCK   = 2000.0
 
 ## Values to change for PMT arrangement. (PMTINFO)
 photocoverage = 0.10
-photocoverage = 0.1505
-photocoverage = 0.205
+#photocoverage = 0.1505
+#photocoverage = 0.205
 pmtRad        = 126.5
 
 
@@ -70,8 +70,9 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "", // world volume has no mother
 type: "tube",
-r_max: {rPMT+dTANK+dAIR+dROCK+dAIR}, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
-size_z: {zPMT+dTANK+dAIR+dROCK+dAIR},
+r_max: {rPMT+dTANK+dAIR+dROCK+dAIR+rPMT}, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
+size_z: {zPMT+dTANK+dAIR+dROCK+dAIR+zPMT},
+position: [0.0, 0.0, 0.0],
 material: "air", //rock?
 invisible: 1,
 }}
@@ -88,7 +89,7 @@ mother: "world", // world volume has no mother
 type: "tube",
 r_max: {rPMT+dTANK+dAIR+dROCK}, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
 size_z: {zPMT+dTANK+dAIR+dROCK},
-position: [0.0, 0.0, 0.0], //this will allow for the concrete layer on the floor and not on the ceiling
+position: [0.0, 0.0, {dAIR-tIBEAM-tTANK}], //this will allow for the concrete layer on the floor and not on the ceiling
 material: "rock",
 invisible: 1,
 //color: [1.0,0.6,0.0,1.0],

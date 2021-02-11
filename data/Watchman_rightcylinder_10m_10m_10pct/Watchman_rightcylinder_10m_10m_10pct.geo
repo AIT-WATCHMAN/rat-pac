@@ -5,8 +5,9 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "", // world volume has no mother
 type: "tube",
-r_max: 9800.0, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
-size_z: 9800.0,
+r_max: 14265.0, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
+size_z: 14265.0,
+position: [0.0, 0.0, 0.0],
 material: "air", //rock?
 invisible: 1,
 }
@@ -23,7 +24,7 @@ mother: "world", // world volume has no mother
 type: "tube",
 r_max: 8400.0, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
 size_z: 8400.0,
-position: [0.0, 0.0, 0.0], //this will allow for the concrete layer on the floor and not on the ceiling
+position: [0.0, 0.0, 1323.0], //this will allow for the concrete layer on the floor and not on the ceiling
 material: "rock",
 invisible: 1,
 //color: [1.0,0.6,0.0,1.0],
