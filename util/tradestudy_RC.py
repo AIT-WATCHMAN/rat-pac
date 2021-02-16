@@ -7,19 +7,19 @@ import os
 
 ### Default values to change ratdb geometry files
 
-#rPMT    = 6700.0
-#rPMT    = 5065.0
-#rPMT    = 4065.0
+###rPMT    = 6700.0
+###rPMT    = 5065.0
+###rPMT    = 4065.0
 rPMT    = 5465.0
-rPMT    = 4465.0
-#rPMT     = 5700.0
+#rPMT    = 4465.0
+###rPMT     = 5700.0
 
-#zPMT    = 6700.0
-#zPMT    = 5065.0
-#zPMT    = 4065.0
+###zPMT    = 6700.0
+###zPMT    = 5065.0
+###zPMT    = 4065.0
 zPMT    = 5465.0
-zPMT    = 4465.0
-#zPMT     = 5700.0
+#zPMT    = 4465.0
+###zPMT     = 5700.0
 
 dFIDVol = -150.0 ## Arbitrary 1m buffer
 tFIDVol = 0.0
@@ -100,7 +100,7 @@ invisible: 1,
 //Create a 0.5m concrete layer on the walls and base
 {{
 name: "GEO",
-index: "rock_2
+index: "rock_2",
 valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "rock_1",
@@ -108,7 +108,7 @@ type: "tube",
 r_max: {rPMT+dTANK+dAIR+dCONC}, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
 size_z: {zPMT+dTANK+dAIR+dCONC},
 position: [0.0, 0.0, 0.0], // this will give a concrete layer on the floor and not on the ceiling
-material: "concrete", // changed from "gunite" (L. Kneale)
+material: "rock", // changed from "gunite" (L. Kneale)
 invisible: 1,
 //color: [0.8,0.8,0.8,0.8],
 //drawstyle: "solid"
