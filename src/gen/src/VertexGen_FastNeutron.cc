@@ -42,10 +42,7 @@ namespace RAT {
         SetSideBool(1);
         
         messenger = new FastNeutronMessenger(this);
-        Double_t Depth = GetDepth();
-        LoadTangHortonSmithCosTheta(Depth);
-
-        
+        loadedTangHortonSmith = false;
     }
     
     ///-------------------------------------------------------------------------
@@ -59,9 +56,8 @@ namespace RAT {
                                                       G4ThreeVector &dx,
                                                       G4double dt)
     {
+        LoadTangHortonSmithCosTheta(this->GetDepth());
         // Where the main work is done - the astute may notice a strong similarity to the Gun generator!
-        
-
         //Find the cosmic muon direction
         
         Double_t muCosTheta = GetRandomMuonCosTheta();
@@ -231,7 +227,9 @@ namespace RAT {
         
     }
     void VertexGen_FastNeutron::LoadTangHortonSmithCosTheta(double depth){
-        
+        // Just run once at first event
+        if( loadedTangHortonSmith ) return;
+        loadedTangHortonSmith = true;
         // Equation (10) of Tang, Horton-Smith PhysRevD.74.053007
         TF1 *cosThetaPrime = new TF1("cosThetaPrime","sqrt((x**2 +[0]**2 + [1]*x**[2] + [3]*x**[4])/(1.0+[0]**2+[1]+[3]))",0,1);
         cosThetaPrime->SetParameter(0,0.102573);
