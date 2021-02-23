@@ -1,12 +1,19 @@
 /glg4debug/glg4param omit_muon_processes 1.0
 /glg4debug/glg4param omit_hadronic_processes 1.0
 
-/rat/db/set DETECTOR experiment "Watchman_WLSP"
-/rat/db/set DETECTOR detector_factory "WatchmanWLSPSquare"
-#Set photocathode_coverage to any desired coverage (generally keep less than 0.25)
-#/rat/db/set WATCHMAN_PARAMS photocathode_coverage 0.15 
-#If photocathode_coverage is set to 0, the baseline geo file is used for PMT positions and other geometries.  ***Still use the factory, as it generates the WLSP positions and dimensions!***
-/rat/db/set WATCHMAN_PARAMS photocathode_coverage 0.0
+/rat/db/set DETECTOR experiment "Watchman"
+#/rat/db/set GEO[inner_pmts] orientation "point"
+#/rat/db/set DETECTOR detector_factory "Watchman"
+/rat/db/set DETECTOR geo_file "Watchman/Watchman.geo"
+
+# Visualize the calibration source
+#/rat/db/load Watchman/DecayChamber.geo
+#/rat/db/set GEO[sourcecan] posz 10000.0
+
+/rat/db/set GEO[inner_pmts] wls_plates 1
+/rat/db/set GEO[inner_pmts] wls_minimum_hole_radius: 91.0
+/rat/db/set GEO[inner_pmts] wls_maximum_hole_radius: 115.0
+/rat/db/set GEO[inner_pmts] wls_offset: 50.0
 
 /run/initialize
 

@@ -5,12 +5,20 @@
 /rat/db/set DETECTOR experiment "Watchman"
 # Turn on mu metal, change surface and material
 /rat/db/set GEO[inner_pmts] light_cone 0
-rat/db/set GEO[inner_pmts] light_cone_material "aluminum"
+/rat/db/set GEO[inner_pmts] light_cone_material "aluminum"
 /rat/db/set GEO[inner_pmts] light_cone_surface "aluminum"
 /rat/db/set GEO[inner_pmts] light_cone_length 11.5
 /rat/db/set GEO[inner_pmts] light_cone_innerradius 12.65
 /rat/db/set GEO[inner_pmts] light_cone_outerradius 26.0
 /rat/db/set GEO[inner_pmts] light_cone_thickness 0.2
+
+# Turn on WLS plates
+/rat/db/set GEO[inner_pmts] wls_plates 0
+/rat/db/set GEO[inner_pmts] wls_minimum_hole_radius: 91.0
+/rat/db/set GEO[inner_pmts] wls_maximum_hole_radius: 115.0
+/rat/db/set GEO[inner_pmts] wls_offset: 50.0
+/rat/db/set GEO[inner_pmts] wls_material: "eljen_WLSP"
+/rat/db/set GEO[inner_pmts] ref_surface: "tyvek"
 
 #can change black tarp offset and thickness
 /rat/db/set GEO[inner_pmts] black_sheet_offset 300.0 #cm 
