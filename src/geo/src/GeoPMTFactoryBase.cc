@@ -169,7 +169,9 @@ namespace RAT {
 	G4LogicalSkinSurface* lightcone_skin =new G4LogicalSkinSurface("lightcone_surface", lightcone_log, light_cone_surface);
 	
 	//add wavelength shifting plate
-        int    wls_plates       = table->GetI("wls_plates");
+        int wls_plates = 0;
+        try { wls_plates       = table->GetI("wls_plates");}
+        catch (DBNotFoundError &e) { }
         bool   wlsp = false;
         if( wls_plates == 1 ){ wlsp = true; G4cout << "WLS Plates are Added!! \n "; }
         //material properties
