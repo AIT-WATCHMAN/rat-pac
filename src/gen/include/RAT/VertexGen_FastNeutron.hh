@@ -75,6 +75,7 @@ namespace RAT {
         G4String	_FastNeutron;			// name of the FastNeutron to use
         
         double valueD,valueE,valueSB;
+        bool loadedTangHortonSmith;
         
         FastNeutronMessenger* messenger;
         
