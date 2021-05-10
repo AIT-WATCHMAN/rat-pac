@@ -5,21 +5,24 @@ import numpy as np
 import math
 import os
 
+# 16m cylinder with 1.3m buffer
+# rPMT 6700, zPMT 6700, dTANK 1535
+
 ### Default values to change ratdb geometry files
 
 ###rPMT    = 6700.0
 ###rPMT    = 5065.0
 ###rPMT    = 4065.0
-rPMT    = 5465.0
+#rPMT    = 5465.0
 #rPMT    = 4465.0
-###rPMT     = 5700.0
+rPMT     = 6700.0
 
 ###zPMT    = 6700.0
 ###zPMT    = 5065.0
 ###zPMT    = 4065.0
-zPMT    = 5465.0
+#zPMT    = 5465.0
 #zPMT    = 4465.0
-###zPMT     = 5700.0
+zPMT     = 6700.0
 
 dFIDVol = -150.0 ## Arbitrary 1m buffer
 tFIDVol = 0.0
@@ -27,7 +30,7 @@ dPSUP   = 385
 tPSUP   = 6.
 tBSHEET = 5.0
 #dTANK   = 935.0
-dTANK   = 535.0  
+dTANK   = 1300.0
 tTANK   = 50.0
 oTANK   = 200.
 dIBEAM  = 500.
@@ -39,9 +42,9 @@ dROCK   = 2000.0
 
 
 ## Values to change for PMT arrangement. (PMTINFO)
-photocoverage = 0.10
+#photocoverage = 0.10
 #photocoverage = 0.1505
-#photocoverage = 0.205
+photocoverage = 0.205
 pmtRad        = 126.5
 
 
@@ -438,16 +441,16 @@ tBSHEET = tBSHEET, dTANK = dTANK,tTANK = tTANK,dAIR = dAIR ,dCONC = dCONC,tCONC 
 
 
 try:
-    os.mkdir(f"../data/Watchman_rightcylinder_{int((rPMT+dTANK)*2.0/1000)}m_{int((zPMT+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct")
-    print('Created', f"../data/Watchman_rightcylinder_{int((rPMT+dTANK)*2.0/1000)}m_{int((zPMT+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct")
+    os.mkdir(f"../data/Watchman_rightcylinder_{int((rPMT+dTANK)*2.0/1000)}m_{int((zPMT+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct_{int(rPMT)}mm")
+    print('Created', f"../data/Watchman_rightcylinder_{int((rPMT+dTANK)*2.0/1000)}m_{int((zPMT+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct_{int(rPMT)}mm")
 except OSError as error:  
     print(error)   
 
-geofile = open(f"../data/Watchman_rightcylinder_{int((rPMT+dTANK)*2.0/1000)}m_{int((zPMT+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct/Watchman_rightcylinder_{int((rPMT+dTANK)*2.0/1000)}m_{int((zPMT+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct.geo","w+")
+geofile = open(f"../data/Watchman_rightcylinder_{int((rPMT+dTANK)*2.0/1000)}m_{int((zPMT+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct_{int(rPMT)}mm/Watchman_rightcylinder_{int((rPMT+dTANK)*2.0/1000)}m_{int((zPMT+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct_{int(rPMT)}mm.geo","w+")
 geofile.writelines(_geoFile)
 geofile.close
 
-pmtfile = open(f"../data/Watchman_rightcylinder_{int((rPMT+dTANK)*2.0/1000)}m_{int((zPMT+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct/PMTINFO.ratdb","w+")
+pmtfile = open(f"../data/Watchman_rightcylinder_{int((rPMT+dTANK)*2.0/1000)}m_{int((zPMT+dTANK)*2.0/1000)}m_{int(photocoverage*100)}pct_{int(rPMT)}mm/PMTINFO.ratdb","w+")
 pmtfile.writelines(_pmtinfo)
 pmtfile.close
 
