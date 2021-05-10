@@ -212,7 +212,7 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "detector_target_gb",
 type: "pmtarray",
-end_idx: 3459, //idx of the last pmt
+end_idx: 3247, //idx of the last pmt
 start_idx: 0, //idx of the first pmt
 pmt_model: "r7081pe",
 mu_metal: 0,

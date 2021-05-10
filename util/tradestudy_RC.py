@@ -5,9 +5,6 @@ import numpy as np
 import math
 import os
 
-# 16m cylinder with 1.3m buffer
-# rPMT 6700, zPMT 6700, dTANK 1535
-
 ### Default values to change ratdb geometry files
 
 ###rPMT    = 6700.0
@@ -30,6 +27,7 @@ dPSUP   = 385
 tPSUP   = 6.
 tBSHEET = 5.0
 #dTANK   = 935.0
+#dTANK  = 535.0
 dTANK   = 1300.0
 tTANK   = 50.0
 oTANK   = 200.
@@ -44,7 +42,8 @@ dROCK   = 2000.0
 ## Values to change for PMT arrangement. (PMTINFO)
 #photocoverage = 0.10
 #photocoverage = 0.1505
-photocoverage = 0.205
+#photocoverage = 0.205
+photocoverage = 0.20
 pmtRad        = 126.5
 
 
@@ -461,6 +460,6 @@ print("//// Total number of inner PMTs : ",cnt)
 print("//// Target Photocoverage (%) : ",photocoverage*100.)
 print("//// Actual Photocoverage (%) : ",pmtArea/surfaceArea*100.)
 print("//// Detector height (m) : ",(zPMT+dTANK)*2.0/1000.)
-print("//// Detector diamter (m) : ",(rPMT+dTANK)*2.0/1000.)
+print("//// Detector diameter (m) : ",(rPMT+dTANK)*2.0/1000.)
 print("////")
 
