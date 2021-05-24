@@ -1,0 +1,51 @@
+# This macro gives examples on how to use a moveable calibration
+# source in simulations.
+/glg4debug/glg4param omit_muon_processes  0.0
+/glg4debug/glg4param omit_hadronic_processes  0.0
+
+# Default watchman, can be switched.
+/rat/db/set DETECTOR experiment "Watchman"
+/rat/db/set DETECTOR geo_file "Watchman/Watchman.geo"
+#/rat/db/set DETECTOR detector_factory "Watchman"
+#/rat/db/set WATCHMAN_PARAMS photocathode_coverage 0.25
+
+/rat/db/load Watchman/DecayChamber.geo
+# The source container can be moved around with:
+#/rat/db/set GEO[sourcecan] posx 0.0
+/rat/db/set GEO[sourceblock] posz -98.5
+/rat/db/set GEO[sourceblock] r_max 48.5
+/rat/db/set GEO[sourceblock] size_z 46.5
+/rat/db/set GEO[sourceblock] material "air"
+
+/run/initialize
+
+/vis/open OGLSQt
+/vis/scene/create
+/vis/scene/add/trajectories rich smooth
+/tracking/storeTrajectory 1
+/tracking/FillPointCont 1
+/vis/scene/add/volume
+/vis/scene/add/hits
+/vis/sceneHandler/attach
+
+/vis/viewer/set/upVector 0.0 0.0 1.0
+/vis/viewer/set/viewpointThetaPhi 90 180 
+/vis/viewer/zoomTo 20
+/vis/viewer/set/style s
+
+## Cut a plane through the detector
+/vis/viewer/addCutawayPlane 0 0 0 cm 1 0 0
+
+## AmBe
+#/generator/add ambe regexfill:poisson
+
+## Cobalt 60
+#/generator/add decaychain 60Co:regexfill:poisson
+
+## Nitrogen 16
+/generator/add decaychain 16N:regexfill:poisson
+
+## Set the position within the scint block
+/generator/pos/set sourceblock
+
+/run/beamOn 1
