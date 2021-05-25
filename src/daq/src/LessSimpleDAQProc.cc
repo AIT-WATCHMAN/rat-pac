@@ -35,7 +35,7 @@ namespace RAT {
         double triggerWindow = 200.; //ns
         unsigned long triggerThreshold = 6;
         unsigned long hits = 0;
-
+        int trigger = 0;
         
         //cout <<"New Event====================================" << endl;
         // First part is to load into vector PMT information for full event
@@ -89,6 +89,7 @@ namespace RAT {
             // occurred within the trigger window
             double dt = pmtARRAY[pmtIndex][0]-pmtARRAY[hits-triggerThreshold][0];
             if (dt>triggerWindow) continue;
+	    trigger = 1;
             // assign the sixth hit in a cluster of length triggerWindow as the trigger 
             // (clusterTime is the the time of the 6th hit)
             for (unsigned long jj = 0; jj< clusterTime.size();jj++){
@@ -201,7 +202,10 @@ namespace RAT {
             //regster total charge of one subevent
             ev->SetTotalCharge(totalQ);
         }
-        
+       if (trigger==0){
+            ds->PruneMC();
+        }
+ 
         return Processor::OK;
     }
     
