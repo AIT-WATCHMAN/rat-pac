@@ -12,14 +12,18 @@ import os
 ###rPMT    = 4065.0
 #rPMT    = 5465.0
 #rPMT    = 4465.0
-rPMT     = 6700.0
+#rPMT     = 6700.0
+#rPMT = 5700.0
+rPMT = 9000.0
 
 ###zPMT    = 6700.0
 ###zPMT    = 5065.0
 ###zPMT    = 4065.0
 #zPMT    = 5465.0
 #zPMT    = 4465.0
-zPMT     = 6700.0
+#zPMT     = 6700.0
+#zPMT = 5700.0
+zPMT = 9000.0
 
 dFIDVol = -150.0 ## Arbitrary 1m buffer
 tFIDVol = 0.0
@@ -28,7 +32,8 @@ tPSUP   = 6.
 tBSHEET = 5.0
 #dTANK   = 935.0
 #dTANK  = 535.0
-dTANK   = 1300.0
+#dTANK   = 2300.0
+dTANK = 2000.0
 tTANK   = 50.0
 oTANK   = 200.
 dIBEAM  = 500.
@@ -40,10 +45,10 @@ dROCK   = 2000.0
 
 
 ## Values to change for PMT arrangement. (PMTINFO)
-#photocoverage = 0.10
+photocoverage = 0.10
 #photocoverage = 0.1505
 #photocoverage = 0.205
-photocoverage = 0.20
+#photocoverage = 0.20
 pmtRad        = 126.5
 
 
@@ -372,14 +377,14 @@ delta = 250.,tolerance = 200., photocoverage=0.205, pmtRad = 126.5):
 
     #side
     nRings  = int(np.round(( zPMT ) / length))
-    collums = int(np.round(( 2.0 * math.pi * rPMT ) / length))
+    colums = int(np.round(( 2.0 * math.pi * rPMT ) / length))
     
-    _dTheta = 2.0 * math.pi / collums
-    print('Collumns: ',collums,'\nNrings: ',nRings,'\ndelta Theta: ',_dTheta)
+    _dTheta = 2.0 * math.pi / colums
+    print('Columns: ',colums,'\nNrings: ',nRings,'\ndelta Theta: ',_dTheta)
  
     for _i in range(nRings):
         #        print((_i*500.)+250.,-((_i*500.)+250.))
-        for _j in range(collums):
+        for _j in range(colums):
             _theta,_z = _j*_dTheta,(_i*spacing)+delta
             
             x.append(radius * math.cos(_theta))
