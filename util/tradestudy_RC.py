@@ -7,7 +7,7 @@ import os
 
 ### Default values to change ratdb geometry files
 
-###rPMT    = 6700.0
+#rPMT    = 6700.0
 ###rPMT    = 5065.0
 ###rPMT    = 4065.0
 #rPMT    = 5465.0
@@ -36,7 +36,8 @@ tTANK   = 50.0
 oTANK   = 200.
 dIBEAM  = 500.
 tIBEAM  = 27.0
-dAIR    = 1400.0 
+dAIR    = 1000.0 
+dAIRz   = 3000.0
 dCONC   = 100.0
 tCONC   = 25000.0
 dROCK   = 2000.0  
@@ -44,9 +45,9 @@ dROCK   = 2000.0
 
 ## Values to change for PMT arrangement. (PMTINFO)
 #photocoverage = 0.10
-#photocoverage = 0.1505
+photocoverage = 0.1505
 #photocoverage = 0.205
-photocoverage = 0.20
+#photocoverage = 0.20
 pmtRad        = 126.5
 
 
@@ -60,6 +61,7 @@ dTANK   = 501.875,
 tTANK   = 500.0,\
 oTANK   = 200.0,\
 dAIR    = 1000.0 ,\
+dAIRz   = 3000.0,\
 dIBEAM  = 500.,\
 tIBEAM  = 27.0,\
 dCONC   = 500.0,\
@@ -75,8 +77,8 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "", // world volume has no mother
 type: "tube",
-r_max: {rPMT+dTANK+dAIR+dROCK+dAIR+rPMT}, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
-size_z: {zPMT+dTANK+dAIR+dROCK+dAIR+zPMT},
+r_max: {rPMT+dTANK+dAIR+dROCK+dAIR+rPMT},
+size_z: {zPMT+dTANK+dAIRz+dROCK+zPMT},
 position: [0.0, 0.0, 0.0],
 material: "air", //rock?
 invisible: 1,
@@ -92,9 +94,9 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "world", // world volume has no mother
 type: "tube",
-r_max: {rPMT+dTANK+dAIR+dROCK}, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
-size_z: {zPMT+dTANK+dAIR+dROCK},
-position: [0.0, 0.0, {dAIR-tIBEAM-tTANK}], //this will allow for the concrete layer on the floor and not on the ceiling
+r_max: {rPMT+dTANK+dAIR+dROCK}, 
+size_z: {zPMT+dTANK+dAIRz+dROCK},
+position: [0.0, 0.0, {dAIRz-tIBEAM-tTANK}], 
 material: "rock",
 invisible: 1,
 //color: [1.0,0.6,0.0,1.0],
@@ -102,7 +104,6 @@ invisible: 1,
 }}
 
 
-//Create a 0.5m concrete layer on the walls and base
 {{
 name: "GEO",
 index: "rock_2",
@@ -110,10 +111,10 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "rock_1",
 type: "tube",
-r_max: {rPMT+dTANK+dAIR+dCONC}, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
-size_z: {zPMT+dTANK+dAIR+dCONC},
-position: [0.0, 0.0, 0.0], // this will give a concrete layer on the floor and not on the ceiling
-material: "rock", // changed from "gunite" (L. Kneale)
+r_max: {rPMT+dTANK+dAIR+dCONC}, 
+size_z: {zPMT+dTANK+dAIRz+dCONC},
+position: [0.0, 0.0, 0.0], 
+material: "rock", 
 invisible: 1,
 //color: [0.8,0.8,0.8,0.8],
 //drawstyle: "solid"
@@ -126,8 +127,8 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "rock_2",
 type: "tube",
-r_max: {rPMT+dTANK+dAIR}, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
-size_z: {zPMT+dTANK+dAIR},
+r_max: {rPMT+dTANK+dAIR}, 
+size_z: {zPMT+dTANK+dAIRz},
 position: [0.0, 0.0, 0.0],
 material: "air",
 invisible: 1,
@@ -139,7 +140,7 @@ valid_end: [0, 0],
 mother: "cavern_1",
 type: "tube",
 r_max: {rPMT+dTANK+dAIR-dIBEAM+tIBEAM},
-size_z: {zPMT+dTANK+dAIR-dIBEAM+tIBEAM},
+size_z: {zPMT+dTANK+dAIRz-dIBEAM+tIBEAM},
 position: [0.0, 0.0,{-(dIBEAM-tIBEAM)}],
 material: "stainless_steel",
 color: [0.96,0.95,0.27,1.0],
@@ -153,7 +154,7 @@ valid_end: [0, 0],
 mother: "ibeam",
 type: "tube",
 r_max: {rPMT+dTANK+dAIR-dIBEAM},
-size_z: {zPMT+dTANK+dAIR-dIBEAM}, 
+size_z: {zPMT+dTANK+dAIRz-dIBEAM}, 
 position: [0.0, 0.0, 0.0],
 material: "air",
 color: [0.85, 0.72, 1.0, 0.5],
@@ -167,9 +168,9 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "cavern_2",
 type: "tube",
-r_max: {rPMT+dTANK+tTANK}, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
+r_max: {rPMT+dTANK+tTANK}, 
 size_z: {zPMT+dTANK+tTANK},
-position: [0.0, 0.0, {oTANK-dAIR+dIBEAM+tTANK}],
+position: [0.0, 0.0, {oTANK-dAIRz+dIBEAM+tTANK}],
 material: "stainless_steel",
 color: [0.43,0.70,0.90,1.0],
 drawstyle: "solid"
@@ -181,7 +182,7 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "tank",
 type: "tube",
-r_max: {rPMT+dTANK}, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
+r_max: {rPMT+dTANK}, 
 size_z: {zPMT+dTANK},
 position: [0.0, 0.0, 0.0],
 material: "doped_water",
@@ -195,7 +196,7 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "detector_veto1",
 type: "tube",
-r_max: {rPMT+dPSUP+tPSUP}, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
+r_max: {rPMT+dPSUP+tPSUP}, 
 size_z: {zPMT+dPSUP+tPSUP},
 position: [0.0, 0.0, {-oTANK}],
 material: "stainless_steel",
@@ -209,7 +210,7 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "psup",
 type: "tube",
-r_max: {rPMT+dPSUP}, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
+r_max: {rPMT+dPSUP}, 
 size_z: {zPMT+dPSUP},
 position: [0.0, 0.0, 0.0],
 material: "doped_water",
@@ -223,7 +224,7 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "detector_veto2",
 type: "tube",
-r_max: {rPMT+tBSHEET}, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
+r_max: {rPMT+tBSHEET}, 
 size_z: {zPMT+tBSHEET},
 position: [0.0, 0.0, 0.0],
 material: "polypropylene",
@@ -237,7 +238,7 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "black_sheet",
 type: "tube",
-r_max: {rPMT}, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
+r_max: {rPMT}, 
 size_z: {zPMT},
 position: [0.0, 0.0, 0.0],
 material: "doped_water",
@@ -251,7 +252,7 @@ valid_begin: [0, 0],
 valid_end: [0, 0],
 mother: "detector_target_gb", // gb : gamma buffer
 type: "tube",
-r_max: {rPMT+dFIDVol}, // changed to accommodate 0.5m-thick layer of concrete on walls (L. Kneale)
+r_max: {rPMT+dFIDVol}, 
 size_z: {zPMT+dFIDVol},
 position: [0.0, 0.0, 0.0],
 material: "doped_water",
