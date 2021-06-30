@@ -81,6 +81,7 @@ position: [0.0, 0.0, 0.0],
 material: "air", //rock?
 invisible: 1,
 }}
+
 ///////////////////// Define the rock volumes. Thin slab of rock is assumed ////////////////////////
 //Create a 1-m rock layer around a cylindrical cavern
 {{
@@ -155,6 +156,7 @@ material: "air",
 color: [0.85, 0.72, 1.0, 0.5],
 invisible: 0,
 }}
+
 ////////////////////////////////// Define the rock volumes done.///////////////////////////////////
 {{
 name: "GEO",
