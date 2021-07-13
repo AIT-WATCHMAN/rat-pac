@@ -42,7 +42,7 @@ spec_flux:  [0.0, 7.65, 11.348, 14.284, 16.862, 19.206, 21.372, 23.482, 25.513, 
 // Integrated Flux: 633.7692531344001
 {
 name: "IBD",
-index: "hartlepool_A1",
+index: "hartlepool_1",
 run_range: [0,0],
 
 apply_xs: 0,
@@ -61,7 +61,7 @@ spec_flux:  [0.0, 1.65, 2.448, 3.174, 3.948, 4.79, 5.671, 6.529, 7.299, 7.928, 8
 // Integrated Flux: 494.3574050459
 {
 name: "IBD",
-index: "hartlepool_A2",
+index: "hartlepool_2",
 run_range: [0,0],
 
 apply_xs: 0,
