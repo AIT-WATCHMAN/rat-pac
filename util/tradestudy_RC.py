@@ -14,8 +14,7 @@ import os
 #rPMT    = 4465.0
 #rPMT    = 6300.0
 #rPMT     = 5700.0
-rPMT = 9000.0
-
+rPMT = 12000.0
 ###zPMT    = 6700.0
 ###zPMT    = 5065.0
 ###zPMT    = 4065.0
@@ -23,7 +22,7 @@ rPMT = 9000.0
 #zPMT    = 4465.0
 #zPMT    = 6700.0
 #zPMT     = 5700.0
-zPMT = 9000.0
+zPMT = 12000.0
 
 dFIDVol = -150.0 ## Arbitrary 1m buffer
 tFIDVol = 0.0
@@ -48,7 +47,7 @@ dROCK   = 2000.0
 #photocoverage = 0.10
 #photocoverage = 0.1505
 #photocoverage = 0.205
-photocoverage = 0.15
+photocoverage = 0.20
 pmtRad        = 126.5
 
 
