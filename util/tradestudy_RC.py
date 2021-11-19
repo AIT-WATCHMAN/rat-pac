@@ -83,8 +83,8 @@ invisible: 1,
 }}
 
 ///////////////////// Define the rock volumes. Thin slab of rock is assumed ////////////////////////
-//Create a 1-m rock layer around a cylindrical cavern
 
+//Create a 1-m rock layer around a cylindrical cavern
 {{
 name: "GEO",
 index: "rock_1",
