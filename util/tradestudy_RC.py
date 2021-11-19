@@ -13,8 +13,7 @@ import os
 #rPMT    = 5465.0
 #rPMT    = 4465.0
 #rPMT    = 6300.0
-#rPMT     = 5700.0
-rPMT = 9000.0
+rPMT     = 5700.0
 
 ###zPMT    = 6700.0
 ###zPMT    = 5065.0
@@ -22,8 +21,7 @@ rPMT = 9000.0
 #zPMT    = 5465.0
 #zPMT    = 4465.0
 #zPMT    = 6700.0
-#zPMT     = 5700.0
-zPMT = 9000.0
+zPMT     = 5700.0
 
 dFIDVol = -150.0 ## Arbitrary 1m buffer
 tFIDVol = 0.0
@@ -33,7 +31,7 @@ tBSHEET = 5.0
 #dTANK   = 935.0
 #dTANK  = 535.0
 #dTANK   = 1300.0
-dTANK   = 2000.0
+dTANK   = 2300.0
 tTANK   = 50.0
 oTANK   = 200.
 dIBEAM  = 500.
@@ -48,7 +46,7 @@ dROCK   = 2000.0
 #photocoverage = 0.10
 #photocoverage = 0.1505
 #photocoverage = 0.205
-photocoverage = 0.15
+photocoverage = 0.20
 pmtRad        = 126.5
 
 
@@ -83,8 +81,10 @@ position: [0.0, 0.0, 0.0],
 material: "air", //rock?
 invisible: 1,
 }}
+
 ///////////////////// Define the rock volumes. Thin slab of rock is assumed ////////////////////////
 //Create a 1-m rock layer around a cylindrical cavern
+
 {{
 name: "GEO",
 index: "rock_1",
@@ -100,6 +100,8 @@ invisible: 1,
 //color: [1.0,0.6,0.0,1.0],
 //drawstyle: "solid"
 }}
+
+
 //Create a 0.5m concrete layer on the walls and base
 {{
 name: "GEO",
@@ -271,6 +273,7 @@ volume2: "black_sheet",
 reverse: 1, //0 only considers photons from a->b, 1 does both directions
 surface: "nonreflective_tarp",
 }}
+
 {{
 name: "GEO",
 index: "inner_pmts",
@@ -462,3 +465,4 @@ print("//// Actual Photocoverage (%) : ",pmtArea/surfaceArea*100.)
 print("//// Detector height (m) : ",(zPMT+dTANK)*2.0/1000.)
 print("//// Detector diameter (m) : ",(rPMT+dTANK)*2.0/1000.)
 print("////")
+
