@@ -168,91 +168,6 @@ namespace RAT {
         G4LogicalVolume* lightcone_log=new G4LogicalVolume(lightcone_solid, light_cone_material, "lightcone_log");
 	G4LogicalSkinSurface* lightcone_skin =new G4LogicalSkinSurface("lightcone_surface", lightcone_log, light_cone_surface);
 	
-	//add wavelength shifting plate
-        int wls_plates = 0;
-        try { wls_plates       = table->GetI("wls_plates");}
-        catch (DBNotFoundError &e) { }
-        bool   wlsp = false;
-        if( wls_plates == 1 ){ wlsp = true; G4cout << "WLS Plates are Added!! \n "; }
-        //material properties
-        double wls_offset = 30.0;
-        try { wls_offset = table->GetD("wls_offset");; }
-	catch (DBNotFoundError &e) { }
-        G4Material* wls_material = G4Material::GetMaterial("eljen_WLSP");
-	try { wls_material = G4Material::GetMaterial( table->GetS("wls_material") ); }
-	catch (DBNotFoundError &e) { }
-        //surface properties
-        G4SurfaceProperty* wls_surface = Materials::optical_surface["eljen_WLSP"];
-	try { wls_surface = Materials::optical_surface[ table->GetS("wls_surface") ]; }
-	catch (DBNotFoundError &e) { }
-	G4cout << "WLS plate is added!! \n ";
-        //wls parameter: size
-        vector<double> wls_size = {245.0,245.0,12.7};
-	try { wls_size = table->GetDArray("wls_size"); }
-	catch (DBNotFoundError &e) { }
-	      double zz = wls_size[2];
-        //wls parameter: hole minimum radius
-        vector<double> wls_innerradius = {0.0,0.0};
-        //wls parameter: hole maximum radius
-        vector<double> wls_outerradius = {116.0,96.0};
-        try { wls_outerradius[1] = table->GetD("wls_minimum_hole_radius"); wls_outerradius[0] = table->GetD("wls_maximum_hole_radius");}
-	catch (DBNotFoundError &e) { }
-        //wls parameter: thickness
-        vector<double> wls_thickness = {-(zz+0.1),zz+0.1};
-	      
-	G4double* z_array = new G4double[2];
-  G4double* r_array = new G4double[2];
-  G4double* r_min_array = new G4double[2];
-  for ( G4int i=0; i < 2; ++i )
-  {
-  z_array[i] = wls_thickness[i] * CLHEP::mm;
-	r_array[i] = fabs(wls_outerradius[i]) * CLHEP::mm;
-	r_min_array[i] = fabs(wls_innerradius[i]) * CLHEP::mm;
-  }
-        // Add WLS Geometry
-        G4VSolid* wls_box = new G4Box("wls_box", 
-                                     wls_size[0] * CLHEP::mm, 
-                                     wls_size[1] * CLHEP::mm, 
-                                     wls_size[2] * CLHEP::mm);
-        G4Polycone* wls_rev = new G4Polycone("wls_inner",                    
-	                                          0.0,
-	                                          CLHEP::twopi,
-	                                          2,
-	                                          z_array,
-	                                          r_min_array,
-	                                          r_array);
-	      wls_box = new G4SubtractionSolid("wls_solid", wls_box, wls_rev);
-	      G4LogicalVolume* wls_log=new G4LogicalVolume(wls_box, wls_material, "wls_log");
-	      G4LogicalSkinSurface* wls_skin =new G4LogicalSkinSurface("wls_surface", wls_log, wls_surface);
-	      G4Color red(1.0,0.0,0.0);
-	      G4VisAttributes* redvis = new G4VisAttributes(red);
-	      wls_log->SetVisAttributes(redvis);
-
-  G4Material* ref_material = G4Material::GetMaterial("polypropylene");
-	try { ref_material = G4Material::GetMaterial( table->GetS("ref_material") ); }
-	catch (DBNotFoundError &e) { }
-        //surface properties
-  G4SurfaceProperty* ref_surface = Materials::optical_surface["tyvek"];
-	try { ref_surface = Materials::optical_surface[ table->GetS("ref_surface") ]; }
-	catch (DBNotFoundError &e) { }
-        G4VSolid* refbox = new G4Box("wls_cover_out", 
-                                    (wls_size[0]+1.0) * CLHEP::mm, 
-                                    (wls_size[1]+1.0) * CLHEP::mm, 
-                                    wls_size[2] * CLHEP::mm);
-        G4VSolid* inbox = new G4Box("wls_cover_in", 
-                                   wls_size[0] * CLHEP::mm, 
-                                   wls_size[1] * CLHEP::mm, 
-                                   (wls_size[2]+1.0) * CLHEP::mm);
-  
-        refbox = new G4SubtractionSolid(volume_name, refbox, inbox);
-        G4LogicalVolume* ref_log=new G4LogicalVolume(refbox, ref_material, "ref_log");
-	      G4LogicalSkinSurface* ref_skin =new G4LogicalSkinSurface("ref_surface", ref_log, ref_surface);
-	      G4Color green(0.0,1.0,0.0);
-	      G4VisAttributes* greenvis = new G4VisAttributes(green);
-	      ref_log->SetVisAttributes(greenvis);
-	     
-
-
         PMTConstructionParams pmtParam;
         pmtParam.faceGap = 0.1 * CLHEP::mm;
         pmtParam.zEdge = lpmt->GetDArray("z_edge");
@@ -335,6 +250,7 @@ namespace RAT {
 
         // get pointer to physical mother volume
         G4VPhysicalVolume* phys_mother = FindPhysMother(mother_name);
+        G4LogicalVolume* log_mother = phys_mother->GetLogicalVolume();
         if (phys_mother == 0)
         Log::Die("GeoPMTFactoryBase error: PMT mother physical volume " + mother_name
                  +" not found");
@@ -379,17 +295,119 @@ namespace RAT {
         G4ThreeVector offsetWg;
 
 
+	//add wavelength shifting plate
+        int    wls_plates       = table->GetI("wls_plates");
+        bool   wlsp = false;
+        if( wls_plates == 1 ){ wlsp = true; G4cout << "WLS Plates are Added!! \n "; }
+        //material properties
+        G4Material* wls_material = G4Material::GetMaterial("eljen_WLSP");
+        double wls_offset = 30.0;
+        try { wls_offset = table->GetD("wls_offset");; }
+	catch (DBNotFoundError &e) { }
+	try { wls_material = G4Material::GetMaterial( table->GetS("wls_material") ); }
+	catch (DBNotFoundError &e) { }
+        //surface properties
+        G4SurfaceProperty* wls_surface = Materials::optical_surface["eljen_WLSP"];
+        G4OpticalSurface* wls_op_surface = Materials::optical_surface["eljen_WLSP"];
+	try { wls_surface = Materials::optical_surface[ table->GetS("wls_surface") ]; wls_op_surface = Materials::optical_surface[ table->GetS("wls_surface")]; }
+	catch (DBNotFoundError &e) { }
+	G4cout << "WLS plate is added!! \n ";
+        //wls parameter: size
+        vector<double> wls_size = {245.0,245.0,12.7};
+	try { wls_size = table->GetDArray("wls_size"); }
+	catch (DBNotFoundError &e) { }
+	double zz = wls_size[2];
+        //wls parameter: inner radius
+        vector<double> wls_innerradius = {0.0,0.0};
+        //wls parameter: outer radius
+        vector<double> wls_outerradius = {116.0,96.0};
+	try { wls_outerradius[1] = table->GetD("wls_inner_radius"); wls_outerradius[0] = table->GetD("wls_outer_radius");}
+	catch (DBNotFoundError &e) { }
+	//wls parameter: thickness
+	vector<double> wls_thickness = {-(zz+0.1),zz+0.1};
 
+	G4double* z_array = new G4double[2];
+        vector<double> wls_h_translate = {0.0,0.0};
+        try { wls_h_translate = table->GetDArray("wls_hole_pos");}
+        catch (DBNotFoundError &e) { }
+        G4cout<<"WLS Hole Position: "<<wls_h_translate[0]<<", "<<wls_h_translate[1]<<"\n";
+        G4double* r_array = new G4double[2];
+        G4double* r_min_array = new G4double[2];
+        for ( G4int i=0; i < 2; ++i ) {
+          z_array[i] = wls_thickness[i] * CLHEP::mm;
+	  r_array[i] = fabs(wls_outerradius[i]) * CLHEP::mm;
+	  r_min_array[i] = fabs(wls_innerradius[i]) * CLHEP::mm;
+        }
+        // Add WLS Geometry
+        G4VSolid* wls_box = new G4Box("wls_box",
+                                     wls_size[0] * CLHEP::mm,
+                                     wls_size[1] * CLHEP::mm,
+                                     wls_size[2] * CLHEP::mm);
+        G4Polycone* wls_rev = new G4Polycone("wls_inner",
+	                                     0.0,
+	                                     CLHEP::twopi,
+	                                     2,
+	                                     z_array,
+	                                     r_min_array,
+	                                     r_array);
 
-        //G4VPhysicalVolume *mid_water_phys = FindPhysMother("mid_water");
-        //new G4PVPlacement
-        //( 0,
-        //  G4ThreeVector(0.0, 0.0, /*-10.0*/64.0*CLHEP::cm),
-        //  "mumetal_phys",
-        //  mumetal_log,
-        //  mid_water_phys,
-        //  false,
-        //  0 );
+        //wls_box = new G4SubtractionSolid("wls_solid", wls_box, logiPMT->GetSolid(), 0, G4ThreeVector(wls_h_translate[0],wls_h_translate[1],-wls_offset)); //Uncomment this line for a perfect WLS-PMT interface
+        wls_box = new G4SubtractionSolid("wls_solid", wls_box, wls_rev, 0, G4ThreeVector(wls_h_translate[0],wls_h_translate[1],0));
+	G4LogicalVolume* wls_log=new G4LogicalVolume(wls_box, wls_material, "wls_log");
+	G4Color red(1.0,0.0,0.0);
+	G4VisAttributes* redvis = new G4VisAttributes(red);
+	wls_log->SetVisAttributes(redvis);
+
+        // Add Optical Grease (Optical Grease may be air or water for poorly coupled systems)
+        G4VSolid* grease = new G4Polycone("grease_base",
+                                           0.0,
+                                           CLHEP::twopi,
+                                           2,
+                                           z_array,
+                                           r_min_array,
+                                           r_array);
+        grease = new G4SubtractionSolid("grease", grease, logiPMT->GetSolid(), 0, G4ThreeVector(0.0,0.0,-wls_offset));
+        G4Material* grease_material = G4Material::GetMaterial("air");
+        try { grease_material = G4Material::GetMaterial( table->GetS("optical_grease_material") ); }
+        catch (DBNotFoundError &e) { }
+        G4LogicalVolume* grease_log=new G4LogicalVolume(grease, grease_material, "grease_log");
+        G4Color offred(0.8,0.2,0.0);
+        G4VisAttributes* offredvis = new G4VisAttributes(offred);
+        grease_log->SetVisAttributes(offredvis);
+
+        //Add outer reflector
+        G4Material* ref_material = G4Material::GetMaterial("polypropylene");
+        G4int noReflector = 0;
+	try {
+          if(table->GetS("ref_material") == "none" || table->GetS("ref_material") == "NONE" || table->GetS("ref_material") == "None") {
+            noReflector = 1;
+            ref_material = G4Material::GetMaterial("polypropylene");
+          }
+          else {
+            ref_material = G4Material::GetMaterial( table->GetS("ref_material") );
+          }
+        }
+	catch (DBNotFoundError &e) { }
+        //surface properties
+        G4SurfaceProperty* ref_surface = Materials::optical_surface["specular_tarp"];
+        G4OpticalSurface* ref_op_surface = Materials::optical_surface["specular_tarp"];
+	try { ref_surface = Materials::optical_surface[ table->GetS("ref_surface") ]; ref_op_surface = Materials::optical_surface[table->GetS("ref_surface")]; }
+	catch (DBNotFoundError &e) { }
+        G4VSolid* refbox = new G4Box("wls_cover_out",
+                                    (wls_size[0]+1.0) * CLHEP::mm,
+                                    (wls_size[1]+1.0) * CLHEP::mm,
+                                    (wls_size[2]) * CLHEP::mm);
+        G4VSolid* inbox = new G4Box("wls_cover_in",
+                                   (wls_size[0]) * CLHEP::mm,
+                                   (wls_size[1]) * CLHEP::mm,
+                                   (wls_size[2]+1.0) * CLHEP::mm);
+
+        refbox = new G4SubtractionSolid(volume_name, refbox, inbox);
+        G4LogicalVolume* ref_log=new G4LogicalVolume(refbox, ref_material, "ref_log");
+        G4Color green(0.0,1.0,0.0);
+        G4VisAttributes* greenvis = new G4VisAttributes(green);
+        ref_log->SetVisAttributes(greenvis);
+
 
         // Add waveguide if needed
         if (waveguide_factory) {
@@ -678,11 +696,14 @@ namespace RAT {
             // rotation required to point in direction of pmtdir
             double angle_y = (-1.0)*atan2(pmtdir.x(), pmtdir.z());
             double angle_x = atan2(pmtdir.y(),
-                                   sqrt(pmtdir.x()*pmtdir.x()+pmtdir.z()*pmtdir.z()));
+                                   sqrt((pmtdir.x())*(pmtdir.x())+pmtdir.z()*pmtdir.z()));
+            double angle_y_adj = (-1.0)*atan2(pmtdir.x()+0.1, pmtdir.z());
+            double angle_x_adj = atan2(pmtdir.y(),
+                                   sqrt((pmtdir.x()+0.1)*(pmtdir.x()+0.1)+pmtdir.z()*pmtdir.z()));
 
             G4RotationMatrix* pmtrot = new G4RotationMatrix();
             pmtrot->rotateY(angle_y);
-            pmtrot->rotateX(angle_x);
+            pmtrot->rotateX(angle_x); //FIXME 1
             // ****************************************************************
             // * Use the constructor that specifies the PHYSICAL mother, since
             // * each PMT occurs only once in one physical volume.  This saves
@@ -733,38 +754,38 @@ namespace RAT {
               false,
               id);
             }
+            //place the wavelength shifting plate
             G4RotationMatrix* wlsrot = new G4RotationMatrix();
             wlsrot->rotateY(angle_y);
             wlsrot->rotateX(angle_x);
-            G4ThreeVector offsetwls = /*G4ThreeVector(0.0, 0.0, 10.0*CLHEP::cm)*/ pmtdir * wls_offset*CLHEP::mm;
+            G4ThreeVector offsetwls = pmtdir * wls_offset*CLHEP::mm;
+            offsetwls = offsetwls + wls_h_translate[0]*(pmtdir.orthogonal());
+            offsetwls = offsetwls + wls_h_translate[1]*(pmtdir.orthogonal().orthogonal());
+
             G4ThreeVector wlspos = pmtpos + offsetwls;
             if (wlsp) {
-              new G4PVPlacement
-              (wlsrot,
-              wlspos,
-              "wls_phys"+ ::to_string(id),
-              wls_log,
-              phys_mother,
-              false,
-              id);
-              new G4PVPlacement
-              (wlsrot,
-              wlspos,
-              "ref_phys"+ ::to_string(id),
-              ref_log,
-              phys_mother,
-              false,
-              id);
-              G4VPhysicalVolume *wls_phys = FindPhysMother("wls_phys"+ ::to_string(id));
-              G4VPhysicalVolume *ref_phys = FindPhysMother("ref_phys"+ ::to_string(id));
-              G4LogicalBorderSurface *ref_surf_log = new G4LogicalBorderSurface("wls_reflector_interface"+ ::to_string(id),
-                                                                                wls_phys,ref_phys,
-                                                                                ref_surface);
-              //G4LogicalBorderSurface *ref_surf_log_rev = new G4LogicalBorderSurface("wls_reflector_interface_rev"+ ::to_string(id),
-              //                                                                     ref_phys,wls_phys,
-              //                                                                     ref_surface);
-            }
+              G4VPhysicalVolume* wls_phys = new G4PVPlacement(wlsrot,wlspos,wls_log,"wls_phys"+::to_string(id),log_mother,false,id);
+              G4VPhysicalVolume* grease_phys = new G4PVPlacement(wlsrot,G4ThreeVector(0,-wls_offset,0),grease_log,"grease_phys"+::to_string(id),log_mother,false,id);
 
+              if (!noReflector) {
+                G4VPhysicalVolume* ref_phys = new G4PVPlacement(wlsrot,wlspos,ref_log,"ref_phys"+::to_string(id),log_mother,false,id);
+                new G4LogicalBorderSurface("wls_reflector_interface"+ ::to_string(id),
+                                           wls_phys,ref_phys,
+                                           ref_op_surface);
+              }
+              new G4LogicalBorderSurface("wls_mother_interface"+ ::to_string(id),
+                                         wls_phys, phys_mother,
+                                         wls_op_surface);
+              new G4LogicalBorderSurface("wls_mother_interface_out"+ ::to_string(id),
+                                         phys_mother, wls_phys,
+                                         wls_op_surface);
+              new G4LogicalBorderSurface("wls_grease_interface"+ ::to_string(id),
+                                         wls_phys, grease_phys,
+                                         wls_op_surface);
+              new G4LogicalBorderSurface("wls_grease_interface_out"+ ::to_string(id),
+                                         grease_phys, wls_phys,
+                                         wls_op_surface);
+            }
 
             if (!pmtParam.useEnvelope && logiWg) {
                 // If not using envelope volume, the waveguide must be placed in a separate

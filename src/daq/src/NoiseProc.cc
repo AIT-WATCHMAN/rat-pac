@@ -141,6 +141,7 @@ void NoiseProc::AddNoiseHit( DS::MCPMT* mcpmt, DS::PMTInfo* pmtinfo,
     photon->SetCharge(
         fPMTCharge[ pmtinfo->GetModel(mcpmt->GetID()) ]->PickCharge()
         );
+    mcpmt->SortMCPhotons();
 
     return;
 }
@@ -215,6 +216,12 @@ void NoiseProc::SetD(std::string param, double value)
       fNoiseRate = value;
     else
       throw ParamInvalid(param, "Noise rate must be positive");
+  else if(param == "lookback")
+    fLookback = abs(value);
+  else if(param == "lookforward")
+    fLookforward = abs(value);
+  else if(param == "maxtime")
+    fMaxTime = abs(value);
   else
     throw ParamUnknown(param);
 }

@@ -258,7 +258,7 @@ valid_end : [0, 0],
 density: 7.13,
 nelements: 3,
 nmaterials: 0,
-elements: ["Bismuth" "Germanium", "Oxygen"],
+elements: ["Bismuth", "Germanium", "Oxygen"],
 elemprop: [0.671, 0.175, 0.154],
 }
 

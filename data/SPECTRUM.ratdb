@@ -33,6 +33,17 @@ spec_mag: [0d,0d,0d,0d,0d,0d,0d,0d,0d,0d,0d,0d,0d,0d,0d,0d,0d,0d,0d,0d,0d,0d,0d,
 
 {
 name: "SPECTRUM",
+index: "rock_neutrons",
+valid_begin: [0, 0],
+valid_end: [0, 0],
+spec_e:   [0.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0],
+spec_mag: [0.0,2.7,4.4,3.6,2.4,1.8,1.8,0.35,0.0],
+}
+
+
+
+{
+name: "SPECTRUM",
 index: "imb",
 valid_begin: [0, 0],
 valid_end: [0, 0],
