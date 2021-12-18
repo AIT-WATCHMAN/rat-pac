@@ -33,7 +33,7 @@ namespace RAT {
         double postTriggerWindow  = 600.; //ns 
         double preTriggerWindow = -200.; //ns
         double triggerWindow = 200.; //ns
-        unsigned long triggerThreshold = 6;
+        unsigned long triggerThreshold = 1;
         unsigned long hits = 0;
 
         

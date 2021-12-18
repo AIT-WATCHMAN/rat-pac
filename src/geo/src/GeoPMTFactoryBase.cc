@@ -288,6 +288,11 @@ namespace RAT {
 
         // Build PMT
         pmtParam.useEnvelope = true; // enable the use of envelope volume for now (not used in standard rat-pac)
+        try {
+        int noEnvelope = 0;
+        noEnvelope = table->GetI("no_envelope");
+        if (noEnvelope) pmtParam.useEnvelope = false;
+        } catch (DBNotFoundError &e) { }
         PMTConstruction pmtConstruct(pmtParam);
 
         G4LogicalVolume *logiPMT = pmtConstruct.NewPMT(volume_name, vis_simple);
@@ -366,11 +371,12 @@ namespace RAT {
                                            z_array,
                                            r_min_array,
                                            r_array);
-        grease = new G4SubtractionSolid("grease", grease, logiPMT->GetSolid(), 0, G4ThreeVector(0.0,0.0,-wls_offset));
+
+        G4VSolid* grease_coupled = new G4SubtractionSolid("grease", grease, logiPMT->GetSolid(), 0, G4ThreeVector(0.0,0.0,-wls_offset));
         G4Material* grease_material = G4Material::GetMaterial("air");
         try { grease_material = G4Material::GetMaterial( table->GetS("optical_grease_material") ); }
         catch (DBNotFoundError &e) { }
-        G4LogicalVolume* grease_log=new G4LogicalVolume(grease, grease_material, "grease_log");
+        G4LogicalVolume* grease_log=new G4LogicalVolume(grease_coupled, grease_material, "grease_log");
         G4Color offred(0.8,0.2,0.0);
         G4VisAttributes* offredvis = new G4VisAttributes(offred);
         grease_log->SetVisAttributes(offredvis);
@@ -703,7 +709,7 @@ namespace RAT {
 
             G4RotationMatrix* pmtrot = new G4RotationMatrix();
             pmtrot->rotateY(angle_y);
-            pmtrot->rotateX(angle_x); //FIXME 1
+            pmtrot->rotateX(angle_x);
             // ****************************************************************
             // * Use the constructor that specifies the PHYSICAL mother, since
             // * each PMT occurs only once in one physical volume.  This saves
