@@ -87,7 +87,17 @@ RINDEX_value2: [1.43995,1.42535,1.41075,1.39956,1.39074,1.38362,1.37776,1.37287,
 PROPERTY_LIST: ["NEUTRON_CAPTURE_TIME", "NEUTRON_SLOW_DIFFUSION_CONST", "NEUTRON_FAST_DIFFUSION_RMS", "RINDEX", "ABSLENGTH", "RSLENGTH", ]
 }
 
-
+{
+name: "MATERIAL",
+index: "mineral_oil_gd",
+valid_begin : [0, 0],
+valid_end : [0, 0],
+density: 1.0,
+nelements: 0,
+nmaterials: 2,
+materials: ["mineral_oil", "gadolinium",],
+matprop: [0.999, 0.001],
+}
 
 {
 name: "MATERIAL",

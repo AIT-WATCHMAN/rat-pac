@@ -627,6 +627,26 @@ PROPERTY_LIST: ["NEUTRON_CAPTURE_TIME", "NEUTRON_SLOW_DIFFUSION_CONST", "NEUTRON
 
 {
 name: "OPTICS",
+index: "mineral_oil_gd",
+valid_begin : [0, 0],
+valid_end : [0, 0],
+NEUTRON_CAPTURE_TIME_value1: [0.0, 1.0, ],
+NEUTRON_CAPTURE_TIME_value2: [163000.0, 163000.0, ],
+NEUTRON_SLOW_DIFFUSION_CONST_value1: [0.0, 1.0, ],
+NEUTRON_SLOW_DIFFUSION_CONST_value2: [0.03, 0.03, ],
+NEUTRON_FAST_DIFFUSION_RMS_value1: [0.0, 1.0, ],
+NEUTRON_FAST_DIFFUSION_RMS_value2: [50.0, 50.0, ],
+RINDEX_option: "wavelength",
+RINDEX_value1: [200.0, 300.0, 400.0, 500.0, 600.0, 700.0, 800.0, ],
+RINDEX_value2: [1.5643, 1.4752, 1.4504, 1.4402, 1.4348, 1.4317, 1.4297, ],
+ABSLENGTH_option: "wavelength",
+ABSLENGTH_value1: [200.0, 280.0, 300.0, 310.0, 320.0, 330.0, 400.0, 450.0, 500.0, 600.0, 650.0, 680.0, 770.0, 800.0, ],
+ABSLENGTH_value2: [0.1e-3, 0.1e-3, 0.3e3, 0.65e3, 0.85e3, 4.0e3, 12.0e3, 20.0e3, 20.0e3, 25.0e3, 20.0e3, 15.0e3, 10.0e3, 0.1e-3, ],
+PROPERTY_LIST: ["NEUTRON_CAPTURE_TIME", "NEUTRON_SLOW_DIFFUSION_CONST", "NEUTRON_FAST_DIFFUSION_RMS", "RINDEX", "ABSLENGTH", ]
+}
+
+{
+name: "OPTICS",
 index: "pseudocumene",
 valid_begin : [0, 0],
 valid_end : [0, 0],
