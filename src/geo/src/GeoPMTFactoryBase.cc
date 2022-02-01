@@ -301,9 +301,10 @@ namespace RAT {
 
 
 	//add wavelength shifting plate
-        int    wls_plates       = table->GetI("wls_plates");
-        bool   wlsp = false;
-        if( wls_plates == 1 ){ wlsp = true; G4cout << "WLS Plates are Added!! \n "; }
+        int   wlsp = 0;
+        try {  wlsp       = table->GetI("wls_plates");}
+        catch (DBNotFoundError &e) { }
+        if( wlsp == 1 ){ G4cout << "WLS Plates are Added!! \n "; }
         //material properties
         G4Material* wls_material = G4Material::GetMaterial("eljen_WLSP");
         double wls_offset = 30.0;
