@@ -115,15 +115,10 @@ namespace RAT {
             mumetal_log,       //Logical Volume
             mu_metal_surface); //Surface Property
 
-
-
-
-
-
-        //add light cone
-        int    light_cone       = table->GetI("light_cone");
-        bool   lightcones = false;
-        if( light_cone == 1 ){ lightcones = true; G4cout << "Light cones are added!! \n "; }
+        //add light cone if applicable
+        int light_cone = 0; // default to no light cone
+        try { light_cone = table->GetI("light_cone"); }
+        catch (DBNotFoundError &e) { }
         //material properties
         G4Material* light_cone_material = G4Material::GetMaterial("aluminum");
 	try { light_cone_material = G4Material::GetMaterial( table->GetS("light_cone_material") ); }
@@ -640,7 +635,7 @@ namespace RAT {
             //place the mumetal shields
             G4ThreeVector offsetlightcone = /*G4ThreeVector(0.0, 0.0, 10.0*CLHEP::cm)*/ pmtdir * 9.5*CLHEP::cm;
             G4ThreeVector lightconepos = pmtpos + offsetlightcone;
-            if (lightcones) {
+            if (light_cone) {
               new G4PVPlacement
               (lightconerot,
               lightconepos,
