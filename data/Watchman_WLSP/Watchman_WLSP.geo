@@ -670,10 +670,10 @@ type: "wlsp", //WLS Plates are created using their own geometry factory, called 
 
 pos_table: "WLSPINFO",
 //These values will be modified by the WatchmanWLSPSquareDetectorFactory -- Changes you make here will not be used if you use the detector factory (except for the z dimension)!
-size: [245.0,245.0,12.7], //Half dimensions of the WLS box (in mm)
-z: [-12.8,12.8], //Half dimension of the z extent of the PMT hole ***MUST be slightly larger than the z dimension of the plate!!!***
+size: [245.0,245.0,6.4], //Half dimensions of the WLS box (in mm)
+z: [-6.5,6.5], #z: [-12.8,12.8], //Half dimension of the z extent of the PMT hole ***MUST be slightly larger than the z dimension of the plate!!!***
 r_min: [0.0,0.0], //Should always be 0.0 (it is the minimum extent of the rotational solid used to subtract out the hole for the PMT)
-r_max: [126.5,126.5], //The outer radius used for the subtracting the hole for the PMT
+r_max: [40,40],#r_max: [126.5,126.5], //The outer radius used for the subtracting the hole for the PMT
 
 material: "eljen_WLSP",
 orientation: "manual",

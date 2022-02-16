@@ -476,11 +476,26 @@ namespace RAT {
 
           //This generates the geometry values for the WLS plates and their reflectors
           db->SetDArray("GEO","WLS_Plates","size",{(pmt_space/2.0)-10.0,(pmt_space/2.0)-10.0,wlsp->GetDArray("z")[1]});
-          db->SetDArray("GEO","WLS_Plates","r_max",{rho_edge[1]+5.0,rho_edge[1]-15.0});
+          //db->SetDArray("GEO","WLS_Plates","r_max",{rho_edge[1]+5.0,rho_edge[1]-15.0});//default for 10" PMT
+          db->SetDArray("GEO","WLS_Plates","r_max",{rho_edge[1]+4.0,rho_edge[1]-2.0}); //resulting in rmax=36+4=40, rmin=36-2.0=34
+          //db->SetDArray("GEO","WLS_Plates","r_max",{rho_edge[1]+5.0,rho_edge[1]-1.0}); //resulting in rmax=36+5=41, rmin=36-1.0=35, 1mm gap
+          //db->SetDArray("GEO","WLS_Plates","r_max",{rho_edge[1]+6.0,rho_edge[1]-0.0}); //resulting in rmax=36+6=42, rmin=36-0.0=36, 2mm gap
+          //db->SetDArray("GEO","WLS_Plates","r_max",{rho_edge[1]+8.0,rho_edge[1]+2.0}); //resulting in rmax=36+8=44, rmin=36+2.0=38, 4mm gap
           db->SetDArray("GEO","WLS_Plates","r_min",{0.0,0.0});
-          db->SetDArray("GEO","WLS_Plates","z",{-wlsp->GetDArray("z")[1]-1.0,wlsp->GetDArray("z")[1]+1.0});
-          db->SetDArray("GEO","WLSP_reflector","inner_size",{(pmt_space/2.0)-10.0,(pmt_space/2.0)-10.0,wlsp->GetDArray("z")[1]+2.0});
-          db->SetDArray("GEO","WLSP_reflector","outer_size",{(pmt_space/2.0)-10.0+2.0,(pmt_space/2.0)-10.0+2.0,wlsp->GetDArray("z")[1]});
+          //db->SetDArray("GEO","WLS_Plates","z",{-wlsp->GetDArray("z")[1]-1.0,wlsp->GetDArray("z")[1]+1.0});
+          db->SetDArray("GEO","WLS_Plates","z",{-6.4, 6.4}); //plate at: 10-6.4 = 3.6 mm for rmax and 10+6.4 = 16.4 mm fro rmin
+         // db->SetDArray("GEO","WLSP_reflector","inner_size",{(pmt_space/2.0)-10.0,(pmt_space/2.0)-10.0,wlsp->GetDArray("z")[1]+2.0});
+         // db->SetDArray("GEO","WLSP_reflector","outer_size",{(pmt_space/2.0)-10.0+2.0,(pmt_space/2.0)-10.0+2.0,wlsp->GetDArray("z")[1]});
+          info << "WLS plate size: x: "<<(pmt_space/2.0)-10.0<<" y: "<<(pmt_space/2.0)-10.0<<" z: "<<wlsp->GetDArray("z")[1]<<"\n";
+         /*
+          db->SetDArray("GEO","WLS_Plates","size",{ 250.0, 250.0, wlsp->GetDArray("z")[1]});
+          db->SetDArray("GEO","WLS_Plates","r_max",{38., 38.});
+          db->SetDArray("GEO","WLS_Plates","r_min",{0.0,0.0});
+          db->SetDArray("GEO","WLS_Plates","z",{-6.4, 6.4});
+          //db->SetDArray("GEO","WLSP_reflector","inner_size",{(pmt_space/2.0)-10.0,(pmt_space/2.0)-10.0,wlsp->GetDArray("z")[1]+2.0});
+          //db->SetDArray("GEO","WLSP_reflector","outer_size",{(pmt_space/2.0)-10.0+2.0,(pmt_space/2.0)-10.0+2.0,wlsp->GetDArray("z")[1]});
+          info << "WLS plate size: x: "<<"250.0"<< "y: "<<"250.0"<< "z: "<<wlsp->GetDArray("z")[1]<<"\n";
+          info<<"WLS r_max: "<<38.<<","<<38.<<" z "<<"-6.4, 6.4"<<"\n";*/
         }
         else {
           //If the baseline detector configuration is used, more constant values are used.  I still do this here rather than in the geo file because it reads in the PMT dimensions
@@ -490,6 +505,7 @@ namespace RAT {
           db->SetDArray("GEO","WLS_Plates","z",{-wlsp->GetDArray("z")[1]-1.0,wlsp->GetDArray("z")[1]+1.0});
           db->SetDArray("GEO","WLSP_reflector","inner_size",{240.0,240.0,wlsp->GetDArray("z")[1]+2.0});
           db->SetDArray("GEO","WLSP_reflector","outer_size",{242.0,242.0,wlsp->GetDArray("z")[1]});
+          info << "Baseline: WLS plate size: x: 240.0, y: 240.0, z: "<<rho_edge[1]-15.0<<"\n";
         }
         
         //db->SetDArray("GEO","WLSP_reflector","inner_size",{(pmt_space/2.0)-8.0,(pmt_space/2.0)-8.0,wlspcover->GetDArray("z")[1]});
