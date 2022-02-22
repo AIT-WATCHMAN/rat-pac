@@ -374,7 +374,7 @@ namespace RAT {
                                            r_array);
 
         G4VSolid* grease_coupled = new G4SubtractionSolid("grease", grease, logiPMT->GetSolid(), 0, G4ThreeVector(0.0,0.0,-wls_offset));
-        G4Material* grease_material = G4Material::GetMaterial("air");
+        G4Material* grease_material = G4Material::GetMaterial("doped_water");
         try { grease_material = G4Material::GetMaterial( table->GetS("optical_grease_material") ); }
         catch (DBNotFoundError &e) { }
         G4LogicalVolume* grease_log=new G4LogicalVolume(grease_coupled, grease_material, "grease_log");
@@ -772,7 +772,7 @@ namespace RAT {
             G4ThreeVector wlspos = pmtpos + offsetwls;
             if (wlsp) {
               G4VPhysicalVolume* wls_phys = new G4PVPlacement(wlsrot,wlspos,wls_log,"wls_phys"+::to_string(id),log_mother,false,id);
-              G4VPhysicalVolume* grease_phys = new G4PVPlacement(wlsrot,G4ThreeVector(0,-wls_offset,0),grease_log,"grease_phys"+::to_string(id),log_mother,false,id);
+              G4VPhysicalVolume* grease_phys = new G4PVPlacement(wlsrot,pmtpos+G4ThreeVector(0,-wls_offset,0),grease_log,"grease_phys"+::to_string(id),log_mother,false,id);
 
               if (!noReflector) {
                 G4VPhysicalVolume* ref_phys = new G4PVPlacement(wlsrot,wlspos,ref_log,"ref_phys"+::to_string(id),log_mother,false,id);

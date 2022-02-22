@@ -51,9 +51,7 @@ add_library(geo OBJECT
         src/TubeFacetSolid.cc
         src/UnionSolidArray.cc
         src/WatchmanDetectorFactory.cc
-        src/WaterBoxConstruction.cc
-        src/WLSPFactory.cc
-        src/WLSPCoverFactory.cc)
+        src/WaterBoxConstruction.cc)
 
 # Set our include directories
 target_include_directories(geo PUBLIC

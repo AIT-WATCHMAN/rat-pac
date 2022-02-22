@@ -383,9 +383,6 @@ namespace RAT {
         db->SetI("GEO","shield","inner_len",num_pmts);
         db->SetI("GEO","inner_pmts","start_idx",0);
         db->SetI("GEO","inner_pmts","end_idx",num_pmts-1);
-        double wlsz = inner_pmts->GetDArray("wls_size")[2];
-        db->SetDArray("GEO","inner_pmts","wls_size",{(pmt_space/2.0)-10.0,(pmt_space/2.0)-10.0,wlsz});
-        info << "Set WLS dimensions to "<< (pmt_space/2.0)-10.0 <<"...\n";
 
         info << "Update cable positions to match shield...\n";
         db->SetDArray("cable_pos","x",cable_x);
