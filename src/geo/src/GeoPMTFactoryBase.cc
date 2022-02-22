@@ -704,9 +704,6 @@ namespace RAT {
             double angle_y = (-1.0)*atan2(pmtdir.x(), pmtdir.z());
             double angle_x = atan2(pmtdir.y(),
                                    sqrt((pmtdir.x())*(pmtdir.x())+pmtdir.z()*pmtdir.z()));
-            double angle_y_adj = (-1.0)*atan2(pmtdir.x()+0.1, pmtdir.z());
-            double angle_x_adj = atan2(pmtdir.y(),
-                                   sqrt((pmtdir.x()+0.1)*(pmtdir.x()+0.1)+pmtdir.z()*pmtdir.z()));
 
             G4RotationMatrix* pmtrot = new G4RotationMatrix();
             pmtrot->rotateY(angle_y);
