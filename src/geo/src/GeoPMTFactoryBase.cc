@@ -767,9 +767,12 @@ namespace RAT {
             offsetwls = offsetwls + wls_h_translate[1]*(pmtdir.orthogonal().orthogonal());
 
             G4ThreeVector wlspos = pmtpos + offsetwls;
+
+            G4ThreeVector offsetgrease = pmtdir * wls_offset*CLHEP::mm;
+            G4ThreeVector greasepos = pmtpos+offsetgrease;
             if (wlsp) {
               G4VPhysicalVolume* wls_phys = new G4PVPlacement(wlsrot,wlspos,wls_log,"wls_phys"+::to_string(id),log_mother,false,id);
-              G4VPhysicalVolume* grease_phys = new G4PVPlacement(wlsrot,pmtpos+G4ThreeVector(0,-wls_offset,0),grease_log,"grease_phys"+::to_string(id),log_mother,false,id);
+              G4VPhysicalVolume* grease_phys = new G4PVPlacement(wlsrot,greasepos,grease_log,"grease_phys"+::to_string(id),log_mother,false,id);
 
               if (!noReflector) {
                 G4VPhysicalVolume* ref_phys = new G4PVPlacement(wlsrot,wlspos,ref_log,"ref_phys"+::to_string(id),log_mother,false,id);
