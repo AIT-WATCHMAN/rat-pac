@@ -686,8 +686,13 @@ end_idx: 3257, //idx of the last pmt
 start_idx: 0, //idx of the first pmt
 pmt_model: "r7081pe",
 mu_metal: 0,
-mu_metal_material: "aluminum",
-mu_metal_surface: "aluminum",
+mu_metal_material: "acrylic",
+mu_metal_surface: "acrylic",
+encapsulation: 0,
+encapsulation_material:"nakano_acrylic",
+encapsulation_surface: "nakano_acrylic",
+//enc_radius = 17.5, //encapsualtion radius in cm
+//enc_thickness = 0.635, //encapsualtion thickness in cm
 light_cone: 0,
 light_cone_material: "aluminum",
 light_cone_surface: "aluminum",

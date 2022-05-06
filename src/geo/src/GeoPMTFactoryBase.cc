@@ -32,6 +32,7 @@
 #include <G4Paraboloid.hh>
 #include <G4SubtractionSolid.hh>
 #include <G4VisAttributes.hh>
+#include <G4Sphere.hh>
 
 using namespace std;
 
@@ -115,10 +116,92 @@ namespace RAT {
             mumetal_log,       //Logical Volume
             mu_metal_surface); //Surface Property
 
+        //add PMT encapsulation : diameter=35cm
+        int encapsulation = 0; // default to no encapsualtion
+        try { encapsulation = table->GetI("encapsulation"); }
+        catch (DBNotFoundError &e) { }
+        if(encapsulation==1){G4cout <<"Your PMTs are inside an encapsulation! \n ";}
+        // Material Properties
+        G4Material* encapsulation_material = G4Material::GetMaterial("nakano_acrylic");
+        try { encapsulation_material = G4Material::GetMaterial( table->GetS("encapsulation_material") ); }
+        catch (DBNotFoundError &e) { }
+        // Surface Properties
+        G4SurfaceProperty* encapsulation_surface = Materials::optical_surface["nakano_acrylic"];
+        try { encapsulation_surface = Materials::optical_surface[ table->GetS("encapsulation_surface") ]; }
+        catch (DBNotFoundError &e) { }
+        G4cout << "PMT encapsulation is added!! \n "; 
+        double enc_radius = 17.5; // default radius
+        try { enc_radius = table->GetD("enc_radius"); }
+        catch (DBNotFoundError &e) { }
+        double enc_thickness = 0.635; //default encapsulation thickness
+        try { enc_thickness = table->GetD("enc_thickness"); }
+        catch (DBNotFoundError &e) { } 
 
+        //acrylic has 0.635cm thickness //the whole PMT height with base is 318mm, the default encapsulation diameter is: 35cm
+         G4Sphere* encapsulation_solid = new G4Sphere("encapsulation_solid",
+					     (enc_radius-enc_thickness)*CLHEP::cm, // rmin
+			                     enc_radius*CLHEP::cm, // rmax: 17.5cm //PMT diameter is 254mm r:127mm
+			                     0., CLHEP::twopi, //phi
+                                             0., CLHEP::pi); //theta
+        
+        G4LogicalVolume * encapsulation_log=new G4LogicalVolume(
+                                                encapsulation_solid,// G4VSolid
+        				        encapsulation_material, // G4Material
+						"encapsulation_log");
+        G4LogicalSkinSurface* encapsulation_skin = new G4LogicalSkinSurface(
+					               "encapsulation_surface",
+					                encapsulation_log, //Logical Volume
+ 					                encapsulation_surface); //Surface Property
 
+        //----- add gel and nitrogen inside the encapsulation: 
+	 //Note: [0.,CLHEP::pi/2.] is the upper hemisphere & [CLHEP::pi/2., CLHEP::pi] is the lower hemisphere of the sphere
+         //____ optical grease ______ //V-788 Optical Grease from Rhodia Silicones, 
+         G4Material* encapsulation_innermaterial1 = G4Material::GetMaterial("optical_grease");
+         try { encapsulation_innermaterial1 = G4Material::GetMaterial( table->GetS("encapsulation_innermaterial1") ); }
+         catch (DBNotFoundError &e) { }
+	 G4SurfaceProperty* encapsulation_surface1 = Materials::optical_surface["optical_grease"];
+         try { encapsulation_surface1 = Materials::optical_surface[ table->GetS("encapsulation_surface1") ]; }
+         catch (DBNotFoundError &e) { }
+         
+         G4VSolid* encapsulation_innersolid1 = new G4Sphere("encapsulation_innersolid1",
+                                           13.0*CLHEP::cm, // rmin                                      
+                                           (enc_radius-enc_thickness)*CLHEP::cm, // rmax 
+                                           0., CLHEP::twopi, //phi
+				           0., CLHEP::pi/2.); //theta
 
+         G4LogicalVolume * encapsulation_innerlog1=new G4LogicalVolume(
+             encapsulation_innersolid1,                   // G4VSolid
+             encapsulation_innermaterial1,                 // G4Material
+             "encapsulation_innerlog1");
+         G4LogicalSkinSurface* encapsulation_skin1 = new G4LogicalSkinSurface(
+             "encapsulation_surface1",
+             encapsulation_innerlog1, //Logical Volume
+             encapsulation_surface1); //Surface Property
 
+	//_____ nitrogen _____
+ 	 G4Material* encapsulation_innermaterial2 = G4Material::GetMaterial("air"); //("Nitrogen");
+         try { encapsulation_innermaterial2 = G4Material::GetMaterial( table->GetS("encapsulation_innermaterial2") ); }
+         catch (DBNotFoundError &e) { }
+	 G4SurfaceProperty* encapsulation_surface2 = Materials::optical_surface["air"];
+         try { encapsulation_surface2 = Materials::optical_surface[ table->GetS("encapsulation_surface2") ]; }
+         catch (DBNotFoundError &e) { }
+      
+         G4VSolid* encapsulation_innersolid2 = new G4Sphere("encapsulation_innersolid2",
+                                           0.*CLHEP::cm, // rmin                                      
+                                           (enc_radius-enc_thickness)*CLHEP::cm, // rmax 
+                                           0., CLHEP::twopi, //phi
+                                           CLHEP::pi/2., CLHEP::pi); //theta
+
+         G4LogicalVolume * encapsulation_innerlog2=new G4LogicalVolume(
+             encapsulation_innersolid2,                   // G4VSolid
+             encapsulation_innermaterial2,                 // G4Material
+             "encapsulation_innerlog2");
+         G4LogicalSkinSurface* encapsulation_skin2 = new G4LogicalSkinSurface(
+             "encapsulation_surface2",
+             encapsulation_innerlog2, //Logical Volume
+             encapsulation_surface2); //Surface Property
+    
+       //----------------------------------------------------
 
         //add light cone
         int    light_cone       = table->GetI("light_cone");
@@ -629,6 +712,40 @@ namespace RAT {
                   mumetalpos,
                   "mumetal_phys",
                   mumetal_log,
+                  phys_mother,
+                  false,
+                  id);
+            }
+           
+            //place the encapsulation:
+            G4ThreeVector offsetencapsulation = G4ThreeVector(0.0, 0.0, 0.0*CLHEP::cm);
+            //G4cout << "pmtpos is " << pmtpos << "\n";
+              G4ThreeVector offsetencapsulation_rot = pmtrot->inverse()(offsetencapsulation);
+            G4ThreeVector encapsulationpos = pmtpos + offsetencapsulation_rot;
+            if (encapsulation) {
+                new G4PVPlacement
+                ( pmtrot,
+                  encapsulationpos,
+                  "encapsulation_phys",
+                  encapsulation_log,
+                  phys_mother,
+                  false,
+                  id);
+ 
+		new G4PVPlacement
+                ( pmtrot,
+                  encapsulationpos,
+                  "encapsulation_phys",
+                  encapsulation_innerlog1,
+                  phys_mother,
+                  false,
+                  id);
+
+		new G4PVPlacement
+                ( pmtrot,
+                  encapsulationpos,
+                  "encapsulation_phys",
+                  encapsulation_innerlog2,
                   phys_mother,
                   false,
                   id);
