@@ -10,6 +10,7 @@ add_library(gen OBJECT
         src/Coincidence_Gen.cc
         src/DecayChain.cc
         src/DecayChain_Gen.cc
+        src/ESCrossSec.cc
         src/ESgen.cc
         src/FermiFunction.cc
         src/GLG4DeferTrackProc.cc
