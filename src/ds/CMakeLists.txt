@@ -50,8 +50,9 @@ root_generate_dictionary(G__RATDict
         RAT/Log.hh
         RAT/ObjInt.hh
         RAT/ObjDbl.hh
+        RAT/PMTMatching.hh
         LINKDEF include/RAT/DS/LinkDef.hh
-        DEPENDENCIES core ds db io)
+        DEPENDENCIES core ds db io util)
 
 add_library(RATDict OBJECT G__RATDict.cxx)
 target_include_directories(RATDict PUBLIC

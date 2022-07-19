@@ -54,6 +54,7 @@ add_library(RATEvent SHARED
        stlplus/src/string_utilities.cc
        stlplus/src/stringio.cc
        stlplus/src/textio.cc
+       util/src/PMTMatching.cc
        util/src/ReadFile.cc)
 target_include_directories(RATEvent PUBLIC ${RATPAC_INCDIR})
 target_link_libraries(RATEvent PUBLIC 
