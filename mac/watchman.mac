@@ -12,7 +12,7 @@
 /rat/db/set GEO[inner_pmts] light_cone_outerradius 26.0
 /rat/db/set GEO[inner_pmts] light_cone_thickness 0.2
 
-# Turn on WLS plates
+# Turn on/off WLS plates
 /rat/db/set GEO[inner_pmts] wls_plates 0
 /rat/db/set GEO[inner_pmts] wls_minimum_hole_radius: 91.0
 /rat/db/set GEO[inner_pmts] wls_maximum_hole_radius: 115.0

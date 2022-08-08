@@ -32,8 +32,6 @@
 #include <RAT/GeoWatchmanShieldFactory.hh>
 #include <RAT/GeoCherenkovSourceFactory.hh>
 #include <RAT/GeoPolyArrayFactory.hh>
-#include <RAT/WLSPFactory.hh>
-#include <RAT/WLSPCoverFactory.hh>
 
 using namespace std;
 
@@ -68,8 +66,6 @@ GeoBuilder::GeoBuilder()
   new GeoWatchmanShieldFactory();
   new GeoCherenkovSourceFactory();
   new GeoPolyArrayFactory();
-  new WLSPFactory();
-  new WLSPCoverFactory();
 
   // Register standard waveguides
   GlobalFactory<WaveguideFactory>::Register("cone",
