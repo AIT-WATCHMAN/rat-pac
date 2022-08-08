@@ -143,8 +143,11 @@ namespace RAT {
     } else
       fParam.detector = 0;
 
-
     fParam.useEnvelope = true; // enable the use of envelope volume for now
+    int noEnvelope = 0;
+    try {noEnvelope = table->GetI("no_envelope");}
+    catch (DBNotFoundError &e) { G4cout<<"PMT Envelope enabled by default.\n";}
+    if (noEnvelope == 1) {fParam.useEnvelope = false; G4cout<<"PMT Envelope omitted!\n";}
     fConstruction = new PMTConstruction(fParam);
   }
 

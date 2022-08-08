@@ -288,11 +288,10 @@ namespace RAT {
 
         // Build PMT
         pmtParam.useEnvelope = true; // enable the use of envelope volume for now (not used in standard rat-pac)
-        try {
         int noEnvelope = 0;
-        noEnvelope = table->GetI("no_envelope");
-        if (noEnvelope) pmtParam.useEnvelope = false;
-        } catch (DBNotFoundError &e) { }
+        try {noEnvelope = table->GetI("no_envelope");}
+        catch (DBNotFoundError &e) { G4cout<<"PMT Envelope enabled by default.\n";}
+        if (noEnvelope == 1) {pmtParam.useEnvelope = false; G4cout<<"PMT Envelope omitted!\n";}
         PMTConstruction pmtConstruct(pmtParam);
 
         G4LogicalVolume *logiPMT = pmtConstruct.NewPMT(volume_name, vis_simple);
